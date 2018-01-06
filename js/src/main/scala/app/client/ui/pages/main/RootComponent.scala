@@ -1,6 +1,7 @@
 package app.client.ui.pages.main
 
-import Pages.Page
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
+import app.client.ui.pages.main.root_children.materialUI_children.RouterComp
 import chandu0101.scalajs.react.components.materialui.{Mui, MuiMuiThemeProvider}
 import japgolly.scalajs.react.ReactComponentB
 import japgolly.scalajs.react.extra.router.Router

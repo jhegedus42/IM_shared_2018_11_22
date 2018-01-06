@@ -2,8 +2,8 @@ package app.client.cache.wrapper
 
 import app.client.cache.{Cache, CacheMap}
 import app.client.ui.pages.TopPageCompType
-import app.client.ui.pages.Types.{PropsHolder, Vanilla_CompConstr, Wrapped_CompConstr}
-import app.client.ui.pages.main.Pages.Page
+import app.client.ui.pages.Types.{PropsHolder, CompConstr, Wrapped_CompConstr}
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 /**
@@ -12,7 +12,7 @@ import japgolly.scalajs.react.extra.router.RouterCtl
 class ReactCompWrapper(re: ReadAndWriteRequestQue, cm: Cache ) {
 
   def wrapRootPage[Name <: TopPageCompType, PropPassedToRoot](
-      to_be_wrapped_constructor: Vanilla_CompConstr[Name, PropPassedToRoot]
+      to_be_wrapped_constructor: CompConstr[Name, PropPassedToRoot]
     ): Wrapped_CompConstr[Name, PropPassedToRoot] = {
     import japgolly.scalajs.react._
 

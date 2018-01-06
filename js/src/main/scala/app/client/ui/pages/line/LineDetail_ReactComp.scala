@@ -1,11 +1,11 @@
-package app.client.ui.pages.lineDetail
+package app.client.ui.pages.line
 
 import app.client.cache.{CacheVal, Failed, Ready, Loaded, NotInCache, NotYetLoaded, Pending, Updated}
 import app.client.rest.commands.forTesting.Helpers
 //import app.client.rest.ClientRestAJAX
 import app.client.ui.pages.{LineDetail, LineList}
-import app.client.ui.pages.Types.{PropsHolder, Vanilla_CompConstr}
-import app.client.ui.pages.main.Pages.Page
+import app.client.ui.pages.Types.{PropsHolder, CompConstr}
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import app.shared.model.LineText
 import app.shared.model.ref.{Ref, RefVal}
 import io.circe.{Decoder, Encoder}
@@ -103,7 +103,7 @@ object LineDetail_ReactComp {
     }
   }
 
-  val lineDetailConstructor: Vanilla_CompConstr[LineDetail.type, Prop] = {
+  val lineDetailConstructor: CompConstr[LineDetail.type, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend

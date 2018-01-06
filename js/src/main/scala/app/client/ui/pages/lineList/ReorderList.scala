@@ -1,7 +1,7 @@
 package app.client.ui.pages.lineList
 
 import app.client.cache.CacheMap
-import app.client.ui.pages.main.Pages.{LineDetailPage, Page}
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, Page}
 import app.client.ui.generalReactComponents.wrapped_JS_Components.react_sortable_hoc.{SortableContainer, SortableElement, SortableView}
 import app.shared.model.ref.RefVal
 import app.shared.model.utils.model.LineOld

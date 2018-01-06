@@ -103,7 +103,7 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: Vanilla_CompConstr[LineList.type, Unit] =
+  val LineListCompBuilder: CompConstr[LineList.type, Unit] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

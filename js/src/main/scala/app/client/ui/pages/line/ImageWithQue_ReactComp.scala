@@ -1,4 +1,4 @@
-package app.client.ui.pages.lineDetail
+package app.client.ui.pages.line
 
 import app.client._jsTools.{ImgDim, ImgTools}
 import app.shared.model.utils.model.{Coord, LineOld, Rect}

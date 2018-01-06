@@ -1,7 +1,7 @@
-package app.client.ui.pages.main
+package app.client.ui.pages.main.root_children
 
-import Pages.Page
 import app.client.ui.generalReactComponents.ViewRelatedUtils
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import chandu0101.scalajs.react.components.materialui._
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.extra.Reusability

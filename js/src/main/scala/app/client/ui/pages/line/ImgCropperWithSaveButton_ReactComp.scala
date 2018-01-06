@@ -1,4 +1,4 @@
-package app.client.ui.pages.lineDetail
+package app.client.ui.pages.line
 
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
