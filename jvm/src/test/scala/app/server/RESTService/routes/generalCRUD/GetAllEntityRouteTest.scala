@@ -1,0 +1,40 @@
+package app.server.RESTService.routes.generalCRUD
+
+import app.server.RESTService.RESTService
+import app.server.RESTService.routes.RoutesTestBase
+import app.shared.model.ref.RefVal
+import app.shared.model.{EntityType, LineText}
+import app.testHelpersServer.state.TestData
+import app.testHelpersShared.data.TestEntities
+
+import scala.collection.immutable.Seq
+
+/**
+  * Created by joco on 14/12/2017.
+  */
+trait GetAllEntityRouteTest {
+  this: RoutesTestBase =>
+
+// ====> 1.3.1.3 <==== task-completed make GetAllEntityRouteTest pass - COMPLETED
+  "getAllEntity" should {
+    "return all entity" in {
+      import io.circe.generic.auto._
+
+      val s:        RESTService           = server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
+      val entities: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, EntityType.make[LineText] )
+
+      val res:  Seq[RefVal[LineText]] = List( TestEntities.refValOfLineV0 )
+      val res2: Seq[RefVal[LineText]] = List( TestEntities.refValOfLineV0, TestEntities.refValOfLineV0 )
+
+      // assert that we got all lines
+      // 5587d5c97cc1457d8b629962b5ed30c4
+
+      //      println( r )
+      entities shouldBe res
+      entities should not be res2
+
+      s.shutdownActorSystem()
+    }
+  }
+
+}
