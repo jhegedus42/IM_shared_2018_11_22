@@ -1,14 +1,13 @@
-package app.client.ui.pages.line
+package app.client.ui.pages.lineDetail.children
 
 import app.client._jsTools.{ImgDim, ImgTools}
-import app.shared.model.utils.model.{Coord, LineOld, Rect}
 import app.shared.model.ref.RefVal
+import app.shared.model.utils.model.{Coord, LineOld, Rect}
+import japgolly.scalajs.react.vdom.ReactTagOf
 import japgolly.scalajs.react.vdom.prefix_<^._
 import japgolly.scalajs.react.{BackendScope, ReactComponentB, _}
 import org.scalajs.dom.html.Div
-import japgolly.scalajs.react
-import japgolly.scalajs.react.vdom.ReactTagOf
-import org.scalajs.dom.svg.{G, SVG}
+import org.scalajs.dom.svg.G
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -27,9 +26,7 @@ object ImageWithQue_ReactComp {
   case class Images(lineAndImgDim: (ImgDim, LineOld), nextLineAndImgDim: (ImgDim, LineOld))
 
   def svgImg(images: Images): ReactTagOf[Div] = {
-    import japgolly.scalajs.react.vdom.{SvgTags => t}
-    import japgolly.scalajs.react.vdom.{SvgAttrs => a}
-    import japgolly.scalajs.react.vdom.ReactAttr
+    import japgolly.scalajs.react.vdom.{ReactAttr, SvgAttrs => a, SvgTags => t}
 
     def ass(x: Double, y: Double) = assert(Math.abs(x - y) < 0.001)
 

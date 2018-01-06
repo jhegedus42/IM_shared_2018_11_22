@@ -1,13 +1,12 @@
-package app.client.ui.pages.line
+package app.client.ui.pages.lineDetail.children
 
-import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
-import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory
+import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
 import app.shared.model.utils.model.{ImgUrl, Rect}
 import japgolly.scalajs.react
-import japgolly.scalajs.react.{BackendScope, Callback, CallbackTo, ReactComponentB, ReactElement}
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.vdom.prefix_<^._
+import japgolly.scalajs.react.{BackendScope, Callback, ReactComponentB, ReactElement}
 
 
 
@@ -19,7 +18,6 @@ object ImgCropperWithSaveButton_ReactComp {
   case class Props(imgUrl: ImgUrl, onSave: S => Callback)
 
   import scala.scalajs.js.{Any, UndefOr}
-  import scala.scalajs
 
   type S = Option[Rect]
 

@@ -19,11 +19,13 @@ object LineDetail extends TopPageCompType
 
 object UserLineListsType extends TopPageCompType
 
+case class Props2Wrapped[P](p:P, ctrl:RouterCtl[Page])
+
+case class Props2Vanilla[Props,PhantomType<:TopPageCompType](ps:Props, router: RouterCtl[Page], cache:CacheMap)
+
 object Types {
-  type CompConstr[CompName<:TopPageCompType, P] = ReqProps[PropsHolder[P,CompName], Unit, _, TopNode]
+  type Vanilla_CompConstr[CompName<:TopPageCompType, P] = ReqProps[Props2Vanilla[P,CompName], Unit, _, TopNode]
 
-  type Wrapped_CompConstr[CompName<:TopPageCompType, P] = ReqProps[(P, RouterCtl[Page]), CacheMap, _, TopNode]
+  type Wrapped_CompConstr[CompName<:TopPageCompType, P] = ReqProps[Props2Wrapped[P], CacheMap, _, TopNode]
 
-  case class PropsHolder[Props,PhantomType<:TopPageCompType](ps:Props,
-                                                             router : RouterCtl[Page], cache:CacheMap)
 }

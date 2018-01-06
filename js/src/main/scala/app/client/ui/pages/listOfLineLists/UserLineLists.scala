@@ -1,7 +1,7 @@
 package app.client.ui.pages.listOfLineLists
 
 import app.client.cache.CacheMap
-import app.client.ui.pages.UserLineListsType
+import app.client.ui.pages.{Props2Vanilla, UserLineListsType}
 import app.shared.model.User
 import app.shared.model.ref.Ref
 import japgolly.scalajs.react.ReactElement
@@ -12,7 +12,7 @@ object UserLineLists {
 
   type Prop  = Ref[User]
 
-  type Props = PropsHolder[Prop, UserLineListsType.type]
+  type Props = Props2Vanilla[Prop, UserLineListsType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -30,7 +30,7 @@ object UserLineLists {
 
   }
 
-  val compConstr: CompConstr[UserLineListsType.type, Prop] =
+  val compConstr: Vanilla_CompConstr[UserLineListsType.type, Prop] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

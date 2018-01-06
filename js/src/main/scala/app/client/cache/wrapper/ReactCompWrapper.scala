@@ -1,24 +1,27 @@
 package app.client.cache.wrapper
 
 import app.client.cache.{Cache, CacheMap}
-import app.client.ui.pages.TopPageCompType
-import app.client.ui.pages.Types.{PropsHolder, CompConstr, Wrapped_CompConstr}
+import app.client.ui.pages.{Props2Vanilla, Props2Wrapped, TopPageCompType}
+import app.client.ui.pages.Types.{Vanilla_CompConstr, Wrapped_CompConstr}
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import japgolly.scalajs.react.extra.router.RouterCtl
+import sun.jvm.hotspot.debugger.Page
 
 /**
   * Created by joco on 03/09/2017.
   */
 class ReactCompWrapper(re: ReadAndWriteRequestQue, cm: Cache ) {
 
-  def wrapRootPage[Name <: TopPageCompType, PropPassedToRoot](
-      to_be_wrapped_constructor: CompConstr[Name, PropPassedToRoot]
-    ): Wrapped_CompConstr[Name, PropPassedToRoot] = {
+  def wrapRootPage[TopPageName <: TopPageCompType, PropPassedToTopPage](
+      to_be_wrapped_constructor: Vanilla_CompConstr[TopPageName, PropPassedToTopPage]
+    ): Wrapped_CompConstr[TopPageName, PropPassedToTopPage] = {
+
     import japgolly.scalajs.react._
 
-    class WBackend($ : BackendScope[( PropPassedToRoot, RouterCtl[Page] ), CacheMap] ) {
-      def render(t: ( PropPassedToRoot, RouterCtl[Page] ), statePassedToRender: CacheMap ): ReactElement =
-        to_be_wrapped_constructor( PropsHolder[PropPassedToRoot, Name]( t._1, t._2, statePassedToRender ) )
+    type P=Props2Wrapped[PropPassedToTopPage]
+    class WBackend($ : BackendScope[P,CacheMap]) {
+      def render(t: ( P), statePassedToRender: CacheMap ): ReactElement =
+        to_be_wrapped_constructor(Props2Vanilla[PropPassedToTopPage, TopPageName](t.p, t.ctrl, statePassedToRender))
 
       def willMount = {
         Callback {
@@ -44,8 +47,8 @@ class ReactCompWrapper(re: ReadAndWriteRequestQue, cm: Cache ) {
 
     }
 
-    def wrappedPageComponentConstructor(): Wrapped_CompConstr[Name, PropPassedToRoot] =
-      ReactComponentB[( PropPassedToRoot, RouterCtl[Page] )]( "wrapped page component" )
+    def wrappedPageComponentConstructor(): Wrapped_CompConstr[TopPageName, PropPassedToTopPage] =
+      ReactComponentB[Props2Wrapped[ PropPassedToTopPage ]]( "wrapped page component" )
         .initialState( cm.getCacheMap() )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend

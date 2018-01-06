@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom
 
 import app.client.cache.{CacheMap, CacheVal, Loaded}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.ui.pages.LineList
+import app.client.ui.pages.{LineList, Props2Vanilla}
 import app.shared.model.LineText
 import app.shared.model.ref.Ref
 import fansi.Str
@@ -25,7 +25,7 @@ object LineList_ReactComp {
   import app.client.ui.pages.Types._
 
   type Prop  = Unit
-  type Props = PropsHolder[Prop, LineList.type]
+  type Props = Props2Vanilla[Prop, LineList.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -103,7 +103,7 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: CompConstr[LineList.type, Unit] =
+  val LineListCompBuilder: Vanilla_CompConstr[LineList.type, Unit] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

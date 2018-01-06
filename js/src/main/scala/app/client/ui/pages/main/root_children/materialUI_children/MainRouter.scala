@@ -1,10 +1,15 @@
 package app.client.ui.pages.main.root_children.materialUI_children
 
+import app.client.ui.pages.Props2Wrapped
+import app.client.ui.pages.lineDetail.LineDetailWrapping
+import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage}
-import app.client.ui.pages.main.root_children.materialUI_children.router_children.wrappedComponents.{LineDetailWrapping, LineListWrapping}
 import app.shared.model.ref.Ref
 import app.testHelpersShared.data.TestEntities
+import japgolly.scalajs.react.extra.router.RouterCtl
+
+import scala.scalajs.js.|
 
 object Pages {
   sealed trait Page
@@ -14,7 +19,6 @@ object Pages {
 }
 
 import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Router, RouterConfig, RouterConfigDsl}
-
 
 object RouterComp {
 
@@ -32,19 +36,23 @@ object RouterComp {
       (dsl: RouterConfigDsl[Page]) =>
         import dsl._
 
-        val dr_lineDetail = dynamicRouteCT( "#item" / uuid.caseClass[LineDetailPage] ) ~>
-          dynRenderR( {
-            ( x: LineDetailPage, r ) =>
-              LineDetailWrapping.wrapped_lineDetail_compConstr( ( Ref.makeWithUUID( x.id ), r ) )
-          } )
+        val dr_lineDetail = {
+          val g = {
+            ( x: LineDetailPage, r: RouterCtl[Page] ) =>
+              LineDetailWrapping.wrapped(Props2Wrapped(Ref.makeWithUUID(x.id), r))
+          }
+          dynamicRouteCT( "#item" / uuid.caseClass[LineDetailPage] ) ~> dynRenderR( g )
+        }
+
+        val sr_lineList = staticRoute( "#im", LineListPage ) ~> renderR( LineListWrapping.mk_wLL )
 
         val config: RouterConfig[Page] = (trimSlashes
-          | staticRoute( "#im", LineListPage ) ~> renderR( LineListWrapping.mk_wLL )
+          | sr_lineList
           | dr_lineDetail)
           .notFound( redirectToPage( LineListPage )( Redirect.Replace ) )
           .renderWith(
-                       MaterialUI_Main_ReactComponent
-                       .layout( navs )( _, _ )
+            MaterialUI_Main_ReactComponent
+              .layout( navs )( _, _ )
           )
         config
     }

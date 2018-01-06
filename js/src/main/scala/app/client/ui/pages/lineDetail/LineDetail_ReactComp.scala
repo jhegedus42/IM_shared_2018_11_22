@@ -1,16 +1,13 @@
-package app.client.ui.pages.line
+package app.client.ui.pages.lineDetail
 
-import app.client.cache.{CacheVal, Failed, Ready, Loaded, NotInCache, NotYetLoaded, Pending, Updated}
+import app.client.cache.{CacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
+import app.client.ui.pages.Props2Vanilla
 //import app.client.rest.ClientRestAJAX
-import app.client.ui.pages.{LineDetail, LineList}
-import app.client.ui.pages.Types.{PropsHolder, CompConstr}
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
+import app.client.ui.pages.LineDetail
+import app.client.ui.pages.Types.Vanilla_CompConstr
 import app.shared.model.LineText
 import app.shared.model.ref.{Ref, RefVal}
-import io.circe.{Decoder, Encoder}
-import japgolly.scalajs.react.ReactComponentC.ReqProps
-import japgolly.scalajs.react.TopNode
 
 import scala.reflect.ClassTag
 //import app.client.ui.pages.im.ImAutowireClient_circe
@@ -22,9 +19,6 @@ import scala.reflect.ClassTag
 //import diode.data.Pot
 //import diode.react.ModelProxy
 //import diode.react.ReactPot._
-import japgolly.scalajs.react
-import japgolly.scalajs.react.ReactComponentC.ReqProps
-import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.{Callback, ReactElement, ReactNode}
 //import autowire._
 import japgolly.scalajs.react.vdom.prefix_<^._
@@ -33,7 +27,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = PropsHolder[Prop, LineDetail.type]
+  type Props = Props2Vanilla[Prop, LineDetail.type]
 
 //
 
@@ -65,7 +59,6 @@ object LineDetail_ReactComp {
 
     def render(p: Props ): ReactElement = {
       import monocle.macros.syntax.lens._
-      import monocle.macros.GenPrism
       val r:        Ref[LineText]      = p.ps
       val cacheVal: CacheVal[LineText] = p.cache.getEntity( r )
       println( "trace1, in render, LineDetail_ReactComp, cacheVal=" + cacheVal )
@@ -79,8 +72,8 @@ object LineDetail_ReactComp {
         if (refValOpt.isDefined) {
           val rv: RefVal[LineText] = refValOpt.head.refVal
           val nw = rv.lens( _.v.title ).set( Some( "pina42" ) )
-          import io.circe.{Decoder, Encoder}
-          import io.circe.generic.auto._ // do not uncomment this -- needed for deriveDecoder
+          import io.circe.generic.auto._
+          import io.circe.{Decoder, Encoder} // do not uncomment this -- needed for deriveDecoder
           implicit val e = implicitly[Encoder[LineText]]
 //          implicit val e=  ???
           implicit val d  = implicitly[Decoder[LineText]]
@@ -103,7 +96,7 @@ object LineDetail_ReactComp {
     }
   }
 
-  val lineDetailConstructor: CompConstr[LineDetail.type, Prop] = {
+  val lineDetailConstructor: Vanilla_CompConstr[LineDetail.type, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend
