@@ -15,11 +15,11 @@ import scala.concurrent.Future
 trait BeforeTester {
   self: AsyncFunSuite =>
 
-  def testWithBefore(before: Future[Unit] )(description: String )(testToRun: Future[Assertion] ): Unit = {
+  def testWithBefore(before: => Future[Unit] )(description: String )(testToRun: => Future[Assertion] ): Unit = {
     test( description ) { before.flatMap( _ => testToRun ) }
   }
 
-  val resetDBBeforeTest: Future[Unit] =
+  def resetDBBeforeTest: Future[Unit] =
     Helpers.resetServer( TestDataLabels.LabelOne ).map( x => () )
 }
 
