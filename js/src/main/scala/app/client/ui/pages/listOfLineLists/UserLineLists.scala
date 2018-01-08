@@ -6,8 +6,8 @@ import app.client.ui.pages.Types.Wrapped_CompConstr
 import app.client.ui.pages.lineList.LineList_ReactComp
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import app.client.ui.pages.{LineListCompType, Props2Vanilla, Props2Wrapped, UserLineListsCompType}
-import app.shared.model.entities.User
-import app.shared.model.ref.Ref
+import app.shared.data.model.User
+import app.shared.data.ref.Ref
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.{BackendScope, ReactComponentB}

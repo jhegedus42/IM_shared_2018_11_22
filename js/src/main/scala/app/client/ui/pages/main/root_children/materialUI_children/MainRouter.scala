@@ -6,9 +6,9 @@ import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
-import app.shared.model.entities.UserLineList
-import app.shared.model.ref.Ref
-import app.shared.model.ref.uuid.UUID
+import app.shared.data.model.UserLineList
+import app.shared.data.ref.Ref
+import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl

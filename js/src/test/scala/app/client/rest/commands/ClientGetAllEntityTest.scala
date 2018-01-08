@@ -2,8 +2,8 @@ package app.client.rest.commands
 
 import app.client.rest.commands.forTesting.Helpers
 import app.client.rest.commands.generalCRUD.GetAllEntitiesAJAX
-import app.shared.model.entities.LineText
-import app.shared.model.ref.RefVal
+import app.shared.data.model.LineText
+import app.shared.data.ref.RefVal
 import app.testHelpersShared.data.{TestDataLabels, TestEntities}
 import org.scalajs.dom.XMLHttpRequest
 import org.scalatest.{Assertion, AsyncFunSuite, Matchers}

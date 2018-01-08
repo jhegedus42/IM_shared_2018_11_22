@@ -1,8 +1,8 @@
 package app.testHelpersShared.data
 
-import app.shared.model.entities.UserLineList.LineListElement
-import app.shared.model.entities.{EntityType, LineText, User, UserLineList}
-import app.shared.model.ref.{Ref, RefDyn, RefVal, RefValDyn, Version}
+import app.shared.data.model.UserLineList.LineListElement
+import app.shared.data.model.{EntityType, LineText, User, UserLineList}
+import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn, Version}
 
 /**
   * Created by joco on 09/10/2017.

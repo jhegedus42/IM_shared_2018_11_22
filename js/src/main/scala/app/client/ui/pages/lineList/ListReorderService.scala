@@ -1,4 +1,4 @@
-package app.shared.model.utils
+package app.client.ui.pages.lineList
 
 import scala.collection.mutable.ListBuffer
 

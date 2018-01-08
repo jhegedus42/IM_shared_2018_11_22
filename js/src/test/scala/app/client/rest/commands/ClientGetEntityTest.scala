@@ -2,8 +2,8 @@ package app.client.rest.commands
 
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.client.rest.commands.forTesting.Helpers
-import app.shared.model.entities.LineText
-import app.shared.model.ref.{Ref, RefVal, Version}
+import app.shared.data.model.LineText
+import app.shared.data.ref.{Ref, RefVal, Version}
 import app.shared.{EntityDoesNotExistError, InvalidUUIDinURLError}
 import app.testHelpersShared.data.{TestDataLabels, TestEntities}
 import org.scalajs.dom.XMLHttpRequest

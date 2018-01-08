@@ -2,9 +2,9 @@ package app.testHelpersServer.state
 
 import app.server.State
 import app.shared.SomeError_Trait
-import app.shared.model.entities.LineText
-import app.shared.model.ref.{RefVal, Version}
-import app.shared.model.utils.PrettyPrint
+import app.shared.data.model.LineText
+import app.shared.data.ref.{RefVal, Version}
+import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestDataLabels.{LabelOne, LabelThree, LabelTwo, TestDataLabel}
 
 import scalaz.\/

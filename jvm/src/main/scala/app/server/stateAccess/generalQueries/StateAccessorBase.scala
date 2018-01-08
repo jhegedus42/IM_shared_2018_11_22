@@ -3,8 +3,8 @@ package app.server.stateAccess.generalQueries
 import app.server.State
 import app.server.persistence.persActor.Commands.GetStatePAResponse
 import app.shared.SomeError_Trait
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.{Ref, RefVal, RefValDyn}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.{Ref, RefVal, RefValDyn}
 import io.circe.Decoder.state
 
 import scala.concurrent.Future

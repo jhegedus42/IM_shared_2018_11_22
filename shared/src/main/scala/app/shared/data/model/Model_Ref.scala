@@ -1,9 +1,9 @@
-package app.shared.model.entities
+package app.shared.data.model
 
-import app.shared.model.entities.Entity.{Entity, Value}
-import app.shared.model.entities.UserLineList.LineListElement
-import app.shared.model.entities.UserType.Normal
-import app.shared.model.ref.Ref
+import app.shared.data.model.Entity.{Entity, Value}
+import app.shared.data.model.UserLineList.LineListElement
+import app.shared.data.model.UserType.Normal
+import app.shared.data.ref.Ref
 
 
 

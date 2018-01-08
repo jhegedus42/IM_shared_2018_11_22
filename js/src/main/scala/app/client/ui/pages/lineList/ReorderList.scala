@@ -3,8 +3,8 @@ package app.client.ui.pages.lineList
 import app.client.cache.CacheMap
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, Page}
 import app.client.ui.generalReactComponents.wrapped_JS_Components.react_sortable_hoc.{SortableContainer, SortableElement, SortableView}
-import app.shared.model.ref.RefVal
-import app.shared.model.utils.model.LineOld
+import app.shared.data.ref.RefVal
+import app.shared.data.utils.model.LineOld
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.vdom.prefix_<^._

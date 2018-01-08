@@ -5,8 +5,8 @@ import java.util.concurrent.ThreadLocalRandom
 import app.client.cache.{CacheMap, EntityCacheVal, Loaded}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.{LineListCompType, Props2Vanilla}
-import app.shared.model.entities.LineText
-import app.shared.model.ref.Ref
+import app.shared.data.model.LineText
+import app.shared.data.ref.Ref
 import fansi.Str
 import japgolly.scalajs.react.ReactElement
 

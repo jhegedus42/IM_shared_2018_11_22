@@ -1,8 +1,8 @@
 package app.shared.rest.routes_take3.entitySpecificCommands
 
 import app.shared.SomeError_Trait
-import app.shared.model.entities.{User, UserLineList}
-import app.shared.model.ref.{Ref, RefVal}
+import app.shared.data.model.{User, UserLineList}
+import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.Command
 
 import scala.reflect.ClassTag

@@ -3,7 +3,7 @@ package app.server.RESTService.take3.routes.concrete
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.model.entities.Entity.Entity
+import app.shared.data.model.Entity.Entity
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.auto._

@@ -1,6 +1,6 @@
 package app.server.authorization
 
-import app.shared.model.ref.uuid.UUID
+import app.shared.data.ref.uuid.UUID
 
 sealed trait Identity {
 }

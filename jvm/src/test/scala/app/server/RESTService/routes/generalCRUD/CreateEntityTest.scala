@@ -7,8 +7,8 @@ import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.model.ref.RefVal
-import app.shared.model.entities.{EntityType, LineText}
+import app.shared.data.ref.RefVal
+import app.shared.data.model.{EntityType, LineText}
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestEntities

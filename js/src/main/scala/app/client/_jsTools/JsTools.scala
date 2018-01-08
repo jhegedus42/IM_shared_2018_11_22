@@ -1,6 +1,6 @@
 package app.client._jsTools
 
-import app.shared.model.utils.model.ImgUrl
+import app.shared.data.utils.model.ImgUrl
 import org.scalajs.dom
 import org.scalajs.dom.raw.{Element, Event, HTMLDocument, HTMLImageElement}
 

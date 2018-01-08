@@ -1,8 +1,8 @@
 package app.client.ui.pages.lineDetail.children
 
 import app.client._jsTools.{ImgDim, ImgTools}
-import app.shared.model.ref.RefVal
-import app.shared.model.utils.model.{Coord, LineOld, Rect}
+import app.shared.data.ref.RefVal
+import app.shared.data.utils.model.{Coord, LineOld, Rect}
 import japgolly.scalajs.react.vdom.ReactTagOf
 import japgolly.scalajs.react.vdom.prefix_<^._
 import japgolly.scalajs.react.{BackendScope, ReactComponentB, _}

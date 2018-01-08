@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.{Directive0, Route}
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.model.entities.Entity.Entity
+import app.shared.data.model.Entity.Entity
 import app.shared.rest.routes_take3.Command
 import io.circe.{Decoder, Encoder}
 

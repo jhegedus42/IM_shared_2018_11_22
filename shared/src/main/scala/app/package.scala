@@ -1,6 +1,6 @@
 import app.shared.{StateOpsError, SomeError_Trait}
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.{RefVal, RefValDyn}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.{RefVal, RefValDyn}
 
 import scalaz.\/
 

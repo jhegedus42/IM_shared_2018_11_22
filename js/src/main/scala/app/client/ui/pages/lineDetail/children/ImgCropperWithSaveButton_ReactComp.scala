@@ -2,7 +2,7 @@ package app.client.ui.pages.lineDetail.children
 
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
-import app.shared.model.utils.model.{ImgUrl, Rect}
+import app.shared.data.utils.model.{ImgUrl, Rect}
 import japgolly.scalajs.react
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.vdom.prefix_<^._

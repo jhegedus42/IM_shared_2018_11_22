@@ -1,7 +1,7 @@
-package app.shared.model.utils.model
+package app.shared.data.utils.model
 
 import app.shared.CommonStrings
-import app.shared.model.entities.Entity.Entity
+import app.shared.data.model.Entity.Entity
 import monocle.macros.Lenses
 
 @Lenses

@@ -1,9 +1,9 @@
 package app.server
 
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.entities.EntityType
+import app.shared.data.model.Entity.Entity
+import app.shared.data.model.EntityType
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
-import app.shared.model.ref.{Ref, RefDyn, RefVal, RefValDyn}
+import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
 
 import scala.reflect.ClassTag
 import scalaz.{-\/, Disjunction, \/, \/-}

@@ -1,4 +1,4 @@
-package app.shared.model.utils
+package app.shared.data.utils
 
 /**
   * Created by joco on 28/04/2017.

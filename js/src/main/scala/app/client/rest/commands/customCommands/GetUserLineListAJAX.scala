@@ -1,8 +1,8 @@
 package app.client.rest.commands.customCommands
 
 import app.client.rest.commands.generalCRUD.GeneralGetAJAX
-import app.shared.model.entities.{User, UserLineList}
-import app.shared.model.ref.Ref
+import app.shared.data.model.{User, UserLineList}
+import app.shared.data.ref.Ref
 import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
 import io.circe.generic.auto._
 import io.circe.parser.decode

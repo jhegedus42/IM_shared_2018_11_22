@@ -1,6 +1,6 @@
 package app.shared
 
-import app.shared.model.ref.Version
+import app.shared.data.ref.Version
 
 
 sealed trait SomeError_Trait{

@@ -1,7 +1,7 @@
 package app.client.cache
 
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.{Ref, RefVal}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.{Ref, RefVal}
 
 sealed abstract class EntityCacheVal[E <: Entity] {
 

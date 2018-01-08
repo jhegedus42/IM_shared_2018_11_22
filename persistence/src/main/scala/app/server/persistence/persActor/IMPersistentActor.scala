@@ -6,9 +6,9 @@ import app.server.State
 import Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse, SetStatePACommand, UpdateEntityPACommand, UpdateEntityPAResponse}
 import EventsStoredInJournal.{CreateEntity, Event, UpdateEntity}
 import app.shared.SomeError_Trait
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.RefValDyn
-import app.shared.model.utils.PrettyPrint
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.RefValDyn
+import app.shared.data.utils.PrettyPrint
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 import app.testHelpersShared.implicits.ForTestingOnly
@@ -80,7 +80,7 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
     }
     case GetStatePACommand => {
       val s=state.toString
-      import app.shared.model.utils.PrettyPrint
+      import app.shared.data.utils.PrettyPrint
       val spretty=PrettyPrint.prettyPrint(s)
       println(" I am an actor and I am responding with a state : "+spretty)
       sender() ! GetStatePAResponse(state)

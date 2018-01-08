@@ -1,7 +1,7 @@
 package app.client.ui.generalReactComponents.wrapped_JS_Components
 
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
-import app.shared.model.utils.model.{ImgUrl, Rect}
+import app.shared.data.utils.model.{ImgUrl, Rect}
 import japgolly.scalajs.react.{React, ReactComponentU_, ReactNode}
 
 import scala.scalajs.js

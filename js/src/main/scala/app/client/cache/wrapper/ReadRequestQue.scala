@@ -4,8 +4,8 @@ import app.client.cache.{Cache, Loading, NotYetLoaded}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.shared.SomeError_Trait
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.RefVal
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.RefVal
 import slogging.LazyLogging
 
 import scala.concurrent.Future

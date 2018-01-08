@@ -1,8 +1,8 @@
-package app.shared.model.ref
+package app.shared.data.ref
 
 import app.shared.{InvalidUUIDinURLError, SomeError_Trait, StateOpsError, TypeError}
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.entities.{EntityType, User}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.model.{EntityType, User}
 import uuid.{UUID, UUIDCompare}
 import monocle.macros.Lenses
 

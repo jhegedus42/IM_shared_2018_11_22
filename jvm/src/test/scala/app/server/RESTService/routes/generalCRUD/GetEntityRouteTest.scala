@@ -1,8 +1,8 @@
 package app.server.RESTService.routes.generalCRUD
 
 import app.server.RESTService.routes.RoutesTestBase
-import app.shared.model.entities.LineText
-import app.shared.model.ref.Ref
+import app.shared.data.model.LineText
+import app.shared.data.ref.Ref
 import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
 import app.shared.{EntityDoesNotExistError, InvalidUUIDinURLError}
 import app.testHelpersShared.data.TestEntities

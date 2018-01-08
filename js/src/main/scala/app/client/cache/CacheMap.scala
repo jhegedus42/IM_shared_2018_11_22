@@ -1,19 +1,19 @@
 package app.client.cache
 
 import app.client.cache.wrapper.{ReadAndWriteRequestQue, ReadRequest, UpdateRequest}
-import app.shared.model.entities.EntityType
+import app.shared.data.model.EntityType
 //import app.client.rest.ClientRestAJAX
 import app.shared.TypeError
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.{Ref, RefDyn, RefVal, RefValDyn}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
 import io.circe.{Decoder, Encoder}
 
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scala.scalajs.js.|
 import scalaz.\/
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.{Ref, RefDyn}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.{Ref, RefDyn}
 import slogging.LazyLogging
 
 case class CacheMap(val map: Map[Ref[_<:Entity], EntityCacheVal[_<:Entity]] = Map(),

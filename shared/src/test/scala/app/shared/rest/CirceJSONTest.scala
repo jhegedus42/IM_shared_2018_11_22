@@ -1,7 +1,7 @@
 package app.shared.rest
 
-import app.shared.model.entities.EntityType
-import app.shared.model.ref.{RefVal, RefValTestUtil}
+import app.shared.data.model.EntityType
+import app.shared.data.ref.{RefVal, RefValTestUtil}
 //import app.shared.rest.GetEntityRoute.HttpGetEntityReqResult
 //import app.shared.rest.GetEntityRoute.Shared.HttpGetEntityReqResult
 import org.scalatest.{FunSuite, Matchers}
@@ -11,8 +11,8 @@ import org.scalatest.{FunSuite, Matchers}
   */
 //class CirceJSONTest extends WordSpec with Matchers{
 class CirceJSONTest extends FunSuite with Matchers {
-  import app.shared.model.entities.LineText
-  import app.shared.model.ref.Ref
+  import app.shared.data.model.LineText
+  import app.shared.data.ref.Ref
   import io.circe._
   import io.circe.generic.auto._
   import io.circe.parser._

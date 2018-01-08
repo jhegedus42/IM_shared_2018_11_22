@@ -1,6 +1,6 @@
-package app.shared.model.entities
+package app.shared.data.model
 
-import app.shared.model.entities.Entity.Entity
+import app.shared.data.model.Entity.Entity
 
 import scala.reflect.ClassTag
 

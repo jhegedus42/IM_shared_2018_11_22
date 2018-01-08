@@ -1,8 +1,8 @@
-package app.shared.model.utils
+package app.shared.data.utils
 
-//import app.shared.model.utils.model.LineOld
-//import app.shared.model.ref.{Ref, RefVal}
-//import app.shared.model.utils.ModelOps
+//import app.shared.data.utils.model.LineOld
+//import app.shared.data.ref.{Ref, RefVal}
+//import app.shared.data.utils.ModelOps
 //import org.specs2.mutable.Specification
 //
 //import scala.collection.immutable.Seq

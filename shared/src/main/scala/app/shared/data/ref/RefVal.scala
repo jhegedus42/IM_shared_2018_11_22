@@ -1,9 +1,9 @@
-package app.shared.model.ref
+package app.shared.data.ref
 
 import app.shared.TypeError
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.entities.EntityType
-import app.shared.model.ref.uuid.UUIDCompare
+import app.shared.data.model.Entity.Entity
+import app.shared.data.model.EntityType
+import app.shared.data.ref.uuid.UUIDCompare
 import monocle.macros.Lenses
 
 import scala.reflect.ClassTag

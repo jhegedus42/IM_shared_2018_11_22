@@ -3,8 +3,8 @@ package app.server.RESTService.routes.entitySpecific.get
 import app.server.RESTService.take3.routes.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.SomeError_Trait
-import app.shared.model.entities.UserLineList
-import app.shared.model.ref.{Ref, RefVal}
+import app.shared.data.model.UserLineList
+import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
 import io.circe.Encoder
 

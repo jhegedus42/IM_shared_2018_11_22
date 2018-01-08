@@ -2,8 +2,8 @@ package app.server.persistence.persActor
 
 import app.server.State
 import app.shared.SomeError_Trait
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.RefValDyn
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.RefValDyn
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 
 import scalaz.\/

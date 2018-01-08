@@ -1,7 +1,7 @@
 package app.client.rest.commands
 
-import app.shared.model.entities.LineText
-import app.shared.model.ref.{Ref, RefVal, Version}
+import app.shared.data.model.LineText
+import app.shared.data.ref.{Ref, RefVal, Version}
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidUUIDinURLError, SomeError_Trait}
 

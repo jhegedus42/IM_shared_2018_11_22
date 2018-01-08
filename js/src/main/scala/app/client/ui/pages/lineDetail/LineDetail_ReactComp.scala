@@ -3,11 +3,11 @@ package app.client.ui.pages.lineDetail
 import app.client.cache.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.Props2Vanilla
-import app.shared.model.entities.LineText
+import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
 import app.client.ui.pages.LineDetailCompType
 import app.client.ui.pages.Types.Vanilla_CompConstr
-import app.shared.model.ref.{Ref, RefVal}
+import app.shared.data.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag
 //import app.client.ui.pages.im.ImAutowireClient_circe

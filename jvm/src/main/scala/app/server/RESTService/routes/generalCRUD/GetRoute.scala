@@ -4,9 +4,9 @@ import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.SomeError_Trait
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.Ref
-import app.shared.model.ref.uuid.UUID
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.Ref
+import app.shared.data.ref.uuid.UUID
 import app.shared.rest.routes_take3.crudCommands.{GetEntityCommand}
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._

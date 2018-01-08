@@ -1,8 +1,8 @@
 package app.testHelpersServer.state
 
-import app.shared.model.entities.Entity.Entity
+import app.shared.data.model.Entity.Entity
 import org.scalatest.FunSuite
-import app.shared.model.utils.PrettyPrint
+import app.shared.data.utils.PrettyPrint
 
 /**
   * Created by joco on 04/01/2018.

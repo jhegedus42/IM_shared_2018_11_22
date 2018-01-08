@@ -3,8 +3,8 @@ package app.client.rest.commands
 import app.client.rest.commands.customCommands.GetUserLineListAJAX
 import app.client.rest.commands.forTesting.Helpers
 import app.client.rest.commands.generalCRUD.GetAllEntitiesAJAX
-import app.shared.model.entities.{User, UserLineList}
-import app.shared.model.ref.{Ref, RefVal}
+import app.shared.data.model.{User, UserLineList}
+import app.shared.data.ref.{Ref, RefVal}
 import app.testHelpersShared.data.{TestDataLabels, TestEntities, TestEntitiesForStateThree}
 import org.scalajs.dom.XMLHttpRequest
 import org.scalatest.{Assertion, AsyncFunSuite, Matchers}

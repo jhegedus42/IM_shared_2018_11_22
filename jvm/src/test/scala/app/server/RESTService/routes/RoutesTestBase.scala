@@ -6,9 +6,9 @@ import app.server.RESTService.RESTService
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEntityRouteTest}
 import app.server.State
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.RefVal
-import app.shared.model.entities.{EntityType, LineText}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.RefVal
+import app.shared.data.model.{EntityType, LineText}
 import app.shared.rest.routes_take3.crudCommands.{GetAllEntitiesCommand, GetEntityCommand}
 import app.testHelpersServer.state.TestData
 import io.circe.Decoder

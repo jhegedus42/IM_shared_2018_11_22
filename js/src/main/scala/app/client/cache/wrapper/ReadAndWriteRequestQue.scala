@@ -4,8 +4,8 @@ package app.client.cache.wrapper
 import app.client.cache.{Cache, CacheMap, EntityCacheVal, Loaded, Loading, NotYetLoaded, Ready, Updating}
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
 import app.shared.SomeError_Trait
-import app.shared.model.entities.Entity.Entity
-import app.shared.model.ref.{Ref, RefVal}
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand.UEC_Res
 import io.circe.{Decoder, Encoder}

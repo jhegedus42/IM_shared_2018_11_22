@@ -2,8 +2,8 @@ package app.server.RESTService.routes.generalCRUD
 
 import app.server.RESTService.RESTService
 import app.server.RESTService.routes.RoutesTestBase
-import app.shared.model.ref.RefVal
-import app.shared.model.entities.{EntityType, LineText}
+import app.shared.data.ref.RefVal
+import app.shared.data.model.{EntityType, LineText}
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestEntities
 
