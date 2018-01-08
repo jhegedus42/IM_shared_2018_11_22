@@ -6,7 +6,7 @@ import app.server.RESTService.RESTService
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.State
-import app.shared.model.LineText
+import app.shared.model.entities.LineText
 import app.shared.model.ref.{Ref, RefVal, Version}
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidUUIDinURLError, InvalidVersionError}

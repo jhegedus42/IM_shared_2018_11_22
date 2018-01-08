@@ -7,10 +7,9 @@ import app.server.RESTService.routes.entitySpecific.get.GetUserLineListRoute
 import app.server.RESTService.take3.routes.concrete.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.config.Config
-import app.shared.model.Entity.Entity
-import app.shared.model.UserLineList.LineListElement
-import app.shared.model.{LineText, User, UserLineList}
-import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
+import app.shared.model.entities.Entity.Entity
+import app.shared.model.entities.{LineText, User, UserLineList}
+import app.shared.model.entities.UserLineList.LineListElement
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.reflect.ClassTag

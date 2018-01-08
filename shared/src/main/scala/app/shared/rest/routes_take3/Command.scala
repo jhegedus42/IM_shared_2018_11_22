@@ -1,7 +1,7 @@
 package app.shared.rest.routes_take3
 
 //import akka.http.scaladsl.marshalling.ToResponseMarshallable
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 
 
 trait Command[E<:Entity] {

@@ -3,7 +3,7 @@ package app.server.RESTService.routes.entitySpecific.get
 import app.server.RESTService.take3.routes.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.SomeError_Trait
-import app.shared.model.{User, UserLineList}
+import app.shared.model.entities.UserLineList
 import app.shared.model.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
 import io.circe.Encoder
@@ -39,12 +39,20 @@ case class GetUserLineListRoute(
 
   override def processCommand(f: command.Params ): Future[command.Result] =
     for {
-     r <- sa.getAllEntitiesOfGivenType[UserLineList]
-     f2= for {
+      r <- sa.getAllEntitiesOfGivenType[UserLineList]
+      f2= for {
         r1  <- r
         r2= r1.filter((x: RefVal[UserLineList]) => x.v.user===f )
-       } yield (r2)
+      //        r2= r1.filter((x: RefVal[UserLineList]) => x.v.user===f )
+      } yield (r2)
     } yield (f2)
+//  {
+//    val u: Future[Disjunction[SomeError_Trait, RefVal[User]]] = sa.getEntity(f)
+//    val g=  (y:RefVal[User]) => y.v.lineLists
+//
+//    val r: Future[Disjunction[SomeError_Trait, List[RefVal[UserLineList]]]] = u.map(x=> x.map(g))
+//    r
+//  }
 
   import akka.http.scaladsl.server.Route
   import akka.http.scaladsl.server.directives.MethodDirectives.get

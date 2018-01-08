@@ -2,7 +2,7 @@ package app.server.persistence.persActor
 
 import app.server.State
 import app.shared.SomeError_Trait
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.RefValDyn
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 

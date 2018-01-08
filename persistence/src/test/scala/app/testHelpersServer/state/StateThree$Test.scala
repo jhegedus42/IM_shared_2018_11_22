@@ -1,6 +1,6 @@
 package app.testHelpersServer.state
 
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import org.scalatest.FunSuite
 import app.shared.model.utils.PrettyPrint
 

@@ -1,7 +1,7 @@
 package app.shared.model.utils.model
 
 import app.shared.CommonStrings
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import monocle.macros.Lenses
 
 @Lenses
@@ -26,8 +26,6 @@ object LineOld {
   *                       will be displayed in an other picture (as a que)
   */
 
-import io.circe.Json
-import io.circe.parser._
 
 @Lenses
 case class LinePayload(text: String,

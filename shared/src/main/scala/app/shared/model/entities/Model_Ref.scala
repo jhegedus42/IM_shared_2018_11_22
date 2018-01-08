@@ -1,10 +1,8 @@
-package app.shared.model
+package app.shared.model.entities
 
-import java.security.acl.Owner
-
-import app.shared.model.Entity.{Constraint, Entity, Value}
-import app.shared.model.UserLineList.LineListElement
-import app.shared.model.UserType.Normal
+import app.shared.model.entities.Entity.{Entity, Value}
+import app.shared.model.entities.UserLineList.LineListElement
+import app.shared.model.entities.UserType.Normal
 import app.shared.model.ref.Ref
 
 
@@ -34,7 +32,8 @@ case class User(name: String,
                 userType:UserType=Normal)
   extends Entity
 
-case class UserLineList(user     : Ref[User], //the owner of this line-list
+case class UserLineList(user     : Ref[User],
+                        //the owner of this line-list, this expresses a constraint, only user can refer to a given list
                         name     : Option[String] = None,
                         isPrivate: Boolean = false,
                         lines    : List[LineListElement]=List())

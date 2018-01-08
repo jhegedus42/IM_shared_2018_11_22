@@ -6,7 +6,7 @@ import app.server.State
 import Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse, SetStatePACommand, UpdateEntityPACommand, UpdateEntityPAResponse}
 import EventsStoredInJournal.{CreateEntity, Event, UpdateEntity}
 import app.shared.SomeError_Trait
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.RefValDyn
 import app.shared.model.utils.PrettyPrint
 import app.testHelpersServer.state.TestData

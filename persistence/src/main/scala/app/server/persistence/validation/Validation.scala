@@ -1,6 +1,6 @@
 package app.server.persistence.validation
 
-import app.shared.model.{UserLineList}
+import app.shared.model.entities.UserLineList
 
 /**
   * Created by joco on 28/07/2017.

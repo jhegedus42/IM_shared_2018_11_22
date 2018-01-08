@@ -5,23 +5,22 @@ import app.client.ui.pages.{Props2Vanilla, Props2Wrapped, TopPageCompType}
 import app.client.ui.pages.Types.{Vanilla_CompConstr, Wrapped_CompConstr}
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import japgolly.scalajs.react.extra.router.RouterCtl
-import sun.jvm.hotspot.debugger.Page
 
 /**
   * Created by joco on 03/09/2017.
   */
 class ReactCompWrapper(re: ReadAndWriteRequestQue, cm: Cache ) {
 
-  def wrapRootPage[TopPageName <: TopPageCompType, PropPassedToTopPage](
-      to_be_wrapped_constructor: Vanilla_CompConstr[TopPageName, PropPassedToTopPage]
-    ): Wrapped_CompConstr[TopPageName, PropPassedToTopPage] = {
+  def wrapRootPage[PageName <: TopPageCompType, Props](
+      vanillaCC: Vanilla_CompConstr[PageName, Props]
+    ): Wrapped_CompConstr[PageName, Props] = {
 
     import japgolly.scalajs.react._
 
-    type P=Props2Wrapped[PropPassedToTopPage]
-    class WBackend($ : BackendScope[P,CacheMap]) {
-      def render(t: ( P), statePassedToRender: CacheMap ): ReactElement =
-        to_be_wrapped_constructor(Props2Vanilla[PropPassedToTopPage, TopPageName](t.p, t.ctrl, statePassedToRender))
+    type P = Props2Wrapped[Props]
+    class WBackend($ : BackendScope[P, CacheMap] ) {
+      def render(t: (P), statePassedToRender: CacheMap ): ReactElement =
+        vanillaCC( Props2Vanilla[Props, PageName]( t.p, t.ctrl, statePassedToRender ) )
 
       def willMount = {
         Callback {
@@ -47,8 +46,8 @@ class ReactCompWrapper(re: ReadAndWriteRequestQue, cm: Cache ) {
 
     }
 
-    def wrappedPageComponentConstructor(): Wrapped_CompConstr[TopPageName, PropPassedToTopPage] =
-      ReactComponentB[Props2Wrapped[ PropPassedToTopPage ]]( "wrapped page component" )
+    def wrappedPageComponentConstructor(): Wrapped_CompConstr[PageName, Props] =
+      ReactComponentB[Props2Wrapped[Props]]( "wrapped page component" )
         .initialState( cm.getCacheMap() )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend

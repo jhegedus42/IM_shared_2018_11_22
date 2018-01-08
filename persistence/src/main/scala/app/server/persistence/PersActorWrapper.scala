@@ -4,7 +4,7 @@ import akka.actor.ActorRef
 import akka.util.Timeout
 import app.server.persistence.persActor.Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse, SetStatePACommand, SetStatePAResponse, UpdateEntityPACommand, UpdateEntityPAResponse}
 
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.RefValDyn
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 import app.testHelpersShared.implicits.ForTestingOnly

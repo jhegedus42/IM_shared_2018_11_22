@@ -3,7 +3,7 @@ package app.server.RESTService.take3.routes.concrete
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 

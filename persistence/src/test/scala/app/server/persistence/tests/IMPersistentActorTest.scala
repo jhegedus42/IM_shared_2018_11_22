@@ -6,7 +6,7 @@ import app.server.State
 import app.server.persistence.persActor.Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse}
 import app.server.persistence.persActor.IMPersistentActor
 import app.shared.SomeError_Trait
-import app.shared.model.LineText
+import app.shared.model.entities.LineText
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 import scalaz.{\/, \/-}

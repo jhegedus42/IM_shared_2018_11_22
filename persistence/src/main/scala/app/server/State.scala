@@ -1,7 +1,7 @@
 package app.server
 
-import app.shared.model.Entity.Entity
-import app.shared.model.EntityType
+import app.shared.model.entities.Entity.Entity
+import app.shared.model.entities.EntityType
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
 import app.shared.model.ref.{Ref, RefDyn, RefVal, RefValDyn}
 

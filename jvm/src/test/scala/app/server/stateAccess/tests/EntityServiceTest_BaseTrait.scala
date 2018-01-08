@@ -4,10 +4,10 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.testHelpersShared.data.TestEntities
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.uuid.UUID
 import app.shared.model.ref.{Ref, RefVal, Version}
-import app.shared.model.{EntityType, LineText}
+import app.shared.model.entities.{EntityType, LineText}
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, TypeError}
 import app.testHelpersServer.state.TestData
 import org.scalatest.{Assertion, Matchers, WordSpec, mock}

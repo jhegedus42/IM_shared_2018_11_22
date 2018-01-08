@@ -2,10 +2,10 @@ package app.client.ui.pages.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.cache.{CacheMap, CacheVal, Loaded}
+import app.client.cache.{CacheMap, EntityCacheVal, Loaded}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.ui.pages.{LineList, Props2Vanilla}
-import app.shared.model.LineText
+import app.client.ui.pages.{LineListCompType, Props2Vanilla}
+import app.shared.model.entities.LineText
 import app.shared.model.ref.Ref
 import fansi.Str
 import japgolly.scalajs.react.ReactElement
@@ -25,7 +25,7 @@ object LineList_ReactComp {
   import app.client.ui.pages.Types._
 
   type Prop  = Unit
-  type Props = Props2Vanilla[Prop, LineList.type]
+  type Props = Props2Vanilla[Prop, LineListCompType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -62,11 +62,11 @@ object LineList_ReactComp {
 
       val ref: Ref[LineText] =
         Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d" ) // right
-      val e: CacheVal[LineText] = c.getEntity( ref )
+      val e: EntityCacheVal[LineText] = c.getEntity(ref)
 
       val ref2: Ref[LineText] =
         Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e00d9e" ) // right
-      val e2: CacheVal[LineText] = c.getEntity( ref2 )
+      val e2: EntityCacheVal[LineText] = c.getEntity(ref2)
 
       val s: Str = pprint.apply( Seq( 1, 2, 3 ) )
       val s2 = s.plainText
@@ -103,7 +103,7 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: Vanilla_CompConstr[LineList.type, Unit] =
+  val LineListCompBuilder: Vanilla_CompConstr[LineListCompType.type, Unit] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

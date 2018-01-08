@@ -13,11 +13,11 @@ sealed trait TopPageCompType
 // top page is the one which is directly below the router,
 // there can be only one routed page at any given moment
 
-object LineList extends TopPageCompType
+object LineListCompType extends TopPageCompType
 
-object LineDetail extends TopPageCompType
+object LineDetailCompType extends TopPageCompType
 
-object UserLineListsType extends TopPageCompType
+object UserLineListsCompType extends TopPageCompType
 
 case class Props2Wrapped[P](p:P, ctrl:RouterCtl[Page])
 

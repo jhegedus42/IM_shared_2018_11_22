@@ -2,7 +2,7 @@ package app.client.rest.commands
 
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.{ResDyn, getEntityDyn}
 import app.shared.InvalidUUIDinURLError
-import app.shared.model.LineText
+import app.shared.model.entities.LineText
 import app.shared.model.ref.{Ref, RefValDyn, Version}
 import app.testHelpersShared.data.TestEntities
 import org.scalatest.{Assertion, AsyncFunSuite, Matchers}

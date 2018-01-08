@@ -1,12 +1,12 @@
 package app.client.ui.pages.lineDetail
 
-import app.client.cache.{CacheVal, Ready}
+import app.client.cache.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.Props2Vanilla
+import app.shared.model.entities.LineText
 //import app.client.rest.ClientRestAJAX
-import app.client.ui.pages.LineDetail
+import app.client.ui.pages.LineDetailCompType
 import app.client.ui.pages.Types.Vanilla_CompConstr
-import app.shared.model.LineText
 import app.shared.model.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag
@@ -27,7 +27,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = Props2Vanilla[Prop, LineDetail.type]
+  type Props = Props2Vanilla[Prop, LineDetailCompType.type]
 
 //
 
@@ -60,7 +60,7 @@ object LineDetail_ReactComp {
     def render(p: Props ): ReactElement = {
       import monocle.macros.syntax.lens._
       val r:        Ref[LineText]      = p.ps
-      val cacheVal: CacheVal[LineText] = p.cache.getEntity( r )
+      val cacheVal: EntityCacheVal[LineText] = p.cache.getEntity(r)
       println( "trace1, in render, LineDetail_ReactComp, cacheVal=" + cacheVal )
       val refValOpt: Option[Ready[LineText]] = cacheVal.getValue
 
@@ -96,7 +96,7 @@ object LineDetail_ReactComp {
     }
   }
 
-  val lineDetailConstructor: Vanilla_CompConstr[LineDetail.type, Prop] = {
+  val lineDetailConstructor: Vanilla_CompConstr[LineDetailCompType.type, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend

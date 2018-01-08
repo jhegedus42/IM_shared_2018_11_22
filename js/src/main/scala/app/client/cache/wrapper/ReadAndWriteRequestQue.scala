@@ -1,10 +1,10 @@
 package app.client.cache.wrapper
 
 //import app.client.cache.RequestProcessor.{VanillaPageComponent_ReactCompConstructor, WrappedPageComponent_ReactCompConstructor}
-import app.client.cache.{Cache, CacheMap, CacheVal, Loaded, Loading, NotYetLoaded, Ready, Updating}
+import app.client.cache.{Cache, CacheMap, EntityCacheVal, Loaded, Loading, NotYetLoaded, Ready, Updating}
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
 import app.shared.SomeError_Trait
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand.UEC_Res
@@ -46,7 +46,7 @@ class ReadAndWriteRequestQue  {
     //only one ur can be dispatched at any given time
     //  ->  this makes things simpler
 
-    val e: CacheVal[E] = cache.getCacheMap().getEntity(wr.rv.r)
+    val e: EntityCacheVal[E] = cache.getCacheMap().getEntity(wr.rv.r)
     if (e.isReady() ) {
       val ready: Ready[E] = e.asInstanceOf[Ready[E]]
       val updating: Updating[E] = cache.setUpdating(ready, wr.rv)

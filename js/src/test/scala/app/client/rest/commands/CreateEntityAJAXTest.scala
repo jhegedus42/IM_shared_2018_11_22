@@ -3,7 +3,7 @@ package app.client.rest.commands
 import app.client.rest.commands.forTesting.Helpers
 import app.client.rest.commands.generalCRUD.{CreateEntityAJAX, GetAllEntitiesAJAX}
 import app.shared.SomeError_Trait
-import app.shared.model.LineText
+import app.shared.model.entities.LineText
 import app.shared.model.ref.RefVal
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand.CEC_Res
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand

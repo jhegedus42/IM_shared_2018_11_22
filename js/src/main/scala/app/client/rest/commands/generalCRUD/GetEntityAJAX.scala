@@ -1,8 +1,8 @@
 package app.client.rest.commands.generalCRUD
 
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
+import app.shared.model.entities.{EntityType, LineText, User}
 import app.shared.model.ref.{Ref, RefDyn, RefValDyn}
-import app.shared.model.{EntityType, LineText}
 import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
 import app.shared.{SomeError_Trait, TypeError}
 import io.circe.Decoder
@@ -73,7 +73,8 @@ object GetEntityAJAX {
       refDyn.et match {
         case s if s == getCase[LineText] =>
           res[LineText](refDyn) // todolater abstract this more
-
+        case s if s == getCase[User] =>
+          res[User](refDyn)
       }
     }
 

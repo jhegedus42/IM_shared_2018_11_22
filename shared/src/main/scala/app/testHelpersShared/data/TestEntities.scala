@@ -1,7 +1,7 @@
 package app.testHelpersShared.data
 
-import app.shared.model.UserLineList.LineListElement
-import app.shared.model.{EntityType, LineText, User, UserLineList}
+import app.shared.model.entities.UserLineList.LineListElement
+import app.shared.model.entities.{EntityType, LineText, User, UserLineList}
 import app.shared.model.ref.{Ref, RefDyn, RefVal, RefValDyn, Version}
 
 /**

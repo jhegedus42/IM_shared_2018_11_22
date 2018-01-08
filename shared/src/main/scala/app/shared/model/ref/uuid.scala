@@ -1,7 +1,7 @@
 package app.shared.model.ref
 
 import app.shared.{InvalidUUIDinURLError, StateOpsError}
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 
 import scala.util.matching.Regex
 import scalaz.{\/, \/-}

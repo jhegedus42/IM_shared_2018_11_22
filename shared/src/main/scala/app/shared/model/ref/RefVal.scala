@@ -1,8 +1,8 @@
 package app.shared.model.ref
 
 import app.shared.TypeError
-import app.shared.model.Entity.Entity
-import app.shared.model.EntityType
+import app.shared.model.entities.Entity.Entity
+import app.shared.model.entities.EntityType
 import app.shared.model.ref.uuid.UUIDCompare
 import monocle.macros.Lenses
 

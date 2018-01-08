@@ -1,8 +1,8 @@
 package app.shared.rest.routes_take3.crudCommands
 
 import app.shared.SomeError_Trait
-import app.shared.model.Entity.Entity
-import app.shared.model.LineText
+import app.shared.model.entities.Entity.Entity
+import app.shared.model.entities.LineText
 import app.shared.model.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.Command
 

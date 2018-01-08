@@ -4,7 +4,7 @@ import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.directives.MethodDirectives.get
 import akka.http.scaladsl.server.directives.ParameterDirectives.parameters
 import akka.http.scaladsl.server.directives.PathDirectives.path
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 
 /**
   * Created by joco on 14/12/2017.

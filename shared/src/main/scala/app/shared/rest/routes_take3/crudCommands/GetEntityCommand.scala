@@ -1,8 +1,8 @@
 package app.shared.rest.routes_take3.crudCommands
 
 import app.shared.SomeError_Trait
-import app.shared.model.Entity.Entity
-import app.shared.model.LineText
+import app.shared.model.entities.Entity.Entity
+import app.shared.model.entities.{LineText, User}
 import app.shared.model.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.Command
 
@@ -31,4 +31,5 @@ case class GetEntityCommand[E<:Entity:ClassTag]() extends Command[E] {
 
 object GetEntityCommand{
   implicit val geLT=new GetEntityCommand[LineText]()
+  implicit val geUser=new GetEntityCommand[User]()
 }

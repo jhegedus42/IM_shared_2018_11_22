@@ -1,8 +1,6 @@
-package app.shared.model
+package app.shared.model.entities
 
-import app.shared.model.Entity.Entity
-import app.shared.model.ref.Ref
-import app.shared.model.utils.PrettyPrint
+import app.shared.model.entities.Entity.Entity
 
 import scala.reflect.ClassTag
 
@@ -11,7 +9,7 @@ object Entity {
 
   trait Value extends Data
 
-  trait EntityParams
+//  trait EntityParams
 
   trait Entity extends Data
   {

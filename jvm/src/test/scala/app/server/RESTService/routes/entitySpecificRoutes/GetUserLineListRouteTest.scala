@@ -7,7 +7,7 @@ import app.server.RESTService.routes.RoutesTestBase
 import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEntityRouteTest}
 import app.server.State
 import app.shared.model.ref.RefVal
-import app.shared.model.{EntityType, LineText, UserLineList}
+import app.shared.model.entities.UserLineList
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
 import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
 import app.testHelpersServer.state.TestData

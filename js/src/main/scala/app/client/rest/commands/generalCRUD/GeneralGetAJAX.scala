@@ -1,6 +1,6 @@
 package app.client.rest.commands.generalCRUD
 
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.rest.routes_take3.Command
 import io.circe.Decoder
 import org.scalajs.dom.ext.Ajax

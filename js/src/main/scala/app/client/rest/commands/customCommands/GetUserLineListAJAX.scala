@@ -1,17 +1,13 @@
 package app.client.rest.commands.customCommands
 
 import app.client.rest.commands.generalCRUD.GeneralGetAJAX
-import app.shared.model.Entity.Entity
-import app.shared.model.{User, UserLineList}
+import app.shared.model.entities.{User, UserLineList}
 import app.shared.model.ref.Ref
-import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
 import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
-import io.circe.Decoder
 import io.circe.generic.auto._
 import io.circe.parser.decode
 
 import scala.concurrent.Future
-import scala.reflect.ClassTag
 
 /**
   * Created by joco on 16/12/2017.

@@ -1,6 +1,6 @@
 package app.shared.model.ref
 
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import org.scalatest.FunSuite
 
 import scala.reflect.ClassTag

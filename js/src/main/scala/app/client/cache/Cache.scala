@@ -2,7 +2,7 @@ package app.client.cache
 
 import app.client.cache
 import app.client.cache.wrapper.{ ReadAndWriteRequestQue}
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.{Ref, RefVal}
 
 //mutable state
@@ -41,10 +41,10 @@ private[cache] class Cache(rc:ReadAndWriteRequestQue) {
     updateCache(newVal.r, Updated(newVal), oldVal)
 
   def updateCache[E <: Entity](key: Ref[E],
-                               cacheVal: CacheVal[E],
-                               oldVal: CacheVal[E]): Unit = {
+                               cacheVal: EntityCacheVal[E],
+                               oldVal: EntityCacheVal[E]): Unit = {
     assert(wrappedMap.map(key).equals(oldVal))
-    val newCacheMap: Map[Ref[_ <: Entity], CacheVal[_ <: Entity]] =
+    val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
       wrappedMap.map.updated(key, cacheVal)
     wrappedMap = wrappedMap.copy(map = newCacheMap)
   }

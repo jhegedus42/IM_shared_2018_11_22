@@ -1,7 +1,7 @@
 package app.server.stateAccess.generalQueries
 
 import app.shared.SomeError_Trait
-import app.shared.model.Entity.Entity
+import app.shared.model.entities.Entity.Entity
 import app.shared.model.ref.{Ref, RefVal}
 
 import scala.concurrent.Future
