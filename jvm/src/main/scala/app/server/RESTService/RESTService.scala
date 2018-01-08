@@ -7,7 +7,7 @@ import app.server.RESTService.routes.entitySpecific.get.GetUserLineListRoute
 import app.server.RESTService.take3.routes.concrete.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.config.Config
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.model.{LineText, User, UserLineList}
 import app.shared.data.model.UserLineList.LineListElement
 
@@ -48,7 +48,7 @@ trait RESTService {
 
   implicit lazy val isa: InterfaceToStateAccessor = this
 
-  def crudEntityRoute[E <: Data: ClassTag: Decoder: Encoder]: Route = {
+  def crudEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
     new UpdateEntityRoute[E]().route ~
     new CreateEntityRoute[E]().route ~
     new GetAllEntitiesRoute[E].route ~

@@ -4,7 +4,7 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.testHelpersShared.data.TestEntities
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.uuid.UUID
 import app.shared.data.ref.{Ref, RefVal, Version}
 import app.shared.data.model.{DataType, LineText}
@@ -25,7 +25,7 @@ trait EntityServiceTest_BaseTrait
 
   import scala.concurrent.duration._
 
-  def isEntityPresentByGetEntity[E <: Data: ClassTag](
+  def isEntityPresentByGetEntity[E <: Entity: ClassTag](
                                                          typedInterfaceToPersistenceActor: InterfaceToStateAccessor,
                                                          refVal_Result: RefVal[E]): Boolean = {
     val res: Future[\/[SomeError_Trait, RefVal[E]]] =

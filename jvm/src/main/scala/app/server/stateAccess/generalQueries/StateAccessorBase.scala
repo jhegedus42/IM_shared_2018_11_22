@@ -3,7 +3,7 @@ package app.server.stateAccess.generalQueries
 import app.server.State
 import app.server.persistence.persActor.Commands.GetStatePAResponse
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal, RefValDyn}
 import io.circe.Decoder.state
 
@@ -20,11 +20,11 @@ trait StateAccessorBase extends InterfaceToStateAccessor {
 
   //7ab5e22e4b0641a081acdfda82f72390 commit 04a4ce0194060a090583a831d19bea4ba9408ff1 Thu Oct 19 21:57:39 EEST 2017
 
-  override def doesEntityExist[E <: Data: ClassManifest](e: E ): Future[Boolean] = {
+  override def doesEntityExist[E <: Entity: ClassManifest](e: E ): Future[Boolean] = {
     actor.getState.map( _.state.doesEntityExist( e ) )
   }
 
-  override def createEntity[E <: Data: ClassTag](e: E ): Future[\/[SomeError_Trait, RefVal[E]]] = {
+  override def createEntity[E <: Entity: ClassTag](e: E ): Future[\/[SomeError_Trait, RefVal[E]]] = {
     for {
       // todolater itt kene a parametereket leellenorizni ...
       // todolater gondolni a lock-olasra ... mi van ha megvaltoztatjak a parameterek leellenorzesenel
@@ -41,7 +41,7 @@ trait StateAccessorBase extends InterfaceToStateAccessor {
     } yield (z)
   }
 
-  def updateEntity[E <: Data: ClassTag](rv: RefVal[E] ): Future[\/[SomeError_Trait, RefVal[E]]] = {
+  def updateEntity[E <: Entity: ClassTag](rv: RefVal[E] ): Future[\/[SomeError_Trait, RefVal[E]]] = {
     actor
       .updateEntity( rv ).map( uer => {
         for {
@@ -52,7 +52,7 @@ trait StateAccessorBase extends InterfaceToStateAccessor {
 
   }
 
-  def getEntity[E <: Data: ClassTag](r: Ref[E] ): Future[\/[SomeError_Trait, RefVal[E]]] = {
+  def getEntity[E <: Entity: ClassTag](r: Ref[E] ): Future[\/[SomeError_Trait, RefVal[E]]] = {
     //hash 714b03f2a4fe4fd1a27b12f805e5bc56
     def f(x:GetStatePAResponse): \/[SomeError_Trait, RefVal[E]] = {
       val s=x.state
@@ -64,7 +64,7 @@ trait StateAccessorBase extends InterfaceToStateAccessor {
   }
 
   override def getAllEntitiesOfGivenType[
-      E <: Data: ClassTag
+      E <: Entity: ClassTag
     ]: Future[\/[SomeError_Trait, List[RefVal[E]]]] = {
     println( "we get entities - in state accessor" )
     val s: Future[GetStatePAResponse] = actor.getState
