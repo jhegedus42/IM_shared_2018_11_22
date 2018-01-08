@@ -1,6 +1,6 @@
 package app.client.ui.pages
 
-import app.client.cache.EntityCacheMap
+import app.client.cache.entityCache.EntityCacheMap
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.TopNode

@@ -1,17 +1,16 @@
-package app.client.cache
+package app.client.cache.entityCache
 
-import app.client.cache
-import app.client.cache.wrapper.{ ReadAndWriteEntityRequestQue}
+import app.client.cache.wrapper.CacheRoot
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 
 //mutable state
-private[cache] class EntityCache(rc:ReadAndWriteEntityRequestQue) {
-  private[this] var wrappedMap = new EntityCacheMap(executor = rc)
+private[cache] class EntityCache(cacheRoute:CacheRoot) {
+  private[this] var wrappedMap = cacheRoute.getNewCacheMap
 
   def getCacheMap() = wrappedMap
 
-  def resetCache() = wrappedMap = new EntityCacheMap(executor = rc)
+  def resetCache() = wrappedMap = cacheRoute.getNewCacheMap
 
   def setNotYetLoaded[E <: Entity](ref: Ref[E]): NotYetLoaded[E] = {
     val res = NotYetLoaded(ref)

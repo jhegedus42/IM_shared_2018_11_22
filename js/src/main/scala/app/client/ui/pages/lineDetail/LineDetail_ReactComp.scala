@@ -1,6 +1,6 @@
 package app.client.ui.pages.lineDetail
 
-import app.client.cache.{EntityCacheVal, Ready}
+import app.client.cache.entityCache.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.Props2Vanilla
 import app.shared.data.model.LineText

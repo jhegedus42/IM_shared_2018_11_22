@@ -2,7 +2,7 @@ package app.client.ui.pages.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.cache.{EntityCacheMap, EntityCacheVal, Loaded}
+import app.client.cache.entityCache.{EntityCacheMap, EntityCacheVal}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.{LineListCompType, Props2Vanilla}
 import app.shared.data.model.LineText

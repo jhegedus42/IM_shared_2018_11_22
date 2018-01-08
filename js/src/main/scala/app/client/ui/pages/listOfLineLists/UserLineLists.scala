@@ -1,7 +1,7 @@
 package app.client.ui.pages.listOfLineLists
 
-import app.client.cache.{EntityCacheMap, EntityCacheVal}
-import app.client.cache.wrapper.ReadAndWriteEntityRequestQue
+import app.client.cache.entityCache.{EntityCacheMap, EntityCacheVal}
+import app.client.cache.wrapper.CacheRoot
 import app.client.ui.pages.Types.Wrapped_CompConstr
 import app.client.ui.pages.lineList.LineList_ReactComp
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
@@ -59,10 +59,10 @@ object UserLineListsComp {
 
 object UserLineListsWrapping {
 
-  val que: ReadAndWriteEntityRequestQue = new ReadAndWriteEntityRequestQue()
+  val wrapperHolder: CacheRoot = new CacheRoot()
 
   val wrapped_CC: Wrapped_CompConstr[UserLineListsCompType.type, UserLineListsComp.Prop] =
-    que.wrapper.wrapRootPage[UserLineListsCompType.type, UserLineListsComp.Prop](UserLineListsComp.compConstr)
+    wrapperHolder.wrapper.wrapRootPage[UserLineListsCompType.type, UserLineListsComp.Prop](UserLineListsComp.compConstr)
 
 
 }

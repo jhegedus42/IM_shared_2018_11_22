@@ -1,6 +1,6 @@
 package app.client.cache.wrapper
 
-import app.client.cache.{EntityCache, EntityCacheMap}
+import app.client.cache.entityCache.{EntityCache, EntityCacheMap}
 import app.client.ui.pages.{Props2Vanilla, Props2Wrapped, TopPageCompType}
 import app.client.ui.pages.Types.{Vanilla_CompConstr, Wrapped_CompConstr}
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
@@ -9,7 +9,7 @@ import japgolly.scalajs.react.extra.router.RouterCtl
 /**
   * Created by joco on 03/09/2017.
   */
-class ReactCompWrapper(re: ReadAndWriteEntityRequestQue, cm: EntityCache ) {
+class ReactCompWrapper(re: CacheRoot, cm: EntityCache ) {
 
   def wrapRootPage[PageName <: TopPageCompType, Props](
       vanillaCC: Vanilla_CompConstr[PageName, Props]
@@ -41,7 +41,7 @@ class ReactCompWrapper(re: ReadAndWriteEntityRequestQue, cm: EntityCache ) {
 
       def didMount = Callback {
         println( "did mount" );
-        re.readQue.executeReadRequests()
+        re.readHandler.executeReadRequests()
       }
 
     }
