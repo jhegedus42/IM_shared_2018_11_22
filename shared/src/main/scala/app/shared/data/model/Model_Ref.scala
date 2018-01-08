@@ -63,6 +63,7 @@ case class ImgQue(rect1: Option[ImgQue.Rect],
                   img: ImgQue.Img)
     extends Entity
 
+
 // ket ImageQue-t az image alapjan hasonlitunk ossze
 
 object ImgQue {
