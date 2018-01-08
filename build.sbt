@@ -24,10 +24,7 @@ lazy val js: Project = (project in file( "js" ))
     scalaVersion := Settings.versions.scala,
 //                                      scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.scalajsDependencies.value,
-
-
     parallelExecution in Test := false,
-
     mainClass in Compile := Some( "app.client.Main" ),
     persistLauncher in Compile := true,
 //    persistLauncher in Test := false,
@@ -52,68 +49,28 @@ lazy val jvm = (project in file( "jvm" ))
     libraryDependencies ++= Settings.jvmDependencies.value,
     mainClass in Test := Some( "app.server.rest.testServers.TestServer_App_Basic_Data" ),
     mainClass in Compile := Some( "app.server.rest.TestHttpServerApp" )
-
-//                             commands += ReleaseCmd,
-    // triggers scalaJSPipeline when using compile or continuous compilation
-//                             compile in Compile := ((compile in Compile) dependsOn scalaJSPipeline).value,
-    // connect to the client project
-//                             scalaJSProjects := clients,
-//                             pipelineStages in Assets := Seq(scalaJSPipeline),
-//                             pipelineStages := Seq(digest, gzip),
-    // compress CSS
-//                             LessKeys.compress in Assets := true
   )
   .dependsOn( sharedJVM % "compile->compile;test->test" )
-  .dependsOn( persistence % "compile->compile;test->test")
+  .dependsOn( persistence % "compile->compile;test->test" )
 
-//scalaVersion in ThisBuild := "2.11.8"
-//
-//lazy val root = project
-//  .in(file("."))
-//  .aggregate(imJS, imJVM, persistence)
-//  .settings(
-//    scalaVersion := Settings.versions.scala,
-//    publish := {},
-//    publishLocal := {}
-//  )
-//
-////lazy val im2=
-//
-//lazy val im = crossProject
-//  .in(file("."))
-//  .settings(
-//    libraryDependencies ++= Settings.sharedDependencies.value,
-//    addCompilerPlugin(
-//      "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full),
-//    scalaVersion := Settings.versions.scala,
-//    name := "im",
-//    version := "0.1-SNAPSHOT"
-//  )
-//  .jvmSettings(
-//    libraryDependencies ++= Settings.jvmDependencies.value,
-//    mainClass in Test := Some(
-//      "app.server.rest.testServers.TestServer_App_Basic_Data"),
-//    mainClass in Compile := Some("app.server.rest.TestHttpServerApp")
-//  )
-//  .jsSettings(
-//    mainClass in Compile := Some ("app.client.Main"),
-//    libraryDependencies ++= Settings.scalajsDependencies.value,
-//    persistLauncher in Compile := true,
-//    persistLauncher in Test := false,
-//    jsEnv := new JSDOMNodeJSEnv2(),
-//    jsDependencies += RuntimeDOM,
-//    scalaJSOptimizerOptions ~= { _.withDisableOptimizer(true) }
-//  )
-//
 logBuffered in Test := false
 //
-lazy val persistence = (project in file( "persistence" )).settings(
-  name := "persistence",
-  version := Settings.version,
-  libraryDependencies ++= Settings.jvmDependencies.value,
-  scalaVersion := Settings.versions.scala
-).dependsOn(sharedJVM)
+lazy val persistence = (project in file( "persistence" ))
+  .settings(
+    name := "persistence",
+    version := Settings.version,
+    libraryDependencies ++= Settings.jvmDependencies.value,
+    scalaVersion := Settings.versions.scala
+  ).dependsOn( sharedJVM )
 
+lazy val stateAccess = (project in file( "stateAccess" ))
+  .settings(
+    name := "stateAccess",
+    version := Settings.version,
+    libraryDependencies ++= Settings.jvmDependencies.value,
+    scalaVersion := Settings.versions.scala
+  ).dependsOn( persistence )
+  .dependsOn( sharedJVM )
 //
 //
 persistLauncher in Compile := true
