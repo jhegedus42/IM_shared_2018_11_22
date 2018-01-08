@@ -5,7 +5,7 @@ import akka.http.scaladsl.server.{Directive0, Route}
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.rest.routes_take3.Command
 import io.circe.{Decoder, Encoder}
 
@@ -27,12 +27,12 @@ trait RouteImplicits[E] {
   implicit val ec: ExecutionContext
 }
 
-trait RouteBase[E <: Entity] {
+trait RouteBase[E <: Data] {
   RouteImplicits =>
 
   val command: Command[E]
 
-  implicit def decoder[Ent <: Entity: Decoder]: Decoder[command.Result] = implicitly[Decoder[command.Result]]
+  implicit def decoder[Ent <: Data: Decoder]: Decoder[command.Result] = implicitly[Decoder[command.Result]]
 
   def completeRoute(
       f:   command.Params => Future[command.Result]

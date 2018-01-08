@@ -6,9 +6,9 @@ import app.server.RESTService.RESTService
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEntityRouteTest}
 import app.server.State
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
-import app.shared.data.model.{EntityType, LineText}
+import app.shared.data.model.{DataType, LineText}
 import app.shared.rest.routes_take3.crudCommands.{GetAllEntitiesCommand, GetEntityCommand}
 import app.testHelpersServer.state.TestData
 import io.circe.Decoder
@@ -75,9 +75,9 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
     res
   }
 
-  def getAllEntitiesHelper[E <: Entity: ClassTag: Decoder: GetAllEntitiesCommand](
+  def getAllEntitiesHelper[E <: Data: ClassTag: Decoder: GetAllEntitiesCommand](
       server:     RESTService,
-      entityType: EntityType
+      entityType: DataType
     ): Seq[RefVal[E]] = {
 
     val r: Route = server.route

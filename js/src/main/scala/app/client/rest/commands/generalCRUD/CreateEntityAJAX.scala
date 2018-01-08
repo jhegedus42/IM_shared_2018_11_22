@@ -1,7 +1,7 @@
 package app.client.rest.commands.generalCRUD
 
-import app.shared.data.model.Entity.Entity
-import app.shared.data.model.EntityType
+import app.shared.data.model.Entity.Data
+import app.shared.data.model.DataType
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand.CEC_Res
 import io.circe.generic.auto._
@@ -17,9 +17,9 @@ import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
   * Created by joco on 16/12/2017.
   */
 object CreateEntityAJAX{
-  def createEntity[E <: Entity: ClassTag: Decoder: Encoder](entity: E ): Future[CEC_Res[E]] = {
+  def createEntity[E <: Data: ClassTag: Decoder: Encoder](entity: E ): Future[CEC_Res[E]] = {
 
-    val et:        EntityType          = EntityType.make[E]
+    val et:        DataType          = DataType.make[E]
     val url: String = CreateEntityCommCommand[E]().queryURL()
 
     val json_line: String              = entity.asJson.spaces2

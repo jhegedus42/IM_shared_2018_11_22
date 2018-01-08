@@ -1,7 +1,7 @@
 package app.shared.data.ref
 
 import app.shared.{InvalidUUIDinURLError, StateOpsError}
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 
 import scala.util.matching.Regex
 import scalaz.{\/, \/-}
@@ -34,7 +34,7 @@ object uuid {
 
   }
 
-  trait UUIDCompare[T] extends Entity{
+  trait UUIDCompare[T] extends Data{
     def isUUIDEq(x: T, y: T): Boolean
   }
 

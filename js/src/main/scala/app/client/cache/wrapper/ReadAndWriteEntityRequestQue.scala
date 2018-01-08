@@ -1,10 +1,10 @@
 package app.client.cache.wrapper
 
 //import app.client.cache.RequestProcessor.{VanillaPageComponent_ReactCompConstructor, WrappedPageComponent_ReactCompConstructor}
-import app.client.cache.{Cache, CacheMap, EntityCacheVal, Loaded, Loading, NotYetLoaded, Ready, Updating}
+import app.client.cache.{EntityCache, EntityCacheMap, EntityCacheVal, Loaded, Loading, NotYetLoaded, Ready, Updating}
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand.UEC_Res
@@ -14,27 +14,27 @@ import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scalaz.{-\/, \/-}
 //todolater make this untyped ... RefDyn
-case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E])
+case class ReadRequest[E <: Data: ClassTag](ref: Ref[E])
 
-case class UpdateRequest[E <: Entity](rv: RefVal[E])
+case class UpdateRequest[E <: Data](rv: RefVal[E])
 
 
 
 trait StateSettable {
-  def setState(c: CacheMap)
+  def setState(c: EntityCacheMap)
 }
 
 
-class ReadAndWriteRequestQue  {
+class ReadAndWriteEntityRequestQue  {
 
-  private[this]     val cache = new Cache(this) //mutable state
+  private[this]     val cache = new EntityCache(this) //mutable state
   // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
 
   private[wrapper]  var currently_routed_page: Option[StateSettable] = None
 
   lazy              val wrapper = new ReactCompWrapper(re = this, cm = cache)
 
-  private[wrapper]  val readQue = new ReadRequestQue(cache, reRenderCurrentlyRoutedPageComp _)
+  private[wrapper]  val readQue = new ReadEntityRequestQue(cache, reRenderCurrentlyRoutedPageComp _)
 
   def clearCache = {
     cache.resetCache()
@@ -82,7 +82,7 @@ class ReadAndWriteRequestQue  {
 
 
   private[this] def reRenderCurrentlyRoutedPageComp(): Unit = {
-    val c: CacheMap = cache.getCacheMap()
+    val c: EntityCacheMap = cache.getCacheMap()
     println("re render with cache: " + c)
     currently_routed_page.foreach({ s =>
       s.setState(c)

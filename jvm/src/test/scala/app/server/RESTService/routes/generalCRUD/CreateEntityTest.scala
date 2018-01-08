@@ -8,7 +8,7 @@ import app.server.RESTService.routes.RoutesTestBase
 import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.ref.RefVal
-import app.shared.data.model.{EntityType, LineText}
+import app.shared.data.model.{DataType, LineText}
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestEntities
@@ -74,7 +74,7 @@ trait CreateEntityTest {
 
 
       //get list of lines - before
-      val entitiesBefore: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, EntityType.make[LineText] )
+      val entitiesBefore: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, DataType.make[LineText])
 
       // create line here
       val res: ResCET = createLine(s, line, {
@@ -98,7 +98,7 @@ trait CreateEntityTest {
       import io.circe.generic.auto._
 
       //get list of lines - after
-      val entitiesAfter: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, EntityType.make[LineText] )
+      val entitiesAfter: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, DataType.make[LineText])
 
       println("after:"+entitiesAfter)
 

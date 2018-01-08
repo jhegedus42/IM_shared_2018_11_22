@@ -1,10 +1,10 @@
 package app.shared.rest.routes_take3
 
 //import akka.http.scaladsl.marshalling.ToResponseMarshallable
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 
 
-trait Command[E<:Entity] {
+trait Command[E<:Data] {
   type Params
   type Result
 //  type E <:Entity

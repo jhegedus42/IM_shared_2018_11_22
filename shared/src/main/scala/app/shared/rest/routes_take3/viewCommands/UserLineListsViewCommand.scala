@@ -1,4 +1,4 @@
-package app.shared.rest.routes_take3.entitySpecificCommands
+package app.shared.rest.routes_take3.viewCommands
 
 import app.shared.SomeError_Trait
 import app.shared.data.model.{User, UserLineList}
@@ -11,7 +11,7 @@ import scalaz.\/
 /**
   * Created by joco on 04/01/2018.
   */
-case class GetUserLineListsCommand() extends Command[UserLineList] {
+case class UserLineListsViewCommand() extends Command[UserLineList] {
   override type Params = Ref[User]
   override type Result = \/[SomeError_Trait, List[RefVal[UserLineList]]]
 
@@ -25,6 +25,6 @@ case class GetUserLineListsCommand() extends Command[UserLineList] {
   def queryURL(rv: Params ) = "/" + getServerPath + getPars( rv )
 }
 
-object GetUserLineListsCommand {
-  val gullc = GetUserLineListsCommand()
+object UserLineListsViewCommand {
+  val gullc = UserLineListsViewCommand()
 }

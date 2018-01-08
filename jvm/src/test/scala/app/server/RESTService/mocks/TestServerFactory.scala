@@ -12,7 +12,7 @@ import app.server.State
 import app.server.persistence.PersActorWrapper
 import app.server.persistence.persActor.Commands.SetStatePAResponse
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.TestURLs
 import app.testHelpersServer.state.TestData

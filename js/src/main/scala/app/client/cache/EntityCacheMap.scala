@@ -1,7 +1,7 @@
 package app.client.cache
 
-import app.client.cache.wrapper.{ReadAndWriteRequestQue, ReadRequest, UpdateRequest}
-import app.shared.data.model.EntityType
+import app.client.cache.wrapper.{ReadAndWriteEntityRequestQue, ReadRequest, UpdateRequest}
+import app.shared.data.model.DataType
 //import app.client.rest.ClientRestAJAX
 import app.shared.TypeError
 import app.shared.data.model.Entity.Entity
@@ -16,8 +16,8 @@ import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefDyn}
 import slogging.LazyLogging
 
-case class CacheMap(val map: Map[Ref[_<:Entity], EntityCacheVal[_<:Entity]] = Map(),
-                    val executor  : ReadAndWriteRequestQue) extends LazyLogging{
+case class EntityCacheMap(val map: Map[Ref[_<:Entity], EntityCacheVal[_<:Entity]] = Map(),
+                          val executor: ReadAndWriteEntityRequestQue) extends LazyLogging{
 
   def getEntity[E <: Entity:ClassTag](r: Ref[E]): EntityCacheVal[E] = {
 

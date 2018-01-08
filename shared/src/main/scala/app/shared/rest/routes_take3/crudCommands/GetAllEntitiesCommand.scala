@@ -1,7 +1,7 @@
 package app.shared.rest.routes_take3.crudCommands
 
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.Command
@@ -13,7 +13,7 @@ import scalaz.\/
   * Created by joco on 14/12/2017.
   */
 // ====> 1.3.1.1 <====  task-completed 1.3.1.1 GetAllEntitiesCommand - COMPLETED
-case class GetAllEntitiesCommand[E <: Entity: ClassTag]() extends Command[E] {
+case class GetAllEntitiesCommand[E <: Data: ClassTag]() extends Command[E] {
   //  type E <:Entity
   type Params = Unit //uuid
   type Result = \/[SomeError_Trait, List[RefVal[E]]]

@@ -3,7 +3,7 @@ package app.server.RESTService.routes.generalCRUD
 import app.server.RESTService.RESTService
 import app.server.RESTService.routes.RoutesTestBase
 import app.shared.data.ref.RefVal
-import app.shared.data.model.{EntityType, LineText}
+import app.shared.data.model.{DataType, LineText}
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestEntities
 
@@ -21,7 +21,7 @@ trait GetAllEntityRouteTest {
       import io.circe.generic.auto._
 
       val s:        RESTService           = server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
-      val entities: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, EntityType.make[LineText] )
+      val entities: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, DataType.make[LineText])
 
       val res:  Seq[RefVal[LineText]] = List( TestEntities.refValOfLineV0 )
       val res2: Seq[RefVal[LineText]] = List( TestEntities.refValOfLineV0, TestEntities.refValOfLineV0 )

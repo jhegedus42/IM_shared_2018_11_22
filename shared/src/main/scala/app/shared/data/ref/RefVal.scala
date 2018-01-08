@@ -1,8 +1,8 @@
 package app.shared.data.ref
 
 import app.shared.TypeError
-import app.shared.data.model.Entity.Entity
-import app.shared.data.model.EntityType
+import app.shared.data.model.Entity.Data
+import app.shared.data.model.DataType
 import app.shared.data.ref.uuid.UUIDCompare
 import monocle.macros.Lenses
 
@@ -18,7 +18,7 @@ case class Version(l:Long=0){
   * Created by joco on 28/04/2017.
   */
 @Lenses
-case class RefVal[T <: Entity](r: Ref[T], v: T, version:Version) {
+case class RefVal[T <: Data](r: Ref[T], v: T, version:Version) {
   def map(f: T => T): RefVal[T] = copy(v = f(v))
 
 }
@@ -29,18 +29,18 @@ object RefVal {
   //      def make[T<:Entity[T]](v: T) = new RefVal(Ref[T](), v)
   //    def make[T<:Entity[T]](v: T)(implicit t:Typeable[T]) = new RefVal(Ref.make[T](), v)
 
-  implicit def instance[T <: Entity]: UUIDCompare[RefVal[T]] = new UUIDCompare[RefVal[T]] {
+  implicit def instance[T <: Data]: UUIDCompare[RefVal[T]] = new UUIDCompare[RefVal[T]] {
     override def isUUIDEq(x: RefVal[T], y: RefVal[T]) = Ref.instance.isUUIDEq(x.r, y.r)
   }
 
 }
 
 
-case class RefValDyn(r: RefDyn, e: Entity, version:Version){
+case class RefValDyn(r: RefDyn, e: Data, version:Version){
 
-  def toRefVal[E<:Entity:ClassTag] : \/[TypeError ,RefVal[E]] = {
+  def toRefVal[E<:Data:ClassTag] : \/[TypeError ,RefVal[E]] = {
     // f0c1cede98f0430c85f35944546bbba4w
-    val et = EntityType.make[E]
+    val et = DataType.make[E]
     if (et==r.et) {
       val etyped:E=e.asInstanceOf[E]
       val refDisj: \/[TypeError, Ref[E]] = r.toRef[E]()
@@ -48,7 +48,7 @@ case class RefValDyn(r: RefDyn, e: Entity, version:Version){
     } else -\/(TypeError("RefValDyn.toRefVal "))
   }
 
-  def toRefVal_NoClassTagNeeded[E<:Entity](expectedEntityType:EntityType) : \/[TypeError ,RefVal[E]] = {
+  def toRefVal_NoClassTagNeeded[E<:Data](expectedEntityType:DataType) : \/[TypeError ,RefVal[E]] = {
     // f0c1cede98f0430c85f35944546bbba4w
     if (expectedEntityType==r.et) {
       val etyped:E=e.asInstanceOf[E]
@@ -74,16 +74,16 @@ object RefValDyn {
 //    rvd
 //  }
 
-  def makeRefValDynForNewlyCreatedEntity(ent:Entity): RefValDyn ={ // assumes that all parameters are correct
-    val et=EntityType.fromEntity(ent)
+  def makeRefValDynForNewlyCreatedEntity(ent:Data): RefValDyn ={ // assumes that all parameters are correct
+    val et= DataType.fromEntity(ent)
     val rd = RefDyn.make(et)
     val rvd = RefValDyn(rd, ent, Version())
     rvd
   }
 
 
-  implicit def fromRefValToRefValDyn[E<:Entity](rv: RefVal[E]): RefValDyn = {
-    val rd=new RefDyn(rv.r.uuid, rv.r.entityType)
+  implicit def fromRefValToRefValDyn[E<:Data](rv: RefVal[E]): RefValDyn = {
+    val rd=new RefDyn(rv.r.uuid, rv.r.dataType)
     new RefValDyn(rd,rv.v,rv.version)
   }
 

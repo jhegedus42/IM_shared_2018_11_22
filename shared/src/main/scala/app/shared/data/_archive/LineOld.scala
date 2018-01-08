@@ -1,11 +1,11 @@
 package app.shared.data.utils.model
 
 import app.shared.CommonStrings
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import monocle.macros.Lenses
 
 @Lenses
-case class LineOld(val pl: LinePayload) extends Entity{
+case class LineOld(val pl: LinePayload) extends Data{
 //  def getImgSrc: ImgUrl = ? ? ? //TODO implement this
 //ad image as entity.... need to wait for ref implementation
   def getImgSrc: ImgUrl = ImgUrl(CommonStrings.imageRoute + "/" + 0 + ".jpg")

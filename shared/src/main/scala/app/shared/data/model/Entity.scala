@@ -1,17 +1,19 @@
 package app.shared.data.model
 
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 
 import scala.reflect.ClassTag
 
 object Entity {
-  sealed trait Data
+//  sealed trait Data
 
-  trait Value extends Data
+  trait Value
 
 //  trait EntityParams
 
   trait Entity extends Data
+
+  trait Data
   {
     def constraints:List[Constraint]= List()
 
@@ -25,15 +27,15 @@ object Entity {
 }
 
 
-case class EntityType(type_as_string:String){
+case class DataType(type_as_string:String){
 
-  def isTypeCorrect[E<:Entity:ClassTag]:Boolean= EntityType.getTypeAsString[E] == type_as_string
+  def isTypeCorrect[E<:Data:ClassTag]:Boolean= DataType.getTypeAsString[E] == type_as_string
 }
 
 
-object EntityType{
+object DataType{
 //  def make[T](t:Typeable[T])=EntityType(t.describe)
-    def getTypeAsString[T<:Entity](implicit t:ClassTag[T])=t.runtimeClass.getSimpleName
-    def make[T<:Entity](implicit t:ClassTag[T])= EntityType(getTypeAsString[T])
-    def fromEntity(e:Entity)=EntityType(e.getClass.getSimpleName)
+    def getTypeAsString[T<:Data](implicit t:ClassTag[T])= t.runtimeClass.getSimpleName
+    def make[T<:Data](implicit t:ClassTag[T])= DataType(getTypeAsString[T])
+    def fromEntity(e:Data)= DataType(e.getClass.getSimpleName)
 }

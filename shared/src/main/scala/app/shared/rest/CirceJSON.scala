@@ -1,7 +1,7 @@
 package app.shared.rest
 
-import app.shared.data.model.Entity.Entity
-import app.shared.data.model.EntityType
+import app.shared.data.model.Entity.Data
+import app.shared.data.model.DataType
 import app.shared.data.ref.{Ref, RefVal}
 import io.circe.Decoder.Result
 
@@ -68,7 +68,7 @@ object CirceJSON {
 //  }
 //b367c298bb35479a81cca6efc51e112f commit 2ec8ad4ba0e9a407bff4a58217d78f3b774cbfe3 Fri Nov  3 19:34:33 EET 2017
 
-  def typedRefValDecode[E <: Entity](
+  def typedRefValDecode[E <: Data](
       s: String
     )(
       implicit
@@ -87,12 +87,12 @@ object CirceJSON {
         println( "my decoder is running" )
 
         val r:  Result[RefVal[E]] = decoder.apply( c )
-        val et: EntityType        = EntityType.make[E]
+        val et: DataType        = DataType.make[E]
         println( s"expected type ${classTag}" )
 
         r match {
           case Left( a )                          => Left( a )
-          case Right( b ) if b.r.entityType == et => Right( b )
+          case Right( b ) if b.r.dataType == et   => Right(b)
           // if the entity type is the same
           case _ =>
             Left(

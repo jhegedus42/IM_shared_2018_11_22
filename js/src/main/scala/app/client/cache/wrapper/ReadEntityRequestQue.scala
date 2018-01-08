@@ -1,6 +1,6 @@
 package app.client.cache.wrapper
 
-import app.client.cache.{Cache, Loading, NotYetLoaded}
+import app.client.cache.{EntityCache, Loading, NotYetLoaded}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.shared.SomeError_Trait
@@ -14,7 +14,7 @@ import scalaz.{-\/, \/-}
 /**
   * Created by joco on 29/12/2017.
   */
-class ReadRequestQue(cache: Cache, pageRerenderer: () => Unit)
+class ReadEntityRequestQue(cache: EntityCache, pageRerenderer: () => Unit)
     extends LazyLogging {
 
   private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()
@@ -48,7 +48,7 @@ class ReadRequestQue(cache: Cache, pageRerenderer: () => Unit)
               case -\/(err) =>
                 cache.setReadFailed[E](loading, err.toString)
               case \/-(refValDyn) =>
-                refValDyn.toRefVal_NoClassTagNeeded(rr.ref.entityType) match {
+                refValDyn.toRefVal_NoClassTagNeeded(rr.ref.dataType) match {
                   case -\/(a: SomeError_Trait) =>
                     cache.setReadFailed(oldVal = loading,
                                                errorMsg = a.string)

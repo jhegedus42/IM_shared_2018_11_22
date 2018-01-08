@@ -1,7 +1,7 @@
 package app.shared.rest.routes_take3.crudCommands
 
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.model.{LineText, User}
 import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes_take3.Command
@@ -12,7 +12,7 @@ import scalaz.\/
 /**
   * Created by joco on 14/12/2017.
   */
-case class GetEntityCommand[E<:Entity:ClassTag]() extends Command[E] {
+case class GetEntityCommand[E<:Data:ClassTag]() extends Command[E] {
 //  type E <:Entity
   type Params = String //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]

@@ -1,7 +1,7 @@
 package app.testHelpersShared.data
 
 import app.shared.data.model.UserLineList.LineListElement
-import app.shared.data.model.{EntityType, LineText, User, UserLineList}
+import app.shared.data.model.{DataType, LineText, User, UserLineList}
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn, Version}
 
 /**
@@ -22,22 +22,22 @@ object TestEntitiesForStateThree
 {
   lazy val userEntity         = User(name = "joco",password="macska")
   lazy val user1uuid            = "10000000-0000-0000-0000-000000000001"
-  lazy val rvdUser: RefValDyn = RefValDyn(RefDyn(user1uuid,EntityType.fromEntity(userEntity)), userEntity, Version())
+  lazy val rvdUser: RefValDyn = RefValDyn(RefDyn(user1uuid, DataType.fromEntity(userEntity)), userEntity, Version())
   lazy val userRef: Ref[User] = rvdUser.r.toRef[User]().toEither.right.get
 
   lazy val line1                     = LineText(title = Some("l1"))
   lazy val line2                     = LineText(title = Some("l2"))
   lazy val line3                     = LineText(title = Some("l3"))
-  lazy val entityTypeL: EntityType   = EntityType.make[LineText]
+  lazy val entityTypeL: DataType = DataType.make[LineText]
 
 //  lazy val line1uuid          = "5d19cb20-8cb9-4ed0-a093-24778276c93f"
   lazy val line1uuid            = "00000000-0000-0000-0000-000000000001"
   lazy val line2uuid            = "00000000-0000-0000-0000-000000000002"
   lazy val line3uuid            = "00000000-0000-0000-0000-000000000003"
 
-  lazy val refLine1: Ref[LineText] = Ref[LineText](entityType = entityTypeL, uuid = line1uuid)
-  lazy val refLine2                = Ref[LineText](entityType = entityTypeL, uuid = line2uuid)
-  lazy val refLine3                = Ref[LineText](entityType = entityTypeL, uuid = line3uuid)
+  lazy val refLine1: Ref[LineText] = Ref[LineText](dataType = entityTypeL, uuid = line1uuid)
+  lazy val refLine2                = Ref[LineText](dataType = entityTypeL, uuid = line2uuid)
+  lazy val refLine3                = Ref[LineText](dataType = entityTypeL, uuid = line3uuid)
 
   lazy val lle1 = LineListElement(line = refLine1)
   lazy val lle2 = LineListElement(line = refLine2)
@@ -46,7 +46,7 @@ object TestEntitiesForStateThree
   lazy val list = UserLineList(user = userRef, lines = List(lle1, lle2, lle3))
 
   lazy val listRefUuid                = "20000000-0000-0000-0000-000000000001"
-  lazy val listRef: Ref[UserLineList] = Ref[UserLineList](uuid= listRefUuid, entityType = EntityType.make[UserLineList])
+  lazy val listRef: Ref[UserLineList] = Ref[UserLineList](uuid= listRefUuid, dataType = DataType.make[UserLineList])
 
   lazy val listRV = RefVal(listRef,list,Version())
 }

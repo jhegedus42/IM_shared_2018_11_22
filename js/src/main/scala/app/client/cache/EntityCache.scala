@@ -1,17 +1,17 @@
 package app.client.cache
 
 import app.client.cache
-import app.client.cache.wrapper.{ ReadAndWriteRequestQue}
+import app.client.cache.wrapper.{ ReadAndWriteEntityRequestQue}
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 
 //mutable state
-private[cache] class Cache(rc:ReadAndWriteRequestQue) {
-  private[this] var wrappedMap = new CacheMap(executor = rc)
+private[cache] class EntityCache(rc:ReadAndWriteEntityRequestQue) {
+  private[this] var wrappedMap = new EntityCacheMap(executor = rc)
 
   def getCacheMap() = wrappedMap
 
-  def resetCache() = wrappedMap = new CacheMap(executor = rc)
+  def resetCache() = wrappedMap = new EntityCacheMap(executor = rc)
 
   def setNotYetLoaded[E <: Entity](ref: Ref[E]): NotYetLoaded[E] = {
     val res = NotYetLoaded(ref)
@@ -28,7 +28,7 @@ private[cache] class Cache(rc:ReadAndWriteRequestQue) {
   }
 
   def setUpdating[E <: Entity](oldVal: Ready[E],
-                               newVal: RefVal[E]): Updating[E] = {
+                             newVal: RefVal[E]): Updating[E] = {
     val updatingTo = Updating(newVal)
     updateCache(oldVal.refVal.r, updatingTo, oldVal)
     updatingTo
@@ -41,8 +41,8 @@ private[cache] class Cache(rc:ReadAndWriteRequestQue) {
     updateCache(newVal.r, Updated(newVal), oldVal)
 
   def updateCache[E <: Entity](key: Ref[E],
-                               cacheVal: EntityCacheVal[E],
-                               oldVal: EntityCacheVal[E]): Unit = {
+                             cacheVal: EntityCacheVal[E],
+                             oldVal: EntityCacheVal[E]): Unit = {
     assert(wrappedMap.map(key).equals(oldVal))
     val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
       wrappedMap.map.updated(key, cacheVal)

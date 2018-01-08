@@ -1,7 +1,7 @@
 package app.client.ui.pages.listOfLineLists
 
-import app.client.cache.{CacheMap, EntityCacheVal}
-import app.client.cache.wrapper.ReadAndWriteRequestQue
+import app.client.cache.{EntityCacheMap, EntityCacheVal}
+import app.client.cache.wrapper.ReadAndWriteEntityRequestQue
 import app.client.ui.pages.Types.Wrapped_CompConstr
 import app.client.ui.pages.lineList.LineList_ReactComp
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
@@ -24,7 +24,7 @@ object UserLineListsComp {
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: CacheMap = props.cache
+      val c: EntityCacheMap = props.cache
       val u: EntityCacheVal[User] = props.cache.getEntity(props.ps)
       <.div(
         "cache:",
@@ -59,7 +59,7 @@ object UserLineListsComp {
 
 object UserLineListsWrapping {
 
-  val que: ReadAndWriteRequestQue = new ReadAndWriteRequestQue()
+  val que: ReadAndWriteEntityRequestQue = new ReadAndWriteEntityRequestQue()
 
   val wrapped_CC: Wrapped_CompConstr[UserLineListsCompType.type, UserLineListsComp.Prop] =
     que.wrapper.wrapRootPage[UserLineListsCompType.type, UserLineListsComp.Prop](UserLineListsComp.compConstr)

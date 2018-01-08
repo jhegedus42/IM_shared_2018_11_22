@@ -4,7 +4,7 @@ import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
 import app.shared.rest.routes_take3.crudCommands.{GetEntityCommand}
@@ -15,7 +15,7 @@ import io.circe.{Decoder, Encoder}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
 
-class GetRoute[E <: Entity](
+class GetRoute[E <: Data](
   )(
     implicit
     i:  ClassTag[E],

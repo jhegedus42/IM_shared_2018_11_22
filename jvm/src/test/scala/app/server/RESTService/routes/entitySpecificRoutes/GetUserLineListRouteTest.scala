@@ -9,7 +9,7 @@ import app.server.State
 import app.shared.data.ref.RefVal
 import app.shared.data.model.UserLineList
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
-import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
+import app.shared.rest.routes_take3.viewCommands.{UserLineListsViewCommand }
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.{TestDataLabels, TestEntities, TestEntitiesForStateThree}
 
@@ -37,7 +37,7 @@ trait GetUserLineListRouteTest {
       // 5587d5c97cc1457d8b629962b5ed30c4
 
       val r:   Route  = s.route
-      val com = GetUserLineListsCommand()
+      val com = UserLineListsViewCommand()
       val url: String = com.queryURL(TestEntitiesForStateThree.userRef)
       type Res = com.Result
 

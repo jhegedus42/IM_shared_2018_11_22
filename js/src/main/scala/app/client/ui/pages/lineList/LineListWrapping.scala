@@ -1,6 +1,6 @@
 package app.client.ui.pages.lineList
 
-import app.client.cache.wrapper.ReadAndWriteRequestQue
+import app.client.cache.wrapper.ReadAndWriteEntityRequestQue
 import app.client.ui.pages.{LineListCompType, Props2Wrapped}
 import app.client.ui.pages.Types.Wrapped_CompConstr
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
@@ -14,7 +14,7 @@ object LineListWrapping {
 
   type LineListProp = Unit
 
-  val que: ReadAndWriteRequestQue = new ReadAndWriteRequestQue()
+  val que: ReadAndWriteEntityRequestQue = new ReadAndWriteEntityRequestQue()
 
   val wLL: Wrapped_CompConstr[LineListCompType.type, LineListProp] =
     que.wrapper.wrapRootPage[LineListCompType.type, LineListProp](LineList_ReactComp.LineListCompBuilder)

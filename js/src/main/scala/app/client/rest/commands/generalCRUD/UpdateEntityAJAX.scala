@@ -3,7 +3,7 @@
   */
 package app.client.rest.commands.generalCRUD
 
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand.UEC_Res
@@ -21,7 +21,7 @@ object UpdateEntityAJAX {
   import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 //  19ccf04fc4f54cce84344f0216c6505a commit e3e59ee5d121ea9c389f1f93fcfdc7192cacaeb4 Sun Dec 17 17:48:13 EET 2017
 
-  def updateEntity[E <: Entity: ClassTag: Decoder: Encoder](
+  def updateEntity[E <: Data: ClassTag: Decoder: Encoder](
       refVal: RefVal[E]
     ): Future[UEC_Res[E]] = {
     val url:       String              = UpdateEntityCommCommand[E]().queryURL()

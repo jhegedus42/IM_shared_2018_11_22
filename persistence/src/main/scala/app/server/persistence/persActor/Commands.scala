@@ -2,7 +2,7 @@ package app.server.persistence.persActor
 
 import app.server.State
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefValDyn
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 
@@ -17,7 +17,7 @@ object Commands {
   case class UpdateEntityPACommand(entity: RefValDyn)
   case class UpdateEntityPAResponse(payload: \/[SomeError_Trait, RefValDyn])
 
-  case class CreateEntityPACommand[E <: Entity](e:Entity)
+  case class CreateEntityPACommand[E <: Data](e:Data)
   case class CreateEntityPAResponse(payload: \/[SomeError_Trait, RefValDyn])
 
   case object GetStatePACommand

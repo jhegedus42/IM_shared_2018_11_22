@@ -5,7 +5,7 @@ import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.server.stateAccess.mocks.StateAccessorMock_prodPersAct
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.{Ref, RefVal}
 
 import scala.concurrent.Future

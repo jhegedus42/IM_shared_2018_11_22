@@ -3,7 +3,7 @@ package app.server.RESTService.take3.routes.concrete
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.auto._
@@ -13,7 +13,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import akka.http.scaladsl.server.Directives._
 import scala.reflect.ClassTag
 
-case class CreateEntityRoute[E <: Entity](
+case class CreateEntityRoute[E <: Data](
   )(
     implicit
     i:  ClassTag[E],

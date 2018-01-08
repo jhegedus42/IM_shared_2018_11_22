@@ -1,6 +1,6 @@
 package app.client.ui.pages.lineList
 
-import app.client.cache.CacheMap
+import app.client.cache.EntityCacheMap
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, Page}
 import app.client.ui.generalReactComponents.wrapped_JS_Components.react_sortable_hoc.{SortableContainer, SortableElement, SortableView}
 import app.shared.data.ref.RefVal
@@ -12,7 +12,7 @@ import japgolly.scalajs.react.{ReactComponentB, _}
 
 
 object ReorderList {
-  case class LLRC_Props(ctl: RouterCtl[Page], c: CacheMap)
+  case class LLRC_Props(ctl: RouterCtl[Page], c: EntityCacheMap)
   val itemView: ReqProps[(RefVal[LineOld], LLRC_Props), Unit, Unit, TopNode] =
     ReactComponentB[(RefVal[LineOld], LLRC_Props)]("liView")
       .render(d => {

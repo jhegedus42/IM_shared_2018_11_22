@@ -5,7 +5,7 @@ import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.SomeError_Trait
 import app.shared.data.model.UserLineList
 import app.shared.data.ref.{Ref, RefVal}
-import app.shared.rest.routes_take3.entitySpecificCommands.GetUserLineListsCommand
+import app.shared.rest.routes_take3.viewCommands.{UserLineListsViewCommand}
 import io.circe.Encoder
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -21,12 +21,12 @@ import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._ // dont forget to 
   */
 case class GetUserLineListRoute(
   )(
-    implicit
-    en: Encoder[GetUserLineListsCommand.gullc.Result],
-    sa: InterfaceToStateAccessor,
-    ec: ExecutionContext)
+                                 implicit
+                                 en: Encoder[UserLineListsViewCommand.gullc.Result],
+                                 sa: InterfaceToStateAccessor,
+                                 ec: ExecutionContext)
     extends GetRouteBase[UserLineList] {
-  override val command: GetUserLineListsCommand = GetUserLineListsCommand.gullc
+  override val command: UserLineListsViewCommand = UserLineListsViewCommand.gullc
 
 //  def g(u1:Ref[User]) = (u:Ref[User])  => u.uuid==u1.uuid
 

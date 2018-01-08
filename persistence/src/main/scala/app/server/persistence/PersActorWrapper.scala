@@ -4,7 +4,7 @@ import akka.actor.ActorRef
 import akka.util.Timeout
 import app.server.persistence.persActor.Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse, SetStatePACommand, SetStatePAResponse, UpdateEntityPACommand, UpdateEntityPAResponse}
 
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefValDyn
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 import app.testHelpersShared.implicits.ForTestingOnly
@@ -20,7 +20,7 @@ trait PersActorWrapperIF{
 
   def updateEntity(rfvd: RefValDyn): Future[UpdateEntityPAResponse]
 
-  def createEntity(e:Entity):Future[CreateEntityPAResponse]
+  def createEntity(e:Data):Future[CreateEntityPAResponse]
 
   def setState(s:TestDataLabel): Future[SetStatePAResponse]
 }
@@ -43,7 +43,7 @@ class PersActorWrapper(private[this] val actor: ActorRef) extends PersActorWrapp
     // i handle it
       .mapTo[UpdateEntityPAResponse]
 
-  override def createEntity(e:Entity):Future[CreateEntityPAResponse]=
+  override def createEntity(e:Data):Future[CreateEntityPAResponse]=
     ask(actor, CreateEntityPACommand(e))(Timeout.durationToTimeout(1 seconds)).mapTo[CreateEntityPAResponse]
 
   override def setState(s:TestDataLabel): Future[SetStatePAResponse] =

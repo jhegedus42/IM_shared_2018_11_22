@@ -6,7 +6,7 @@ package app.server.RESTService.take3.routes.concrete
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
@@ -15,7 +15,7 @@ import io.circe.{Decoder, Encoder}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
 
-case class UpdateEntityRoute[E <: Entity](
+case class UpdateEntityRoute[E <: Data](
   )(
     implicit
     i:  ClassTag[E],

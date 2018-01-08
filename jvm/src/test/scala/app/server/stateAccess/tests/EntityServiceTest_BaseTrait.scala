@@ -4,10 +4,10 @@ import akka.http.scaladsl.testkit.ScalatestRouteTest
 import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.testHelpersShared.data.TestEntities
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.uuid.UUID
 import app.shared.data.ref.{Ref, RefVal, Version}
-import app.shared.data.model.{EntityType, LineText}
+import app.shared.data.model.{DataType, LineText}
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, TypeError}
 import app.testHelpersServer.state.TestData
 import org.scalatest.{Assertion, Matchers, WordSpec, mock}
@@ -25,7 +25,7 @@ trait EntityServiceTest_BaseTrait
 
   import scala.concurrent.duration._
 
-  def isEntityPresentByGetEntity[E <: Entity: ClassTag](
+  def isEntityPresentByGetEntity[E <: Data: ClassTag](
                                                          typedInterfaceToPersistenceActor: InterfaceToStateAccessor,
                                                          refVal_Result: RefVal[E]): Boolean = {
     val res: Future[\/[SomeError_Trait, RefVal[E]]] =
@@ -50,7 +50,7 @@ trait EntityServiceTest_BaseTrait
       "of getEntityRef[E]" in {
       val mock =
         getEntityService(TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else)
-      val r: Ref[LineText] = Ref[LineText](entityType = EntityType("kamu"))
+      val r: Ref[LineText] = Ref[LineText](dataType = DataType("kamu"))
       val res: Future[\/[SomeError_Trait, RefVal[LineText]]] =
         mock.getEntity[LineText](r)
       val ar: \/[SomeError_Trait, RefVal[LineText]] = Await.result(res, 2 seconds)
@@ -92,7 +92,7 @@ trait EntityServiceTest_BaseTrait
         getEntityService(TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else)
       val line: LineText = LineText()
 
-      val r: Ref[LineText] = Ref[LineText](entityType = EntityType("kamu"))
+      val r: Ref[LineText] = Ref[LineText](dataType = DataType("kamu"))
       val refVal_updateToThis
         : RefVal[LineText] = RefVal(r, line, Version()) // tetszoleges verziora ennek fail-elnie kell
 

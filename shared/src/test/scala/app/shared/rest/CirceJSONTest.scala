@@ -1,6 +1,6 @@
 package app.shared.rest
 
-import app.shared.data.model.EntityType
+import app.shared.data.model.DataType
 import app.shared.data.ref.{RefVal, RefValTestUtil}
 //import app.shared.rest.GetEntityRoute.HttpGetEntityReqResult
 //import app.shared.rest.GetEntityRoute.Shared.HttpGetEntityReqResult
@@ -54,7 +54,7 @@ class CirceJSONTest extends FunSuite with Matchers {
     import monocle.macros.syntax.lens._
 
     val ltemp: RefVal[LineText] = RefValTestUtil.makeWithNewUUID(l)
-    val rv2_wrong_type: RefVal[LineText] = ltemp.lens(_.r.entityType).set(EntityType("bla"))
+    val rv2_wrong_type: RefVal[LineText] = ltemp.lens(_.r.dataType).set(DataType("bla"))
     val rs: String = rv2_wrong_type.asJson.spaces4
 
     println(rv2_wrong_type)

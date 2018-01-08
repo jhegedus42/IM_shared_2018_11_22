@@ -6,7 +6,7 @@ package app.shared.rest.routes_take3.crudCommands
 
 
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
 import app.shared.rest.routes_take3.Command
 
@@ -18,7 +18,7 @@ import scalaz.\/
   */
 
 
-case class UpdateEntityCommCommand[E<:Entity:ClassTag]() extends Command[E] {
+case class UpdateEntityCommCommand[E<:Data:ClassTag]() extends Command[E] {
   //  type E <:Entity
   type Params = RefVal[E] //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
@@ -30,6 +30,6 @@ case class UpdateEntityCommCommand[E<:Entity:ClassTag]() extends Command[E] {
 }
 
 object UpdateEntityCommCommand{
-  type UEC_Res[E<:Entity] = UpdateEntityCommCommand[E]#Result
-  type UEC_Par[E<:Entity] = UpdateEntityCommCommand[E]#Params
+  type UEC_Res[E<:Data] = UpdateEntityCommCommand[E]#Result
+  type UEC_Par[E<:Data] = UpdateEntityCommCommand[E]#Params
 }

@@ -1,6 +1,6 @@
 package app.testHelpersServer.state
 
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import org.scalatest.FunSuite
 import app.shared.data.utils.PrettyPrint
 
@@ -22,8 +22,8 @@ class StateThree$Test extends FunSuite {
     assert( s6.isRight )
     println( "step 6 is right:" + s6 )
     println( "step 6 -------" )
-    def f(e: Entity ): String = e.toString
-    def f2(e: Entity ): String = "\n"+PrettyPrint.prettyPrint(e)
+    def f(e: Data ): String = e.toString
+    def f2(e: Data ): String = "\n" + PrettyPrint.prettyPrint(e)
     s6.toEither.right.get.stateMap.toList.foreach( x => println( f2( x._2.e ) ) )
 
   }

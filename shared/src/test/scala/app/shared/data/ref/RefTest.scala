@@ -1,6 +1,6 @@
 package app.shared.data.ref
 
-import app.shared.data.model.Entity.Entity
+import app.shared.data.model.Entity.Data
 import org.scalatest.FunSuite
 
 import scala.reflect.ClassTag
@@ -12,6 +12,6 @@ class RefTest extends FunSuite {
 
 }
 object RefValTestUtil {
-  def makeWithNewUUID[T <: Entity](v: T)
-                                  (implicit t: ClassTag[T]) : RefVal[T] = new RefVal(Ref.make[T](), v,Version())
+  def makeWithNewUUID[T <: Data](v: T)
+                                (implicit t: ClassTag[T]) : RefVal[T] = new RefVal(Ref.make[T](), v,Version())
 }

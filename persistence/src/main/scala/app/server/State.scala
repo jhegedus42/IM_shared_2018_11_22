@@ -1,7 +1,7 @@
 package app.server
 
-import app.shared.data.model.Entity.Entity
-import app.shared.data.model.EntityType
+import app.shared.data.model.Entity.Data
+import app.shared.data.model.DataType
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
 
@@ -64,11 +64,11 @@ case class State(val stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
 //    happyPath
 //  }
 
-  def doesEntityExist(e: Entity ): Boolean =
+  def doesEntityExist(e: Data ): Boolean =
     stateMap.values.map( rvd => rvd.e ).toSet.contains( e )
 
-  def getEntitiesOfGivenType[E <: Entity: ClassTag](): \/[SomeError_Trait, List[RefVal[E]]] = {
-    val et: EntityType = EntityType.make[E]
+  def getEntitiesOfGivenType[E <: Data: ClassTag](): \/[SomeError_Trait, List[RefVal[E]]] = {
+    val et: DataType = DataType.make[E]
     val r: List[Disjunction[TypeError, RefVal[E]]] =
       stateMap.values.filter( rvd => rvd.r.et == et ).map( _.toRefVal[E] ).toList
 
@@ -76,7 +76,7 @@ case class State(val stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
     else -\/( StateOpsError( "getEntities type error - this should not happen" ) )
   }
 
-  private[server] def getEntity[E <: Entity: ClassTag](r: Ref[E] ): \/[SomeError_Trait, RefVal[E]] = {
+  private[server] def getEntity[E <: Data: ClassTag](r: Ref[E] ): \/[SomeError_Trait, RefVal[E]] = {
     //ffd417f7defb4ee3b542a2d7d68e6b42
 
     if (!r.isTypeCorrect) return -\/( TypeError( "State.getEntity - 1" ) )
