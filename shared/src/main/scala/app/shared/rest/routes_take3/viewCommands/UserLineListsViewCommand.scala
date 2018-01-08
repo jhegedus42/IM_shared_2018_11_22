@@ -3,6 +3,7 @@ package app.shared.rest.routes_take3.viewCommands
 import app.shared.SomeError_Trait
 import app.shared.data.model.{User, UserLineList}
 import app.shared.data.ref.{Ref, RefVal}
+import app.shared.data.views.UserLineListView
 import app.shared.rest.routes_take3.Command
 
 import scala.reflect.ClassTag
@@ -13,7 +14,7 @@ import scalaz.\/
   */
 case class UserLineListsViewCommand() extends Command[UserLineList] {
   override type Params = Ref[User]
-  override type Result = \/[SomeError_Trait, List[RefVal[UserLineList]]]
+  override type Result = \/[SomeError_Trait, UserLineListView ]
 
   override def getServerPath = "getUserLineLists"
 

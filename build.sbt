@@ -48,10 +48,13 @@ lazy val jvm = (project in file( "jvm" ))
     scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.jvmDependencies.value,
     mainClass in Test := Some( "app.server.rest.testServers.TestServer_App_Basic_Data" ),
-    mainClass in Compile := Some( "app.server.rest.TestHttpServerApp" )
+    mainClass in Compile := Some( "app.server.rest.TestHttpServerApp" )//,
+//    excludeDependencies ++= Seq(
+//      ExclusionRule( "commons-logging", "commons-logging" )
+//    )
   )
   .dependsOn( sharedJVM % "compile->compile;test->test" )
-  .dependsOn( persistence % "compile->compile;test->test" )
+  .dependsOn( stateAccess % "compile->compile;test->test" )
 
 logBuffered in Test := false
 //
@@ -69,8 +72,8 @@ lazy val stateAccess = (project in file( "stateAccess" ))
     version := Settings.version,
     libraryDependencies ++= Settings.jvmDependencies.value,
     scalaVersion := Settings.versions.scala
-  ).dependsOn( persistence )
-  .dependsOn( sharedJVM )
+  ).dependsOn( persistence % "compile->compile;test->test")
+//  .dependsOn( sharedJVM )
 //
 //
 persistLauncher in Compile := true

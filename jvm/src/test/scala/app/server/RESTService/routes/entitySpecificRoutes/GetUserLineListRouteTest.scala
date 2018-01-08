@@ -8,8 +8,9 @@ import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEnti
 import app.server.State
 import app.shared.data.ref.RefVal
 import app.shared.data.model.UserLineList
+import app.shared.data.views.UserLineListView
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
-import app.shared.rest.routes_take3.viewCommands.{UserLineListsViewCommand }
+import app.shared.rest.routes_take3.viewCommands.UserLineListsViewCommand
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.{TestDataLabels, TestEntities, TestEntitiesForStateThree}
 
@@ -46,9 +47,9 @@ trait GetUserLineListRouteTest {
       val entities: List[RefVal[UserLineList]] = Get(url) ~> r ~> check {
         import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
         import io.circe.generic.auto._
-        val res = responseAs[Res].toEither.right.get
+        val res: UserLineListView = responseAs[Res].toEither.right.get
         println( "response get user line list: " + res )
-        res
+        res.lists
       }
 
       //      println( r )

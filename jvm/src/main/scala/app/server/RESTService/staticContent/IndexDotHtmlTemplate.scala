@@ -1,5 +1,7 @@
 package app.server.RESTService.staticContent
 
+import akka.http.scaladsl.model.headers.LinkParams.title
+
 object IndexDotHtmlTemplate{
   import scalatags.Text.all._
   import scalatags.Text.tags2.title

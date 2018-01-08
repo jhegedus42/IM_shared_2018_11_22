@@ -3,7 +3,7 @@ package app.server.RESTService
 import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.routes.entitySpecific.get.GetUserLineListRoute
+import app.server.RESTService.routes.views.UserLineListViewRoute
 import app.server.RESTService.take3.routes.concrete.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.config.Config
@@ -61,7 +61,7 @@ trait RESTService {
     crudEntityRoute[LineText] ~
     crudEntityRoute[UserLineList] ~
     crudEntityRoute[LineListElement] ~
-    new GetUserLineListRoute().route ~
+    new UserLineListViewRoute().route ~
     crudEntityRoute[User] ~
       StaticStuff.staticRootFactory( rootPageHtml )
 
