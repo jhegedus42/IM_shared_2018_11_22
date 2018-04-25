@@ -18,6 +18,8 @@ import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._ // dont forget to 
 /**
   * Created by joco on 04/01/2018.
   */
+
+
 case class UserLineListViewRoute(
   )(
                                  implicit
@@ -49,6 +51,8 @@ case class UserLineListViewRoute(
       } yield (g(r1))
     } yield (f2)
   }
+
+
 //  {
 //    val u: Future[Disjunction[SomeError_Trait, RefVal[User]]] = sa.getEntity(f)
 //    val g=  (y:RefVal[User]) => y.v.lineLists

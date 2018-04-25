@@ -1,9 +1,8 @@
-package app.server.RESTService.take3.routes.concrete
+package app.server.RESTService.routes.entityCRUD
 
-import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.data.model.Entity.{Data, Entity}
+import app.shared.data.model.Entity.Entity
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._

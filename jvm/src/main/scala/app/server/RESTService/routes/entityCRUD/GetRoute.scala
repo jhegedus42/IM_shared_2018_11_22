@@ -1,4 +1,4 @@
-package app.server.RESTService.take3.routes.concrete
+package app.server.RESTService.routes.entityCRUD
 
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.take3.routes.GetRouteBase
