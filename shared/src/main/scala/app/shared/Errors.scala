@@ -18,11 +18,17 @@ case class EntityIsNotCreateableError(string:String,
 
 
 case class EntityDoesNotExistError(string:String) extends SomeError_Trait
-case class InvalidUUIDinURLError(string:String)extends SomeError_Trait
 
-case class StateOpsError(string:String)extends SomeError_Trait
+
+case class InvalidUUIDinURLError(string:String) extends SomeError_Trait
+
+case class InvalidViewParamsError(string:String) extends SomeError_Trait
+
+case class StateOpsError(string:String) extends SomeError_Trait
+
 case class InvalidVersionError(string:String, expected:Version,actual:Version) extends SomeError_Trait
-case class TypeError(string:String)extends SomeError_Trait
+
+case class TypeError(string:String) extends SomeError_Trait
 
 case class CirceDecoderImplicitNotFoundTest(t:String)
 

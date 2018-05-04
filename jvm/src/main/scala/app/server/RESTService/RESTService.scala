@@ -61,7 +61,7 @@ trait RESTService {
     crudEntityRoute[LineText] ~
     crudEntityRoute[UserLineList] ~
     crudEntityRoute[LineListElement] ~
-    new UserLineListViewRoute().route ~
+//    new UserLineListViewRoute().route ~
     crudEntityRoute[User] ~
       StaticStuff.staticRootFactory( rootPageHtml )
 

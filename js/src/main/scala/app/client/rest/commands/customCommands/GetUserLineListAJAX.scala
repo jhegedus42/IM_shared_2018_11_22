@@ -20,7 +20,8 @@ object GetUserLineListAJAX {
 
     def route: String = gull.queryURL( ref )
 
-    GeneralGetAJAX.get[UserLineList]( route, gull )( decode[gull.Result] )
+//    GeneralGetAJAX.get[UserLineList]( route, gull )( decode[gull.Result] )
+    ???
   }
 
 }

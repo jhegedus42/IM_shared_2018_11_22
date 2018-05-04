@@ -83,11 +83,13 @@ object CirceJSON {
 
 
     implicit def decodeRefValWithTypeCheck() = new Decoder[RefVal[E]] {
+
       final def apply(c: HCursor ): Decoder.Result[RefVal[E]] = {
         println( "my decoder is running" )
 
         val r:  Result[RefVal[E]] = decoder.apply( c )
         val et: DataType        = DataType.make[E]
+
         println( s"expected type ${classTag}" )
 
         r match {
