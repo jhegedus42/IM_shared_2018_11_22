@@ -81,26 +81,24 @@ object ServerSideFun {
 
 object JSONConvert
 {
-  def viewRespToJSON[R<:Response[_]](response: R)(implicit encoder: Encoder[R] ): String = {
+  def encodeResponseToJSON[R<:Response[_]](response: R)(implicit encoder: Encoder[R] ): String = {
     response.asJson.spaces4
-  } // this is the same for all instances
-  def encode[V](response: V)(implicit encoder: Encoder[V] ): String = {
-    response.asJson.spaces4
-} // this is the same for all instances
+  } //to be used by server, before sending the response over the wire
+def encodeRequestToJSON[R<:RequestParameters[_]](response: R)(implicit encoder: Encoder[R] ): String = {
+  response.asJson.spaces4
+} //to be used by client, before sending the request over the wire
+
 
 }
 
 object TestJSONConvert extends App{
 
     println("fax")
-  val v1=View1.Resp("bla")
-  val s=JSONConvert.viewRespToJSON(v1)
-//  case class Faxom(fax:String)
-//  val fax=Faxom("Pina")
-//  val i = implicitly[Encoder[Faxom]]
-//  val fs=fax.asJson.spaces4
-  println(s)
-//  println(fs)
-//  println("fax")
+  val v1res=View1.Resp("bla")
+  val sres=JSONConvert.encodeResponseToJSON(v1res)
+  println(sres)
+  val v1req=View1.Req("req")
+  val sreq=JSONConvert.encodeRequestToJSON(v1req)
+  println(sreq)
 
 }
