@@ -3,16 +3,26 @@ import app.shared.data.views.v3.ViewParams.View1
 import app.shared.data.views.v3.ViewParams.View1.View1
 import app.shared.data.views.v3.ViewParams.View2.View2
 //import org.scalajs.dom.experimental.ResponseType
+import io.circe.Encoder
+import io.circe.Encoder
+import io.circe.generic.auto._
+import io.circe.{Decoder, Encoder}
+import io.circe.Encoder
+import io.circe._
+import io.circe.generic.semiauto._
+import io.circe.generic.auto._
+import io.circe.parser._
+import io.circe.syntax._
 
 
 trait View
 
-trait ResponseType[V<:View]
-trait RequestParType[V<:View]
+trait Response[V<:View]
+trait RequestParameters[V<:View]
 
 trait ViewParams[V <: View]{
-  type Response <:ResponseType[V]
-  type RequestPar <: RequestParType[V]
+  type ResponseType <:Response[V]
+  type RequestParametersType <: RequestParameters[V]
 }
 
 
@@ -21,12 +31,12 @@ object ViewParams {
 
   object View1{
     trait View1 extends View
-    case class Resp(s:String) extends ResponseType[View1]
-    case class Req(s:String) extends RequestParType[View1]
+    case class Resp(s:String) extends Response[View1]
+    case class Req(s:String) extends RequestParameters[View1]
 
     trait ViewParamsInstanceView1 extends ViewParams[View1] {
-      type Response = Resp
-      type RequestPar = Req
+      type ResponseType = Resp
+      type RequestParametersType = Req
     }
 
   }
@@ -34,12 +44,12 @@ object ViewParams {
   object View2 {
 
     trait View2 extends View
-    case class Resp(s:String) extends ResponseType[View2]
-    case class Req(s:Int) extends RequestParType[View2]
+    case class Resp(s:String) extends Response[View2]
+    case class Req(s:Int) extends RequestParameters[View2]
 
     trait ViewParamsInstanceView2 extends ViewParams[View2] {
-      type Response = Resp
-      type RequestPar = Req
+      type ResponseType = Resp
+      type RequestParametersType = Req
     }
 
   }
@@ -49,7 +59,7 @@ object ViewParams {
 }
 
 trait ServerSideFun[C <: View] extends ViewParams[C] {
-  def f(a: RequestPar): Response
+  def f(a: RequestParametersType): ResponseType
 }
 
 object ServerSideFun {
@@ -66,5 +76,31 @@ object ServerSideFun {
 
     override def f(a: ViewParams.View2.Req): ViewParams.View2.Resp = ViewParams.View2.Resp("bla")
   }
+
+}
+
+object JSONConvert
+{
+  def viewRespToJSON[R<:Response[_]](response: R)(implicit encoder: Encoder[R] ): String = {
+    response.asJson.spaces4
+  } // this is the same for all instances
+  def encode[V](response: V)(implicit encoder: Encoder[V] ): String = {
+    response.asJson.spaces4
+} // this is the same for all instances
+
+}
+
+object TestJSONConvert extends App{
+
+    println("fax")
+  val v1=View1.Resp("bla")
+  val s=JSONConvert.viewRespToJSON(v1)
+//  case class Faxom(fax:String)
+//  val fax=Faxom("Pina")
+//  val i = implicitly[Encoder[Faxom]]
+//  val fs=fax.asJson.spaces4
+  println(s)
+//  println(fs)
+//  println("fax")
 
 }
