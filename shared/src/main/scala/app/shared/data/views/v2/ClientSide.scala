@@ -5,23 +5,9 @@ object ClientSide{
 
   object Cache{
     // cache Map[ViewPayLoadType]
-    var map=Map[ViewParamsPayload,ViewResponsePayLoad]()
+    var map=Map[ViewRequestParamsPayload,ViewResponsePayLoad]()
 
-    // does not start an ajax request if there is already one under way ...
-    object Conversions{
 
-      // json to payload
-      // to be called by cache to get the payload
-
-      //      def json2Payload[V<:View](v:V)(implicit encoder:Encoder[v.PayLoad]) : String  = {
-      //        ???
-      //
-      //      }
-      //      def
-
-      // parameters to json
-
-    }
 
     object AjaxCall {
       // when returns, trigger's a re-render of react components
