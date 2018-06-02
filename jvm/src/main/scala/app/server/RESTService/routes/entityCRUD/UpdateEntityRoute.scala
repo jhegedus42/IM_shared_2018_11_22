@@ -4,7 +4,7 @@ package app.server.RESTService.routes.entityCRUD
   * Created by joco on 17/12/2017.
   */
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.take3.routes.RouteBase
+import app.server.RESTService.routes.entityCRUD.common.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.Entity.Entity
 import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand

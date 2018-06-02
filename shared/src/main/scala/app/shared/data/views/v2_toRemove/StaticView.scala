@@ -1,7 +1,6 @@
-package app.shared.data.views.v2
+package app.shared.data.views.v2_toRemove
 
-import app.shared.data.views.UserLineListView
-import app.shared.data.views.v2.ViewTypeClass.UserLineListViewTCInstance.{ResponsePld, ViewResponsePayloadImpl}
+import app.shared.data.views.v2_toRemove.ViewTypeClass.UserLineListViewTCInstance.{ResponsePld, ViewResponsePayloadImpl}
 import io.circe.Encoder
 import io.circe.Encoder
 import io.circe.generic.auto._

@@ -1,4 +1,4 @@
-package app.shared.data.views.v2
+package app.shared.data.views.v2_toRemove
 
 object Utils{
   def mapLeft[A,B,C](e:Either[A,B], f: A=>C) : Either[C,B]= {

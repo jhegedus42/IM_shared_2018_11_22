@@ -1,4 +1,4 @@
-package app.shared.data.views.v2
+package app.shared.data.views.v2_toRemove
 
 import io.circe.generic.auto._
 

@@ -1,5 +1,5 @@
-package app.shared.data.views.v2
-import app.shared.data.views.v2.ViewTypeClass.{Aux, UserLineListViewTCInstance, UserLineListViewTCInstanceTrait}
+package app.shared.data.views.v2_toRemove
+import app.shared.data.views.v2_toRemove.ViewTypeClass.{Aux, UserLineListViewTCInstance, UserLineListViewTCInstanceTrait}
 
 /**
   * Created by joco on 04/05/2018.

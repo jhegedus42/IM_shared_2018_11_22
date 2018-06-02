@@ -1,8 +1,8 @@
-package app.server.RESTService.take3.routes
+package app.server.RESTService.routes.entityCRUD.common
 
 import akka.http.scaladsl.marshalling.ToResponseMarshallable
-import akka.http.scaladsl.server.{Directive0, Route}
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
+import akka.http.scaladsl.server.{Directive0, Route}
 import akka.http.scaladsl.unmarshalling.FromRequestUnmarshaller
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.Entity.Data

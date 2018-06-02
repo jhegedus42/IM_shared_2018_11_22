@@ -4,7 +4,7 @@ import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
-import app.server.RESTService.routes.views.UserLineListViewRoute
+//import app.server.RESTService.routes.views.UserLineListViewRoute
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.config.Config
 import app.shared.data.model.Entity.{Data, Entity}

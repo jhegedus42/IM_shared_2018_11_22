@@ -8,7 +8,7 @@ import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEnti
 import app.server.State
 import app.shared.data.ref.RefVal
 import app.shared.data.model.UserLineList
-import app.shared.data.views.v2.UserLineListView
+import app.shared.data.views.v2_toRemove.UserLineListView
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
 import app.shared.rest.routes_take3.viewCommands.UserLineListsViewCommand
 import app.testHelpersServer.state.TestData

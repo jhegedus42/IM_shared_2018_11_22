@@ -1,7 +1,6 @@
 package app.server.RESTService.routes.entityCRUD
 
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.take3.routes.RouteBase
 import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
 import io.circe.{Decoder, Encoder}
@@ -10,6 +9,7 @@ import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 
 import scala.concurrent.{ExecutionContext, Future}
 import akka.http.scaladsl.server.Directives._
+import app.server.RESTService.routes.entityCRUD.common.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 
 import scala.reflect.ClassTag

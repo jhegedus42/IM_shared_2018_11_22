@@ -1,11 +1,17 @@
-package app.shared.data.views.v2
+package app.shared.data.views.v2_toRemove
+
+import app.shared.data.views.view_architecture_design_v3.client.DynView.DynViewReqParams
+
+sealed trait CacheState
+
+
 
 object ClientSide{
 
 
   object Cache{
     // cache Map[ViewPayLoadType]
-    var map=Map[ViewRequestParamsPayload,ViewResponsePayLoad]()
+    var map=Map[DynViewReqParams, CacheState]()
 
 
 

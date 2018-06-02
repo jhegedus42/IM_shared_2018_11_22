@@ -1,6 +1,6 @@
 package app.server.RESTService.routes.entityCRUD
 
-import app.server.RESTService.take3.routes.GetRouteBase
+import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.Entity.Entity
 import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand

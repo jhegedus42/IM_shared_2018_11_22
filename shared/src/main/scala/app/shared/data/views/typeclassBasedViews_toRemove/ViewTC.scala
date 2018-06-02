@@ -1,4 +1,4 @@
-package app.shared.data.views.typeclassBasedViews
+package app.shared.data.views.typeclassBasedViews_toRemove
 
 import io.circe.{Decoder, Encoder}
 import io.circe.Encoder
