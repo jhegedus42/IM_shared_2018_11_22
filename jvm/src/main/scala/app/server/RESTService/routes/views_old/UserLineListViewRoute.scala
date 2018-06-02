@@ -4,7 +4,7 @@ import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.UserLineList
 import app.shared.data.ref.{Ref, RefVal}
-import app.shared.rest.routes_take3.viewCommands.UserLineListsViewCommand
+//import app.shared.rest.routes_take3.viewCommands.UserLineListsViewCommand
 import io.circe.Encoder
 
 import scala.concurrent.{ExecutionContext, Future}

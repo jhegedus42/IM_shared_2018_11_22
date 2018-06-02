@@ -37,13 +37,13 @@ class ClientGetUserLineListsTest extends AsyncFunSuite with Matchers with Before
     def f1: Future[XMLHttpRequest] =
       Helpers.resetServer( TestDataLabels.LabelThree  )
 
-    def f2: Future[Assertion] =
-      GetUserLineListAJAX.getUserLineLists(u).map(x => {
-//        val entities: List[RefVal[UserLineList]] = x.toEither.right.get.lists
-        val entities: List[RefVal[UserLineList]] = ???
-        entities shouldBe resBe
-        entities should not be resNotBe
-      })
+    def f2: Future[Assertion] = ???
+//      GetUserLineListAJAX.getUserLineLists(u).map(x => {
+////        val entities: List[RefVal[UserLineList]] = x.toEither.right.get.lists
+//        val entities: List[RefVal[UserLineList]] = ???
+//        entities shouldBe resBe
+//        entities should not be resNotBe
+//      })
 
     f1.flatMap( _ => f2 ) // return a sequence of futures to be executed by the test runner
 //2fc4960b35544a50a1da8aed687c5baa commit 52318d6d50de2cef2b36af867540c3464d6305cf Tue Oct 24 13:20:34 EEST 2017
