@@ -1,6 +1,6 @@
 package app.shared.data.views.v2_toRemove
 
-import app.shared.data.views.view_architecture_design_v3.client.DynView.DynViewReqParams
+import app.shared.data.views.v3_view_architecture_design.client.DynView.DynViewReqParams
 
 sealed trait CacheState
 

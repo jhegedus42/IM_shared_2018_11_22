@@ -1,6 +1,6 @@
-package app.shared.data.views.view_architecture_design_v3.client
+package app.shared.data.views.v3_view_architecture_design.client
 
-import app.shared.data.views.view_architecture_design_v3.shared.ViewName
+import app.shared.data.views.v3_view_architecture_design.shared.views.common.ViewName
 
 /**
   * Created by joco on 02/06/2018.

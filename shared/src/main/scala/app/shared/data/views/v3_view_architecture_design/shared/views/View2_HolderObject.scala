@@ -1,6 +1,6 @@
-package app.shared.data.views.view_architecture_design_v3.shared.views
+package app.shared.data.views.v3_view_architecture_design.shared.views
 
-import app.shared.data.views.view_architecture_design_v3.shared.{View, ViewParams, ViewReqParams, ViewResponse}
+import app.shared.data.views.v3_view_architecture_design.shared.views.common.{View, ViewParams, ViewReqParams, ViewResponse}
 
 object View2_HolderObject {
 

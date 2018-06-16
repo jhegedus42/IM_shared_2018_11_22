@@ -1,7 +1,7 @@
-package app.shared.data.views.view_architecture_design_v3
-import app.shared.data.views.view_architecture_design_v3.shared.views.View1_HolderObject
-import app.shared.data.views.view_architecture_design_v3.shared.views.View1_HolderObject.{ReqParams_View1, Response_View1, View1}
-import app.shared.data.views.view_architecture_design_v3.shared.{JSON_ToFrom_ReqResp_Convert, View}
+package app.shared.data.views.v3_view_architecture_design
+import app.shared.data.views.v3_view_architecture_design.shared.views.View1_HolderObject
+import app.shared.data.views.v3_view_architecture_design.shared.views.View1_HolderObject.{ReqParams_View1, Response_View1, View1}
+import app.shared.data.views.v3_view_architecture_design.shared.JSON_ToFrom_ReqResp_Convert
 import io.circe.Error
 import io.circe.generic.auto._
 
@@ -30,7 +30,7 @@ object TestJSONConvert extends App{
 }
 
 
-
+// todo make whole chain in the model ...
 
 
 

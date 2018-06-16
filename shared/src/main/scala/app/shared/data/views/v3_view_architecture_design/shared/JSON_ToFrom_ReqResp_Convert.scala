@@ -1,5 +1,6 @@
-package app.shared.data.views.view_architecture_design_v3.shared
+package app.shared.data.views.v3_view_architecture_design.shared
 
+import app.shared.data.views.v3_view_architecture_design.shared.views.common.{View, ViewReqParams, ViewResponse}
 import io.circe.Encoder
 import io.circe.Encoder
 import io.circe.Encoder

@@ -1,7 +1,7 @@
-package app.shared.data.views.view_architecture_design_v3.shared.views
+package app.shared.data.views.v3_view_architecture_design.shared.views
 import app.shared.data.model.UserLineList
 import app.shared.data.ref.RefVal
-import app.shared.data.views.view_architecture_design_v3.shared.{View, ViewParams, ViewReqParams, ViewResponse}
+import app.shared.data.views.v3_view_architecture_design.shared.views.common.{View, ViewParams, ViewReqParams, ViewResponse}
 
 /**
   * Created by joco on 02/06/2018.
@@ -21,3 +21,4 @@ object UserLineListsView_HolderObject {
     type RequestParametersType = ReqParams_UserLineLists_View
   }
 }
+
