@@ -29,6 +29,8 @@ object ArchitectureModel {
     }
   }
 
+
+
   implicit object View1_ViewParams_Instance extends ViewParams[View1] {
     case class ReqView1(s:String)
     case class RespView1(s:String)
