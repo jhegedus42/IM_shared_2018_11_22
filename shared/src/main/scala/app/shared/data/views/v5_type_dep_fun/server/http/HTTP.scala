@@ -1,41 +1,47 @@
 package app.shared.data.views.v5_type_dep_fun.server.http
 
-import app.shared.data.views.v5_type_dep_fun.server.logic.ServerSideLogic.TestTypeClass
+import app.shared.data.views.v5_type_dep_fun.
+        server.logic.ServerSideLogic.ServerLogicTypeClass
+
 import app.shared.data.views.v5_type_dep_fun.shared.Shared.{View, View1}
-import app.shared.data.views.v5_type_dep_fun.shared.Shared.View1.{View1, View1_Res}
+import io.circe.{Encoder, Json}
+import io.circe.parser._
+import io.circe.syntax._
 
-
-/**
-  * Created by joco on 17/06/2018.
-  */
-
-
-//we want an endopoint builder -parameterized on View - that
-// creates a class that contains a function f, that :
-
-// 1) unwraps string to Par
-// 2) calls the logic with Par
-//    -- this logic will be provided as an implicit
-// 3) wraps the result in String
+import app.shared.data.views.
+        v4_path_dep_type_based_view_architecture.shared.CirceUtils._
+import io.circe.{Decoder, Error}
 
 
 
-object HTTP extends App{
+case class JSON(s: String )
 
-  object Endpoint
+object HTTP extends App {}
 
-  def g[V <: View](p: V#Par)(implicit t: TestTypeClass[V]): V#Res = {
-    val r  = t.f(p)
-    r
+object EndpointCreator extends App {
+
+  //we want an endopoint builder -parameterized on View - that
+  // creates a class that contains a function f, that :
+
+  def f[V <: View](
+      json: JSON
+    )(
+      implicit
+      decoder: Decoder[V#Par],
+      encoder: Encoder[V#Res],
+      serverLogic:       ServerLogicTypeClass[V]
+    ): String = {
+
+    val r:   Either[Error, V#Par] = decodeJSONToRes[V]( json.s )
+
+    val par: V#Par                = r.right.get
+
+    val res: V#Res = serverLogic.f(par )
+
+    encodeResToJSON[V](res)
   }
 
-  val r: View1_Res = g[View1](View1.View1_Par("234"))
-  println(r)
-
+  val par = View1.View1_Par("pina")
 
 
 }
-
-
-
-

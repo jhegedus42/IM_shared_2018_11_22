@@ -1,4 +1,11 @@
 package app.shared.data.views.v5_type_dep_fun.shared
+import io.circe.{Decoder, Error}
+import io.circe.generic.auto._
+import io.circe.{Decoder, Error}
+import io.circe.generic.auto._
+
+import io.circe._
+import io.circe.parser._
 
 object Shared {
 
@@ -18,7 +25,7 @@ object Shared {
 
     case class View1_Par(s: String ) extends Parameter
 
-    case class View1_Res(i: Int ) extends Result
+    case class View1_Res(res: String ) extends Result
 
     class View1 extends View {
       type Par    = View1_Par
