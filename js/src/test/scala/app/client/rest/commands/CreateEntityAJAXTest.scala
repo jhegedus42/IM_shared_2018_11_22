@@ -39,7 +39,7 @@ class CreateEntityAJAXTest extends AsyncFunSuite with Matchers with BeforeTester
 
     type ResLocal = GetAllEntitiesCommand.gAEsLineText.Result
 
-    val l = LineText( title = Some( "pina2" ) )
+    val l = LineText( title =  "macska" ,text="test" )
 
     def createLine: Future[CEC_Res[LineText]] = CreateEntityAJAX.createEntity(l)
 

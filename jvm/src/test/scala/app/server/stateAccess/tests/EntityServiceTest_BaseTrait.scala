@@ -38,7 +38,7 @@ trait EntityServiceTest_BaseTrait
 
   private[this] def newRefValLine(uuid: UUID): RefVal[LineText] = {
     val r = Ref.makeWithUUID[LineText](uuid = uuid)
-    val line: LineText = LineText()
+    val line: LineText = LineText(text="text",title="title")
     val refVal: RefVal[LineText] = RefVal(r, line, Version())
     return refVal
   }
@@ -90,7 +90,7 @@ trait EntityServiceTest_BaseTrait
 
       val mockES: InterfaceToStateAccessor =
         getEntityService(TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else)
-      val line: LineText = LineText()
+      val line: LineText = LineText( title =  "macska" ,text="test" )
 
       val r: Ref[LineText] = Ref[LineText](dataType = DataType("kamu"))
       val refVal_updateToThis
@@ -113,7 +113,7 @@ trait EntityServiceTest_BaseTrait
       val mock = getEntityService(State())
       val r = Ref.makeWithUUID[LineText](uuid = UUID(TestEntities.theUUIDofTheLine))
 
-      val line: LineText = LineText()
+      val line: LineText = LineText( title =  "macska" ,text="test" )
 
       val refVal: RefVal[LineText] = RefVal(r, line, Version())
 
@@ -141,7 +141,7 @@ trait EntityServiceTest_BaseTrait
         getEntityService(TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else)
       val r = Ref.makeWithUUID[LineText](uuid = UUID(TestEntities.dummyUUID2))
 
-      val line: LineText = LineText()
+      val line: LineText = LineText( title =  "macska" ,text="test" )
 
       val refVal: RefVal[LineText] = RefVal(r, line, Version())
 
@@ -165,7 +165,7 @@ trait EntityServiceTest_BaseTrait
         getEntityService(TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else)
       val r = Ref.makeWithUUID[LineText](uuid = UUID(TestEntities.theUUIDofTheLine))
 
-      val line: LineText = LineText()
+      val line: LineText = LineText( title =  "macska" ,text="test" )
 
       val refVal: RefVal[LineText] = RefVal(r, line, Version().inc())
 
@@ -190,7 +190,7 @@ trait EntityServiceTest_BaseTrait
         getEntityService(TestData.TestState_LabelTwo_OneLine_WithVersionOne_nothing_else)
       val r = Ref.makeWithUUID[LineText](uuid = UUID(TestEntities.theUUIDofTheLine))
 
-      val line: LineText = LineText()
+      val line: LineText = LineText( title =  "macska" ,text="test" )
 
       val refVal: RefVal[LineText] = RefVal(r, line, Version())
 
@@ -227,7 +227,7 @@ trait EntityServiceTest_BaseTrait
     import monocle.macros.syntax.lens._
 
     val updatedTitle_v0: RefVal[LineText] =
-      originalTitle_v0.lens(_.v.title).set(Some("hello"))
+      originalTitle_v0.lens(_.v.title).set("hello")
     //atirjuk a title-t hello-ra
     val updatedTitle_v1: RefVal[LineText] = updatedTitle_v0
                                             .lens(_.version)
@@ -269,7 +269,7 @@ trait EntityServiceTest_BaseTrait
 
       // csinalunk itt vmi line-t
 
-      val line = LineText(title = Some("macska"))
+      val line =LineText( title =  "macska" ,text="test" )
       // assert ilyen line nincsen
       val r1=Await.result(mock.doesEntityExist(line), 2 seconds)
       assert(!r1)

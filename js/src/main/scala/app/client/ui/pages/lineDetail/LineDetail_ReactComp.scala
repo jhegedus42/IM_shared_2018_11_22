@@ -71,7 +71,7 @@ object LineDetail_ReactComp {
         <.br,
         if (refValOpt.isDefined) {
           val rv: RefVal[LineText] = refValOpt.head.refVal
-          val nw = rv.lens( _.v.title ).set( Some( "pina42" ) )
+          val nw = rv.lens( _.v.title ).set(  "pina42"  )
           import io.circe.generic.auto._
           import io.circe.{Decoder, Encoder} // do not uncomment this -- needed for deriveDecoder
           implicit val e = implicitly[Encoder[LineText]]

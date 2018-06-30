@@ -6,7 +6,7 @@ import org.scalatest.FunSuite
 /**
   * Created by joco on 03/06/2018.
   */
-class HttpEndpointNameCreatorForViews$Test extends FunSuite {
+class HttpRouteHandlerNameCreatorForViews$Test extends FunSuite {
 
   test("testGetViewHttpEndpointName") {
 

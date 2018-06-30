@@ -1,13 +1,8 @@
-package app.shared.data.views.v4_path_dep_type_based_view_architecture.shared
+package app.shared.data.views.v5_type_dep_fun.shared
 
-import app.shared.data.views.v5_type_dep_fun.shared.Shared.View
-import io.circe.Decoder
-
-import io.circe.{Decoder, Error}
-import io.circe.generic.auto._
-
-import io.circe._
+import app.shared.data.views.v5_type_dep_fun.shared.views.View
 import io.circe.parser._
+import io.circe.{Decoder, Error, _}
 /**
   * Created by joco on 18/06/2018.
   */

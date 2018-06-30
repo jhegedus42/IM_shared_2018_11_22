@@ -1,0 +1,20 @@
+package app.shared.data.views.v5_type_dep_fun.shared.views
+
+abstract class View {
+  type Par <: Parameter
+  type Res <: Result
+}
+trait Result
+trait Parameter
+
+object View1 {
+
+  case class View1_Par(s: String ) extends Parameter
+
+  case class View1_Res(res: String ) extends Result
+
+  class View1 extends View {
+    type Par = View1_Par
+    type Res = View1_Res
+  }
+}

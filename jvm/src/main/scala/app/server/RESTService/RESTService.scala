@@ -4,12 +4,12 @@ import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
+import app.shared.data.model.LineWithQue
 //import app.server.RESTService.routes.views.UserLineListViewRoute
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.config.Config
 import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.model.{LineText, User, UserLineList}
-import app.shared.data.model.UserLineList.LineListElement
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.reflect.ClassTag
@@ -60,8 +60,8 @@ trait RESTService {
   def routeDef: Route =
     crudEntityRoute[LineText] ~
     crudEntityRoute[UserLineList] ~
-    crudEntityRoute[LineListElement] ~
-//    new UserLineListViewRoute().route ~
+    crudEntityRoute[LineWithQue] ~
+    //    new UserLineListViewRoute().route ~
     crudEntityRoute[User] ~
       StaticStuff.staticRootFactory( rootPageHtml )
 

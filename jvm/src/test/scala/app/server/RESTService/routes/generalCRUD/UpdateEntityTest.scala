@@ -44,8 +44,8 @@ trait UpdateEntityTest{
     import monocle.macros.syntax.lens._
 
     val v0pina: RefVal[LineText] = refValOfLineV0
-    val v0fasz: RefVal[LineText] = v0pina.lens( _.v.title ).set( Some( "fasz" ) )
-    val v1fasz: RefVal[LineText] = v1pina.lens( _.v.title ).set( Some( "fasz" ) )
+    val v0fasz: RefVal[LineText] = v0pina.lens( _.v.title ).set(  "fasz"  )
+    val v1fasz: RefVal[LineText] = v1pina.lens( _.v.title ).set(  "fasz"  )
 
     def fun(): Unit
 
@@ -153,9 +153,9 @@ trait UpdateEntityTest{
             import monocle.macros.syntax.lens._
 
             val v0fasz: RefVal[LineText] =
-              v0pina.lens( _.v.title ).set( Some( "fasz" ) )
+              v0pina.lens( _.v.title ).set(  "fasz"  )
             val v1fasz: RefVal[LineText] =
-              v1pina.lens( _.v.title ).set( Some( "fasz" ) )
+              v1pina.lens( _.v.title ).set(  "fasz"  )
 
             assert_RefVal_for_LineText_is_present( s, v0pina, true )
             assert_RefVal_for_LineText_is_present( s, v1pina, false )
@@ -226,8 +226,8 @@ trait UpdateEntityTest{
         import TestEntities.{refValOfLineV0 => v0pina, refValOfLineV1 => v1pina}
         import monocle.macros.syntax.lens._
 
-        val v0fasz: RefVal[LineText] = v0pina.lens( _.v.title ).set( Some( "fasz" ) )
-        val v1fasz: RefVal[LineText] = v1pina.lens( _.v.title ).set( Some( "fasz" ) )
+        val v0fasz: RefVal[LineText] = v0pina.lens( _.v.title ).set(  "fasz"  )
+        val v1fasz: RefVal[LineText] = v1pina.lens( _.v.title ).set(  "fasz" )
 
         assert_RefVal_for_LineText_is_present( s, v1pina, true )
         assert_RefVal_for_LineText_is_present( s, v0pina, false )

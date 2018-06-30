@@ -22,7 +22,7 @@ class CirceJSONTest extends FunSuite with Matchers {
 
   object RefValFix{
 
-    val l: LineText          = LineText()
+    val l: LineText          = LineText(title = "lt1",text="text")
     val rv: RefVal[LineText] = RefValTestUtil.makeWithNewUUID(l)
   }
   test("Decode Ref WithOut TypeCheck") {
@@ -37,7 +37,7 @@ class CirceJSONTest extends FunSuite with Matchers {
   }
 
   test("Decode RefVal WithOut TypeCheck") {
-    val l: LineText = LineText()
+    val l: LineText =LineText(title = "lt1",text="text")
     val rv: RefVal[LineText] = RefValTestUtil.makeWithNewUUID(l)
     val rv2: RefVal[LineText] = RefValTestUtil.makeWithNewUUID(l)
     val rs: String = rv.asJson.spaces4
@@ -50,7 +50,7 @@ class CirceJSONTest extends FunSuite with Matchers {
   }
 
   test("Decode incorrect RefVal With TypeCheck should be left") {
-    val l: LineText = LineText()
+    val l: LineText = LineText(title = "lt1",text="text")
     import monocle.macros.syntax.lens._
 
     val ltemp: RefVal[LineText] = RefValTestUtil.makeWithNewUUID(l)
@@ -66,7 +66,7 @@ class CirceJSONTest extends FunSuite with Matchers {
   }
 
   test("Decode correct RefVal With TypeCheck should be right") {
-    val l: LineText = LineText()
+    val l: LineText = LineText(title = "lt1",text="text")
 
     val rv2: RefVal[LineText] = RefValTestUtil.makeWithNewUUID(l)
     val rs: String = rv2.asJson.spaces4

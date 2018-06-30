@@ -26,7 +26,7 @@ class IMPersistentActorTest
   }
 
   "Actor" should {
-    val el = LineText(title = Some("bla"))
+    val el = LineText(title = "bla",text="testText")
 
     "create an entity and preserve it after restart" in {
       import app.server.persistence.persActor.Shutdown

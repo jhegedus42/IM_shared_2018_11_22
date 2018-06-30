@@ -45,7 +45,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
     val url:       String              = UpdateEntityCommCommand[LineText]().queryURL()
 //    val url: String = ???
     println( url )
-    val l = LineText()
+    val l = LineText( title =  "macska" ,text="test" )
     val rv: RefVal[LineText] = RefVal[LineText]( ref, l, Version( 0 ) )
     println( "client update entity test end" )
 
@@ -74,7 +74,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
     val url:       String              = UpdateEntityCommCommand[LineText]().queryURL()
 
     println( url )
-    val l = LineText()
+    val l = LineText( title =  "macska" ,text="test" )
     val rv: RefVal[LineText] = RefVal[LineText]( ref, l, Version( 0 ) )
     println( "client update entity test end" )
     //set title random  to random number
@@ -83,7 +83,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
     def r: Future[Assertion] =
       updateEntity( rv ).map( (x: Res) => {
         println( "before checking updateEntity' result, that it is the right RefVal" );
-        x.toEither.right.get shouldBe RefVal( ref, LineText(), Version( 1 ) ) // ez az assertion véd, be van élesítve
+        x.toEither.right.get shouldBe RefVal( ref, LineText( title =  "macska" ,text="test" ), Version( 1 ) ) // ez az assertion véd, be van élesítve
       } )
     r
   }
@@ -110,7 +110,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
             val url:       String              = UpdateEntityCommCommand[LineText]().queryURL()
 //    val url: String = ???
     println( url )
-    val l = LineText()
+    val l = LineText( title =  "macska" ,text="test" )
     val rv: RefVal[LineText] = RefVal[LineText]( ref, l, Version( 0 ) )
     println( "client update entity test end" )
 

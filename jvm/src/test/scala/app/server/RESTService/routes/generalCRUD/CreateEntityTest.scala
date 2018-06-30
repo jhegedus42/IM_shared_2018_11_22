@@ -64,7 +64,7 @@ trait CreateEntityTest {
         server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
 
       import scala.concurrent.duration._
-      val line = LineText( title = Some( "macska" ) )
+      val line = LineText( title =  "macska" ,text="test" )
 
       val mock: RESTService with InterfaceToStateAccessor = s.selfExp
       val r1:   Boolean                                   = Await.result( mock.doesEntityExist( line ), 2 seconds )
@@ -90,7 +90,7 @@ trait CreateEntityTest {
       assert_RefVal_for_LineText_is_present( s, rv, true )
       // letrehozott line tenyleg benne van
 
-      assert_RefVal_for_LineText_is_present( s, rv.lens( _.v.title ).set( Some( "fasz" ) ), false )
+      assert_RefVal_for_LineText_is_present( s, rv.lens( _.v.title ).set( "fasz"  ), false )
       // a fasz verzio nincs benne
 
       //c7b051774a1c4fb89cd3e2369d97a5a8 commit dd06131f46c45dcb286b8326eebefdb513f7c072 Tue Oct 24 00:13:58 EEST 2017
