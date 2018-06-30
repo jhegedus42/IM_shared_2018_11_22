@@ -11,6 +11,9 @@ class Cache{
   def getViewCacheState[V<:View](p:V#Par): ViewCacheState[V]= {
     val cs: Option[ViewCacheState[_]] = map.get(p)
     cs.asInstanceOf[ViewCacheState[V]]
+
+    // todo - continue here
+
   }
 
 }

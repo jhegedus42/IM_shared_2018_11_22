@@ -10,7 +10,7 @@ import io.circe.{Decoder, Encoder, Error}
 
 import scala.reflect.ClassTag
 
-case class JSON(s: String )
+case class JSON(string: String )
 
 case class HttpServer(){
   val view1_routeHandler: HttpRouteHandler[View1]=
@@ -36,16 +36,17 @@ case class HttpServer(){
 }
 
 case class HttpRouteHandler[V<:View:ClassTag](){
-  def getView[V <: View](
-                          param: JSON
-                  )(
-                    implicit
-                    decoder: Decoder[V#Par],
-                    encoder: Encoder[V#Res],
-                    serverLogic:ServerLogicTypeClass[V]
-                  ): JSON = {
+  def getView[V <: View]
+      (
+        paramJSON: JSON
+      )
+      ( implicit
+        decoder: Decoder[V#Par],
+        encoder: Encoder[V#Res],
+        serverLogic:ServerLogicTypeClass[V]
+      ): JSON = {
 
-    val r:   Either[Error, V#Par] = decodeJSONToRes[V](param.s)
+    val r:   Either[Error, V#Par] = decodeJSONToPar[V](paramJSON)
 
     val par: V#Par                = r.right.get
 
