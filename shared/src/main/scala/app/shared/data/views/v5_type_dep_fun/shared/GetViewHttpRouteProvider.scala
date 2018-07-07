@@ -5,13 +5,13 @@ import app.shared.data.views.v5_type_dep_fun.shared.views.View
 import scala.reflect.ClassTag
 
 
-case class HttpRouteName(name:String)
+case class GetViewHttpRouteName(name:String)
 
-object GetViewHttpRouteName{
-  def getViewHttpRouteName[V<:View:ClassTag]():
-    HttpRouteName={
+object GetViewHttpRouteProvider{
+  def getGetViewHttpRouteName[V<:View:ClassTag]():
+    GetViewHttpRouteName={
       val viewName=ViewName.getViewName[V]()
-    HttpRouteName("getView_" + viewName.shortName)
+    GetViewHttpRouteName("getView_" + viewName.shortName)
   }
 }
 

@@ -18,3 +18,15 @@ object View1 {
     type Res = View1_Res
   }
 }
+
+object View2 {
+
+  case class View2_Par(i: Int) extends Parameter
+
+  case class View2_Res(res: Int) extends Result
+
+  class View2 extends View {
+    type Par = View2_Par
+    type Res = View2_Res
+  }
+}
