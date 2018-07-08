@@ -5,4 +5,16 @@ package app.shared.data.views.v5_type_dep_fun.client
   */
 class ReactRenderEngine {
 
+  var reactComponent : ReactComponent = ???
+  def render() = ??? // TFH
+
+
+  def registerRenderingWillStartEventHandler(
+      RenderingWillStartEventHandler: PendingGetViewAjaxRequests#RenderingWillStartEventHandler
+    ) = ???
+
+  def registerRenderingHasFinishedEventHandler(
+      RenderingHasFinishedEventHandler: PendingGetViewAjaxRequests#RenderingHasFinishedEventHandler
+    ) = ???
+
 }

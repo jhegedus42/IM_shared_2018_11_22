@@ -7,7 +7,7 @@ abstract class View {
 trait Result
 trait Parameter
 
-object View1 {
+object View1_HolderObject {
 
   case class View1_Par(s: String ) extends Parameter
 
@@ -19,7 +19,7 @@ object View1 {
   }
 }
 
-object View2 {
+object View2_HolderObject {
 
   case class View2_Par(i: Int) extends Parameter
 

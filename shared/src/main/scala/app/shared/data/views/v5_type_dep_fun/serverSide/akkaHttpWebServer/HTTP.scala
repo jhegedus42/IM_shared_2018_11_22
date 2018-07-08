@@ -3,9 +3,9 @@ package app.shared.data.views.v5_type_dep_fun.serverSide.akkaHttpWebServer
 import app.shared.data.views.v5_type_dep_fun.serverSide.logic.ServerSideLogic.ServerLogicTypeClass
 import app.shared.data.views.v5_type_dep_fun.shared.CirceUtils._
 import app.shared.data.views.v5_type_dep_fun.shared.{GetViewHttpRouteName, GetViewHttpRouteProvider}
-import app.shared.data.views.v5_type_dep_fun.shared.views.View1.{View1, View1_Par}
-import app.shared.data.views.v5_type_dep_fun.shared.views.View2.View2
-import app.shared.data.views.v5_type_dep_fun.shared.views.{View, View1}
+import app.shared.data.views.v5_type_dep_fun.shared.views.View1_HolderObject.{View1, View1_Par}
+import app.shared.data.views.v5_type_dep_fun.shared.views.View2_HolderObject.View2
+import app.shared.data.views.v5_type_dep_fun.shared.views.{View, View1_HolderObject}
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder, Error}
 

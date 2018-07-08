@@ -1,8 +1,8 @@
 package app.shared.data.views.v5_type_dep_fun.serverSide.logic
 
 import app.shared.data.views.v5_type_dep_fun.shared.views.View
-import app.shared.data.views.v5_type_dep_fun.shared.views.View1.{View1, View1_Par, View1_Res}
-import app.shared.data.views.v5_type_dep_fun.shared.views.View2.{View2, View2_Par, View2_Res}
+import app.shared.data.views.v5_type_dep_fun.shared.views.View1_HolderObject.{View1, View1_Par, View1_Res}
+import app.shared.data.views.v5_type_dep_fun.shared.views.View2_HolderObject.{View2, View2_Par, View2_Res}
 
 
 object ServerSideLogic {
