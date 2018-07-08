@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: PendingGetViewAjaxRequests ) {
 
-  var map = Map[Parameter, ViewCacheState[_]]()
+  var map: Map[Parameter, ViewCacheState[_]] = Map[Parameter, ViewCacheState[_]]()
 
   def getViewCacheState[V <: View: ClassTag: Encoder](
       params: V#Par
@@ -22,6 +22,42 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
       e: Encoder[V#Par],
       d: Decoder[V#Res]
     ): ViewCacheState[V] = {
+
+    def registerHandlerOnGetViewAjaxRequestsFuture(ajaxRequest: GetViewAjaxRequest[V] ) = {
+      def handleOnComplete(tryOptRes: Try[Option[V#Res]] ): Unit = {
+        println( "An GetViewAjaxRequest has completed, it returned with:" + tryOptRes )
+
+        val res: Option[V#Res] = tryOptRes match {
+          case Failure( exception ) => None
+          case Success( value )     => value
+        }
+
+        if(res.nonEmpty)  {
+            val x: V#Res = res.get
+            val loaded = Loaded[V]( x )
+            val newMap: Map[Parameter, ViewCacheState[_]] = map.updated( params, loaded )
+            map=newMap
+            // this is OK in JS - it is single threaded
+            // also here we are using a single threaded execution context
+            println("we updated the map, the new map is:"+map)
+        }
+
+
+        pendingGetViewAjaxRequests.handleGetViewAjaxRequestCompleted( ajaxRequest ) // 4
+
+        println("elertunk a handleOnComplete vegere") // ez azert kell mert kulonben nem fut le
+      }
+
+      println( "just before registering the handleOnComplete on the future" )
+      ajaxRequest.ajaxResFuture.onComplete( {
+        (x: Try[Option[V#Res]]) =>
+          {
+            println( "ajaxGetViewReq.ajaxResFuture's completed" )
+            handleOnComplete( x )
+            println(" the handleOnComplete( _ ) has returned")
+          }
+      } ) // we register the handler
+    }
 
     val cacheStateOption: Option[ViewCacheState[_]] = map.get( params )
 
@@ -37,35 +73,8 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
 
         pendingGetViewAjaxRequests.addPendingAJAXRequest( ajaxGetViewReq )
 
-        def handleOnComplete(tryOptRes: Try[Option[V#Res]] ): Unit = {
-          println( "An GetViewAjaxRequest has completed, it returned with:" + tryOptRes )
+        registerHandlerOnGetViewAjaxRequestsFuture(ajaxGetViewReq)
 
-          val res: Option[V#Res] = tryOptRes match {
-            case Failure( exception ) => None
-            case Success( value )     => value
-          }
-
-          res match {
-            case Some( x ) => {
-              val loaded = Loaded[V]( x )
-              val newMap: Map[Parameter, ViewCacheState[_]] = map.updated( params, loaded )
-              map = newMap
-              // this is OK in JS - it is single threaded
-              // also here we are using a single threaded execution context
-            }
-            case None => Unit
-          }
-
-          pendingGetViewAjaxRequests.handleGetViewAjaxRequestCompleted( ajaxGetViewReq ) // 4
-
-          println("just before registering the handleOnComplete on the future")
-          ajaxGetViewReq.ajaxResFuture.onComplete( {
-            (x: Try[Option[V#Res]]) => {
-              println("ajaxGetViewReq.ajaxResFuture's completed")
-              handleOnComplete(_)
-            }
-          } ) // 5
-        }
         loadingViewCacheState
       }
 
