@@ -25,7 +25,7 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
 
     def registerHandlerOnGetViewAjaxRequestsFuture(ajaxRequest: GetViewAjaxRequest[V] ) = {
       def handleOnComplete(tryOptRes: Try[Option[V#Res]] ): Unit = {
-        println( "An GetViewAjaxRequest has completed, it returned with:" + tryOptRes )
+//        println( "An GetViewAjaxRequest has completed, it returned with:" + tryOptRes )
 
         val res: Option[V#Res] = tryOptRes match {
           case Failure( exception ) => None
@@ -39,22 +39,22 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
             map=newMap
             // this is OK in JS - it is single threaded
             // also here we are using a single threaded execution context
-            println("we updated the map, the new map is:"+map)
+//            println("we updated the map, the new map is:"+map)
         }
 
 
         pendingGetViewAjaxRequests.handleGetViewAjaxRequestCompleted( ajaxRequest ) // 4
 
-        println("elertunk a handleOnComplete vegere") // ez azert kell mert kulonben nem fut le
+//        println("elertunk a handleOnComplete vegere, es ezt kaptuk: "+tryOptRes) // ez azert kell mert kulonben nem fut le
       }
 
-      println( "just before registering the handleOnComplete on the future" )
+//      println( "just before registering the handleOnComplete on the future" )
       ajaxRequest.ajaxResFuture.onComplete( {
         (x: Try[Option[V#Res]]) =>
           {
-            println( "ajaxGetViewReq.ajaxResFuture's completed" )
+//            println( "ajaxGetViewReq.ajaxResFuture's completed" )
             handleOnComplete( x )
-            println(" the handleOnComplete( _ ) has returned")
+//            println(" the handleOnComplete( _ ) has returned")
           }
       } ) // we register the handler
     }
@@ -84,8 +84,9 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
 
         val res: ViewCacheState[V] = vcs.asInstanceOf[ViewCacheState[V]]
 
-        val castedRes = res.asInstanceOf[V#Res]
-        Loaded( castedRes )
+//        val castedRes = res.asInstanceOf[V#Res]
+//        Loaded( castedRes )
+        res
       }
 
     }

@@ -14,9 +14,17 @@ case class PendingGetViewAjaxRequests(renderEngine:ReactRenderEngine) {
   var isRenderingOnGoing : Boolean = false
 
   def handleGetViewAjaxRequestCompleted[V<:View:ClassTag](ajaxGetViewReq: GetViewAjaxRequest[V]) = {
-     pendingRequests=pendingRequests-ajaxGetViewReq // update mutable variable
+
+//    println("pendingRequests filtereles előtt :"+pendingRequests)
+//    pendingRequests=pendingRequests-ajaxGetViewReq // update mutable variable
+    val filtered=pendingRequests.filter(x=> !x.uUID.id.equals(ajaxGetViewReq.uUID.id)) // ide kell vmi uuid
+    pendingRequests=filtered
+//    println("pendingRequests filtereles után :"+pendingRequests)
+
+
     if(!isRenderingOnGoing && pendingRequests.isEmpty){
-      println("PendingGetViewAjaxRequests calls renderEngine.render() in handleGetViewAjaxRequestCompleted()")
+//      println("PendingGetViewAjaxRequests calls renderEngine.render() in handleGetViewAjaxRequestCompleted()")
+//      println("pendingRequests calls render()")
       renderEngine.render()
     }
     if(isRenderingOnGoing && pendingRequests.isEmpty){

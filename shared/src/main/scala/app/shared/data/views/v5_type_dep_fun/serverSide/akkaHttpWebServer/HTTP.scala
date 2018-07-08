@@ -31,13 +31,13 @@ case class HttpServerOnTheInternet(){
   def serveRequest(getViewHttpRouteName:GetViewHttpRouteName,
                    requestPayload      :JSONContainingGetViewPar):Option[JSONContainingOptRes]={
     // case based on endpointName
-    println("HttpServerOnTheInternet.serveRequest is called with endpoint name: " +
-           getViewHttpRouteName)
+//    println("HttpServerOnTheInternet.serveRequest is called with endpoint name: " +
+//           getViewHttpRouteName)
 
     val res: Option[JSONContainingOptRes] = getViewHttpRouteName.name match
     {
       case view1_routeName.name => {
-        println("route for view1 is called")
+//        println("route for view1 is called")
         Some(view1_getViewRequestHandler.
              decodeJSON2Par_SendParToLogic_EncodeResultToJSON[View1](requestPayload))
       }
@@ -48,7 +48,7 @@ case class HttpServerOnTheInternet(){
 
       case _ => None
     }
-    println("the server returns: "+res)
+//    println("the server returns: "+res)
     res
   }
 
@@ -67,8 +67,8 @@ case class GetViewRequestHandler[V<:View:ClassTag](){
         serverLogic:ServerLogicTypeClass[V]
       ): JSONContainingOptRes = {
 
-    println("GetViewRequestHandler's decodeJSON2Par_SendParToLogic_EncodeResultToJSON is called " +
-            "for the " + getGetViewHttpRouteName() + " route, with parameter: "+paramJSON)
+//    println("GetViewRequestHandler's decodeJSON2Par_SendParToLogic_EncodeResultToJSON is called " +
+//            "for the " + getGetViewHttpRouteName() + " route, with parameter: "+paramJSON)
 
     val r:   Either[Error, V#Par] = decodeJSONToPar[V](paramJSON)
 
@@ -79,7 +79,7 @@ case class GetViewRequestHandler[V<:View:ClassTag](){
        res<-serverLogic.getView(par )
     } yield res
 
-    println("it's results is (before encoding it):"+resOpt)
+//    println("it's results is (before encoding it):"+resOpt)
 
     (encodeOptResToJSONContainingOptRes[V](resOpt))
 
