@@ -19,7 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object JSAjaxAPI {
 
-  var howManySecondsToWait =3.0
+  var howManySecondsToWait = 3.0
 
   lazy val server = HttpServerOnTheInternet()
 
@@ -29,9 +29,12 @@ object JSAjaxAPI {
     ): Future[Option[JSONContainingOptRes]] = {
     Future {
       val waitingTimeInMiliSec = howManySecondsToWait * 1000 // + something random ? or some state ?
-      wait( waitingTimeInMiliSec.toLong )
-             howManySecondsToWait= howManySecondsToWait + 3.0
+      println( "before waiting" )
+//      Thread.sleep( waitingTimeInMiliSec.toLong )
+      howManySecondsToWait = howManySecondsToWait + 3.0
+      println( "after waiting" )
       val res: Option[JSONContainingOptRes] = server.serveRequest( routeName, json )
+      println( "JSAjaxAPI.postRequest result is " + res )
       res
     }
   }
@@ -58,14 +61,26 @@ case class AjaxInterface(server: HttpServerOnTheInternet ) {
 
     val futureOptionVResReturnValue: Future[Option[V#Res]] = for { // for the Future
       arrivedOptionJSONContainingRes <- resFuture
+      _ <- Future( println( "resFuture has arrived, it contains: " + arrivedOptionJSONContainingRes ) )
       // what happens to a Future if you flatmap it and before that the future completes...
       // will the onComplete method of the flatmapp-ed future still be called ?
 
       arrivedOptionVRes: Option[V#Res] = arrivedOptionJSONContainingRes.flatMap(
-        (r: JSONContainingOptRes) => CirceUtils.decodeJSONContainingOptResToOptRes[V]( r ).right.toOption
-                                                                               )
+        {
+          (r: JSONContainingOptRes) =>
+            {
+              val decoded: Option[V#Res] =
+              CirceUtils.decodeJSONContainingOptResToOptRes[V]( r ).right.toOption
+              println("we decoded the JSON that arrived from the internet, the decoded object is: "+decoded)
+              decoded
+            }
+        }
+      )
     } yield (arrivedOptionVRes)
-    GetViewAjaxRequest(param, futureOptionVResReturnValue)
+
+    println( "getAJAXGetViewRequest's" + futureOptionVResReturnValue )
+
+    GetViewAjaxRequest( param, futureOptionVResReturnValue )
   }
 
 }

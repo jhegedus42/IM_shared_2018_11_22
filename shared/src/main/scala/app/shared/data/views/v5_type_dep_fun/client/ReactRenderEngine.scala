@@ -8,24 +8,27 @@ case class ReactRenderEngine() {
   type HasFinished=PendingGetViewAjaxRequests#RenderingHasFinishedEventHandler
   type WillStart=PendingGetViewAjaxRequests#RenderingWillStartEventHandler
 
-  var reactComponent : ReactComponent = ???
+  var reactComponentOpt : Option[ReactComponent] = None
   var renderingHasFinishedEventHandler:Option[HasFinished] = None
 
   var renderingWillStartEventHandler:Option[WillStart]=None
 
   def render() = {
 
-    renderingWillStartEventHandler.map(v=>v.handleEvent())
+    renderingWillStartEventHandler.map(v => v.handleEvent())
 
-    println(
-             "this is the rendered string by ReactRenderEngine's render() method =\n\n"+
-            reactComponent.getWhatToRender().string +"\n\n"
-           )
-    //
+    def renderString(s: String):Unit = {
+      println(
+               "this is the rendered string by ReactRenderEngine's render() method =\n\n" + s +"\n\n"
+             )
+    }
+    reactComponentOpt.map(
+                           (rc: ReactComponent) => renderString(rc.getWhatToRender().string)
+                         )
     renderingHasFinishedEventHandler.map(v=>v.handleEvent())
   }
 
-  def setReactComponent(rc: ReactComponent)= this.reactComponent=rc
+  def setReactComponent(rc: ReactComponent)= this.reactComponentOpt=Some(rc)
 
 
   def registerRenderingWillStartEventHandler(

@@ -12,7 +12,10 @@ import app.shared.data.views.v5_type_dep_fun.shared.views.View
 
 object Tester extends App {
 
-  def testGetView[V <: View]() = {
+  println("start")
+  testRender()
+
+  def testRender() = {
 
     val server:          HttpServerOnTheInternet = HttpServerOnTheInternet()
     val ajaxInterface:   AjaxInterface           = AjaxInterface( server )
@@ -23,6 +26,9 @@ object Tester extends App {
     val reactComponent = ReactComponent( cache )
     renderingEngine.setReactComponent( reactComponent )
     renderingEngine.render()
+    println("the main thread will sleep now for 20 sec")
+    Thread.sleep(20*1000)
+    println("the main woke up - end of story")
 
   }
 

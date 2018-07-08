@@ -21,6 +21,7 @@ case class ReactComponent(cache: Cache) {
 
 
   def getWhatToRender():WhatToRender = {
+    println(s"ReactComponent' getWhatToRender is called")
     val view1Params: View1_Par = View1_HolderObject.View1_Par("hello")
     val view1CacheState: ViewCacheState[View1] =
       cache.getViewCacheState[View1_HolderObject.View1](view1Params)
