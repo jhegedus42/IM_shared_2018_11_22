@@ -20,7 +20,7 @@ case class ReactComponent(cache: Cache) {
 
 
 
-  def getWhatToRender() = {
+  def getWhatToRender():WhatToRender = {
     val view1Params: View1_Par = View1_HolderObject.View1_Par("hello")
     val view1CacheState: ViewCacheState[View1] =
       cache.getViewCacheState[View1_HolderObject.View1](view1Params)
@@ -35,6 +35,8 @@ case class ReactComponent(cache: Cache) {
       val s1_ = "View1's cacheState:\n"+s1
       val s2_ = "View2's cacheState:\n"+s2
       val res= s1_ +"\n"+s2_ +"\n"
+      res
     }
+    WhatToRender(string)
   }
 }
