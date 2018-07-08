@@ -15,7 +15,7 @@ case class JSON(string: String )
 
 case class JSONContainingGetViewPar(string: String )
 
-case class HttpServer(){
+case class HttpServerOnTheInternet(){
   val view1_getViewRequestHandler: GetViewRequestHandler[View1] =
     new GetViewRequestHandler[View1]()
 

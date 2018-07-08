@@ -10,7 +10,7 @@ object ViewCacheStates{
 
   sealed trait ViewCacheState[V<:View]
 
-  case class Loading[V<:View](par:V#Par ) extends ViewCacheState[V]
+  case class LoadingCacheState[V<:View](par:V#Par ) extends ViewCacheState[V]
 
   case class FailedToLoad[V<:View](par: V#Par ) extends ViewCacheState[V]
 

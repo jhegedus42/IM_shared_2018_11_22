@@ -1,7 +1,7 @@
 package app.shared.data.views.v5_type_dep_fun.client
 
 import app.shared.data.views.v5_type_dep_fun.serverSide.akkaHttpWebServer.{
-  HttpServer,
+  HttpServerOnTheInternet,
   JSONContainingGetViewPar
 }
 import app.shared.data.views.v5_type_dep_fun.shared.CirceUtils.JSONContainingOptRes
@@ -19,19 +19,24 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object JSAjaxAPI {
 
+  lazy val server = HttpServerOnTheInternet()
+
   def postRequest(
       json:      JSONContainingGetViewPar,
       routeName: GetViewHttpRouteName
     ): Future[Option[JSONContainingOptRes]] = {
-    val waitingTimeInMiliSec = 5 * 1000 // + something random ? or some state ?
-    wait( waitingTimeInMiliSec.toLong )
-    ???
+    Future {
+      val waitingTimeInMiliSec = 5 * 1000 // + something random ? or some state ?
+      wait( waitingTimeInMiliSec.toLong )
+      val res: Option[JSONContainingOptRes] = server.serveRequest( routeName, json )
+      res
+    }
   }
 }
 
-case class AJAXGetViewRequest[V <: View](par: V#Par, ajaxResFuture: Future[Option[V#Res]]  )
+case class GetViewAjaxRequest[V <: View](par: V#Par, ajaxResFuture: Future[Option[V#Res]] )
 
-case class AjaxInterface(server: HttpServer ) {
+case class AjaxInterface(server: HttpServerOnTheInternet ) {
 
   def getAJAXGetViewRequest[V <: View: ClassTag: Encoder](
       param: V#Par
@@ -39,7 +44,7 @@ case class AjaxInterface(server: HttpServer ) {
       implicit
       e: Encoder[V#Par],
       d: Decoder[V#Res]
-    ): AJAXGetViewRequest[V] = {
+    ): GetViewAjaxRequest[V] = {
     val routeName: GetViewHttpRouteName = GetViewHttpRouteProvider.getGetViewHttpRouteName[V]()
 
     val json_request_payload: JSONContainingGetViewPar =
@@ -53,11 +58,11 @@ case class AjaxInterface(server: HttpServer ) {
       // what happens to a Future if you flatmap it and before that the future completes...
       // will the onComplete method of the flatmapp-ed future still be called ?
 
-      arrivedOptionVRes = arrivedOptionJSONContainingRes.flatMap(
+      arrivedOptionVRes: Option[V#Res] = arrivedOptionJSONContainingRes.flatMap(
         (r: JSONContainingOptRes) => CirceUtils.decodeJSONContainingOptResToOptRes[V]( r ).right.toOption
-      )
+                                                                               )
     } yield (arrivedOptionVRes)
-    AJAXGetViewRequest(param,futureOptionVResReturnValue)
+    GetViewAjaxRequest(param, futureOptionVResReturnValue)
   }
 
 }
