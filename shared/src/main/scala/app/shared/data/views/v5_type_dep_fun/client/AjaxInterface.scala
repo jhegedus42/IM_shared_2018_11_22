@@ -19,6 +19,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object JSAjaxAPI {
 
+  var howManySecondsToWait =3.0
+
   lazy val server = HttpServerOnTheInternet()
 
   def postRequest(
@@ -26,8 +28,9 @@ object JSAjaxAPI {
       routeName: GetViewHttpRouteName
     ): Future[Option[JSONContainingOptRes]] = {
     Future {
-      val waitingTimeInMiliSec = 5 * 1000 // + something random ? or some state ?
+      val waitingTimeInMiliSec = howManySecondsToWait * 1000 // + something random ? or some state ?
       wait( waitingTimeInMiliSec.toLong )
+             howManySecondsToWait= howManySecondsToWait + 3.0
       val res: Option[JSONContainingOptRes] = server.serveRequest( routeName, json )
       res
     }
