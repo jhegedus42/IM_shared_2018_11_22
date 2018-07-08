@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object JSAjaxAPI {
 
-  var howManySecondsToWait = 5.0
+  var howManySecondsToWait = 0.0
 
   lazy val server = HttpServerOnTheInternet()
 

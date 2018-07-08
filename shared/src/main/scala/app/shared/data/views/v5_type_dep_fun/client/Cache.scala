@@ -39,7 +39,7 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
             map=newMap
             // this is OK in JS - it is single threaded
             // also here we are using a single threaded execution context
-//            println("we updated the map, the new map is:"+map)
+            println("we updated the map, the new map is:"+map)
         }
 
 
