@@ -7,7 +7,7 @@ import scala.reflect.ClassTag
 /**
   * Created by joco on 08/07/2018.
   */
-class PendingGetViewAjaxRequests(renderEngine:ReactRenderEngine) {
+case class PendingGetViewAjaxRequests(renderEngine:ReactRenderEngine) {
 
   var pendingRequests : Set[GetViewAjaxRequest[_<:View]] = Set()
 
