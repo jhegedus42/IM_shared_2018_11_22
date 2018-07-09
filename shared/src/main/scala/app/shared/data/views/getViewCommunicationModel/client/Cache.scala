@@ -1,7 +1,7 @@
-package app.shared.data.views.v5_type_dep_fun.client
+package app.shared.data.views.getViewCommunicationModel.client
 
 import ViewCacheStates.{Loaded, LoadingCacheState, ViewCacheState}
-import app.shared.data.views.v5_type_dep_fun.shared.views.{Parameter, Result, View}
+import app.shared.data.views.getViewCommunicationModel.shared.views.{Parameter, Result, View}
 import io.circe.{Decoder, Encoder}
 
 import scala.concurrent.Future

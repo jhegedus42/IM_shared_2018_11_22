@@ -1,14 +1,14 @@
-package app.shared.data.views.v5_type_dep_fun
+package app.shared.data.views.getViewCommunicationModel
 
-import app.shared.data.views.v5_type_dep_fun.client.{
+import app.shared.data.views.getViewCommunicationModel.client.{
   AjaxInterface,
   Cache,
   PendingGetViewAjaxRequests,
   ReactComponent,
   ReactRenderEngine
 }
-import app.shared.data.views.v5_type_dep_fun.serverSide.akkaHttpWebServer.HttpServerOnTheInternet
-import app.shared.data.views.v5_type_dep_fun.shared.views.View
+import app.shared.data.views.getViewCommunicationModel.serverSide.akkaHttpWebServer.HttpServerOnTheInternet
+import app.shared.data.views.getViewCommunicationModel.shared.views.View
 
 object Tester extends App {
 

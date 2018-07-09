@@ -1,4 +1,4 @@
-package app.shared.data.views.v5_type_dep_fun
+package app.shared.data.views.getViewCommunicationModel
 
 import java.util.concurrent.Executors
 

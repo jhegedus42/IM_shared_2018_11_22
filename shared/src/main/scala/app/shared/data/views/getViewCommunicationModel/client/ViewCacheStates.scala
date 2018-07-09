@@ -1,6 +1,6 @@
-package app.shared.data.views.v5_type_dep_fun.client
+package app.shared.data.views.getViewCommunicationModel.client
 
-import app.shared.data.views.v5_type_dep_fun.shared.views.View
+import app.shared.data.views.getViewCommunicationModel.shared.views.View
 
 
 /**

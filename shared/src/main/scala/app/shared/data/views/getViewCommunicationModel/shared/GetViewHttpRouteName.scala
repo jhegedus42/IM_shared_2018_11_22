@@ -1,6 +1,6 @@
-package app.shared.data.views.v5_type_dep_fun.shared
+package app.shared.data.views.getViewCommunicationModel.shared
 
-import app.shared.data.views.v5_type_dep_fun.shared.views.View
+import app.shared.data.views.getViewCommunicationModel.shared.views.View
 
 import scala.reflect.ClassTag
 

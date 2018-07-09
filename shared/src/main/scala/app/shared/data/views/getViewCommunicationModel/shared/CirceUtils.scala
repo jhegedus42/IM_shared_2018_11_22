@@ -1,7 +1,7 @@
-package app.shared.data.views.v5_type_dep_fun.shared
+package app.shared.data.views.getViewCommunicationModel.shared
 
-import app.shared.data.views.v5_type_dep_fun.serverSide.akkaHttpWebServer.JSONContainingGetViewPar
-import app.shared.data.views.v5_type_dep_fun.shared.views.View
+import app.shared.data.views.getViewCommunicationModel.serverSide.akkaHttpWebServer.JSONContainingGetViewPar
+import app.shared.data.views.getViewCommunicationModel.shared.views.View
 import io.circe.parser._
 import io.circe.{Decoder, Error, _}
 

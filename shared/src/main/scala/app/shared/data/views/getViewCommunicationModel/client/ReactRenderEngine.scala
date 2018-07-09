@@ -1,4 +1,4 @@
-package app.shared.data.views.v5_type_dep_fun.client
+package app.shared.data.views.getViewCommunicationModel.client
 
 /**
   * Created by joco on 08/07/2018.

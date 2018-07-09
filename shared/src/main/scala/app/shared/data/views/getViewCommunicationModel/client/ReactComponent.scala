@@ -1,9 +1,9 @@
-package app.shared.data.views.v5_type_dep_fun.client
+package app.shared.data.views.getViewCommunicationModel.client
 
-import app.shared.data.views.v5_type_dep_fun.client.ViewCacheStates.ViewCacheState
-import app.shared.data.views.v5_type_dep_fun.shared.views.{View1_HolderObject, View2_HolderObject}
-import app.shared.data.views.v5_type_dep_fun.shared.views.View1_HolderObject.{View1, View1_Par}
-import app.shared.data.views.v5_type_dep_fun.shared.views.View2_HolderObject.{View2, View2_Par}
+import app.shared.data.views.getViewCommunicationModel.client.ViewCacheStates.ViewCacheState
+import app.shared.data.views.getViewCommunicationModel.shared.views.{View1_HolderObject, View2_HolderObject}
+import app.shared.data.views.getViewCommunicationModel.shared.views.View1_HolderObject.{View1, View1_Par}
+import app.shared.data.views.getViewCommunicationModel.shared.views.View2_HolderObject.{View2, View2_Par}
 import io.circe._
 import io.circe.generic.auto._
 import io.circe.parser._

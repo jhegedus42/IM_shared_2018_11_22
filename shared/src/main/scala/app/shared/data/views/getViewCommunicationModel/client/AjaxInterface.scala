@@ -1,11 +1,11 @@
-package app.shared.data.views.v5_type_dep_fun.client
+package app.shared.data.views.getViewCommunicationModel.client
 
 
 import app.shared.data.ref.uuid.UUID
-import app.shared.data.views.v5_type_dep_fun.serverSide.akkaHttpWebServer.{HttpServerOnTheInternet, JSONContainingGetViewPar}
-import app.shared.data.views.v5_type_dep_fun.shared.CirceUtils.JSONContainingOptRes
-import app.shared.data.views.v5_type_dep_fun.shared.{CirceUtils, GetViewHttpRouteName, GetViewHttpRouteProvider}
-import app.shared.data.views.v5_type_dep_fun.shared.views.View
+import app.shared.data.views.getViewCommunicationModel.serverSide.akkaHttpWebServer.{HttpServerOnTheInternet, JSONContainingGetViewPar}
+import app.shared.data.views.getViewCommunicationModel.shared.CirceUtils.JSONContainingOptRes
+import app.shared.data.views.getViewCommunicationModel.shared.{CirceUtils, GetViewHttpRouteName, GetViewHttpRouteProvider}
+import app.shared.data.views.getViewCommunicationModel.shared.views.View
 import io.circe.{Decoder, Encoder}
 
 import scala.concurrent.Future

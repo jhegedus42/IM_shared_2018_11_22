@@ -1,4 +1,4 @@
-package app.shared.data.views.v5_type_dep_fun.shared.views
+package app.shared.data.views.getViewCommunicationModel.shared.views
 
 abstract class View {
   type Par <: Parameter
