@@ -2,7 +2,7 @@ package app.server.RESTService.routes.entityCRUD
 
 import akka.http.scaladsl.server.Route
 import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
+import app.shared.rest.routes.crudCommands.CreateEntityCommCommand
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.auto._
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._

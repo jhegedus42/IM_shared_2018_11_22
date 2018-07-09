@@ -2,8 +2,8 @@ package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.Data
 import app.shared.data.model.DataType
-import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
-import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand.CEC_Res
+import app.shared.rest.routes.crudCommands.CreateEntityCommCommand
+import app.shared.rest.routes.crudCommands.CreateEntityCommCommand.CEC_Res
 import io.circe.generic.auto._
 import io.circe.parser.decode
 import io.circe.syntax._

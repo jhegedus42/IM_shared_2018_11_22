@@ -1,4 +1,4 @@
-package app.shared.rest.routes_take3
+package app.shared.rest.routes
 
 //import akka.http.scaladsl.marshalling.ToResponseMarshallable
 import app.shared.data.model.Entity.Data

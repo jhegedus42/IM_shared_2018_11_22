@@ -5,8 +5,8 @@ import app.client.rest.commands.generalCRUD.{CreateEntityAJAX, GetAllEntitiesAJA
 import app.shared.SomeError_Trait
 import app.shared.data.model.LineText
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand.CEC_Res
-import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
+import app.shared.rest.routes.crudCommands.CreateEntityCommCommand.CEC_Res
+import app.shared.rest.routes.crudCommands.GetAllEntitiesCommand
 import app.testHelpersShared.data.TestDataLabels
 import io.circe.generic.auto._
 import org.scalajs.dom.XMLHttpRequest

@@ -9,7 +9,7 @@ import app.server.State
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.ref.RefVal
 import app.shared.data.model.{DataType, LineText}
-import app.shared.rest.routes_take3.crudCommands.CreateEntityCommCommand
+import app.shared.rest.routes.crudCommands.CreateEntityCommCommand
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestEntities
 

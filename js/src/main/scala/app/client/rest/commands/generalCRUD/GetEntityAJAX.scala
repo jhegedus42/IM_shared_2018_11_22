@@ -3,7 +3,7 @@ package app.client.rest.commands.generalCRUD
 import app.shared.data.model.Entity.Data
 import app.shared.data.model.{DataType, LineText, User}
 import app.shared.data.ref.{Ref, RefDyn, RefValDyn}
-import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
+import app.shared.rest.routes.crudCommands.GetEntityCommand
 import app.shared.{SomeError_Trait, TypeError}
 import io.circe.Decoder
 import io.circe.generic.auto._

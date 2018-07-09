@@ -1,9 +1,9 @@
-package app.shared.rest.routes_take3.crudCommands
+package app.shared.rest.routes.crudCommands
 
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes_take3.Command
+import app.shared.rest.routes.Command
 
 import scala.reflect.ClassTag
 import scalaz.\/

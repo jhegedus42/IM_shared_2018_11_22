@@ -1,7 +1,7 @@
 package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.Data
-import app.shared.rest.routes_take3.crudCommands.GetAllEntitiesCommand
+import app.shared.rest.routes.crudCommands.GetAllEntitiesCommand
 import io.circe.Decoder
 import io.circe.generic.auto._
 import io.circe.parser.decode

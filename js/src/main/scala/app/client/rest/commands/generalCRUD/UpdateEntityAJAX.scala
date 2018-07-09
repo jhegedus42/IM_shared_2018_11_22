@@ -5,8 +5,8 @@ package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand
-import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand.UEC_Res
+import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand
+import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand.UEC_Res
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._

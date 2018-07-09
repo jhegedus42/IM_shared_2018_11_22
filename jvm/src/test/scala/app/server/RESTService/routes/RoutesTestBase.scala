@@ -9,7 +9,7 @@ import app.server.State
 import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
 import app.shared.data.model.{DataType, LineText}
-import app.shared.rest.routes_take3.crudCommands.{GetAllEntitiesCommand, GetEntityCommand}
+import app.shared.rest.routes.crudCommands.{GetAllEntitiesCommand, GetEntityCommand}
 import app.testHelpersServer.state.TestData
 import io.circe.Decoder
 import org.scalatest.{Assertion, Matchers, WordSpec}

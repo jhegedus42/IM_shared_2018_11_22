@@ -7,7 +7,7 @@ import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
-import app.shared.rest.routes_take3.crudCommands.GetEntityCommand
+import app.shared.rest.routes.crudCommands.GetEntityCommand
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder}

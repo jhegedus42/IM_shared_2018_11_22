@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Route
 import app.server.RESTService.routes.entityCRUD.common.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.Entity.Entity
-import app.shared.rest.routes_take3.crudCommands.UpdateEntityCommCommand
+import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder}
