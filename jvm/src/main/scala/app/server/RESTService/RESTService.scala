@@ -55,6 +55,7 @@ trait RESTService {
 
 
   def routeDef: Route =
+    // ide kellene vmi ami egy route-ot csinal meg
     crudEntityRoute[LineText] ~
     crudEntityRoute[UserLineList] ~
     crudEntityRoute[LineWithQue] ~

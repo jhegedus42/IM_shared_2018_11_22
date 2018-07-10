@@ -49,23 +49,18 @@ class GetRoute[E <: Entity](
   import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
   override def route: Route = {
 
-    // no / at beginning -- but on the test side there is / in the URL
 
     import akka.http.scaladsl.server.directives.RouteDirectives.complete
 
     import akka.http.scaladsl.server.Directives._
 
     get {
-      println( "pina" )
       path( "test" ) {
-        println( "pina - test" )
         complete( "fasz" )
       }
     } ~
       cors() {
-        println( "Get route" )
         get {
-          println( "Get route inner" )
           path( command.getServerPath ) {
             parameters( 'id ) {
               id: String =>
