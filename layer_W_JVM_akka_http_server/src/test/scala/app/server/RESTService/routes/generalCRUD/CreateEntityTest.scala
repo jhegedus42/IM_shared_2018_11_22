@@ -28,6 +28,7 @@ trait CreateEntityTest {
   type ResCET = CreateEntityCommCommand[LineText]#Result
   val cec= CreateEntityCommCommand[LineText]
 
+
   def createLine(
       s:            RESTService,
       lineToBeSent: LineText,
