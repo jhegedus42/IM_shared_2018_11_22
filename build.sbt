@@ -4,21 +4,21 @@ import sbt.Keys._
 import sbt.Project.projectToRef
 
 // a special crossProject for configuring a JS/JVM/shared structure
-lazy val shared = (crossProject.crossType( CrossType.Pure ) in file( "shared" ))
-  .settings(
+lazy val layer_Z_JVM_and_JS_shared = (crossProject.crossType(CrossType.Pure) in file("layer_Z_JVM_and_JS_shared"))
+                    .settings(
     addCompilerPlugin( "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full ),
     scalaVersion := Settings.versions.scala,
     libraryDependencies ++= Settings.sharedDependencies.value
   )
 
-lazy val sharedJVM = shared.jvm.settings( name := "sharedJVM" )
+lazy val layer_Z_JVM_shared = layer_Z_JVM_and_JS_shared.jvm.settings(name := "layer_Z_JVM_shared")
 
-lazy val sharedJS = shared.js.settings( name := "sharedJS" )
+lazy val layer_Z_JS_shared = layer_Z_JVM_and_JS_shared.js.settings(name := "layer_Z_JS_shared")
 
 // instantiate the JS project for SBT with some additional settings
-lazy val js: Project = (project in file( "js" ))
+lazy val layer_Y_JS_client: Project = (project in file( "layer_Y_JS_client" ))
   .settings(
-    name := "js",
+    name := "layer_Y_JS_client",
     version := Settings.version,
     jsDependencies += RuntimeDOM % "test",
     scalaVersion := Settings.versions.scala,
@@ -34,15 +34,32 @@ lazy val js: Project = (project in file( "js" ))
     scalaJSOptimizerOptions ~= { _.withDisableOptimizer( true ) }
   )
   .enablePlugins( ScalaJSPlugin )
-  .dependsOn( sharedJS % "compile->compile;test->test" )
+  .dependsOn(layer_Z_JS_shared % "compile->compile;test->test")
 
 // Client projects (just one in this case)
-lazy val clients = Seq( js )
+lazy val clients = Seq( layer_Y_JS_client )
+
+lazy val layer_Y_JVM_persistence = (project in file("layer_Y_JVM_persistence"))
+                                   .settings(
+                                              name := "layer_Y_JVM_persistence",
+                                              version := Settings.version,
+                                              libraryDependencies ++= Settings.jvmDependencies.value,
+                                              scalaVersion := Settings.versions.scala
+                                            ).dependsOn(layer_Z_JVM_shared)
+
+lazy val layer_X_JVM_stateAccess = (project in file("layer_X_JVM_stateAccess"))
+                                   .settings(
+                                              name := "layer_X_JVM_stateAccess",
+                                              version := Settings.version,
+                                              libraryDependencies ++= Settings.jvmDependencies.value,
+                                              scalaVersion := Settings.versions.scala
+                                            ).dependsOn(layer_Y_JVM_persistence % "compile->compile;test->test")
+
 
 // instantiate the JVM project for SBT with some additional settings
-lazy val jvm = (project in file( "jvm" ))
-  .settings(
-    name := "jvm",
+lazy val layer_W_JVM_akka_http_server = (project in file("layer_W_JVM_akka_http_server"))
+                              .settings(
+    name := "layer_W_JVM_akka_http_server",
     version := Settings.version,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
@@ -53,29 +70,13 @@ lazy val jvm = (project in file( "jvm" ))
 //      ExclusionRule( "commons-logging", "commons-logging" )
 //    )
   )
-  .dependsOn( sharedJVM % "compile->compile;test->test" )
-  .dependsOn( stateAccess % "compile->compile;test->test" )
+                              .dependsOn(layer_Z_JVM_shared % "compile->compile;test->test")
+                              .dependsOn(layer_X_JVM_stateAccess % "compile->compile;test->test")
 
 logBuffered in Test := false
 //
-lazy val persistence = (project in file( "persistence" ))
-  .settings(
-    name := "persistence",
-    version := Settings.version,
-    libraryDependencies ++= Settings.jvmDependencies.value,
-    scalaVersion := Settings.versions.scala
-  ).dependsOn( sharedJVM )
 
-lazy val stateAccess = (project in file( "stateAccess" ))
-  .settings(
-    name := "stateAccess",
-    version := Settings.version,
-    libraryDependencies ++= Settings.jvmDependencies.value,
-    scalaVersion := Settings.versions.scala
-  ).dependsOn( persistence % "compile->compile;test->test")
-//  .dependsOn( sharedJVM )
-//
-//
+
 persistLauncher in Compile := true
 
 //persistLauncher in Test := false
