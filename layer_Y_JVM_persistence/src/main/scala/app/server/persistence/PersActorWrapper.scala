@@ -33,14 +33,10 @@ class PersActorWrapper(private[this] val actor: ActorRef) extends PersActorWrapp
 
   override def getState: Future[GetStatePAResponse] =
     ask(actor, GetStatePACommand)(Timeout.durationToTimeout(1 seconds))
-    //todolater test what happens if this times out and see what should i do about it... how should
-    // i handle it
       .mapTo[GetStatePAResponse]
 
   override def updateEntity(rfvd: RefValDyn): Future[UpdateEntityPAResponse] =
     ask(actor, UpdateEntityPACommand(rfvd))(Timeout.durationToTimeout(1 seconds))
-    //todolater test what happens if this times out and see what should i do about it... how should
-    // i handle it
       .mapTo[UpdateEntityPAResponse]
 
   override def createEntity(e:Data):Future[CreateEntityPAResponse]=
@@ -48,8 +44,6 @@ class PersActorWrapper(private[this] val actor: ActorRef) extends PersActorWrapp
 
   override def setState(s:TestDataLabel): Future[SetStatePAResponse] =
     ask(actor, SetStatePACommand(s))(Timeout.durationToTimeout(1 seconds))
-    //todolater test what happens if this times out and see what should i do about it... how should
-    // i handle it
-    .mapTo[SetStatePAResponse] //8cecd7dc2bde483f853b1dd2420930e9
+    .mapTo[SetStatePAResponse]
 
 }

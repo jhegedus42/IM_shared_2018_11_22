@@ -8,7 +8,6 @@ import app.shared.data.ref.{Ref, RefVal}
 import io.circe.{Decoder, Encoder}
 
 import scala.reflect.ClassTag
-//todolater make this untyped ... RefDyn
 case class ReadRequest[E <: Data: ClassTag](ref: Ref[E] )
 
 case class UpdateRequest[E <: Data](rv: RefVal[E] )

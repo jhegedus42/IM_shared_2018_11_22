@@ -2,14 +2,10 @@ package app.shared.rest
 
 import app.shared.data.model.DataType
 import app.shared.data.ref.{RefVal, RefValTestUtil}
-//import app.shared.rest.GetEntityRoute.HttpGetEntityReqResult
-//import app.shared.rest.GetEntityRoute.Shared.HttpGetEntityReqResult
 import org.scalatest.{FunSuite, Matchers}
 
-/**
-  * Created by joco on 10/05/2017.
-  */
-//class CirceJSONTest extends WordSpec with Matchers{
+
+
 class CirceJSONTest extends FunSuite with Matchers {
   import app.shared.data.model.LineText
   import app.shared.data.ref.Ref
@@ -78,44 +74,6 @@ class CirceJSONTest extends FunSuite with Matchers {
     decoded === Right(rv2)
     println(decoded)
   }
-//
-//  test("Decode incorrect Ref With TypeCheck should be left") {
-//    val l: LineText = LineText()
-//    import monocle.macros.syntax.lens._
-//
-//    val rv2_wrong_type: Ref[LineText] =
-//      Ref.make[LineText]().lens(_.entityType).set(EntityType("bla"))
-//    val rs: String = rv2_wrong_type.asJson.spaces4
-//
-//    println(rv2_wrong_type)
-//
-//    val decoded: Either[Error, Ref[LineText]] = CirceJSON.typedRefDecode[LineText](rs)
-//    assert(decoded.isLeft)
-//    println(decoded)
-//  }
-//
-//  test("Decode correct Ref With TypeCheck should be Right") {
-//    val rv2: Ref[LineText] = Ref.make[LineText]()
-//
-//    val rs: String = rv2.asJson.spaces4
-//
-//    val decoded: Either[Error, Ref[LineText]] = CirceJSON.typedRefDecode[LineText](rs)
-//    decoded.right === rv2
-//  }
-//
-//  test("Encode and Decode HttpGetReqResult[Line]") {
-//
-//
-//    val e: HttpGetEntityReqResult[LineText] = HttpGetEntityReqResult(\/-(RefValFix.rv))
-//    val s=e.asJson.spaces4
-//    val e1: Either[Error, HttpGetEntityReqResult[LineText]] = decode[HttpGetEntityReqResult[LineText]](s)
-//    assert(e1.right.get == e)
-//    e1.right.get shouldEqual e
-//
-//    //todolater try this https://github.com/typelevel/scalaz-scalatest for \/ matching
-//
-//
-//  }
 
 
 

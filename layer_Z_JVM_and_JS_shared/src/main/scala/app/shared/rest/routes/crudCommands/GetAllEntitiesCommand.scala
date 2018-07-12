@@ -9,17 +9,11 @@ import app.shared.rest.routes.Command
 import scala.reflect.ClassTag
 import scalaz.\/
 
-/**
-  * Created by joco on 14/12/2017.
-  */
-// ====> 1.3.1.1 <====  task-completed 1.3.1.1 GetAllEntitiesCommand - COMPLETED
 case class GetAllEntitiesCommand[E <: Data: ClassTag]() extends Command[E] {
-  //  type E <:Entity
-  type Params = Unit //uuid
+  type Params = Unit
   type Result = \/[SomeError_Trait, List[RefVal[E]]]
 
   override def getServerPath = "getAll" + implicitly[ClassTag[E]].runtimeClass.getName
-  // server path does not start with /
 
   def queryURL: String = "/" + getServerPath
 }

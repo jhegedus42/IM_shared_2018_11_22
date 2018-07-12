@@ -50,21 +50,16 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
 
       val rvd: RefValDyn = RefValDyn.makeRefValDynForNewlyCreatedEntity(e)
 
-      // todolater assert that this entity does not exist yet in the map - hash collision
-      // todolater - itt nem baszodhat el semmi ?
 
       persist(CreateEntity(rvd)) { evt =>
         applyEvent(evt)
-        //todolater  we might fish the newly created entity out if the map and send that back ... just
-        //as a sanity check
+
         sender() ! CreateEntityPAResponse(\/-(rvd))
       }
     }
 
     case UpdateEntityPACommand(item) => {
-      //    hash 0ac5dfbf-189f-47d4-a760-c0a8a5c416d5
-      // todolater - test the persistent actor itself... - test this case... that stuff gets stored
-      // and the replay works as expected...
+
       val res: \/[SomeError_Trait, (State, RefValDyn)] =
         state.updateEntity(item)
       if (res.isRight) {
@@ -88,7 +83,6 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
 
     case SetStatePACommand(tdl:TestDataLabel) => {
       val ns=TestData.getTestDataFromLabels(tdl)
-      println("from pers actor, new state will be:"+tdl)
       if (ns!=null) state = ns else
         println("we try to set the state to null, that is fucked up")
       println("new state is:\n"+PrettyPrint.prettyPrint(ns))
@@ -100,14 +94,11 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
 
     case evt: Event => {
       applyEvent(evt)
-
-      println("replaying event:" + evt)
     }
 
 
     case RecoveryCompleted => {
       log.info("Recovery completed!" + state)
-      println("fasz")
     }
 
 
@@ -124,14 +115,10 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
     }
 
     case CreateEntity(refVal: (RefValDyn)) => {
-      println
-      println("state before createEntity:"+ PrettyPrint.prettyPrint(state))
       val res = state.insertEntity(refVal)
       if (res.isRight) { state = res.toEither.right.get } else {
         log.error(s" apply Event - InsertEntity - $refVal - ($res.toString)")
       }
-      println("state after createEntity:"+ PrettyPrint.prettyPrint(state))
-      println
     }
   }
 

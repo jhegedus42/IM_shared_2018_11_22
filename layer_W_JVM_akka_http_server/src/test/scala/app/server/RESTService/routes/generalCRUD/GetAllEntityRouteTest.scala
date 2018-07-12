@@ -15,7 +15,6 @@ import scala.collection.immutable.Seq
 trait GetAllEntityRouteTest {
   this: RoutesTestBase =>
 
-// ====> 1.3.1.3 <==== task-completed make GetAllEntityRouteTest pass - COMPLETED
   "getAllEntity" should {
     "return all entity" in {
       import io.circe.generic.auto._

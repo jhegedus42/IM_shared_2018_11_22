@@ -31,16 +31,5 @@ object CreateEntityAJAX{
     .map( (x: String) => { decode[CEC_Res[E]](x) })
     .map( x => x.right.get )
   }
-  //
-  // cbc3bf56ce284984a65bb80670b80ca9
-  // ^^^
-  //  def isRefValsTypeValid[E <: Entity](rv: RefVal[E]): Boolean = {
-  //    rv.r.entityType == EntityType.make
-  //  }
-  // todolater check returned RefVal's type (RefVal's validity) matches the type of E
-  // use isRefValsTypeValid
-  // todolater, get rid of this unsafe .right.get
-  // flatten these nested Eithers - if the ajax call gets fucked up, merge that into the
-  // returned Either Type...
 
 }

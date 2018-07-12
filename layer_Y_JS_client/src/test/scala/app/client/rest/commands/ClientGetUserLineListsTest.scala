@@ -11,15 +11,8 @@ import org.scalatest.{Assertion, AsyncFunSuite, Matchers}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
-/**
-  * Created by joco on 16/12/2017.
-  */
+// we gonna complete this ... one day ....
 class ClientGetUserLineListsTest extends AsyncFunSuite with Matchers with BeforeTester {
-  //
-  //
-  // ===> 1.3 <==== task-completed  1.3 make ClientGetAllEntityTest pass
-  // 08e1a06b44c44897a2c900a50bd143dc commit 020a9f730a57689fe687d0bc94b658e6e9cab554 Fri Dec 15 13:25:08 EET 2017
-
 
   val resBe:  Seq[RefVal[UserLineList]] = List(TestEntitiesForStateThree.listRV)
 
@@ -30,7 +23,6 @@ class ClientGetUserLineListsTest extends AsyncFunSuite with Matchers with Before
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
   testWithBefore( resetDBBeforeTest )( "get all user line lists  should work" ) {
-    // just like in AkkHttpServerTest ...
 
     import io.circe.generic.auto._
 
@@ -38,6 +30,7 @@ class ClientGetUserLineListsTest extends AsyncFunSuite with Matchers with Before
       Helpers.resetServer( TestDataLabels.LabelThree  )
 
     def f2: Future[Assertion] = ???
+
 //      GetUserLineListAJAX.getUserLineLists(u).map(x => {
 ////        val entities: List[RefVal[UserLineList]] = x.toEither.right.get.lists
 //        val entities: List[RefVal[UserLineList]] = ???
@@ -46,7 +39,6 @@ class ClientGetUserLineListsTest extends AsyncFunSuite with Matchers with Before
 //      })
 
     f1.flatMap( _ => f2 ) // return a sequence of futures to be executed by the test runner
-//2fc4960b35544a50a1da8aed687c5baa commit 52318d6d50de2cef2b36af867540c3464d6305cf Tue Oct 24 13:20:34 EEST 2017
 
   }
 

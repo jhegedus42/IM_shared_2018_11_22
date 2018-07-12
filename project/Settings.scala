@@ -135,7 +135,6 @@ object Settings {
 
 //  val ex=exclude("com.chuusai","shapeless")
   /** The name of your application */
-  val name = "scalajs-spa"
 
   /** The version of your application */
   val version = "1.1.4"
@@ -149,7 +148,7 @@ object Settings {
     "-deprecation",
     "-feature",
     "-Yrangepos" //,
-//       "-Ylog-classpath"
+//    "-Ylog-classpath"
 //    "-Xlog-implicits"
   )
 
@@ -179,18 +178,15 @@ object Settings {
 
   val sharedDependencies = Def.setting(
     (Seq(
-//      "org.scalactic" %%% "scalactic_2.12" % "3.0.4",
-      "com.github.johnreedlol" %% "scala-trace-debug" % "4.5.0", //todolater start using this, maybe ?
+//      "org.scalactic" %%% "scalactic_2.12" % "3.0.4"
+//      "com.github.johnreedlol" %% "scala-trace-debug" % "4.5.0",
       "com.lihaoyi" %%% "scalatags" % "0.6.2",
       "com.github.julien-truffaut" %%% "monocle-core" % versions.monocleVersion,
       "com.github.julien-truffaut" %%% "monocle-macro" % versions.monocleVersion,
       "org.scalaz" %% "scalaz-core" % "7.2.8",
-//          "com.netaporter" %%% "scala-uri" % "0.4.16",
       "com.github.julien-truffaut" %% "monocle-law" % versions.monocleVersion % "test",
       "com.beachape" %%% "enumeratum-circe" % "1.5.14", //,
-//       "com.github.nikita-volkov" % "sext" % "0.2.4"
       "com.lihaoyi" %%% "pprint" % "0.5.3",
-//  "com.beachape" %% "enumeratum-circe" % enumeratumCirceVersion
 
 
   "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
@@ -218,7 +214,7 @@ object Settings {
       "com.typesafe.akka" %% "akka-http" % versions.akkaHttp,
       "com.typesafe.akka" %% "akka-http-testkit" % versions.akkaHttp,
       "org.slf4j" % "slf4j-simple" % "1.7.25",
-      "com.typesafe.akka" %% "akka-http-spray-json" % versions.akkaHttp,
+//      "com.typesafe.akka" %% "akka-http-spray-json" % versions.akkaHttp,
 
           "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
     ) ))

@@ -10,7 +10,6 @@ import io.circe.{Decoder, Encoder}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
-// ====> 1.3.1.2 <==== task-completed implement this COMPLETED
 case class GetAllEntitiesRoute[E <: Entity](
   )(
     implicit

@@ -37,9 +37,11 @@ trait CreateEntityTest {
 
     import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
     import io.circe.generic.auto._
+
     // ^^^ ez kell ide hogy a valaszt tudjuk dekodolni a kovetkezo sorban
     //    val url: String =
     //      CreateEntityURL( EntityType.make[LineText] ).clientPathWithSlashWithoutHost.asString
+
     val url: String      = CreateEntityCommCommand[LineText]().queryURL()
     val r:   Route       = s.route
     val req: HttpRequest = Post( url, lineToBeSent )
@@ -122,6 +124,8 @@ trait CreateEntityTest {
   }
 
 }
+
+
 class CreateEntityRouteTest extends
   RoutesTestBase with
   CreateEntityTest{

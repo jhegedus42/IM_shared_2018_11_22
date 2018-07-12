@@ -26,11 +26,6 @@ trait StateAccessorBase extends InterfaceToStateAccessor {
 
   override def createEntity[E <: Entity: ClassTag](e: E ): Future[\/[SomeError_Trait, RefVal[E]]] = {
     for {
-      // todolater itt kene a parametereket leellenorizni ...
-      // todolater gondolni a lock-olasra ... mi van ha megvaltoztatjak a parameterek leellenorzesenel
-      // hasznalt entity-ket ?
-      // ezen el kell majd gondolkodni amikor odakerulok ... hogy lesz ilyen use case, hogy ez elofordulhat,
-      // fontos lesz
       r: \/[SomeError_Trait, RefValDyn] <- actor.createEntity( e ).map( _.payload )
 
       z: \/[SomeError_Trait, RefVal[E]] = for {

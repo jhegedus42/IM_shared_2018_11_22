@@ -13,32 +13,17 @@ import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scalaz.\/
 
-/**
-  * Created by joco on 16/12/2017.
-  */
 object GetEntityAJAX {
 
 
   import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+
     def getEntity[E <: Data : ClassTag : Decoder](ref: Ref[E])(implicit gec:GetEntityCommand[E]):
     Future[gec.Result] = {
-      val route = gec.queryURL(ref)
-//      Ajax
-//      .get(route)
-//      .map(_.responseText)
-//      .map((x: String) => decode[gec.Result](x))
-//      .map(x => x.right.get)
-
+      val route: String = gec.queryURL(ref)
       GeneralGetAJAX.get[E](route, gec)(decode[GetEntityCommand[E]#Result])
     }
 
-    // ^^^
-    // 65869b2e10f94080b2e1fb350c2be50b
-    //              def isRefValsTypeValid[E <: Entity](rv: RefVal[E]): Boolean = {
-    //                rv.r.entityType == EntityType.make
-    //              }
-    //              todolater check returned RefVal's type (RefVal's validity) matches the type of E
-    //              use isRefValsTypeValid
 
     /**
       * Uses getEntity to get an entity using only refDyn, this will be used by calls that are not type-safe,
@@ -48,8 +33,6 @@ object GetEntityAJAX {
       * @param refDyn
       * @return
       */
-
-
     def getEntityDyn(refDyn: RefDyn): Future[ResDyn] = {
 
       def g[E <: Data : ClassTag](implicit gec:GetEntityCommand[E]): gec.Result => ResDyn = {
@@ -72,7 +55,7 @@ object GetEntityAJAX {
       import io.circe.generic.auto._
       refDyn.et match {
         case s if s == getCase[LineText] =>
-          res[LineText](refDyn) // todolater abstract this more
+          res[LineText](refDyn)
         case s if s == getCase[User] =>
           res[User](refDyn)
       }

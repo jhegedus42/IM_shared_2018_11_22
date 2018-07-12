@@ -13,7 +13,6 @@ import scalaz.\/
   object TestData {
 
     def getTestDataFromLabels(label:TestDataLabel):State ={
-     // 847fdd932e9f4a5ea7443fbb406708b9
       label match {
         case LabelOne => TestState_LabelOne_OneLine_WithVersionZero_nothing_else
         case LabelTwo => TestState_LabelTwo_OneLine_WithVersionOne_nothing_else
@@ -23,8 +22,7 @@ import scalaz.\/
 
     import app.testHelpersShared.data.TestEntities.refValOfLineV0
     val TestState_LabelOne_OneLine_WithVersionZero_nothing_else:  State =
-      State().insertEntity(refValOfLineV0).toEither.right.get //todolater, megszabadulni a get-tol
-//    2f438d1234954a1c955f15ee0f6f4774 commit 31f16c038c2479d05291456e73c3490508aa8591 Sat Oct 21 01:42:07 EEST 2017
+      State().insertEntity(refValOfLineV0).toEither.right.get
 
     object LabelOneEntities{
       val lineInState: RefVal[LineText] = refValOfLineV0
@@ -33,7 +31,7 @@ import scalaz.\/
 
     val TestState_LabelTwo_OneLine_WithVersionOne_nothing_else:  State = {
       val res = TestState_LabelOne_OneLine_WithVersionZero_nothing_else.updateEntity(refValOfLineV0)
-      res.toEither.right.get._1 //todolater megszabadulni a get-tol
+      res.toEither.right.get._1
     }
 
 
@@ -62,7 +60,6 @@ object StateThree extends App {
   }
   def printState() = {
     lazy val res: String = PrettyPrint.prettyPrint(state.stateMap.toList)
-    //  println(res)
   }
 
 }

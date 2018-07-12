@@ -11,19 +11,15 @@ sealed trait StateType //phantom type
 trait Prod extends StateType
 trait TestState extends StateType
 
-case class State(val stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
+case class State(stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
 
   case class StateUpdateError(s: String )
 
-  //versions are expected to match
-
   def insertEntity(refValDyn: RefValDyn ): \/[SomeError_Trait, State] = {
     \/-( this.copy( stateMap = this.stateMap + (refValDyn.r -> refValDyn) ) )
-    //todolater thrown an exception if refValDyn.r already exists
   }
 
   def updateEntity(refValDyn: RefValDyn ): \/[SomeError_Trait, ( State, RefValDyn )] = {
-    //check that updateable entity exists
     val rr: RefDyn = refValDyn.r
 
     if (!stateMap.contains( rr ))
@@ -46,24 +42,6 @@ case class State(val stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
 
   }
 
-//  def updateEntity( refVal: RefValDyn): \/[SomeError_Trait, (State, RefValDyn)] = {
-//
-////    val en0: \/[SomeError_Trait, RefValDyn = getEntityDyn(refVal.r)
-////    if(en0.isRight) {
-//    //8bd09adf49324d5a8a616c8146fd6848
-//
-//
-//    val newState: Disjunction[SomeError_Trait, State] =
-//      updateEntityInternal(refVal)
-//
-//    val happyPath: Disjunction[SomeError_Trait, (State, RefValDyn)] =
-//      for {
-//        ns <- newState
-//        refValDyn <- ns.getEntityDyn(refVal.r)
-//      } yield ((ns, refValDyn))
-//    happyPath
-//  }
-
   def doesEntityExist(e: Data ): Boolean =
     stateMap.values.map( rvd => rvd.e ).toSet.contains( e )
 
@@ -77,20 +55,19 @@ case class State(val stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
   }
 
   private[server] def getEntity[E <: Data: ClassTag](r: Ref[E] ): \/[SomeError_Trait, RefVal[E]] = {
-    //ffd417f7defb4ee3b542a2d7d68e6b42
 
     if (!r.isTypeCorrect) return -\/( TypeError( "State.getEntity - 1" ) )
     else {
       val rd: RefDyn = r
-      getEntityDyn( rd ).flatMap( _.toRefVal[E] ) // checks that the dyn type from the map matches with the expected type E
+      getEntityDyn( rd ).flatMap( _.toRefVal[E] )
+      // checks that the dyn type from the map matches with the expected type E
     }
   }
 
   import scalaz._
   import Scalaz._
+
   private def getEntityDyn(rd: RefDyn ): \/[SomeError_Trait, RefValDyn] = {
-    //todolater we need to check if the type of the entity returned by this method
-    // agrees with `the type of rd`
     val r: Option[RefValDyn] = this.stateMap.get( rd )
     val r2 =
       r.toRightDisjunction( EntityDoesNotExistError( s"StateOps.getEntity " + rd ) )
@@ -99,7 +76,6 @@ case class State(val stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
       case \/-( b ) => {
         if (b.r.et == rd.et) \/-( b )
         else -\/( (TypeError( "State.getEntity - 2" ) ) )
-        //if the entity in the map does not have the sme type as the one in RefDyn
       }
     }
 
