@@ -32,7 +32,7 @@ trait GetEntityRouteTest {
 
       val url: String = GetEntityCommand[LineText]().queryURL(refVal.r)
 
-      getEntityHelper(url, assert = r => {r.toEither.right.get shouldBe refVal })
+      testGetEntityHelper(url, assert = r => {r.toEither.right.get shouldBe refVal })
     }
 
     "EntityDoesNotExistError - if uuid is correct but no Line exists with that UUID wrong" in {
@@ -44,7 +44,7 @@ trait GetEntityRouteTest {
 
       val url: String = GetEntityCommand[LineText]().queryURL(ref)
 
-      getEntityHelper(url, r => {r.toEither.left.get shouldBe a[EntityDoesNotExistError] })
+      testGetEntityHelper(url, r => {r.toEither.left.get shouldBe a[EntityDoesNotExistError] })
     }
 
     "InvalidURLError - if UUID in URL is incorrect" in {
@@ -62,7 +62,7 @@ trait GetEntityRouteTest {
 //      val url : String = ???
       val url: String = GetEntityCommand[LineText]().queryURL(ref)
 
-      getEntityHelper(url, r => {r.toEither.left.get shouldBe a[InvalidUUIDinURLError] })
+      testGetEntityHelper(url, r => {r.toEither.left.get shouldBe a[InvalidUUIDinURLError] })
 
     }
 

@@ -17,13 +17,18 @@ import org.scalatest.{Assertion, Matchers, WordSpec}
 import scala.collection.immutable.Seq
 import scala.reflect.ClassTag
 
+/**
+  * these are things that are used by all tests that test the routes
+  * making things more dry
+  * this is a common denominator for all route tests
+  */
 trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
 
   def server(initState: State ): RESTService
 
   type ResInBase = GetEntityCommand[LineText]#Result
 
-  def getEntityHelper(url: String, assert: ResInBase => Unit ): Unit = {
+  def testGetEntityHelper(url: String, assert: ResInBase => Unit ): Unit = {
 
     val s: RESTService = server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
     val r: Route       = s.route
@@ -69,9 +74,16 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
     }
   }
 
-  def runWithServer[T](s: RESTService )(f: RESTService => T ): T = {
-    val res: T = f( s )
-    s.system.terminate()
+  /**
+    *
+    * @param restService
+    * @param functionToRun
+    * @tparam T
+    * @return
+    */
+  def runWithServer[T](restService: RESTService )(functionToRun: RESTService => T ): T = {
+    val res: T = functionToRun(restService)
+    restService.system.terminate()
     res
   }
 
@@ -104,6 +116,10 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
 
 }
 
+/**
+  * This defines what tests to run.
+  * This is actually the "test class" which is looked at by the test runner.
+  */
 class RoutesTest_PersActor_Class extends RoutesTestBase with GetEntityRouteTest with GetAllEntityRouteTest {
 
   override def server(initState: State ): RESTService =

@@ -131,7 +131,6 @@ object GetFaszomView {
   def route: Route = {
     cors() {
       post {
-        //        path( getGetViewHttpRouteName().name) {
         path( "getFaszomView" ) {
           entity( as[Faszom] ) {
             faszom: Faszom =>

@@ -16,12 +16,6 @@ import app.testHelpersShared.data.TestEntities
 import scala.collection.immutable.Seq
 import scala.concurrent.Await
 
-/**
-  * Created by joco on 14/12/2017.
-  */
-
-// ab3e9b1c2da54ab982415ef86085876d commit 5154b3abb562062820fc296498863e087e299166 Sat Dec 16 01:05:12 EET 2017
-//
 trait CreateEntityTest {
   this: RoutesTestBase =>
 
@@ -96,8 +90,6 @@ trait CreateEntityTest {
       assert_RefVal_for_LineText_is_present( s, rv.lens( _.v.title ).set( "fasz"  ), false )
       // a fasz verzio nincs benne
 
-      //c7b051774a1c4fb89cd3e2369d97a5a8 commit dd06131f46c45dcb286b8326eebefdb513f7c072 Tue Oct 24 00:13:58 EEST 2017
-
       import io.circe.generic.auto._
 
       //get list of lines - after
@@ -128,7 +120,7 @@ trait CreateEntityTest {
 
 class CreateEntityRouteTest extends
   RoutesTestBase with
-  CreateEntityTest{
+  CreateEntityTest{ // this is the stuff that defines what needs to be tested
 
   override def server(initState: State ): RESTService =
     TestServerFactory.getTestServer( initState )

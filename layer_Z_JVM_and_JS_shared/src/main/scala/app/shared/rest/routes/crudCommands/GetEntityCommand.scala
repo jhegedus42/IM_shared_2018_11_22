@@ -10,26 +10,37 @@ import scala.reflect.ClassTag
 import scalaz.\/
 
 /**
-  * Created by joco on 14/12/2017.
+  * Documentation should go here.
   */
 case class GetEntityCommand[E<:Data:ClassTag]() extends Command[E] {
-//  type E <:Entity
   type Params = String //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
 
-  override def getServerPath = "getSingleEntity" + implicitly[ClassTag[E]].runtimeClass.getName
-  // server path does not start with /
+  /**
+    * server path does not start with /
+    * @return
+    */
+  override def getServerPath: String = "getSingleEntity" + implicitly[ClassTag[E]].runtimeClass.getName
 
-
-  def getPars(rv:Ref[E])= {
+  /**
+    *
+    * @param rv
+    * @return
+    */
+  def getPars(rv:Ref[E]): String = {
     val u =rv.uuid.id
     s"?id=$u"
-
   }
-  def queryURL(rv:Ref[E])= "/" + getServerPath + getPars(rv)
+
+  /**
+    *
+    * @param rv
+    * @return
+    */
+  def queryURL(rv:Ref[E]): String = "/" + getServerPath + getPars(rv)
 }
 
 object GetEntityCommand{
-  implicit val geLT=new GetEntityCommand[LineText]()
-  implicit val geUser=new GetEntityCommand[User]()
+  implicit val geLT  : GetEntityCommand[LineText] =new GetEntityCommand[LineText]()
+  implicit val geUser: GetEntityCommand[User]     =new GetEntityCommand[User]()
 }
