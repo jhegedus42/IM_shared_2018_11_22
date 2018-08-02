@@ -3,7 +3,7 @@ package app.server.RESTService.routes.entityCRUD
 import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.Entity.Entity
-import app.shared.rest.routes.crudCommands.GetAllEntitiesCommand
+import app.shared.rest.routes.crudRequests.GetAllEntitiesRequest
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder}
@@ -21,7 +21,7 @@ case class GetAllEntitiesRoute[E <: Entity](
 )
     extends GetRouteBase[E] {
 
-  override val command: GetAllEntitiesCommand[E] = GetAllEntitiesCommand[E]()
+  override val command: GetAllEntitiesRequest[E] = GetAllEntitiesRequest[E]()
 
   override def processCommand(f: command.Params ): Future[command.Result] =
     sa.getAllEntitiesOfGivenType[E]

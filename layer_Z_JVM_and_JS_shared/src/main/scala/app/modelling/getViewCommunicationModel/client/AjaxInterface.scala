@@ -48,6 +48,7 @@ case class GetViewAjaxRequest[V <: View](par: V#Par, ajaxResFuture: Future[Optio
 }
 //
 case class AjaxInterface(server: HttpServerOnTheInternet ) {
+  
 
   def getAJAXGetViewRequest[V <: View: ClassTag: Encoder](
       param: V#Par

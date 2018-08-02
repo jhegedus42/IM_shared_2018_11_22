@@ -1,14 +1,14 @@
 package app.server.RESTService.routes.entitySpecificRoutes
 
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.RESTService
+import app.server.RESTService.AppRoutesHandler
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEntityRouteTest}
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.shared.data.ref.RefVal
 import app.shared.data.model.UserLineList
-import app.shared.rest.routes.crudCommands.GetAllEntitiesCommand
+import app.shared.rest.routes.crudRequests.GetAllEntitiesRequest
 //import app.shared.rest.routes_take3.viewCommands.UserLineListsViewCommand
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.{TestDataLabels, TestEntities, TestEntitiesForStateThree}
@@ -26,7 +26,7 @@ trait GetUserLineListRouteTest {
     "work just fine" in {
       import io.circe.generic.auto._
 
-      val s: RESTService = server( TestData.getTestDataFromLabels( TestDataLabels.LabelThree ) )
+      val s: AppRoutesHandler = server(TestData.getTestDataFromLabels(TestDataLabels.LabelThree))
 //      val entities: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, EntityType.make[LineText] )
 
       val resBe:  Seq[RefVal[UserLineList]] = List(TestEntitiesForStateThree.listRV)
@@ -66,6 +66,6 @@ trait GetUserLineListRouteTest {
 
 class GetUserLineListRoute_TestClass extends RoutesTestBase with GetUserLineListRouteTest{
 
-  override def server(initState: State ): RESTService =
+  override def server(initState: ApplicationState ): AppRoutesHandler =
     TestServerFactory.getTestServer( initState )
 }

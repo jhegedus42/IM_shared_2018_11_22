@@ -1,7 +1,7 @@
 package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.Data
-import app.shared.rest.routes.crudCommands.GetAllEntitiesCommand
+import app.shared.rest.routes.crudRequests.GetAllEntitiesRequest
 import io.circe.Decoder
 import io.circe.generic.auto._
 import io.circe.parser.decode
@@ -14,9 +14,9 @@ import scala.reflect.ClassTag
   */
 object GetAllEntitiesAJAX{
   def getAllEntities[E <: Data: ClassTag: Decoder]
-    (implicit gae:GetAllEntitiesCommand[E]): Future[gae.Result] = {
+    (implicit gae:GetAllEntitiesRequest[E]): Future[gae.Result] = {
     def route: String = gae.queryURL
-    GeneralGetAJAX.get[E](route, gae)(decode[GetAllEntitiesCommand[E]#Result])
+    GeneralGetAJAX.get[E](route, gae)(decode[GetAllEntitiesRequest[E]#Result])
   }
 
 }

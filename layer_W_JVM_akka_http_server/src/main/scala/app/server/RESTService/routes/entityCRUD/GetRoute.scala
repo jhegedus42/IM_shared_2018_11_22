@@ -7,7 +7,7 @@ import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
-import app.shared.rest.routes.crudCommands.GetEntityCommand
+import app.shared.rest.routes.crudRequests.GetEntityRequest
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder}
@@ -25,7 +25,7 @@ class GetRoute[E <: Entity](
     ec: ExecutionContext)
     extends GetRouteBase[E] {
 
-  override val command: GetEntityCommand[E] = GetEntityCommand[E]
+  override val command: GetEntityRequest[E] = GetEntityRequest[E]
 
   override def processCommand(f: command.Params ): Future[command.Result] = {
     import scalaz._

@@ -31,7 +31,7 @@ import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
-import app.shared.rest.routes.crudCommands.GetEntityCommand
+import app.shared.rest.routes.crudRequests.GetEntityRequest
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder}
@@ -89,9 +89,6 @@ case class HttpServerOnTheInternet() {
 
 }
 
-case class Faszom(pina:         String )
-case class FaszomVissza(pinaba: String )
-
 case class GetViewRequestHandler[V <: View: ClassTag]() {
 
   def decodeJSON2Par_SendParToLogic_EncodeResultToJSON[V <: View](
@@ -126,20 +123,10 @@ case class GetViewRequestHandler[V <: View: ClassTag]() {
 
 }
 
-object GetFaszomView {
 
-  def route: Route = {
-    cors() {
-      post {
-        path( "getFaszomView" ) {
-          entity( as[Faszom] ) {
-            faszom: Faszom =>
-              val res: FaszomVissza = FaszomVissza( faszom.pina + "42" )
-              complete( res )
-          }
-        }
-      }
-    }
-  }
+// todonow erre irni egy tesztet
+// de hogy ?
+// mi alapján ?
+// kéne rá egy példát találni ...
 
-}
+

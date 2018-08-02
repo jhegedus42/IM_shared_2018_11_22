@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Route
 import app.server.RESTService.routes.entityCRUD.common.RouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.model.Entity.Entity
-import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder}
@@ -25,7 +25,7 @@ case class UpdateEntityRoute[E <: Entity](
     ec: ExecutionContext)
     extends RouteBase[E] {
 
-  override val command: UpdateEntityCommCommand[E] = UpdateEntityCommCommand[E]()
+  override val command: UpdateEntityRequest[E] = UpdateEntityRequest[E]()
 
   override def processCommand(f: command.Params ): Future[command.Result] =
     sa.updateEntity( f )

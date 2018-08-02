@@ -5,8 +5,8 @@ import app.client.rest.commands.generalCRUD.{CreateEntityAJAX, GetAllEntitiesAJA
 import app.shared.SomeError_Trait
 import app.shared.data.model.LineText
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes.crudCommands.CreateEntityCommCommand.CEC_Res
-import app.shared.rest.routes.crudCommands.GetAllEntitiesCommand
+import app.shared.rest.routes.crudRequests.CreateEntityRequest.CEC_Res
+import app.shared.rest.routes.crudRequests.GetAllEntitiesRequest
 import app.testHelpersShared.data.TestDataLabels
 import io.circe.generic.auto._
 import org.scalajs.dom.XMLHttpRequest
@@ -37,7 +37,7 @@ class CreateEntityAJAXTest extends AsyncFunSuite with Matchers with BeforeTester
       f1
     }
 
-    type ResLocal = GetAllEntitiesCommand.gAEsLineText.Result
+    type ResLocal = GetAllEntitiesRequest.gAEsLineText.Result
 
     val l = LineText( title =  "macska" ,text="test" )
 

@@ -1,6 +1,6 @@
 package app.server.stateAccess.generalQueries
 
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.server.persistence.persActor.Commands.GetStatePAResponse
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
@@ -10,6 +10,7 @@ import io.circe.Decoder.state
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scalaz.\/
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 /**

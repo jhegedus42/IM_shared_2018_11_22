@@ -1,8 +1,7 @@
 package app.server.persistence.utils
 
 import akka.actor.{ActorSystem, Props}
-import app.server.State
-import app.server.persistence.PersActorWrapper
+import app.server.persistence.{ApplicationState, PersActorWrapper}
 import app.server.persistence.persActor.IMPersistentActor
 //import app.server.state.persistence.PersActorWrapper
 
@@ -11,11 +10,11 @@ import app.server.persistence.persActor.IMPersistentActor
   */
 object IMPersActorWrapperFactory {
 
-  def makePersActor(actorSystem: ActorSystem, initState:State) = new PersActorWrapper({
+  def makePersActor(actorSystem: ActorSystem, initState:ApplicationState) = new PersActorWrapper({
     class PersActor extends IMPersistentActor("id1") {
       //        object mock extends TypedInterfaceToPersistentActorMock with MockData
       // this is how we initialize the state of the persistent actor
-      override def getInitState: State = initState
+      override def getInitState: ApplicationState = initState
     }
      actorSystem.actorOf(Props(new PersActor()))
   })

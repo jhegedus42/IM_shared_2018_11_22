@@ -6,7 +6,7 @@ import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand.UEC_Res
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest.UEC_Res
 import io.circe.{Decoder, Encoder}
 
 import scala.concurrent.Future

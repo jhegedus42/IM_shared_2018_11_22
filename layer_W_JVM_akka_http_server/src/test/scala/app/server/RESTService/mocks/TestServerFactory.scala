@@ -2,8 +2,8 @@ package app.server.RESTService.mocks
 
 import akka.http.scaladsl.server.Directives.{complete, path, _}
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.RESTService
-import app.server.State
+import app.server.RESTService.AppRoutesHandler
+import app.server.persistence.ApplicationState
 import app.server.persistence.persActor.Commands.SetStatePAResponse
 
 import scala.concurrent.Future
@@ -14,8 +14,13 @@ import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 
 object TestServerFactory {
 
-  def getTestServer(iState: State ): RESTService =
-    new StateAccessorMock_prodPersAct with RESTService {
+  /**
+    * Létrehoz egy
+    * @param iState
+    * @return
+    */
+  def getTestServer(iState: ApplicationState ): AppRoutesHandler =
+    new StateAccessorMock_prodPersAct with AppRoutesHandler {
 
       // reset the state of the server - for testing
       def postResetStateRoute: Route = {
@@ -49,7 +54,7 @@ object TestServerFactory {
 //      override  val route = selfExp.route -- nyolc teszt elszall
       override lazy val rootPageHtml = IndexDotHtmlTestTemplate.txt
 
-      override def initState: State = iState
+      override def initState: ApplicationState = iState
 
       override def routeDef: Route = postResetStateRoute ~ super.routeDef
 

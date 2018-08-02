@@ -1,25 +1,46 @@
-package app.server
+package app.server.persistence
 
-import app.shared.data.model.Entity.Data
 import app.shared.data.model.DataType
-import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
+import app.shared.data.model.Entity.Data
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
+import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
+import scalaz.{-\/, Disjunction, \/, \/-}
 
 import scala.reflect.ClassTag
-import scalaz.{-\/, Disjunction, \/, \/-}
-sealed trait StateType //phantom type
-trait Prod extends StateType
-trait TestState extends StateType
 
-case class State(stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
+/**
+  * Ez mire jó?
+  * Ez tárolja az app állapotát. Ez a state.
+  *
+  *
+  * Ki használja ?
+  *   - Az ImPersistentActor használja.
+  *     - És miért ?
+  *       - Hogy tárolja, az applikáció állapotát valamiben, amin vannak segéd metódusok,
+  *         amikkel updatelni tudja az app állapotát "kényelmesen".
+  *           - Például
+  *             - insert Entity
+  *             - update Entity
+  *             - does Entity exist ?
+  *             - get Entities of Given Type [Type]
+  *
+  * Ez immutable.
+  *
+  * @param stateMap
+  */
+case class ApplicationState(stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
+
+  // Random UUID: da1d5a2c10374c358987fd30643b8812
+  // commit fc5bb550a0436ada8876f7c8a18d4b4bf9407091
+  // Date: Thu Aug  2 07:52:01 EEST 2018
 
   case class StateUpdateError(s: String )
 
-  def insertEntity(refValDyn: RefValDyn ): \/[SomeError_Trait, State] = {
+  def insertEntity(refValDyn: RefValDyn ): \/[SomeError_Trait, ApplicationState] = {
     \/-( this.copy( stateMap = this.stateMap + (refValDyn.r -> refValDyn) ) )
   }
 
-  def updateEntity(refValDyn: RefValDyn ): \/[SomeError_Trait, ( State, RefValDyn )] = {
+  def updateEntity(refValDyn: RefValDyn ): \/[SomeError_Trait, ( ApplicationState, RefValDyn )] = {
     val rr: RefDyn = refValDyn.r
 
     if (!stateMap.contains( rr ))

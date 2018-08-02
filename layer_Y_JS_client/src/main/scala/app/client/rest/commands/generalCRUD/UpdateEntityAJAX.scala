@@ -2,8 +2,8 @@ package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand
-import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand.UEC_Res
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest.UEC_Res
 import io.circe.generic.auto._
 import io.circe.parser._
 import io.circe.syntax._
@@ -20,7 +20,7 @@ object UpdateEntityAJAX {
   def updateEntity[E <: Data: ClassTag: Decoder: Encoder](
       refVal: RefVal[E]
     ): Future[UEC_Res[E]] = {
-    val url:       String              = UpdateEntityCommCommand[E]().queryURL()
+    val url:       String              = UpdateEntityRequest[E]().queryURL()
     val json_line: String              = refVal.asJson.spaces2
     val headers:   Map[String, String] = Map( "Content-Type" -> "application/json" )
 

@@ -2,7 +2,7 @@ package app.server.RESTService.routes.entityCRUD
 
 import akka.http.scaladsl.server.Route
 import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.rest.routes.crudCommands.CreateEntityCommCommand
+import app.shared.rest.routes.crudRequests.CreateEntityRequest
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.auto._
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
@@ -24,7 +24,7 @@ case class CreateEntityRoute[E <: Entity](
     ec: ExecutionContext)
     extends RouteBase[E] {
 
-  override val command: CreateEntityCommCommand[E] = CreateEntityCommCommand[E]()
+  override val command: CreateEntityRequest[E] = CreateEntityRequest[E]()
 
   override def processCommand(f: command.Params ): Future[command.Result] =
     sa.createEntity( f )

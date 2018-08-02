@@ -1,7 +1,7 @@
 package app.server.stateAccess.tests
 
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.testHelpersShared.data.TestEntities
 import app.shared.data.model.Entity.{Data, Entity}
@@ -21,7 +21,7 @@ trait EntityServiceTest_BaseTrait
     with Matchers
     with ScalatestRouteTest {
 
-  def getEntityService(s: State): InterfaceToStateAccessor
+  def getEntityService(s: ApplicationState): InterfaceToStateAccessor
 
   import scala.concurrent.duration._
 
@@ -110,7 +110,7 @@ trait EntityServiceTest_BaseTrait
     }
 
     "complain if the to-be-updated entity does not exist -1" in {
-      val mock = getEntityService(State())
+      val mock = getEntityService(ApplicationState())
       val r = Ref.makeWithUUID[LineText](uuid = UUID(TestEntities.theUUIDofTheLine))
 
       val line: LineText = LineText( title =  "macska" ,text="test" )

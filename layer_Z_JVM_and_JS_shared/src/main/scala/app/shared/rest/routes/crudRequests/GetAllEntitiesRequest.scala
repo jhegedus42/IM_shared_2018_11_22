@@ -1,4 +1,4 @@
-package app.shared.rest.routes.crudCommands
+package app.shared.rest.routes.crudRequests
 
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Data
@@ -9,7 +9,7 @@ import app.shared.rest.routes.Command
 import scala.reflect.ClassTag
 import scalaz.\/
 
-case class GetAllEntitiesCommand[E <: Data: ClassTag]() extends Command[E] {
+case class GetAllEntitiesRequest[E <: Data: ClassTag]() extends Command[E] {
   type Params = Unit
   type Result = \/[SomeError_Trait, List[RefVal[E]]]
 
@@ -18,6 +18,6 @@ case class GetAllEntitiesCommand[E <: Data: ClassTag]() extends Command[E] {
   def queryURL: String = "/" + getServerPath
 }
 
-object GetAllEntitiesCommand {
-  implicit val gAEsLineText = new GetAllEntitiesCommand[LineText]()
+object GetAllEntitiesRequest {
+  implicit val gAEsLineText = new GetAllEntitiesRequest[LineText]()
 }

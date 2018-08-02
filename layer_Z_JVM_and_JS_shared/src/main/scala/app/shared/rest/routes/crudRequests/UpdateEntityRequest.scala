@@ -1,4 +1,4 @@
-package app.shared.rest.routes.crudCommands
+package app.shared.rest.routes.crudRequests
 
 /**
   * Created by joco on 17/12/2017.
@@ -18,7 +18,7 @@ import scalaz.\/
   */
 
 
-case class UpdateEntityCommCommand[E<:Data:ClassTag]() extends Command[E] {
+case class UpdateEntityRequest[E<:Data:ClassTag]() extends Command[E] {
   //  type E <:Entity
   type Params = RefVal[E] //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
@@ -29,7 +29,7 @@ case class UpdateEntityCommCommand[E<:Data:ClassTag]() extends Command[E] {
   def queryURL()= "/" + getServerPath
 }
 
-object UpdateEntityCommCommand{
-  type UEC_Res[E<:Data] = UpdateEntityCommCommand[E]#Result
-  type UEC_Par[E<:Data] = UpdateEntityCommCommand[E]#Params
+object UpdateEntityRequest{
+  type UEC_Res[E<:Data] = UpdateEntityRequest[E]#Result
+  type UEC_Par[E<:Data] = UpdateEntityRequest[E]#Params
 }

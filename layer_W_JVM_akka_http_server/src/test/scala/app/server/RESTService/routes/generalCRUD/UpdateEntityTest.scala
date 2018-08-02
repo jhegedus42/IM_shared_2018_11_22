@@ -2,13 +2,13 @@ package app.server.RESTService.routes.generalCRUD
 
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.RESTService
+import app.server.RESTService.AppRoutesHandler
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal, Version}
-import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidUUIDinURLError, InvalidVersionError}
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestDataLabels.LabelOne
@@ -25,7 +25,7 @@ class UpdateEntityRouteTest extends
   RoutesTestBase with
   UpdateEntityTest{
 
-  override def server(initState: State ): RESTService =
+  override def server(initState: ApplicationState ): AppRoutesHandler =
     TestServerFactory.getTestServer( initState )
 }
 
@@ -34,9 +34,9 @@ trait UpdateEntityTest{
 
   trait UpdateTestSetup {
 
-    val s:   RESTService   = server( TestData.getTestDataFromLabels( LabelOne ) )
-    val r:   Route         = s.route
-    val ref: Ref[LineText] = TestEntities.refToLine
+    val s:   AppRoutesHandler    = server(TestData.getTestDataFromLabels(LabelOne))
+    val r:   Route               = s.route
+    val ref: Ref[LineText]       = TestEntities.refToLine
     // ennek mar tartalmaznia kell a verziokat is
     val v1pina: RefVal[LineText] = TestEntities.refValOfLineV1
 
@@ -61,11 +61,11 @@ trait UpdateEntityTest{
     s.shutdownActorSystem()
   }
 
-  type Par=UpdateEntityCommCommand.UEC_Par[LineText]
-  type Res=UpdateEntityCommCommand.UEC_Res[LineText]
+  type Par=UpdateEntityRequest.UEC_Par[LineText]
+  type Res=UpdateEntityRequest.UEC_Res[LineText]
 
   def updateRefValLine(
-                        s:              RESTService,
+                        s:              AppRoutesHandler,
                         refValToBeSent: RefVal[LineText],
                         assertion:      Res => Unit
                       ): Unit =
@@ -74,7 +74,7 @@ trait UpdateEntityTest{
       import io.circe.generic.auto._
       val r:   Route       = s.route
 
-      val url : String = UpdateEntityCommCommand[LineText]().queryURL()
+      val url : String = UpdateEntityRequest[LineText]().queryURL()
       val req: HttpRequest = Put(url, refValToBeSent)
 
       println( "Url:" + url )
@@ -121,7 +121,7 @@ trait UpdateEntityTest{
 
       "version incorrect - traits" in {
         object Test extends UpdateTestSetup {
-          override val s: RESTService =
+          override val s: AppRoutesHandler =
             server( TestData.TestState_LabelTwo_OneLine_WithVersionOne_nothing_else )
 
           override def fun(): Unit = {
@@ -187,11 +187,11 @@ trait UpdateEntityTest{
   //      val url: String =
   //        UpdateEntityURL( EntityType.make[LineText] ).clientPathWithSlashWithoutHost.asString
 //        val url : String = ???
-        val url : String = UpdateEntityCommCommand[LineText]().queryURL()
+        val url : String = UpdateEntityRequest[LineText]().queryURL()
         import monocle.macros.syntax.lens._
         val rv: RefVal[LineText] = TestEntities.refValOfLineV0
 
-        val s: RESTService =
+        val s: AppRoutesHandler =
           server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
         val r: Route = s.route
 
@@ -218,7 +218,7 @@ trait UpdateEntityTest{
       }
 
       "version incorrect" in {
-        val s: RESTService =
+        val s: AppRoutesHandler =
           server( TestData.TestState_LabelTwo_OneLine_WithVersionOne_nothing_else )
         val r: Route = s.route
 
@@ -264,9 +264,9 @@ trait UpdateEntityTest{
   //        UpdateEntityURL( EntityType.make[LineText] ).clientPathWithSlashWithoutHost.asString
 
 //        val url : String = ???
-        val url : String = UpdateEntityCommCommand[LineText]().queryURL()
+        val url : String = UpdateEntityRequest[LineText]().queryURL()
         println( url )
-        val s: RESTService =
+        val s: AppRoutesHandler =
           server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
         val r: Route = s.route
 

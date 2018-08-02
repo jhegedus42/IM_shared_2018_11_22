@@ -1,4 +1,4 @@
-package app.shared.rest.routes.crudCommands
+package app.shared.rest.routes.crudRequests
 
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Data
@@ -13,7 +13,7 @@ import scalaz.\/
   */
 
 
-case class CreateEntityCommCommand[E<:Data:ClassTag]() extends Command[E] {
+case class CreateEntityRequest[E<:Data:ClassTag]() extends Command[E] {
   //  type E <:Entity
   type Params = E //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
@@ -24,6 +24,6 @@ case class CreateEntityCommCommand[E<:Data:ClassTag]() extends Command[E] {
   def queryURL()= "/" + getServerPath
 }
 
-object CreateEntityCommCommand{
-  type CEC_Res[E<:Data] = CreateEntityCommCommand[E]#Result
+object CreateEntityRequest{
+  type CEC_Res[E<:Data] = CreateEntityRequest[E]#Result
 }

@@ -11,6 +11,11 @@ import app.modelling.getViewCommunicationModel.serverSide.akkaHttpWebServer.Http
 import app.modelling.getViewCommunicationModel.shared.views.View
 
 object Tester extends App {
+  // Random UUID: eb1252385ca047bd87a13e3fe1f888a7
+  // commit fc5bb550a0436ada8876f7c8a18d4b4bf9407091
+  // Date: Sat Jul 28 10:53:41 EEST 2018
+
+
 
   println("start")
   testRender()

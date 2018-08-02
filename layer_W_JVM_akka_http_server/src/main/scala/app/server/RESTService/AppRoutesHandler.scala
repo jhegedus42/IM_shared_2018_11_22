@@ -3,7 +3,7 @@ package app.server.RESTService
 import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
-import app.comm_model_on_the_server_side.serverSide.akkaHttpWebServer.GetFaszomView
+import app.comm_model_on_the_server_side.simple_route.SumIntViewRoute_For_Testing
 import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.shared.data.model.LineWithQue
 //import app.server.RESTService.routes.views.UserLineListViewRoute
@@ -24,8 +24,13 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 
 
-
-trait RESTService {
+/**
+  * Ez mit csinál ?
+  * Lekeírja, hogy
+  *   - hogyan kell lekezelni az adott route-okhoz érkező kéréseket és
+  *   -
+  */
+trait AppRoutesHandler {
   self: InterfaceToStateAccessor =>
 
   import io.circe._
@@ -33,7 +38,7 @@ trait RESTService {
 
   val route: Route = routeDef
 
-  def selfExp: RESTService with InterfaceToStateAccessor = self
+  def selfExp: AppRoutesHandler with InterfaceToStateAccessor = self
 
   implicit lazy val system: ActorSystem = ActorSystem( "trait-Server" )
 
@@ -57,7 +62,7 @@ trait RESTService {
 
   def routeDef: Route =
     // ide kellene vmi ami egy route-ot csinal meg
-    GetFaszomView.route ~
+    SumIntViewRoute_For_Testing.route ~
     crudEntityRoute[LineText] ~
     crudEntityRoute[UserLineList] ~
     crudEntityRoute[LineWithQue] ~
@@ -80,7 +85,9 @@ trait RESTService {
     }
 
 
-    val bindingFuture = Http().bindAndHandle( route, host, Config.port )
+    val bindingFuture: Future[Http.ServerBinding] = Http().bindAndHandle(route, host, Config.port)
+
+
 
     //mac
 //    val bindingFuture = Http().bindAndHandle( route, "192.168.2.50", Config.port )

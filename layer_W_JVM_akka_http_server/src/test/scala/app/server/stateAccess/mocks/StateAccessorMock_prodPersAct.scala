@@ -1,6 +1,6 @@
 package app.server.stateAccess.mocks
 
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.server.persistence.utils.IMPersActorWrapperFactory
 //import app.server.persistence.utils.IMPersActorWrapperFactory
 import app.server.stateAccess.generalQueries.{HasPersistentActor, StateAccessorBase}
@@ -10,7 +10,7 @@ import app.server.stateAccess.generalQueries.{HasPersistentActor, StateAccessorB
   */
 trait StateAccessorMock_prodPersAct
   extends StateAccessorBase with HasPersistentActor {
-   def initState: State
+   def initState: ApplicationState
   override val actor = IMPersActorWrapperFactory.makePersActor(system, initState)
 
   override def shutDownService() = system.terminate()

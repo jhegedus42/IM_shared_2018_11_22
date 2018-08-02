@@ -2,14 +2,14 @@ package app.server.RESTService.routes.generalCRUD
 
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.RESTService
+import app.server.RESTService.AppRoutesHandler
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.data.ref.RefVal
 import app.shared.data.model.{DataType, LineText}
-import app.shared.rest.routes.crudCommands.CreateEntityCommCommand
+import app.shared.rest.routes.crudRequests.CreateEntityRequest
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestEntities
 
@@ -18,15 +18,25 @@ import scala.concurrent.Await
 
 trait CreateEntityTest {
   this: RoutesTestBase =>
+  // Random UUID: f393a5ffb19144f1abb7dfea8b79b820
+  // commit fc5bb550a0436ada8876f7c8a18d4b4bf9407091
+  // Date: Sun Jul 29 16:41:15 CEST 2018
 
-  type ResCET = CreateEntityCommCommand[LineText]#Result
-  val cec= CreateEntityCommCommand[LineText]
+  type ResCET = CreateEntityRequest[LineText]#Result
+  val cec= CreateEntityRequest[LineText]
 
 
+  /**
+    *
+    * @param restServiceToBeTested
+    * @param lineToBeSent
+    * @param assertion
+    * @return
+    */
   def createLine(
-      s:            RESTService,
-      lineToBeSent: LineText,
-      assertion:    ResCET => Unit
+                  restServiceToBeTested:            AppRoutesHandler,
+                  lineToBeSent         : LineText,
+                  assertion            :    ResCET => Unit
     ): ResCET = {
 
     import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
@@ -36,8 +46,8 @@ trait CreateEntityTest {
     //    val url: String =
     //      CreateEntityURL( EntityType.make[LineText] ).clientPathWithSlashWithoutHost.asString
 
-    val url: String      = CreateEntityCommCommand[LineText]().queryURL()
-    val r:   Route       = s.route
+    val url: String      = CreateEntityRequest[LineText]().queryURL()
+    val r:   Route       = restServiceToBeTested.route
     val req: HttpRequest = Post( url, lineToBeSent )
 
     println( "Url:" + url )
@@ -56,14 +66,14 @@ trait CreateEntityTest {
   }
 
   "create entity route" should {
-    "create line - happy path" in {
-      val s: RESTService =
+    "create line on the Server - happy path" in {
+      val s: AppRoutesHandler =
         server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
 
       import scala.concurrent.duration._
       val line = LineText( title =  "macska" ,text="test" )
 
-      val mock: RESTService with InterfaceToStateAccessor = s.selfExp
+      val mock: AppRoutesHandler with InterfaceToStateAccessor = s.selfExp
       val r1:   Boolean                                   = Await.result( mock.doesEntityExist( line ), 2 seconds )
       assert( !r1 )
 
@@ -122,6 +132,6 @@ class CreateEntityRouteTest extends
   RoutesTestBase with
   CreateEntityTest{ // this is the stuff that defines what needs to be tested
 
-  override def server(initState: State ): RESTService =
+  override def server(initState: ApplicationState ): AppRoutesHandler =
     TestServerFactory.getTestServer( initState )
 }

@@ -2,13 +2,12 @@ package app.server.persistence.tests
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.server.persistence.persActor.Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse}
 import app.server.persistence.persActor.IMPersistentActor
 import app.shared.SomeError_Trait
 import app.shared.data.model.LineText
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
-
 import scalaz.{\/, \/-}
 
 /**
@@ -48,7 +47,7 @@ class IMPersistentActorTest
 
 //      val rvd =
 
-      val stateV: \/[SomeError_Trait, State] = State().insertEntity(refValDyn)
+      val stateV: \/[SomeError_Trait, ApplicationState] = ApplicationState().insertEntity(refValDyn)
       val state=stateV.toEither.right.get
 
       expectMsg(GetStatePAResponse(state))

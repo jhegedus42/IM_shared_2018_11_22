@@ -1,6 +1,6 @@
 package app.modelling.getViewCommunicationModel.client
 
-import ViewCacheStates.{Loaded, LoadingCacheState, ViewCacheState}
+import ViewCacheStates.{LoadedAndValid, LoadingCacheState, ViewCacheState}
 import app.modelling.getViewCommunicationModel.shared.views.{Parameter, Result, View}
 import io.circe.{Decoder, Encoder}
 
@@ -34,7 +34,7 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
 
         if(res.nonEmpty)  {
             val x: V#Res = res.get
-            val loaded = Loaded[V]( x )
+            val loaded = LoadedAndValid[V](x)
             val newMap: Map[Parameter, ViewCacheState[_]] = map.updated( params, loaded )
             map=newMap
             // this is OK in JS - it is single threaded

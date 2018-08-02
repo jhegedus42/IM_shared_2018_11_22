@@ -2,8 +2,8 @@ package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.Data
 import app.shared.data.model.DataType
-import app.shared.rest.routes.crudCommands.CreateEntityCommCommand
-import app.shared.rest.routes.crudCommands.CreateEntityCommCommand.CEC_Res
+import app.shared.rest.routes.crudRequests.CreateEntityRequest
+import app.shared.rest.routes.crudRequests.CreateEntityRequest.CEC_Res
 import io.circe.generic.auto._
 import io.circe.parser.decode
 import io.circe.syntax._
@@ -20,7 +20,7 @@ object CreateEntityAJAX{
   def createEntity[E <: Data: ClassTag: Decoder: Encoder](entity: E ): Future[CEC_Res[E]] = {
 
     val et:        DataType          = DataType.make[E]
-    val url: String = CreateEntityCommCommand[E]().queryURL()
+    val url: String = CreateEntityRequest[E]().queryURL()
 
     val json_line: String              = entity.asJson.spaces2
     val headers:   Map[String, String] = Map( "Content-Type" -> "application/json" )

@@ -1,4 +1,4 @@
-package app.shared.rest.routes.crudCommands
+package app.shared.rest.routes.crudRequests
 
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Data
@@ -12,7 +12,7 @@ import scalaz.\/
 /**
   * Documentation should go here.
   */
-case class GetEntityCommand[E<:Data:ClassTag]() extends Command[E] {
+case class GetEntityRequest[E<:Data:ClassTag]() extends Command[E] {
   type Params = String //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
 
@@ -40,7 +40,7 @@ case class GetEntityCommand[E<:Data:ClassTag]() extends Command[E] {
   def queryURL(rv:Ref[E]): String = "/" + getServerPath + getPars(rv)
 }
 
-object GetEntityCommand{
-  implicit val geLT  : GetEntityCommand[LineText] =new GetEntityCommand[LineText]()
-  implicit val geUser: GetEntityCommand[User]     =new GetEntityCommand[User]()
+object GetEntityRequest{
+  implicit val geLT  : GetEntityRequest[LineText] =new GetEntityRequest[LineText]()
+  implicit val geUser: GetEntityRequest[User]     =new GetEntityRequest[User]()
 }

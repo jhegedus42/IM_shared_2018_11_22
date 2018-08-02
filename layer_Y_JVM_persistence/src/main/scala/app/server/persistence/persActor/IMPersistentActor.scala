@@ -2,9 +2,9 @@ package app.server.persistence.persActor
 
 import akka.actor.{ActorLogging, Props}
 import akka.persistence.{PersistentActor, RecoveryCompleted}
-import app.server.State
 import Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePACommand, GetStatePAResponse, SetStatePACommand, UpdateEntityPACommand, UpdateEntityPAResponse}
 import EventsStoredInJournal.{CreateEntity, Event, UpdateEntity}
+import app.server.persistence.ApplicationState
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefValDyn
@@ -12,7 +12,6 @@ import app.shared.data.utils.PrettyPrint
 import app.testHelpersServer.state.TestData
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 import app.testHelpersShared.implicits.ForTestingOnly
-
 import scalaz.{-\/, \/, \/-}
 
 case object Shutdown
@@ -31,9 +30,9 @@ object IMPersistentActor {
 
 class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
 
-  private var state: State = getInitState
+  private var state: ApplicationState = getInitState
 
-  protected def getInitState: State = new State()
+  protected def getInitState: ApplicationState = new ApplicationState()
 
 
 //  import app.server.persistence
@@ -60,7 +59,7 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
 
     case UpdateEntityPACommand(item) => {
 
-      val res: \/[SomeError_Trait, (State, RefValDyn)] =
+      val res: \/[SomeError_Trait, (ApplicationState, RefValDyn)] =
         state.updateEntity(item)
       if (res.isRight) {
         persist(UpdateEntity(item)) { evt =>

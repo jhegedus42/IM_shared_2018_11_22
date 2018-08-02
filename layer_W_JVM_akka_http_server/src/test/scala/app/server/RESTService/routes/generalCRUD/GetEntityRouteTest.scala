@@ -3,7 +3,7 @@ package app.server.RESTService.routes.generalCRUD
 import app.server.RESTService.routes.RoutesTestBase
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
-import app.shared.rest.routes.crudCommands.GetEntityCommand
+import app.shared.rest.routes.crudRequests.GetEntityRequest
 import app.shared.{EntityDoesNotExistError, InvalidUUIDinURLError}
 import app.testHelpersShared.data.TestEntities
 
@@ -30,7 +30,7 @@ trait GetEntityRouteTest {
 //      val url: String =
 //        ClientSideGetEntityURL( entityType = EntityType.make[LineText], params ).getURLWithHostAsString
 
-      val url: String = GetEntityCommand[LineText]().queryURL(refVal.r)
+      val url: String = GetEntityRequest[LineText]().queryURL(refVal.r)
 
       testGetEntityHelper(url, assert = r => {r.toEither.right.get shouldBe refVal })
     }
@@ -42,7 +42,7 @@ trait GetEntityRouteTest {
 //      val params: GetEntityQueryParameters = GetEntityQueryParameters( ref.uuid )
 //      val url:    String                   = ClientSideGetEntityURL( entityType = ref.entityType, params ).getURLWithHostAsString
 
-      val url: String = GetEntityCommand[LineText]().queryURL(ref)
+      val url: String = GetEntityRequest[LineText]().queryURL(ref)
 
       testGetEntityHelper(url, r => {r.toEither.left.get shouldBe a[EntityDoesNotExistError] })
     }
@@ -60,7 +60,7 @@ trait GetEntityRouteTest {
 //      val url:    String                   = ClientSideGetEntityURL( entityType = ref.entityType, params ).getURLWithHostAsString
 
 //      val url : String = ???
-      val url: String = GetEntityCommand[LineText]().queryURL(ref)
+      val url: String = GetEntityRequest[LineText]().queryURL(ref)
 
       testGetEntityHelper(url, r => {r.toEither.left.get shouldBe a[InvalidUUIDinURLError] })
 

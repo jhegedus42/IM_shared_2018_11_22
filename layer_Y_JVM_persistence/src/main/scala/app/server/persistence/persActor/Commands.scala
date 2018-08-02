@@ -1,11 +1,10 @@
 package app.server.persistence.persActor
 
-import app.server.State
+import app.server.persistence.ApplicationState
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Data
 import app.shared.data.ref.RefValDyn
 import app.testHelpersShared.data.TestDataLabels.TestDataLabel
-
 import scalaz.\/
 
 /**
@@ -21,7 +20,7 @@ object Commands {
   case class CreateEntityPAResponse(payload: \/[SomeError_Trait, RefValDyn])
 
   case object GetStatePACommand
-  case class GetStatePAResponse(state: State)
+  case class GetStatePAResponse(state: ApplicationState)
 
   case class SetStatePACommand(tdl:TestDataLabel)
   case class SetStatePAResponse(success: Boolean)

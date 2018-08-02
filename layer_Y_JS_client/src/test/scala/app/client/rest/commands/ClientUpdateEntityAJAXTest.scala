@@ -2,7 +2,7 @@ package app.client.rest.commands
 
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal, Version}
-import app.shared.rest.routes.crudCommands.UpdateEntityCommCommand
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidUUIDinURLError, SomeError_Trait}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -24,7 +24,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
   implicit override def executionContext: ExecutionContextExecutor =
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-  type Res = UpdateEntityCommCommand.UEC_Res[LineText]
+  type Res = UpdateEntityRequest.UEC_Res[LineText]
 
   test(
     "return InvalidUUIDinURLError if uuid" +
@@ -42,7 +42,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
       .set( "4ce6fca0-0fd5-4197-a946-90f5e7e009e" )
     //fuking up the uuid - on purpose
 //    val url: String = UpdateEntityURL( ref.et ).clientPathWithSlashWithoutHost.asString
-    val url:       String              = UpdateEntityCommCommand[LineText]().queryURL()
+    val url:       String              = UpdateEntityRequest[LineText]().queryURL()
 //    val url: String = ???
     println( url )
     val l = LineText( title =  "macska" ,text="test" )
@@ -71,7 +71,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
       Ref
         .make[LineText]().lens( _.uuid.id )
         .set( "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d" )
-    val url:       String              = UpdateEntityCommCommand[LineText]().queryURL()
+    val url:       String              = UpdateEntityRequest[LineText]().queryURL()
 
     println( url )
     val l = LineText( title =  "macska" ,text="test" )
@@ -107,7 +107,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
     //fuking up the uuid - on purpose
 //    val url: String = UpdateEntityURL( ref.et ).clientPathWithSlashWithoutHost.asString
 
-            val url:       String              = UpdateEntityCommCommand[LineText]().queryURL()
+            val url:       String              = UpdateEntityRequest[LineText]().queryURL()
 //    val url: String = ???
     println( url )
     val l = LineText( title =  "macska" ,text="test" )

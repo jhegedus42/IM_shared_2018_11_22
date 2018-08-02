@@ -14,11 +14,11 @@ object ViewCacheStates{
 
   case class FailedToLoad[V<:View](par: V#Par ) extends ViewCacheState[V]
 
-  case class Loaded[V<:View](res:V#Res) extends ViewCacheState[V]
+  case class LoadedAndValid[V<:View](res:V#Res) extends ViewCacheState[V]
 
-  case class Invalidated[V<:View](res:V#Res) extends ViewCacheState[V]
+  case class Invalid[V<:View](res:V#Res) extends ViewCacheState[V]
 
-  case class Refreshing[V<:View](res:V#Res) extends ViewCacheState[V]
+  case class RefreshingAfterCacheInvalidation[V<:View](res:V#Res) extends ViewCacheState[V]
 
   case class FailedToRefresh[V<:View](res:V#Res) extends ViewCacheState[V]
 
