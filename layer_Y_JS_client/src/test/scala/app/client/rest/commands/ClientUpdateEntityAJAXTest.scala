@@ -24,7 +24,7 @@ class ClientUpdateEntityAJAXTest extends AsyncFunSuite with BeforeTester with Ma
   implicit override def executionContext: ExecutionContextExecutor =
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-  type Res = UpdateEntityRequest.UEC_Res[LineText]
+  type Res = UpdateEntityRequest.UpdateEntityRequestResult[LineText]
 
   test(
     "return InvalidUUIDinURLError if uuid" +

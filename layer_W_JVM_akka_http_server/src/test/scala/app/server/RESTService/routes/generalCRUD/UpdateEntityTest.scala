@@ -61,8 +61,8 @@ trait UpdateEntityTest{
     s.shutdownActorSystem()
   }
 
-  type Par=UpdateEntityRequest.UEC_Par[LineText]
-  type Res=UpdateEntityRequest.UEC_Res[LineText]
+  type Par=UpdateEntityRequest.UpdateEntityRequestParameters[LineText]
+  type Res=UpdateEntityRequest.UpdateEntityRequestResult[LineText]
 
   def updateRefValLine(
                         s:              AppRoutesHandler,

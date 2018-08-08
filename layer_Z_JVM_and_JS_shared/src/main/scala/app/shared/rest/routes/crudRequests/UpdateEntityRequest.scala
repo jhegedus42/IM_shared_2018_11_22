@@ -6,7 +6,7 @@ package app.shared.rest.routes.crudRequests
 
 
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.RefVal
 import app.shared.rest.routes.Command
 
@@ -15,10 +15,14 @@ import scalaz.\/
 
 /**
   * Created by joco on 14/12/2017.
+  *
+  * This class represents/describes a http request that
+  * updates an Entity.
+  *
   */
 
 
-case class UpdateEntityRequest[E<:Data:ClassTag]() extends Command[E] {
+case class UpdateEntityRequest[E<:Entity:ClassTag]() extends Command[E] {
   //  type E <:Entity
   type Params = RefVal[E] //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
@@ -30,6 +34,6 @@ case class UpdateEntityRequest[E<:Data:ClassTag]() extends Command[E] {
 }
 
 object UpdateEntityRequest{
-  type UEC_Res[E<:Data] = UpdateEntityRequest[E]#Result
-  type UEC_Par[E<:Data] = UpdateEntityRequest[E]#Params
+  type UpdateEntityRequestResult[E<:Entity] = UpdateEntityRequest[E]#Result
+  type UpdateEntityRequestParameters[E<:Entity] = UpdateEntityRequest[E]#Params
 }

@@ -1,6 +1,6 @@
 package app.client.rest.commands.generalCRUD
 
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.model.DataType
 import app.shared.rest.routes.crudRequests.CreateEntityRequest
 import app.shared.rest.routes.crudRequests.CreateEntityRequest.CEC_Res
@@ -17,7 +17,7 @@ import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
   * Created by joco on 16/12/2017.
   */
 object CreateEntityAJAX{
-  def createEntity[E <: Data: ClassTag: Decoder: Encoder](entity: E ): Future[CEC_Res[E]] = {
+  def createEntity[E <: Entity: ClassTag: Decoder: Encoder](entity: E ): Future[CEC_Res[E]] = {
 
     val et:        DataType          = DataType.make[E]
     val url: String = CreateEntityRequest[E]().queryURL()

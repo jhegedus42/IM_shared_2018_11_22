@@ -1,7 +1,7 @@
 package app.shared.rest.routes.crudRequests
 
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.model.{LineText, User}
 import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes.Command
@@ -12,7 +12,7 @@ import scalaz.\/
 /**
   * Documentation should go here.
   */
-case class GetEntityRequest[E<:Data:ClassTag]() extends Command[E] {
+case class GetEntityRequest[E<:Entity:ClassTag]() extends Command[E] {
   type Params = String //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
 

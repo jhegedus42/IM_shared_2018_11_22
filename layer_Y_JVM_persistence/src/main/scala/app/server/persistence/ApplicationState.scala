@@ -1,7 +1,7 @@
 package app.server.persistence
 
 import app.shared.data.model.DataType
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
 import scalaz.{-\/, Disjunction, \/, \/-}
@@ -56,17 +56,18 @@ case class ApplicationState(stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
       return \/-( this.copy( stateMap = this.stateMap + (refValDyn.r -> newVal) ), newVal )
     } else {
       val r = -\/(
-        InvalidVersionError( "while updating the state", stateMap( refValDyn.r ).version, refValDyn.version )
+        InvalidVersionError( "while updating the state", stateMap( refValDyn.r ).version,
+                             refValDyn.version )
       )
       return r
     }
 
   }
 
-  def doesEntityExist(e: Data ): Boolean =
+  def doesEntityExist(e: Entity ): Boolean =
     stateMap.values.map( rvd => rvd.e ).toSet.contains( e )
 
-  def getEntitiesOfGivenType[E <: Data: ClassTag](): \/[SomeError_Trait, List[RefVal[E]]] = {
+  def getEntitiesOfGivenType[E <: Entity: ClassTag](): \/[SomeError_Trait, List[RefVal[E]]] = {
     val et: DataType = DataType.make[E]
     val r: List[Disjunction[TypeError, RefVal[E]]] =
       stateMap.values.filter( rvd => rvd.r.et == et ).map( _.toRefVal[E] ).toList
@@ -75,7 +76,7 @@ case class ApplicationState(stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
     else -\/( StateOpsError( "getEntities type error - this should not happen" ) )
   }
 
-  private[server] def getEntity[E <: Data: ClassTag](r: Ref[E] ): \/[SomeError_Trait, RefVal[E]] = {
+  private[server] def getEntity[E <: Entity: ClassTag](r: Ref[E] ): \/[SomeError_Trait, RefVal[E]] = {
 
     if (!r.isTypeCorrect) return -\/( TypeError( "State.getEntity - 1" ) )
     else {

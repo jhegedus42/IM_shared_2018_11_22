@@ -13,7 +13,15 @@ import scala.concurrent.Future
 
 
 /**
-  * Created by joco on 09/10/2017.
+  *
+  * Ez mit csinál ?
+  * Ki használja ?
+  * Minek van erre szükség?
+  *
+  * // Random UUID: 429fc025b1454677bc18fd9eb8acf28f
+  * // commit 261bba625a6dc3bfc178a1d578cd104b23cf6437
+  * // Date: Tue Aug  7 09:08:46 EEST 2018
+  *
   */
 trait PersActorWrapperIF{
   def getState: Future[GetStatePAResponse]

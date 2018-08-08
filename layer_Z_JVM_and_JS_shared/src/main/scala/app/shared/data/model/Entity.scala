@@ -7,25 +7,10 @@ import scala.reflect.ClassTag
 object Entity {
 //  sealed trait Data
 
-  /**
-    * Ez egy olyan adat amit nem szabad referenciába burkolni, de mégis tárolhatunk
-    * az appunkban.
-    *  - De akkor ennek mi értelme van ?
-    *    - Miért van erre egyáltalán szükség ?
-    *     - pl a Rect esetében v. az Img esetében ?
-    *       - Ez csak valami fantom típus ?
-    *         - Ami mit hivatott jelezni ?
-    *           - Elvileg azt, hogy ezt nem updatelhetjük, anélkül, hogy
-    *             magát a birtokló case class-t nem módosítanánk.
-    *             - Azaz Rect és Img nem létezhet csak úgy önmagában ?
-    *             - Azaz nem lehet Ref-fel hivatkozni rá ?
-    *             - Azaz nincsen identitása ?
-    *               - Az mit jelent, hogy nincsen identitása ?
-    *             - Ami inkább fontosabb, az az, hogy meg kell tiltani azt, hogy két különböző
-    *               Entity that have identities, that are mutable, are
-    *             - Tehát akkor az ApplicationState-ben át kell írni a típusokat.
-    *
-    */
+  // Random UUID: 1bac6f8972b243bf9a9e1b636b871d4a
+  // commit 261bba625a6dc3bfc178a1d578cd104b23cf6437
+  // Date: Tue Aug  7 01:28:12 EEST 2018
+
 
   trait Value
 

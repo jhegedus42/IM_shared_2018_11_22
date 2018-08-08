@@ -1,6 +1,6 @@
 package app.shared.rest
 
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.model.DataType
 import app.shared.data.ref.{Ref, RefVal}
 import io.circe.Decoder.Result
@@ -68,7 +68,7 @@ object CirceJSON {
 //  }
 //b367c298bb35479a81cca6efc51e112f commit 2ec8ad4ba0e9a407bff4a58217d78f3b774cbfe3 Fri Nov  3 19:34:33 EET 2017
 
-  def typedRefValDecode[E <: Data](
+  def typedRefValDecode[E <: Entity](
       s: String
     )(
       implicit

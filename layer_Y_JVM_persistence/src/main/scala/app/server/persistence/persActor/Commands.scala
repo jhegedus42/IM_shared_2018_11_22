@@ -8,11 +8,20 @@ import app.testHelpersShared.data.TestDataLabels.TestDataLabel
 import scalaz.\/
 
 /**
-  * Created by joco on 09/10/2017.
+  *
+  * Ezek parancsok és visszaérkező válaszok,
+  * amiket a Persistent Actor-nak lehet küldeni.
+  *
+  * És ki küldi őket ?
+  *
   */
 object Commands {
+  // Random UUID: de5e8eabb1314941bebe81f57c82257b
+  // commit 261bba625a6dc3bfc178a1d578cd104b23cf6437
+  // Date: Tue Aug  7 08:52:23 EEST 2018
 
   //  protocol
+
   case class UpdateEntityPACommand(entity: RefValDyn)
   case class UpdateEntityPAResponse(payload: \/[SomeError_Trait, RefValDyn])
 

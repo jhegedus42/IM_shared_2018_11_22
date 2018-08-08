@@ -6,7 +6,7 @@ import Commands.{CreateEntityPACommand, CreateEntityPAResponse, GetStatePAComman
 import EventsStoredInJournal.{CreateEntity, Event, UpdateEntity}
 import app.server.persistence.ApplicationState
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.RefValDyn
 import app.shared.data.utils.PrettyPrint
 import app.testHelpersServer.state.TestData
@@ -45,7 +45,7 @@ class IMPersistentActor(id: String) extends PersistentActor with ActorLogging {
       println("shutting down persistent actor")
       context.stop(self)
 
-    case CreateEntityPACommand(e: Data) => {
+    case CreateEntityPACommand(e: Entity) => {
 
       val rvd: RefValDyn = RefValDyn.makeRefValDynForNewlyCreatedEntity(e)
 

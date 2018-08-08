@@ -8,9 +8,9 @@ import app.shared.data.ref.{Ref, RefVal}
 import io.circe.{Decoder, Encoder}
 
 import scala.reflect.ClassTag
-case class ReadRequest[E <: Data: ClassTag](ref: Ref[E] )
+case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
 
-case class UpdateRequest[E <: Data](rv: RefVal[E] )
+case class UpdateRequest[E <: Entity](rv: RefVal[E] )
 
 trait StateSettable {
   def setState(c: EntityCacheMap )

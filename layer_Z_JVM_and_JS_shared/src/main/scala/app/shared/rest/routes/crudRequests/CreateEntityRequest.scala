@@ -1,7 +1,7 @@
 package app.shared.rest.routes.crudRequests
 
 import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.RefVal
 import app.shared.rest.routes.Command
 
@@ -13,7 +13,7 @@ import scalaz.\/
   */
 
 
-case class CreateEntityRequest[E<:Data:ClassTag]() extends Command[E] {
+case class CreateEntityRequest[E<:Entity:ClassTag]() extends Command[E] {
   //  type E <:Entity
   type Params = E //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]
@@ -25,5 +25,5 @@ case class CreateEntityRequest[E<:Data:ClassTag]() extends Command[E] {
 }
 
 object CreateEntityRequest{
-  type CEC_Res[E<:Data] = CreateEntityRequest[E]#Result
+  type CEC_Res[E<:Entity] = CreateEntityRequest[E]#Result
 }

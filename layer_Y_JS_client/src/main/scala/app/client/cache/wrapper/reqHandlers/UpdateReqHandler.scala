@@ -6,7 +6,7 @@ import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal
-import app.shared.rest.routes.crudRequests.UpdateEntityRequest.UEC_Res
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest.UpdateEntityRequestResult
 import io.circe.{Decoder, Encoder}
 
 import scala.concurrent.Future
@@ -30,13 +30,13 @@ object  UpdateReqHandler {
       val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
       val updating: Updating[E] = cache.setUpdating( ready, wr.rv )
 
-      val f: Future[UEC_Res[E]] = UpdateEntityAJAX.updateEntity( wr.rv )
+      val f: Future[UpdateEntityRequestResult[E]] = UpdateEntityAJAX.updateEntity(wr.rv)
       // ab58169c298a4c1bb18c252f092142da commit b644e0744804cc562d4c7648aafaae93ec4727e5 Tue Dec 19 02:45:20 EET 2017
 
       import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
       val res: Future[Unit] =
         f.map( {
-          (r: UEC_Res[E]) =>
+          (r: UpdateEntityRequestResult[E]) =>
             {
               r match {
                 case -\/( a: SomeError_Trait ) =>

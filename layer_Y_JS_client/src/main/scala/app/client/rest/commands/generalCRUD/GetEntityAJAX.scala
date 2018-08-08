@@ -1,6 +1,6 @@
 package app.client.rest.commands.generalCRUD
 
-import app.shared.data.model.Entity.Data
+import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.model.{DataType, LineText, User}
 import app.shared.data.ref.{Ref, RefDyn, RefValDyn}
 import app.shared.rest.routes.crudRequests.GetEntityRequest
@@ -18,7 +18,7 @@ object GetEntityAJAX {
 
   import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-    def getEntity[E <: Data : ClassTag : Decoder](ref: Ref[E])(implicit gec:GetEntityRequest[E]):
+    def getEntity[E <: Entity : ClassTag : Decoder](ref: Ref[E])(implicit gec:GetEntityRequest[E]):
     Future[gec.Result] = {
       val route: String = gec.queryURL(ref)
       GeneralGetAJAX.get[E](route, gec)(decode[GetEntityRequest[E]#Result])
@@ -35,14 +35,14 @@ object GetEntityAJAX {
       */
     def getEntityDyn(refDyn: RefDyn): Future[ResDyn] = {
 
-      def g[E <: Data : ClassTag](implicit gec:GetEntityRequest[E]): gec.Result => ResDyn = {
+      def g[E <: Entity : ClassTag](implicit gec:GetEntityRequest[E]): gec.Result => ResDyn = {
 
         (result: gec.Result) => ReqResultDyn(result.map(RefValDyn.fromRefValToRefValDyn(_)))
       }
 
-      def getCase[E <: Data : ClassTag]: DataType = {DataType.make[E]}
+      def getCase[E <: Entity : ClassTag]: DataType = {DataType.make[E]}
 
-      def res[E <: Data : ClassTag : Decoder](refDyn: RefDyn)
+      def res[E <: Entity : ClassTag : Decoder](refDyn: RefDyn)
                                              (implicit gec:GetEntityRequest[E]): Future[ResDyn] = {
 
         val refV: \/[TypeError, Ref[E]] = refDyn.toRef[E]()
