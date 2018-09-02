@@ -1,0 +1,31 @@
+package app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared
+
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View
+
+import scala.reflect.ClassTag
+
+
+case class GetViewHttpRouteName(name:String)
+
+object GetViewHttpRouteProvider{
+
+  // Random UUID: bfaec55006204e778925b4b2b911319b
+  // commit 3a7d0bc1c81a6f3d8e6aa3b6d286e8e0291af5d5
+  // Date: Sun Sep  2 19:25:15 EEST 2018
+  def getGetViewHttpRouteName[V<:View:ClassTag]():
+    GetViewHttpRouteName={
+      val viewName=ViewName.getViewName[V]()
+    GetViewHttpRouteName("getView_" + viewName.shortName)
+  }
+}
+
+case class ViewName(fullName:String, shortName:String)
+
+object ViewName
+{
+  def getViewName[V<:View:ClassTag]() : ViewName = {
+    val full=implicitly[ClassTag[V]].runtimeClass.getCanonicalName
+    val short=implicitly[ClassTag[V]].runtimeClass.getSimpleName
+    ViewName(fullName = full,shortName = short)
+  }
+}

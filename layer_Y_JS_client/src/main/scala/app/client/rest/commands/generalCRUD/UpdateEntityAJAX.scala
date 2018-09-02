@@ -25,7 +25,6 @@ object UpdateEntityAJAX {
     * @param refVal
     * @tparam E
     * @return Future that contains the result of the update request.
-    *           - Ami mi lehet ? Jelen esetben egy \/[SomeError_Trait,RefVal[E]]
     */
 
   def updateEntity[E <: Entity: ClassTag: Decoder: Encoder]

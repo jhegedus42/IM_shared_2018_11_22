@@ -1,8 +1,8 @@
 package app.comm_model_on_the_server_side.serverSide.logic
 
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View1_HolderObject.{View1, View1_Par, View1_Res}
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View2_HolderObject.{View2, View2_Par, View2_Res}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View1_HolderObject.{View1, View1_Par, View1_Res}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View2_HolderObject.{View2, View2_Par, View2_Res}
 
 
 object ServerSideLogic {

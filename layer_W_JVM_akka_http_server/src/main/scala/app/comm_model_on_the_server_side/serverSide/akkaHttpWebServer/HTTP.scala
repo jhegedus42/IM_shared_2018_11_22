@@ -9,19 +9,22 @@ import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.CirceUtils._
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.{
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.CirceUtils._
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.{
   GetViewHttpRouteName,
   GetViewHttpRouteProvider,
   JSONContainingGetViewPar,
   JSONContainingOptRes
 }
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View1_HolderObject.{
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View1_HolderObject.{
   View1,
   View1_Par
 }
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View2_HolderObject.View2
-import app.model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.{View, View1_HolderObject}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View2_HolderObject.View2
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.{
+  View,
+  View1_HolderObject
+}
 import app.comm_model_on_the_server_side.serverSide.logic.ServerSideLogic.ServerLogicTypeClass
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder, Error}
@@ -89,6 +92,10 @@ case class HttpServerOnTheInternet() {
 
 }
 
+// Random UUID: 1331df23fe1b4e8b989ad69bb844ce58
+// commit 3a7d0bc1c81a6f3d8e6aa3b6d286e8e0291af5d5
+// Date: Sun Sep  2 18:39:13 EEST 2018
+
 case class GetViewRequestHandler[V <: View: ClassTag]() {
 
   def decodeJSON2Par_SendParToLogic_EncodeResultToJSON[V <: View](
@@ -118,15 +125,12 @@ case class GetViewRequestHandler[V <: View: ClassTag]() {
 
   }
 
+
+  // Random UUID: 7111d99813e9418da8cfa0a73231e38e
+  // commit 3a7d0bc1c81a6f3d8e6aa3b6d286e8e0291af5d5
+  // Date: Sun Sep  2 19:24:09 EEST 2018
+
   def getGetViewHttpRouteName(): GetViewHttpRouteName =
     GetViewHttpRouteProvider.getGetViewHttpRouteName[V]()
 
 }
-
-
-// todonow erre irni egy tesztet
-// de hogy ?
-// mi alapján ?
-// kéne rá egy példát találni ...
-
-
