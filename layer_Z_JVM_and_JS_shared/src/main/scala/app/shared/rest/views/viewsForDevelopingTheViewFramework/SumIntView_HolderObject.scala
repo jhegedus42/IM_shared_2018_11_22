@@ -13,8 +13,10 @@ object SumIntView_HolderObject {
     case class SumIntView_Par(x:Int, y:Int ) extends Parameter
 
     case class SumIntView_Res(sum: Int ) extends Result
+    // 8c42c673e5f34b4481db743cbd255152$f613bee1c9520139dfa883a5b364d39c2d2ed17c
 
-    class SumIntView extends View {
+
+  class SumIntView extends View {
       type Par = SumIntView_Par
       type Res = SumIntView_Res
     }

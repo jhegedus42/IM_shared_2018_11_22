@@ -1,7 +1,7 @@
 package app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.client
 
 import app.shared.data.ref.uuid.UUID
-import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.{CirceUtils, GetViewHttpRouteName, GetViewHttpRouteProvider, JSONContainingGetViewPar, JSONContainingOptRes}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.{CirceUtils, ViewHttpRouteName, ViewHttpRouteNameProvider, JSONContainingGetViewPar, JSONContainingOptRes}
 import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.View
 import io.circe.{Decoder, Encoder}
 
@@ -17,7 +17,7 @@ object JSAjaxAPI {
 
   def postRequest(
       json:      JSONContainingGetViewPar,
-      routeName: GetViewHttpRouteName
+      routeName: ViewHttpRouteName
     ): Future[Option[JSONContainingOptRes]] = {
 
 
@@ -55,7 +55,7 @@ case class AjaxInterface(server: HttpServerOnTheInternet ) {
       e: Encoder[V#Par],
       d: Decoder[V#Res]
     ): GetViewAjaxRequest[V] = {
-    val routeName: GetViewHttpRouteName = GetViewHttpRouteProvider.getGetViewHttpRouteName[V]()
+    val routeName: ViewHttpRouteName = ViewHttpRouteNameProvider.getViewHttpRouteName[V]()
 
     val json_request_payload: JSONContainingGetViewPar =
       CirceUtils.encodeParToJSON[V]( param )

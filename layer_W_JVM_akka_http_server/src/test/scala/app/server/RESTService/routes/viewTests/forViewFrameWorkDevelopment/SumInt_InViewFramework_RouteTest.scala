@@ -1,13 +1,27 @@
 package app.server.RESTService.routes.viewTests.forViewFrameWorkDevelopment
 
 import akka.http.scaladsl.model.HttpRequest
+import app.comm_model_on_the_server_side.serverSide.logic.ServerSideLogic.ServerLogicTypeClass
 import app.comm_model_on_the_server_side.simple_route.{PairOfInts, SumIntViewRoute_For_Testing, SumOfInts}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.{
+  ViewHttpRouteName,
+  ViewHttpRouteNameProvider
+}
 import app.server.RESTService.AppRoutesHandler
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
+import app.server.RESTService.routes.views.ViewRoute
 import app.server.persistence.ApplicationState
 import app.shared.data.model.LineText
 import app.shared.rest.routes.crudRequests.CreateEntityRequest
+import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject._
+import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+import io.circe.generic.auto._
+import io.circe.generic.auto._
+import io.circe._
+import io.circe.parser._
+import io.circe.syntax._
+import io.circe.{Decoder, Encoder}
 
 /**
   */
@@ -15,39 +29,39 @@ import app.shared.rest.routes.crudRequests.CreateEntityRequest
 // commit 3a7d0bc1c81a6f3d8e6aa3b6d286e8e0291af5d5
 // Date: Sun Sep  2 16:40:39 EEST 2018
 
-
 trait SumInt_InViewFramework_RouteTestTrait {
   this: RoutesTestBase =>
 
-  type ResCET = CreateEntityRequest[LineText]#Result
-  val cec = CreateEntityRequest[LineText]
-
+  type ViewToTest = SumIntView
 
   "simple test" should {
 
     "do a simple test" in {
 
-      import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
-      import io.circe.generic.auto._
+//      val whatWeWantToSend                 = PairOfInts(2,3) // régi
+      val whatWeWantToSend = SumIntView_Par( 2, 3 )
 
-      val whatWeWantToSend                 = PairOfInts(2,3)
-      val URLToWhereWeWantToSendTheRequest = "/getSumOfIntsView"
+//      val URLToWhereWeWantToSendTheRequest = "/getSumOfIntsView"
+      val routeName:                        ViewHttpRouteName = ViewHttpRouteNameProvider.getViewHttpRouteName[ViewToTest]()
+      val URLToWhereWeWantToSendTheRequest: String            = routeName.getPathNameForClient
+
       val req: HttpRequest = Post( URLToWhereWeWantToSendTheRequest, whatWeWantToSend )
 
       println( "Post request:" + req )
 
-      val route = SumIntViewRoute_For_Testing.route
+//      val route = SumIntViewRoute_For_Testing.route
 
+      val sl = implicitly[ServerLogicTypeClass[ViewToTest]]
+
+      val route = ViewRoute.getRouteForView[ViewToTest]() // Random UUID: d7b8aea40f454a46af529da21328f1aa
 
       req ~> route ~> check {
 
-
-        val result: SumOfInts = responseAs[SumOfInts]
+        val result: SumIntView_Res = responseAs[SumIntView_Res]
 
         println( "response from Post request:" + result )
 
-        result shouldBe SumOfInts(5)
-
+        result shouldBe SumIntView_Res( 5 )
 
       }
 //      s.system.terminate()
@@ -55,14 +69,14 @@ trait SumInt_InViewFramework_RouteTestTrait {
 
   }
 
-
 }
 
 /**
   *
   */
 
-class SumIntInViewFrameworkRouteTest_Instance extends RoutesTestBase with SumInt_InViewFramework_RouteTestTrait {
+class SumIntInViewFrameworkRouteTest_Instance
+    extends RoutesTestBase with SumInt_InViewFramework_RouteTestTrait {
   // this is the stuff that defines what needs to be tested
 
   override def server(initState: ApplicationState ): AppRoutesHandler =

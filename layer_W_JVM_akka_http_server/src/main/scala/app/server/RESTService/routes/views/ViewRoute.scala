@@ -6,8 +6,8 @@ import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.share
 import akka.http.scaladsl.server.directives.RouteDirectives.complete
 import app.comm_model_on_the_server_side.serverSide.logic.ServerSideLogic.ServerLogicTypeClass
 import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.{
-  GetViewHttpRouteName,
-  GetViewHttpRouteProvider
+  ViewHttpRouteName,
+  ViewHttpRouteNameProvider
 }
 import io.circe.{Decoder, Encoder}
 
@@ -35,7 +35,7 @@ object ViewRoute {
       encoder:     Encoder[V#Res]
     ): Route = {
 
-    val routeName: GetViewHttpRouteName = GetViewHttpRouteProvider.getGetViewHttpRouteName[V]()
+    val routeName: ViewHttpRouteName = ViewHttpRouteNameProvider.getViewHttpRouteName[V]()
 
     val res: Route = {
       cors() {

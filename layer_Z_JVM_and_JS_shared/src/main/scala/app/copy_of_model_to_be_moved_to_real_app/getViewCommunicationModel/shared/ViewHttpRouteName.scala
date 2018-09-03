@@ -5,17 +5,20 @@ import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.share
 import scala.reflect.ClassTag
 
 
-case class GetViewHttpRouteName(name:String)
+case class ViewHttpRouteName(name:String){
+  def getPathNameForClient:String= "/"+ name
+  def getPathNameForAkkaHttpRoutePathDirective: String = name
+}
 
-object GetViewHttpRouteProvider{
+object ViewHttpRouteNameProvider{
 
   // Random UUID: bfaec55006204e778925b4b2b911319b
   // commit 3a7d0bc1c81a6f3d8e6aa3b6d286e8e0291af5d5
   // Date: Sun Sep  2 19:25:15 EEST 2018
-  def getGetViewHttpRouteName[V<:View:ClassTag]():
-    GetViewHttpRouteName={
+  def getViewHttpRouteName[V<:View:ClassTag]():
+    ViewHttpRouteName={
       val viewName=ViewName.getViewName[V]()
-    GetViewHttpRouteName("getView_" + viewName.shortName)
+    ViewHttpRouteName("getView_" + viewName.shortName)
   }
 }
 
