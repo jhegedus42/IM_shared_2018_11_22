@@ -42,12 +42,21 @@ trait SumInt_InViewFramework_RouteTestTrait {
       val whatWeWantToSend = SumIntView_Par( 2, 3 )
 
 //      val URLToWhereWeWantToSendTheRequest = "/getSumOfIntsView"
-      val routeName:                        ViewHttpRouteName = ViewHttpRouteNameProvider.getViewHttpRouteName[ViewToTest]()
-      val URLToWhereWeWantToSendTheRequest: String            = routeName.getPathNameForClient
+      val routeName: ViewHttpRouteName =
+        ViewHttpRouteNameProvider.getViewHttpRouteName[ViewToTest]()
 
-      val req: HttpRequest = Post( URLToWhereWeWantToSendTheRequest, whatWeWantToSend )
+      println(s"routeName: $routeName")
 
+      val URLToWhereWeWantToSendTheRequest: String =
+        routeName.getPathNameForClient
+
+      val req: HttpRequest =
+        Post( URLToWhereWeWantToSendTheRequest, whatWeWantToSend ) // 4a1485de473d47c08bc96d1f018b07bd$5e45b350c3d7df91abb31d34817ad48226d70ff8
+
+      val ent=req.entity.withoutSizeLimit()
+      println( "Post message:" + req.httpMessage )
       println( "Post request:" + req )
+      println( "Post request ent:" + ent )
 
 //      val route = SumIntViewRoute_For_Testing.route
 

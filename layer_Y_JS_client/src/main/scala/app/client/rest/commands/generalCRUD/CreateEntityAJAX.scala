@@ -26,7 +26,7 @@ object CreateEntityAJAX{
     val headers:   Map[String, String] = Map( "Content-Type" -> "application/json" )
 
     Ajax
-    .post( url, json_line, headers = headers )
+    .post( url, json_line, headers = headers )   // a3eeb6d8aa9a48cd8af81c686b7ba75c$5e45b350c3d7df91abb31d34817ad48226d70ff8
     .map( _.responseText )
     .map( (x: String) => { decode[CEC_Res[E]](x) })
     .map( x => x.right.get )

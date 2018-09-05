@@ -19,6 +19,7 @@ import org.scalatest.{Assertion, AsyncFunSuite, Matchers}
 /**
   * Created by joco on 16/12/2017.
   */
+// 0e19b046d99a4c52b4fb317bc6cfb1de$5e45b350c3d7df91abb31d34817ad48226d70ff8
 
 class CreateEntityAJAXTest extends AsyncFunSuite with Matchers with BeforeTester {
 

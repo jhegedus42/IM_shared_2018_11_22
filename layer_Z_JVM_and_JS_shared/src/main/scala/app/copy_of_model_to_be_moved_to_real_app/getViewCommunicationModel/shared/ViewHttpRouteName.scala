@@ -18,17 +18,19 @@ object ViewHttpRouteNameProvider{
   def getViewHttpRouteName[V<:View:ClassTag]():
     ViewHttpRouteName={
       val viewName=ViewName.getViewName[V]()
-    ViewHttpRouteName("getView_" + viewName.shortName)
+    ViewHttpRouteName("getView_" + viewName.simpleClassName)
   }
 }
 
-case class ViewName(fullName:String, shortName:String)
+case class ViewName(simpleClassName:String)
 
 object ViewName
 {
   def getViewName[V<:View:ClassTag]() : ViewName = {
-    val full=implicitly[ClassTag[V]].runtimeClass.getCanonicalName
-    val short=implicitly[ClassTag[V]].runtimeClass.getSimpleName
-    ViewName(fullName = full,shortName = short)
+//    val full=implicitly[ClassTag[V]].runtimeClass.getCanonicalName
+//    val short=implicitly[ClassTag[V]].runtimeClass.getSimpleName
+//    val name=implicitly[ClassTag[V]].runtimeClass.getName
+    val name=implicitly[ClassTag[V]].runtimeClass.getSimpleName
+    ViewName(simpleClassName = name)
   }
 }
