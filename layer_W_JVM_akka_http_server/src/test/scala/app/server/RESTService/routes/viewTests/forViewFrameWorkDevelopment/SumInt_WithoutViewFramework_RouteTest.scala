@@ -2,7 +2,7 @@ package app.server.RESTService.routes.viewTests.forViewFrameWorkDevelopment
 
 import akka.http.scaladsl.model.HttpRequest
 import app.comm_model_on_the_server_side.simple_route.{PairOfInts, SumIntViewRoute_For_Testing, SumOfInts}
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.persistence.ApplicationState
@@ -83,6 +83,6 @@ trait SumInt_RouteTestTrait {
 class SumIntRouteTest_Instance extends RoutesTestBase with SumInt_InViewFramework_RouteTestTrait {
   // this is the stuff that defines what needs to be tested
 
-  override def server(initState: ApplicationState ): AppRoutesHandler =
+  override def server(initState: ApplicationState ): HttpServer_For_ImageMemory_App =
     TestServerFactory.getTestServer( initState )
 }

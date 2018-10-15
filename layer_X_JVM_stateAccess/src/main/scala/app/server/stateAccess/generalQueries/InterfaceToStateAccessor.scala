@@ -8,6 +8,8 @@ import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scalaz.\/
 
+
+
 trait InterfaceToStateAccessor {
 
   def getEntity[E <: Entity: ClassTag](r: Ref[E]): Future[\/[SomeError_Trait, RefVal[E]]]

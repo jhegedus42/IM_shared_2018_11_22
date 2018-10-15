@@ -1,6 +1,6 @@
 package app.client.ui.pages.main.root_children.materialUI_children
 
-import app.client.ui.pages.Props2Wrapped
+import app.client.ui.pages.PropsOfInnerComp
 import app.client.ui.pages.lineDetail.LineDetailWrapping
 import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.listOfLineLists.UserLineListsWrapping
@@ -44,7 +44,7 @@ object RouterComp {
         val dr_lineDetail = {
           val g = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
-              LineDetailWrapping.wrapped(Props2Wrapped(Ref.makeWithUUID(x.id), r))
+              LineDetailWrapping.wrapped(PropsOfInnerComp(Ref.makeWithUUID(x.id), r))
           }
           dynamicRouteCT( "#item" / uuid.caseClass[LineDetailPage] ) ~> dynRenderR( g )
         }
@@ -53,7 +53,7 @@ object RouterComp {
 
           val g: (UserLineListPage,  RouterCtl[Page] ) => ReactElement =
             (u:UserLineListPage,r: RouterCtl[Page]) =>
-              UserLineListsWrapping.wrapped_CC( Props2Wrapped(Ref.makeWithUUID(u.id_user), r ) )
+              UserLineListsWrapping.wrapped_CC(PropsOfInnerComp(Ref.makeWithUUID(u.id_user), r))
 
           dynamicRouteCT( "#user" / uuid.caseClass[UserLineListPage]) ~> dynRenderR(g)
         }

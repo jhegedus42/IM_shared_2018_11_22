@@ -7,25 +7,54 @@ import japgolly.scalajs.react.TopNode
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 /**
-  * Created by joco on 8/22/17.
+  * 0378528a_4c99b1ca
+  *
+  * Only subclasses of RootReactComponent_PhantomType-s can be
+  * Root/Top components in tha React comp. hierarchy because they
+  * are the only ones who can be wrapped.
+  *
+  *
   */
-sealed trait TopPageCompType
-// top page is the one which is directly below the router,
-// there can be only one routed page at any given moment
 
-object LineListCompType extends TopPageCompType
+sealed trait RootReactComponent_PhantomType // Phantom type
 
-object LineDetailCompType extends TopPageCompType
+object LineList_RootReactCompType extends RootReactComponent_PhantomType
 
-object UserLineListsCompType extends TopPageCompType
+object LineDetail_RootReactCompType$ extends RootReactComponent_PhantomType
 
-case class Props2Wrapped[P](p:P, ctrl:RouterCtl[Page])
+object UserLineLists_RootReactCompType extends RootReactComponent_PhantomType
 
-case class Props2Vanilla[Props,PhantomType<:TopPageCompType](ps:Props, router: RouterCtl[Page], cache:EntityCacheMap)
+
+
+case class PropsOfInnerComp[P](p: P, ctrl: RouterCtl[Page] )
+
+case class PropsOfOuterComp[Props, PhantomType <: RootReactComponent_PhantomType](
+    ps:          Props,
+    router:      RouterCtl[Page],
+    entityCache: EntityCacheMap)
+
+
 
 object Types {
-  type Vanilla_CompConstr[CompName<:TopPageCompType, P] = ReqProps[Props2Vanilla[P,CompName], Unit, _, TopNode]
 
-  type Wrapped_CompConstr[CompName<:TopPageCompType, P] = ReqProps[Props2Wrapped[P], EntityCacheMap, _, TopNode]
+  /**
+    * This is a constructor that creates a component which can be wrapped, that is
+    * it extends 0378528a_4c99b1ca.
+    *
+    * @tparam TypeOfTheComponentWhichWillBeWrapped
+    * @tparam P
+    */
+  type InnerCompConstr[TypeOfTheComponentWhichWillBeWrapped <: RootReactComponent_PhantomType, P] =
+    ReqProps[PropsOfOuterComp[P, TypeOfTheComponentWhichWillBeWrapped], Unit, _, TopNode]
+
+  /**
+    * This is a type that represents a Constructor of a React Component which
+    * wraps a 'vanilla' React Component which is the subType of RootReactComponent_PhantomType.
+    *
+    * @tparam CompName
+    * @tparam P
+    */
+  type OuterCompConstr[CompName <: RootReactComponent_PhantomType, P] =
+    ReqProps[PropsOfInnerComp[P], EntityCacheMap, _, TopNode]
 
 }

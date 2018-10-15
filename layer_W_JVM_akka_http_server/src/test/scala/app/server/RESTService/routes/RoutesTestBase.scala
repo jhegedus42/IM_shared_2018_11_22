@@ -2,7 +2,7 @@ package app.server.RESTService.routes
 
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEntityRouteTest}
 import app.server.persistence.ApplicationState
@@ -40,13 +40,13 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
     *                                mikor elindul és még semmi semmi nem történt vele.
     * @return
     */
-  def server(initialApplicationState: ApplicationState ): AppRoutesHandler
+  def server(initialApplicationState: ApplicationState ): HttpServer_For_ImageMemory_App
 
   type ResInBase = GetEntityRequest[LineText]#Result
 
   def testGetEntityHelper(url: String, assert: ResInBase => Unit ): Unit = {
 
-    val s: AppRoutesHandler = server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
+    val s: HttpServer_For_ImageMemory_App = server(TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else)
     val r: Route     = s.route
     Get( url ) ~> r ~> check {
 
@@ -62,9 +62,9 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
   }
 
   def assert_RefVal_for_LineText_is_present(
-      s:                                       AppRoutesHandler,
-      refVal:                                  RefVal[LineText],
-      shouldWeTestForEqualityOrForNotEquality: Boolean
+                                             s:                                       HttpServer_For_ImageMemory_App,
+                                             refVal:                                  RefVal[LineText],
+                                             shouldWeTestForEqualityOrForNotEquality: Boolean
     ): Assertion = {
 
     val r: Route = s.route
@@ -100,15 +100,15 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
     * @tparam T
     * @return
     */
-  def runWithServer[T](restService: AppRoutesHandler )(functionToRun: AppRoutesHandler => T ): T = {
+  def runWithServer[T](restService: HttpServer_For_ImageMemory_App )(functionToRun: HttpServer_For_ImageMemory_App => T ): T = {
     val res: T = functionToRun( restService )
     restService.system.terminate()
     res
   }
 
   def getAllEntitiesHelper[E <: Entity: ClassTag: Decoder: GetAllEntitiesRequest](
-      server:     AppRoutesHandler,
-      entityType: DataType
+                                                                                   server:     HttpServer_For_ImageMemory_App,
+                                                                                   entityType: DataType
     ): Seq[RefVal[E]] = {
 
     val r: Route = server.route
@@ -139,6 +139,6 @@ trait RoutesTestBase extends WordSpec with Matchers with ScalatestRouteTest {
   */
 class RoutesTest_PersActor_Class extends RoutesTestBase with GetEntityRouteTest with GetAllEntityRouteTest {
 
-  override def server(initState: ApplicationState ): AppRoutesHandler =
+  override def server(initState: ApplicationState ): HttpServer_For_ImageMemory_App =
     TestServerFactory.getTestServer( initState )
 }

@@ -2,12 +2,20 @@ package app.client.ui.pages.listOfLineLists
 
 import app.client.cache.entityCache.{EntityCacheMap, EntityCacheVal}
 import app.client.cache.wrapper.CacheRoot
-import app.client.ui.pages.Types.Wrapped_CompConstr
+import app.client.ui.pages.Types.OuterCompConstr
 import app.client.ui.pages.lineList.LineList_ReactComp
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
-import app.client.ui.pages.{LineListCompType, Props2Vanilla, Props2Wrapped, UserLineListsCompType}
+
+import app.client.ui.pages.{
+  LineList_RootReactCompType,
+  PropsOfOuterComp,
+  PropsOfInnerComp,
+  UserLineLists_RootReactCompType
+}
+
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
+import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 import japgolly.scalajs.react.{BackendScope, ReactComponentB}
@@ -17,15 +25,16 @@ object UserLineListsComp {
 
   type Prop = Ref[User]
 
-  type Props = Props2Vanilla[Prop, UserLineListsCompType.type]
+  type Props = PropsOfOuterComp[Prop, UserLineLists_RootReactCompType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: EntityCacheMap = props.cache
-      val u: EntityCacheVal[User] = props.cache.getEntity(props.ps)
+      val c: EntityCacheMap = props.entityCache
+      // 442320ff08b24fd89244d566327a8cc4$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
+      val u: EntityCacheVal[User] = props.entityCache.getEntity( props.ps )
       <.div(
         "cache:",
         <.br,
@@ -33,23 +42,31 @@ object UserLineListsComp {
         "user uuid:",
         props.ps.uuid.toString,
         <.br,
-        "user name:",
-        {
+        "user name:", {
           u.toString
+        },
+        <.br,
+        "SumIntView 2+3:", {
+          SumIntView_Res( 2 + 3 ).toString
+
+          // ca343510efae45088b352ddb7231b4c6$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
+          // props.
+
         }
 
-        //,
-//        if(!u.isReady()) "UserLineList is loading"
-//        else {
-//          val r: Ref[User] = u.getValue.get.refVal.r
-//          c.getEntity(r)
-//        }
+        //
+        //        if(!u.isReady()) "UserLineList is loading"
+        //        else {
+        //          val r: Ref[User] = u.getValue.get.refVal.r
+        //          c.getEntity(r)
+        //        }
+
       )
     }
 
   }
 
-  val compConstr: Vanilla_CompConstr[UserLineListsCompType.type, Prop] =
+  val compConstr: InnerCompConstr[UserLineLists_RootReactCompType.type, Prop] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"
@@ -61,8 +78,9 @@ object UserLineListsWrapping {
 
   val wrapperHolder: CacheRoot = new CacheRoot()
 
-  val wrapped_CC: Wrapped_CompConstr[UserLineListsCompType.type, UserLineListsComp.Prop] =
-    wrapperHolder.wrapper.wrapRootPage[UserLineListsCompType.type, UserLineListsComp.Prop](UserLineListsComp.compConstr)
-
+  val wrapped_CC: OuterCompConstr[UserLineLists_RootReactCompType.type, UserLineListsComp.Prop] =
+    wrapperHolder.wrapper.wrapRootPage[UserLineLists_RootReactCompType.type, UserLineListsComp.Prop](
+      UserLineListsComp.compConstr
+    )
 
 }

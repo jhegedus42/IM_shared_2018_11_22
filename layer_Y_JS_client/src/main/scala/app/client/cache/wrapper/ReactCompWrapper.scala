@@ -1,8 +1,8 @@
 package app.client.cache.wrapper
 
 import app.client.cache.entityCache.{EntityCache, EntityCacheMap}
-import app.client.ui.pages.{Props2Vanilla, Props2Wrapped, TopPageCompType}
-import app.client.ui.pages.Types.{Vanilla_CompConstr, Wrapped_CompConstr}
+import app.client.ui.pages.{PropsOfOuterComp, PropsOfInnerComp, RootReactComponent_PhantomType}
+import app.client.ui.pages.Types.{InnerCompConstr, OuterCompConstr}
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import japgolly.scalajs.react.extra.router.RouterCtl
 
@@ -11,16 +11,16 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   */
 class ReactCompWrapper(re: CacheRoot, cm: EntityCache ) {
 
-  def wrapRootPage[PageName <: TopPageCompType, Props](
-      vanillaCC: Vanilla_CompConstr[PageName, Props]
-    ): Wrapped_CompConstr[PageName, Props] = {
+  def wrapRootPage[PageName <: RootReactComponent_PhantomType, Props](
+      vanillaCC: InnerCompConstr[PageName, Props]
+    ): OuterCompConstr[PageName, Props] = {
 
     import japgolly.scalajs.react._
 
-    type P = Props2Wrapped[Props]
+    type P = PropsOfInnerComp[Props]
     class WBackend($ : BackendScope[P, EntityCacheMap] ) {
       def render(t: (P), statePassedToRender: EntityCacheMap ): ReactElement =
-        vanillaCC( Props2Vanilla[Props, PageName]( t.p, t.ctrl, statePassedToRender ) )
+        vanillaCC(PropsOfOuterComp[Props, PageName](t.p, t.ctrl, statePassedToRender))
 
       def willMount = {
         Callback {
@@ -46,8 +46,8 @@ class ReactCompWrapper(re: CacheRoot, cm: EntityCache ) {
 
     }
 
-    def wrappedPageComponentConstructor(): Wrapped_CompConstr[PageName, Props] =
-      ReactComponentB[Props2Wrapped[Props]]( "wrapped page component" )
+    def wrappedPageComponentConstructor(): OuterCompConstr[PageName, Props] =
+      ReactComponentB[PropsOfInnerComp[Props]]("wrapped page component")
         .initialState( cm.getCacheMap() )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend

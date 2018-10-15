@@ -4,17 +4,25 @@ import app.client.cache.wrapper.CacheRoot
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 
+/**
+  * f079711f_4c99b1ca
+  * 
+  * @param cacheRoute
+  */
+
 //mutable state
 private[cache] class EntityCache(cacheRoute:CacheRoot) {
-  private[this] var wrappedMap = cacheRoute.getNewCacheMap
+  private[this] var immutableEntityCacheMap = cacheRoute.getNewCacheMap
+  // miért wrapped Map ?
+  // mibe van becsomagolva ?
 
-  def getCacheMap() = wrappedMap
+  def getCacheMap() = immutableEntityCacheMap
 
-  def resetCache() = wrappedMap = cacheRoute.getNewCacheMap
+  def resetCache() = immutableEntityCacheMap = cacheRoute.getNewCacheMap
 
   def setNotYetLoaded[E <: Entity](ref: Ref[E]): NotYetLoaded[E] = {
     val res = NotYetLoaded(ref)
-    wrappedMap = wrappedMap.copy(map = wrappedMap.map.updated(ref, res))
+    immutableEntityCacheMap = immutableEntityCacheMap.copy(map = immutableEntityCacheMap.map.updated(ref, res))
     res
   }
 
@@ -42,10 +50,10 @@ private[cache] class EntityCache(cacheRoute:CacheRoot) {
   def updateCache[E <: Entity](key: Ref[E],
                              cacheVal: EntityCacheVal[E],
                              oldVal: EntityCacheVal[E]): Unit = {
-    assert(wrappedMap.map(key).equals(oldVal))
+    assert(immutableEntityCacheMap.map(key).equals(oldVal))
     val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
-      wrappedMap.map.updated(key, cacheVal)
-    wrappedMap = wrappedMap.copy(map = newCacheMap)
+      immutableEntityCacheMap.map.updated(key, cacheVal)
+    immutableEntityCacheMap = immutableEntityCacheMap.copy(map = newCacheMap)
   }
 
   def setReadFailed[E <: Entity](oldVal: Loading[E], errorMsg: String): Unit =

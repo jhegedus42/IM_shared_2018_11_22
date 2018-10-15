@@ -2,7 +2,7 @@ package app.server.RESTService.mocks
 
 import akka.http.scaladsl.server.Directives.{complete, path, _}
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.persistence.ApplicationState
 import app.server.persistence.persActor.Commands.SetStatePAResponse
 import app.shared.data.ref.uuid.UUID
@@ -20,8 +20,8 @@ object TestServerFactory {
     * @param iState
     * @return
     */
-  def getTestServer(iState: ApplicationState ): AppRoutesHandler =
-    new StateAccessorMock_prodPersAct with AppRoutesHandler {
+  def getTestServer(iState: ApplicationState ): HttpServer_For_ImageMemory_App =
+    new StateAccessorMock_prodPersAct with HttpServer_For_ImageMemory_App {
 
       // reset the state of the server - for testing
       def postResetStateRoute: Route = {

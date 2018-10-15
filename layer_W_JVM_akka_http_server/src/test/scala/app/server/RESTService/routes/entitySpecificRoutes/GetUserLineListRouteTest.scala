@@ -1,7 +1,7 @@
 package app.server.RESTService.routes.entitySpecificRoutes
 
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.RESTService.routes.generalCRUD.{GetAllEntityRouteTest, GetEntityRouteTest}
@@ -26,7 +26,7 @@ trait GetUserLineListRouteTest {
     "work just fine" in {
       import io.circe.generic.auto._
 
-      val s: AppRoutesHandler = server(TestData.getTestDataFromLabels(TestDataLabels.LabelThree))
+      val s: HttpServer_For_ImageMemory_App = server(TestData.getTestDataFromLabels(TestDataLabels.LabelThree))
 //      val entities: Seq[RefVal[LineText]] = getAllEntitiesHelper( s, EntityType.make[LineText] )
 
       val resBe:  Seq[RefVal[UserLineList]] = List(TestEntitiesForStateThree.listRV)
@@ -66,6 +66,6 @@ trait GetUserLineListRouteTest {
 
 class GetUserLineListRoute_TestClass extends RoutesTestBase with GetUserLineListRouteTest{
 
-  override def server(initState: ApplicationState ): AppRoutesHandler =
+  override def server(initState: ApplicationState ): HttpServer_For_ImageMemory_App =
     TestServerFactory.getTestServer( initState )
 }

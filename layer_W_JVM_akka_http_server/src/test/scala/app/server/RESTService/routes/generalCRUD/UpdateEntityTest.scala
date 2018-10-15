@@ -2,7 +2,7 @@ package app.server.RESTService.routes.generalCRUD
 
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.persistence.ApplicationState
@@ -25,7 +25,7 @@ class UpdateEntityRouteTest extends
   RoutesTestBase with
   UpdateEntityTest{
 
-  override def server(initState: ApplicationState ): AppRoutesHandler =
+  override def server(initState: ApplicationState ): HttpServer_For_ImageMemory_App =
     TestServerFactory.getTestServer( initState )
 }
 
@@ -34,11 +34,11 @@ trait UpdateEntityTest{
 
   trait UpdateTestSetup {
 
-    val s:   AppRoutesHandler    = server(TestData.getTestDataFromLabels(LabelOne))
-    val r:   Route               = s.route
-    val ref: Ref[LineText]       = TestEntities.refToLine
+    val s:   HttpServer_For_ImageMemory_App = server(TestData.getTestDataFromLabels(LabelOne))
+    val r:   Route                          = s.route
+    val ref: Ref[LineText]                  = TestEntities.refToLine
     // ennek mar tartalmaznia kell a verziokat is
-    val v1pina: RefVal[LineText] = TestEntities.refValOfLineV1
+    val v1pina: RefVal[LineText]            = TestEntities.refValOfLineV1
 
     import TestEntities.refValOfLineV0
     import monocle.macros.syntax.lens._
@@ -65,7 +65,7 @@ trait UpdateEntityTest{
   type Res=UpdateEntityRequest.UpdateEntityRequestResult[LineText]
 
   def updateRefValLine(
-                        s:              AppRoutesHandler,
+                        s:              HttpServer_For_ImageMemory_App,
                         refValToBeSent: RefVal[LineText],
                         assertion:      Res => Unit
                       ): Unit =
@@ -121,7 +121,7 @@ trait UpdateEntityTest{
 
       "version incorrect - traits" in {
         object Test extends UpdateTestSetup {
-          override val s: AppRoutesHandler =
+          override val s: HttpServer_For_ImageMemory_App =
             server( TestData.TestState_LabelTwo_OneLine_WithVersionOne_nothing_else )
 
           override def fun(): Unit = {
@@ -191,7 +191,7 @@ trait UpdateEntityTest{
         import monocle.macros.syntax.lens._
         val rv: RefVal[LineText] = TestEntities.refValOfLineV0
 
-        val s: AppRoutesHandler =
+        val s: HttpServer_For_ImageMemory_App =
           server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
         val r: Route = s.route
 
@@ -218,7 +218,7 @@ trait UpdateEntityTest{
       }
 
       "version incorrect" in {
-        val s: AppRoutesHandler =
+        val s: HttpServer_For_ImageMemory_App =
           server( TestData.TestState_LabelTwo_OneLine_WithVersionOne_nothing_else )
         val r: Route = s.route
 
@@ -266,7 +266,7 @@ trait UpdateEntityTest{
 //        val url : String = ???
         val url : String = UpdateEntityRequest[LineText]().queryURL()
         println( url )
-        val s: AppRoutesHandler =
+        val s: HttpServer_For_ImageMemory_App =
           server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
         val r: Route = s.route
 

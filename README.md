@@ -9,3 +9,7 @@ for executing JS test on node in the `imJS` project:
 
 in node directory run `yarn`
 and then `./node_modules/.bin/webpack`
+
+
+traffic can be analyzed with : 
+sudo tcpflow -e http -i lo0 -C -g port 8043

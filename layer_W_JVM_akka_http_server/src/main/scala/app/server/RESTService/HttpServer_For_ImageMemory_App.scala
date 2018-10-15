@@ -34,15 +34,23 @@ import akka.stream.ActorMaterializer
   *   - hogyan kell lekezelni az adott route-okhoz érkező kéréseket és
   *   -
   */
-trait AppRoutesHandler {
+trait HttpServer_For_ImageMemory_App {
   self: InterfaceToStateAccessor =>
+
+  implicit lazy val isa: InterfaceToStateAccessor = this
+  // magunkat mint implicitet behozzuk a scope-ba
+  // ez fassagnak tunik, vmi el van baszva ...
+  // ezt az "architekturat" at kene valahogy rendezni...
+  // de hogyan ? todolater - miutan becsajoztam a progival
+  // egyaltalan mi a fasznak csinaljuk ezt ?
+  // biztos valami teszteleses fassag miatt
 
   import io.circe._
   import io.circe.generic.auto._
 
   val route: Route = routeDef
 
-  def selfExp: AppRoutesHandler with InterfaceToStateAccessor = self
+  def selfExp: HttpServer_For_ImageMemory_App with InterfaceToStateAccessor = self
 
   implicit lazy val system: ActorSystem = ActorSystem( "trait-Server" )
 
@@ -52,7 +60,6 @@ trait AppRoutesHandler {
 
   def shutdownActorSystem(): Future[Terminated] = system.terminate()
 
-  implicit lazy val isa: InterfaceToStateAccessor = this
 
   def crudEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
     new UpdateEntityRoute[E]().route ~
@@ -74,17 +81,19 @@ trait AppRoutesHandler {
 
     val result: Route =
       routeForSumIntView ~
-      SumIntViewRoute_For_Testing.route ~
-      crudEntityRoute[LineText] ~
-      crudEntityRoute[UserLineList] ~
-      crudEntityRoute[LineWithQue] ~
-      crudEntityRoute[User] ~
-      StaticStuff.staticRootFactory( rootPageHtml )
+        SumIntViewRoute_For_Testing.route ~
+        crudEntityRoute[LineText] ~
+        crudEntityRoute[UserLineList] ~
+        crudEntityRoute[LineWithQue] ~
+        crudEntityRoute[User] ~
+        StaticStuff.staticRootFactory( rootPageHtml )
 
     result
   }
 
   def start(args: Array[String] ): Unit = {
+    // 4dc327e9dce94fcfa994ad032bdcd3dd$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
+
 
     implicit val materializer = ActorMaterializer()
 

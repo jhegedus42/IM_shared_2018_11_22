@@ -1,11 +1,16 @@
 package app.server.RESTService.mocks
 
 object IndexDotHtmlTestTemplate{
+  // b66ff55ce83d4555acea49cc2dc5d26a$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
   import scalatags.Text.all._
   import scalatags.Text.tags2.title
 
+
+  val jsModulesName="layer_Y_JS_client"
+  val jsModulesNameLowerCase=jsModulesName.map(x=>x.toLower)
+
   val txt =
-    "<!DOCTYPE html>" +
+    s"<!DOCTYPE html>" +
       html(
         head(
           title("Example Scala.js application"),
@@ -22,10 +27,10 @@ object IndexDotHtmlTestTemplate{
           div(id:="jsReactComp"),
           div(id:="jsReactCrop"),
           script(`type`:="text/javascript", src:="./node/generated.js/index-bundle.js"),
-          script(`type`:="text/javascript", src:="./js/target/scala-2" +
-            ".11/js-test-fastopt.js"),
-          script(`type`:="text/javascript", src:="./js/target/scala-2" +
-            ".11/js-test-jsdeps.js"),
+          script(`type`:="text/javascript", src:=s"./${jsModulesName}/target/scala-2" +
+            s".11/$jsModulesNameLowerCase-test-fastopt.js"),
+          script(`type`:="text/javascript", src:=s"./${jsModulesName}/target/scala-2" +
+            s".11/$jsModulesNameLowerCase-test-jsdeps.js"),
           script("app.client.Main().main()")//, //start scalajs-react app
 //          script("console.log('pina 42')") //start scalajs-react app
         )

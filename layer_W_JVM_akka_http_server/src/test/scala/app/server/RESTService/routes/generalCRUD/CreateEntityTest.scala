@@ -2,7 +2,7 @@ package app.server.RESTService.routes.generalCRUD
 
 import akka.http.scaladsl.model.HttpRequest
 import akka.http.scaladsl.server.Route
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.persistence.ApplicationState
@@ -34,7 +34,7 @@ trait CreateEntityTest {
     * @return
     */
   def createLine(
-                  restServiceToBeTested:            AppRoutesHandler,
+                  restServiceToBeTested:            HttpServer_For_ImageMemory_App,
                   lineToBeSent         : LineText,
                   assertion            :    ResCET => Unit
     ): ResCET = {
@@ -67,13 +67,13 @@ trait CreateEntityTest {
 
   "create entity route" should {
     "create line on the Server - happy path" in {
-      val s: AppRoutesHandler =
+      val s: HttpServer_For_ImageMemory_App =
         server( TestData.TestState_LabelOne_OneLine_WithVersionZero_nothing_else )
 
       import scala.concurrent.duration._
       val line = LineText( title =  "macska" ,text="test" )
 
-      val mock: AppRoutesHandler with InterfaceToStateAccessor = s.selfExp
+      val mock: HttpServer_For_ImageMemory_App with InterfaceToStateAccessor = s.selfExp
       val r1:   Boolean                                   = Await.result( mock.doesEntityExist( line ), 2 seconds )
       assert( !r1 )
 
@@ -132,6 +132,6 @@ class CreateEntityRouteTest extends
   RoutesTestBase with
   CreateEntityTest{ // this is the stuff that defines what needs to be tested
 
-  override def server(initState: ApplicationState ): AppRoutesHandler =
+  override def server(initState: ApplicationState ): HttpServer_For_ImageMemory_App =
     TestServerFactory.getTestServer( initState )
 }

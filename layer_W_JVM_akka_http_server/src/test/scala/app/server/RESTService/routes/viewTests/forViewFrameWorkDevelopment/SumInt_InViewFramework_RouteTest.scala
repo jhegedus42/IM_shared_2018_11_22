@@ -7,7 +7,7 @@ import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.share
   ViewHttpRouteName,
   ViewHttpRouteNameProvider
 }
-import app.server.RESTService.AppRoutesHandler
+import app.server.RESTService.HttpServer_For_ImageMemory_App
 import app.server.RESTService.mocks.TestServerFactory
 import app.server.RESTService.routes.RoutesTestBase
 import app.server.RESTService.routes.views.ViewRoute
@@ -88,6 +88,6 @@ class SumIntInViewFrameworkRouteTest_Instance
     extends RoutesTestBase with SumInt_InViewFramework_RouteTestTrait {
   // this is the stuff that defines what needs to be tested
 
-  override def server(initState: ApplicationState ): AppRoutesHandler =
+  override def server(initState: ApplicationState ): HttpServer_For_ImageMemory_App =
     TestServerFactory.getTestServer( initState )
 }
