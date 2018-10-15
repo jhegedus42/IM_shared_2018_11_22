@@ -1,8 +1,8 @@
 package app.client.ui.pages.lineList
 
 import app.client.cache.wrapper.CacheRoot
-import app.client.ui.pages.{LineList_RootReactCompType, PropsOfInnerComp}
-import app.client.ui.pages.Types.OuterCompConstr
+import app.client.ui.pages.{LineList_Wrappable_RootReactComp_PhantomType, PropsOfInnerComp}
+import app.client.ui.pages.Types.WrappedCompConstr
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
@@ -16,8 +16,8 @@ object LineListWrapping {
 
   val que: CacheRoot = new CacheRoot()
 
-  val wLL: OuterCompConstr[LineList_RootReactCompType.type, LineListProp] =
-    que.wrapper.wrapRootPage[LineList_RootReactCompType.type, LineListProp](LineList_ReactComp.LineListCompBuilder)
+  val wLL: WrappedCompConstr[LineList_Wrappable_RootReactComp_PhantomType.type, LineListProp] =
+    que.wrapper.wrapRootPage[LineList_Wrappable_RootReactComp_PhantomType.type, LineListProp](LineList_ReactComp.LineListCompBuilder)
 
   val mk_wLL: ( RouterCtl[Page] ) => ReactElement = (r: RouterCtl[Page]) => wLL(PropsOfInnerComp((), r))
 

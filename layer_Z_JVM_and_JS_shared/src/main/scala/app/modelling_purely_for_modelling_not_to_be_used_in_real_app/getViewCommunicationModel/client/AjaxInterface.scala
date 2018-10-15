@@ -14,7 +14,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 object JSAjaxAPI {
 
-  var howManySecondsToWait = 0.0
+  private var howManySecondsToWait = 0.0
 
   lazy val server = HttpServerOnTheInternet()
 
@@ -46,6 +46,7 @@ object JSAjaxAPI {
 case class GetViewAjaxRequest[V <: View](par: V#Par, ajaxResFuture: Future[Option[V#Res]]  ){
   val uUID: UUID = UUID.random()
 }
+
 //
 case class AjaxInterface(server: HttpServerOnTheInternet ) {
   

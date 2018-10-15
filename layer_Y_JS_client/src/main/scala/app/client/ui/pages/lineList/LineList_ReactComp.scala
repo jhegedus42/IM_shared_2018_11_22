@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom
 
 import app.client.cache.entityCache.{EntityCacheMap, EntityCacheVal}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.ui.pages.{LineList_RootReactCompType, PropsOfOuterComp}
+import app.client.ui.pages.{LineList_Wrappable_RootReactComp_PhantomType, PropsOfOuterComp}
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
 import fansi.Str
@@ -25,7 +25,7 @@ object LineList_ReactComp {
   import app.client.ui.pages.Types._
 
   type Prop  = Unit
-  type Props = PropsOfOuterComp[Prop, LineList_RootReactCompType.type]
+  type Props = PropsOfOuterComp[Prop, LineList_Wrappable_RootReactComp_PhantomType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -103,7 +103,7 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: InnerCompConstr[LineList_RootReactCompType.type, Unit] =
+  val LineListCompBuilder: NotYetWrappedCompConstr[LineList_Wrappable_RootReactComp_PhantomType.type, Unit] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

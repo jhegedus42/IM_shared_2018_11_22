@@ -2,15 +2,15 @@ package app.client.ui.pages.listOfLineLists
 
 import app.client.cache.entityCache.{EntityCacheMap, EntityCacheVal}
 import app.client.cache.wrapper.CacheRoot
-import app.client.ui.pages.Types.OuterCompConstr
+import app.client.ui.pages.Types.WrappedCompConstr
 import app.client.ui.pages.lineList.LineList_ReactComp
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 
 import app.client.ui.pages.{
-  LineList_RootReactCompType,
+  LineList_Wrappable_RootReactComp_PhantomType,
   PropsOfOuterComp,
   PropsOfInnerComp,
-  UserLineLists_RootReactCompType
+  UserLineLists_Wrappable_RootReactComp_PhantomType
 }
 
 import app.shared.data.model.User
@@ -25,7 +25,7 @@ object UserLineListsComp {
 
   type Prop = Ref[User]
 
-  type Props = PropsOfOuterComp[Prop, UserLineLists_RootReactCompType.type]
+  type Props = PropsOfOuterComp[Prop, UserLineLists_Wrappable_RootReactComp_PhantomType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -66,7 +66,7 @@ object UserLineListsComp {
 
   }
 
-  val compConstr: InnerCompConstr[UserLineLists_RootReactCompType.type, Prop] =
+  val compConstr: NotYetWrappedCompConstr[UserLineLists_Wrappable_RootReactComp_PhantomType.type, Prop] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"
@@ -78,9 +78,9 @@ object UserLineListsWrapping {
 
   val wrapperHolder: CacheRoot = new CacheRoot()
 
-  val wrapped_CC: OuterCompConstr[UserLineLists_RootReactCompType.type, UserLineListsComp.Prop] =
-    wrapperHolder.wrapper.wrapRootPage[UserLineLists_RootReactCompType.type, UserLineListsComp.Prop](
+  val wrapped_CC: WrappedCompConstr[UserLineLists_Wrappable_RootReactComp_PhantomType.type, UserLineListsComp.Prop] =
+    wrapperHolder.wrapper.wrapRootPage[UserLineLists_Wrappable_RootReactComp_PhantomType.type, UserLineListsComp.Prop](
       UserLineListsComp.compConstr
-    )
+                                                                                                                      )
 
 }

@@ -13,27 +13,21 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   * Root/Top components in tha React comp. hierarchy because they
   * are the only ones who can be wrapped.
   *
-  *
   */
+sealed trait Wrappable_RootReactComponent // Phantom type
 
-sealed trait RootReactComponent_PhantomType // Phantom type
+object LineList_Wrappable_RootReactComp_PhantomType extends Wrappable_RootReactComponent
 
-object LineList_RootReactCompType extends RootReactComponent_PhantomType
+object LineDetail_Wrappable_RootReactComp_PhantomType extends Wrappable_RootReactComponent
 
-object LineDetail_RootReactCompType$ extends RootReactComponent_PhantomType
-
-object UserLineLists_RootReactCompType extends RootReactComponent_PhantomType
-
-
+object UserLineLists_Wrappable_RootReactComp_PhantomType extends Wrappable_RootReactComponent
 
 case class PropsOfInnerComp[P](p: P, ctrl: RouterCtl[Page] )
 
-case class PropsOfOuterComp[Props, PhantomType <: RootReactComponent_PhantomType](
+case class PropsOfOuterComp[Props, PhantomType <: Wrappable_RootReactComponent](
     ps:          Props,
     router:      RouterCtl[Page],
     entityCache: EntityCacheMap)
-
-
 
 object Types {
 
@@ -41,11 +35,11 @@ object Types {
     * This is a constructor that creates a component which can be wrapped, that is
     * it extends 0378528a_4c99b1ca.
     *
-    * @tparam TypeOfTheComponentWhichWillBeWrapped
+    * @tparam RootComponent_NotYetWrapped
     * @tparam P
     */
-  type InnerCompConstr[TypeOfTheComponentWhichWillBeWrapped <: RootReactComponent_PhantomType, P] =
-    ReqProps[PropsOfOuterComp[P, TypeOfTheComponentWhichWillBeWrapped], Unit, _, TopNode]
+  type NotYetWrappedCompConstr[RootComponent_NotYetWrapped <: Wrappable_RootReactComponent, P] =
+    ReqProps[PropsOfOuterComp[P, RootComponent_NotYetWrapped], Unit, _, TopNode]
 
   /**
     * This is a type that represents a Constructor of a React Component which
@@ -54,7 +48,7 @@ object Types {
     * @tparam CompName
     * @tparam P
     */
-  type OuterCompConstr[CompName <: RootReactComponent_PhantomType, P] =
+  type WrappedCompConstr[CompName <: Wrappable_RootReactComponent, P] =
     ReqProps[PropsOfInnerComp[P], EntityCacheMap, _, TopNode]
 
 }

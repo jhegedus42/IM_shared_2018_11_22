@@ -5,8 +5,8 @@ import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.PropsOfOuterComp
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
-import app.client.ui.pages.LineDetail_RootReactCompType$
-import app.client.ui.pages.Types.InnerCompConstr
+import app.client.ui.pages.LineDetail_Wrappable_RootReactComp_PhantomType
+import app.client.ui.pages.Types.NotYetWrappedCompConstr
 import app.shared.data.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag
@@ -28,7 +28,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = PropsOfOuterComp[Prop, LineDetail_RootReactCompType$.type]
+  type Props = PropsOfOuterComp[Prop, LineDetail_Wrappable_RootReactComp_PhantomType.type]
 
 //
 
@@ -118,7 +118,7 @@ object LineDetail_ReactComp {
     }
   }
 
-  val lineDetailConstructor: InnerCompConstr[LineDetail_RootReactCompType$.type, Prop] = {
+  val lineDetailConstructor: NotYetWrappedCompConstr[LineDetail_Wrappable_RootReactComp_PhantomType.type, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend
