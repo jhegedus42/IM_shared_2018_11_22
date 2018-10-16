@@ -60,7 +60,6 @@ object UserLineListsComp {
         //          val r: Ref[User] = u.getValue.get.refVal.r
         //          c.getEntity(r)
         //        }
-
       )
     }
 
@@ -78,9 +77,11 @@ object UserLineListsWrapping {
 
   val wrapperHolder: CacheRoot = new CacheRoot()
 
-  val wrapped_CC: WrappedCompConstr[UserLineLists_Wrappable_RootReactComp_PhantomType.type, UserLineListsComp.Prop] =
-    wrapperHolder.wrapper.wrapRootPage[UserLineLists_Wrappable_RootReactComp_PhantomType.type, UserLineListsComp.Prop](
-      UserLineListsComp.compConstr
-                                                                                                                      )
+  val wrapped_CC
+    : WrappedCompConstr[UserLineLists_Wrappable_RootReactComp_PhantomType.type, UserLineListsComp.Prop] =
+    wrapperHolder.wrapper
+      .wrapRootPage[UserLineLists_Wrappable_RootReactComp_PhantomType.type, UserLineListsComp.Prop](
+        UserLineListsComp.compConstr
+      )
 
 }

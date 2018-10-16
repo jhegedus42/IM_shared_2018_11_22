@@ -68,6 +68,7 @@ case class AjaxInterface(server: HttpServerOnTheInternet ) {
 
     val futureOptionVResReturnValue: Future[Option[V#Res]] = for { // for the Future
       arrivedOptionJSONContainingRes <- resFuture
+
 //      _ <- Future( println( "resFuture has arrived, it contains: " + arrivedOptionJSONContainingRes ) )
       // what happens to a Future if you flatmap it and before that the future completes...
       // will the onComplete method of the flatmapp-ed future still be called ?

@@ -9,6 +9,7 @@ import japgolly.scalajs.react.extra.router.RouterCtl
 
 /**
   * Created by joco on 06/01/2018.
+  * 
   */
 object LineListWrapping {
 
