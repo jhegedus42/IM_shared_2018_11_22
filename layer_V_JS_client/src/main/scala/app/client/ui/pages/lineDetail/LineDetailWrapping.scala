@@ -3,12 +3,12 @@ package app.client.ui.pages.lineDetail
 import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 import app.client.ui.pages.lineDetail.LineDetail_ReactComp.lineDetailConstructor
-import app.client.wrapper.cache.CacheRoot
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.WrapperFactory
 
 /**
   * Created by joco on 06/01/2018.
   */
-case class LineDetailWrapping(que:CacheRoot) {
+case class LineDetailWrapping(que:WrapperFactory) {
 //  val que = new CacheRoot()
 
   val wrapped: WrappedRootPageCompConstr[LineDetail_Vanilla_RootReactComp_PhantomType.type, LineDetail_ReactComp.Prop] =

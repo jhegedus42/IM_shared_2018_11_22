@@ -1,15 +1,16 @@
-package app.client.wrapper
+package app.client.wrapper.wrapperFactory.wrapperFactoryClass.components
 
-import app.client.wrapper.cache.{CacheRoot, StateSettable, _wrapper_EntityCache_MutableState}
-import app.client.wrapper.cache.entityCache.EntityCache
+import app.client.wrapper.EntityCache
 import app.client.wrapper.types.RootPageConstructorTypes.{VanillaRootPageCompConstr, WrappedRootPageCompConstr}
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
 import app.client.wrapper.types.{PropsOfVanillaComp, PropsOfWrappedComp}
+import app.client.wrapper.wrapperFactory._wrapper_EntityCache_MutableState
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.{StateSettable, WrapperFactory}
 
 /**
   * Created by joco on 03/09/2017.
   */
-class ReactCompWrapper(re: CacheRoot, cm: _wrapper_EntityCache_MutableState ) {
+private[wrapperFactoryClass] class ReactCompWrapper(re: WrapperFactory, cm: _wrapper_EntityCache_MutableState ) {
 
   def createWrappedRootPageCompConstructor[RootPagePageName <: Vanilla_RootReactComponent_PhantomType, Props](
       vanillaCC: VanillaRootPageCompConstr[RootPagePageName, Props]

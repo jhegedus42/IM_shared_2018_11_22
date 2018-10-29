@@ -1,6 +1,6 @@
 package app.client.wrapper.types
 
-import app.client.wrapper.cache.entityCache.EntityCache
+import app.client.wrapper.EntityCache
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.TopNode

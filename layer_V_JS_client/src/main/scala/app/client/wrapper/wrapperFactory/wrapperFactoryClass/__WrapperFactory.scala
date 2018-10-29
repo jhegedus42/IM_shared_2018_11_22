@@ -1,9 +1,10 @@
-package app.client.wrapper.cache
+package app.client.wrapper.wrapperFactory.wrapperFactoryClass
 
 //import app.client.wrapper.cache.RequestProcessor.{VanillaPageComponent_ReactCompConstructor, WrappedPageComponent_ReactCompConstructor}
+import app.client.wrapper.EntityCache
 import app.client.wrapper._wrapper_reqHandlers.{ReadReqHandler, UpdateReqHandler}
-import app.client.wrapper.cache.entityCache.EntityCache
-import app.client.wrapper.ReactCompWrapper
+import app.client.wrapper.wrapperFactory._wrapper_EntityCache_MutableState
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.components.ReactCompWrapper
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 import io.circe.{Decoder, Encoder}
@@ -17,9 +18,11 @@ trait StateSettable {
   def setState(c: EntityCache )
 }
 
-class CacheRoot {
 
-  def getNewCacheMap=new EntityCache(cacheRoot =this) //mutable - coz its a var
+
+class WrapperFactory {
+
+  def getNewCacheMap=new EntityCache(wrapper =this) //mutable - coz its a var
 
   private[this] val cache: _wrapper_EntityCache_MutableState = new _wrapper_EntityCache_MutableState(this) //mutable state
   // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
@@ -30,12 +33,13 @@ class CacheRoot {
 
   private[wrapper] val readHandler = new ReadReqHandler(cache, reRenderCurrentlyRoutedPageComp _)
 
+  private
   def clearCache = {
     cache.resetCache()
     reRenderCurrentlyRoutedPageComp()
   }
 
-  private[cache] def handleReadRequest[E <: Entity](rr: ReadRequest[E] ): Unit = readHandler.queRequest(rr)
+   def handleReadRequest[E <: Entity](rr: ReadRequest[E] ): Unit = readHandler.queRequest(rr)
 
   private[this] def reRenderCurrentlyRoutedPageComp(): Unit = {
     val c: EntityCache = cache.getCacheMap
@@ -46,7 +50,7 @@ class CacheRoot {
     } )
   }
 
-  private[cache] def handleUpdateReq[E<:Entity:ClassTag : Decoder: Encoder](er:UpdateRequest[E]) : Unit =  // mutates cache, rerenders page
+   def handleUpdateReq[E<:Entity:ClassTag : Decoder: Encoder](er:UpdateRequest[E]) : Unit =  // mutates cache, rerenders page
     UpdateReqHandler.launchUpdateReq(cache, er, reRenderCurrentlyRoutedPageComp _ )
 }
 

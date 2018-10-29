@@ -5,8 +5,8 @@ import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
-import app.client.wrapper.cache.CacheRoot
 import app.client.wrapper.types.PropsOfVanillaComp
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.WrapperFactory
 import app.shared.data.model.UserLineList
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
@@ -42,7 +42,7 @@ object RouterComp {
       (dsl: RouterConfigDsl[Page]) =>
         import dsl._
 
-        val que: CacheRoot = new CacheRoot()
+        val que: WrapperFactory = new WrapperFactory()
 
         val dr_lineDetail = {
           val ldw=LineDetailWrapping(que)

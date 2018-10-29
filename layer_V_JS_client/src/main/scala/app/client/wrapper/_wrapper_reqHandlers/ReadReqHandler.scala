@@ -1,16 +1,17 @@
 package app.client.wrapper._wrapper_reqHandlers
 
-import app.client.wrapper.cache.entityCache.{Loading, NotYetLoaded}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
-import app.client.wrapper.cache.{ReadRequest, _wrapper_EntityCache_MutableState}
+import app.client.wrapper.wrapperFactory._wrapper_EntityCache_MutableState
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReadRequest
+import app.client.wrapper.{Loading, NotYetLoaded}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal
+import scalaz.{-\/, \/-}
 import slogging.LazyLogging
 
 import scala.concurrent.Future
-import scalaz.{-\/, \/-}
 
 /**
   * Created by joco on 29/12/2017.

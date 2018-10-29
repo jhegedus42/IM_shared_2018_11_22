@@ -2,8 +2,8 @@ package app.client.ui.pages.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.wrapper.cache.entityCache.{EntityCache, EntityCacheVal}
 import app.client.rest.commands.forTesting.Helpers
+import app.client.wrapper.{EntityCache, EntityCacheVal}
 import app.client.wrapper.types.PropsOfWrappedComp
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.shared.data.model.LineText

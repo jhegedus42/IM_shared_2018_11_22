@@ -1,17 +1,18 @@
 package app.client.wrapper._wrapper_reqHandlers
 
-import app.client.wrapper.cache.entityCache.{EntityCacheVal, Ready, Updating}
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
-import app.client.wrapper.cache.{UpdateRequest, _wrapper_EntityCache_MutableState}
+import app.client.wrapper.wrapperFactory._wrapper_EntityCache_MutableState
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.UpdateRequest
+import app.client.wrapper.{EntityCacheVal, Ready, Updating}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal
 import app.shared.rest.routes.crudRequests.UpdateEntityRequest.UpdateEntityRequestResult
 import io.circe.{Decoder, Encoder}
+import scalaz.{-\/, \/-}
 
 import scala.concurrent.Future
 import scala.reflect.ClassTag
-import scalaz.{-\/, \/-}
 
 /**
   * Created by joco on 08/01/2018.

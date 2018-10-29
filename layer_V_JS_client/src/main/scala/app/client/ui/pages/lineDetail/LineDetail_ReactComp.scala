@@ -1,9 +1,9 @@
 package app.client.ui.pages.lineDetail
 
-import app.client.wrapper.cache.entityCache.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.wrapper.types.PropsOfWrappedComp
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
+import app.client.wrapper.{EntityCacheVal, Ready}
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
 import app.client.wrapper.types.RootPageConstructorTypes.VanillaRootPageCompConstr

@@ -1,6 +1,7 @@
-package app.client.wrapper.cache
+package app.client.wrapper.wrapperFactory
 
-import app.client.wrapper.cache.entityCache.{EntityCache, EntityCacheVal, Loaded, Loading, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.WrapperFactory
+import app.client.wrapper.{EntityCache, EntityCacheVal, Loaded, Loading, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 
@@ -10,7 +11,7 @@ import app.shared.data.ref.{Ref, RefVal}
   * @param cacheRoute
   */
 
-private[wrapper] class _wrapper_EntityCache_MutableState(cacheRoute:CacheRoot) {
+private[wrapper] class _wrapper_EntityCache_MutableState(cacheRoute:WrapperFactory) {
   private[this] var immutableEntityCacheMap: EntityCache = cacheRoute.getNewCacheMap
   // miért wrapped Map ?
   // mibe van becsomagolva ?
