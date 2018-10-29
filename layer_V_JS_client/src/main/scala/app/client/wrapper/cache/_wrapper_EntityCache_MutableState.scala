@@ -1,6 +1,6 @@
-package app.client.cache.wrapper
+package app.client.wrapper.cache
 
-import app.client.cache.entityCache.{EntityCache, EntityCacheVal, Loaded, Loading, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
+import app.client.wrapper.cache.entityCache.{EntityCache, EntityCacheVal, Loaded, Loading, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 

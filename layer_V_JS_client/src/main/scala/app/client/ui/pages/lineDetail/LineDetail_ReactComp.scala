@@ -1,12 +1,12 @@
 package app.client.ui.pages.lineDetail
 
-import app.client.cache.entityCache.{EntityCacheVal, Ready}
+import app.client.wrapper.cache.entityCache.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.ui.types.PropsOfWrappedComp
-import app.client.ui.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
+import app.client.wrapper.types.PropsOfWrappedComp
+import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
-import app.client.ui.types.RootPageConstructorTypes.VanillaRootPageCompConstr
+import app.client.wrapper.types.RootPageConstructorTypes.VanillaRootPageCompConstr
 import app.shared.data.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag

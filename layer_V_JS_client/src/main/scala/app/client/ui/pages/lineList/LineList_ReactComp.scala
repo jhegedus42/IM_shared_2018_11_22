@@ -2,10 +2,10 @@ package app.client.ui.pages.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.cache.entityCache.{EntityCache, EntityCacheVal}
+import app.client.wrapper.cache.entityCache.{EntityCache, EntityCacheVal}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.ui.types.PropsOfWrappedComp
-import app.client.ui.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
+import app.client.wrapper.types.PropsOfWrappedComp
+import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
 import fansi.Str
@@ -23,7 +23,7 @@ import scala.concurrent.Future
 import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 
 object LineList_ReactComp {
-  import app.client.ui.types.RootPageConstructorTypes._
+  import app.client.wrapper.types.RootPageConstructorTypes._
 
   type Prop  = Unit
   type Props = PropsOfWrappedComp[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]

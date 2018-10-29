@@ -1,9 +1,10 @@
-package app.client.cache.wrapper
+package app.client.wrapper
 
-import app.client.cache.entityCache.EntityCache
-import app.client.ui.types.RootPageConstructorTypes.{VanillaRootPageCompConstr, WrappedRootPageCompConstr}
-import app.client.ui.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
-import app.client.ui.types.{PropsOfVanillaComp, PropsOfWrappedComp}
+import app.client.wrapper.cache.{CacheRoot, StateSettable, _wrapper_EntityCache_MutableState}
+import app.client.wrapper.cache.entityCache.EntityCache
+import app.client.wrapper.types.RootPageConstructorTypes.{VanillaRootPageCompConstr, WrappedRootPageCompConstr}
+import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
+import app.client.wrapper.types.{PropsOfVanillaComp, PropsOfWrappedComp}
 
 /**
   * Created by joco on 03/09/2017.

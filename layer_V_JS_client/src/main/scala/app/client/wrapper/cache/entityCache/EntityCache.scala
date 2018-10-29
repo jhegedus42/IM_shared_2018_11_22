@@ -1,6 +1,6 @@
-package app.client.cache.entityCache
+package app.client.wrapper.cache.entityCache
 
-import app.client.cache.wrapper.{CacheRoot, ReadRequest, UpdateRequest}
+import app.client.wrapper.cache.{CacheRoot, ReadRequest, UpdateRequest}
 //import app.client.rest.ClientRestAJAX
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}

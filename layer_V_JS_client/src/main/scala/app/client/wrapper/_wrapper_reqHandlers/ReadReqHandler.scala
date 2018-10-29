@@ -1,9 +1,9 @@
-package app.client.cache.wrapper._wrapper_reqHandlers
+package app.client.wrapper._wrapper_reqHandlers
 
-import app.client.cache.entityCache.{Loading, NotYetLoaded}
-import app.client.cache.wrapper.{_wrapper_EntityCache_MutableState, ReadRequest}
+import app.client.wrapper.cache.entityCache.{Loading, NotYetLoaded}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
+import app.client.wrapper.cache.{ReadRequest, _wrapper_EntityCache_MutableState}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal

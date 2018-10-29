@@ -1,9 +1,10 @@
-package app.client.cache.wrapper
+package app.client.wrapper.cache
 
-//import app.client.cache.RequestProcessor.{VanillaPageComponent_ReactCompConstructor, WrappedPageComponent_ReactCompConstructor}
-import app.client.cache.entityCache.EntityCache
-import app.client.cache.wrapper._wrapper_reqHandlers.{ReadReqHandler, UpdateReqHandler}
-import app.shared.data.model.Entity.{Data, Entity}
+//import app.client.wrapper.cache.RequestProcessor.{VanillaPageComponent_ReactCompConstructor, WrappedPageComponent_ReactCompConstructor}
+import app.client.wrapper._wrapper_reqHandlers.{ReadReqHandler, UpdateReqHandler}
+import app.client.wrapper.cache.entityCache.EntityCache
+import app.client.wrapper.ReactCompWrapper
+import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 import io.circe.{Decoder, Encoder}
 

@@ -5,7 +5,8 @@ import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
-import app.client.ui.types.PropsOfVanillaComp
+import app.client.wrapper.cache.CacheRoot
+import app.client.wrapper.types.PropsOfVanillaComp
 import app.shared.data.model.UserLineList
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
@@ -29,36 +30,44 @@ object RouterComp {
 
   import Pages.Page
 
-  val navs: Map[String, Page] = Map(
+  private[this] val navs: Map[String, Page] = Map(
     "User Line List" -> UserLineListPage(UUID(TestEntitiesForStateThree.user1uuid)),
     "Line List" -> LineListPage,
     "Line Detail " -> LineDetailPage( notSpecUUID )
 
   )
 
-  def routerConfig(): RouterConfig[Page] =
+  private[this] def routerConfig(): RouterConfig[Page] =
     RouterConfigDsl[Page].buildConfig {
       (dsl: RouterConfigDsl[Page]) =>
         import dsl._
 
+        val que: CacheRoot = new CacheRoot()
+
         val dr_lineDetail = {
+          val ldw=LineDetailWrapping(que)
           val g = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
-              LineDetailWrapping.wrapped(PropsOfVanillaComp(Ref.makeWithUUID(x.id), r))
+              ldw.wrapped(PropsOfVanillaComp(Ref.makeWithUUID(x.id), r))
           }
           dynamicRouteCT( "#item" / uuid.caseClass[LineDetailPage] ) ~> dynRenderR( g )
         }
 
-        val dr_userlinelist={
+        val dr_userlinelist: dsl.Rule ={
+
+          val ullw=UserLineListsWrapping(que)
 
           val g: (UserLineListPage,  RouterCtl[Page] ) => ReactElement =
             (u:UserLineListPage,r: RouterCtl[Page]) =>
-              UserLineListsWrapping.wrapped_CC(PropsOfVanillaComp(Ref.makeWithUUID(u.id_user), r))
+              ullw.wrapped_CC(PropsOfVanillaComp(Ref.makeWithUUID(u.id_user), r))
 
           dynamicRouteCT( "#user" / uuid.caseClass[UserLineListPage]) ~> dynRenderR(g)
         }
 
-        val sr_lineList = staticRoute( "#im", LineListPage ) ~> renderR( LineListWrapping.mk_wLL )
+        val sr_lineList = {
+          val llw=LineListWrapping(que)
+          staticRoute("#im", LineListPage) ~> renderR(llw.mk_wLL)
+        }
 
         val config: RouterConfig[Page] = (trimSlashes
           | dr_userlinelist
@@ -72,7 +81,7 @@ object RouterComp {
         config
     }
 
-  val baseUrl = BaseUrl.fromWindowOrigin_/
+  private[this] val baseUrl: BaseUrl = BaseUrl.fromWindowOrigin_/
 
   def constructor() = Router( baseUrl, routerConfig().logToConsole )
 

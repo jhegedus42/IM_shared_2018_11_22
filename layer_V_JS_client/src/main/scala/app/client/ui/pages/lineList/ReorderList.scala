@@ -1,6 +1,6 @@
 //package app.client.ui.pages.lineList
 //
-//import app.client.cache.entityCache.EntityCacheMap
+//import app.client.wrapper.cache.entityCache.EntityCacheMap
 //import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, Page}
 //import app.client.ui.generalReactComponents.wrapped_JS_Components.react_sortable_hoc.{SortableContainer, SortableElement, SortableView}
 //import app.shared.data.ref.RefVal

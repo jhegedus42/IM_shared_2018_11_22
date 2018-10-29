@@ -1,4 +1,4 @@
-package app.client.ui.types
+package app.client.wrapper.types
 
 /**
   * 0378528a_4c99b1ca
