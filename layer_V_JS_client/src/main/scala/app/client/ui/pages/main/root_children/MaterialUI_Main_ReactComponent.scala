@@ -8,6 +8,7 @@ import japgolly.scalajs.react.extra.Reusability
 import japgolly.scalajs.react.extra.router._
 import japgolly.scalajs.react.vdom.prefix_<^._
 import japgolly.scalajs.react.{Callback, _}
+import org.scalajs.dom.html.Div
 
 import scala.scalajs.js
 
@@ -19,18 +20,18 @@ object MaterialUI_Main_ReactComponent {
 
   class Backend[P](scope: BackendScope[Props[P], State]) {
 
-    val toggleDrawerOpen: Callback = {
+    private val toggleDrawerOpen: Callback = {
       println("callback running");
       Callback.info(s"opening drawer") >>
       scope.modState(s => s.copy(drawerOpen = !s.drawerOpen))
     }
 
-    val onRequestChange: (Boolean, String) => Callback =
+    private val onRequestChange: (Boolean, String) => Callback =
       (open, reason) =>
         Callback.info(s"onRequestChange: open: $open, reason: $reason") >>
           scope.modState(s => s.copy(drawerOpen = !s.drawerOpen))
 
-    def render(p: Props[P], s: State) = {
+    def render(p: Props[P], s: State): ReactTagOf[Div] = {
       println("render navigation");
       System.out.flush();
       <.div(
@@ -92,15 +93,16 @@ object MaterialUI_Main_ReactComponent {
   }
 
   //Just make the component constructor - props to be supplied later to make a component
-  def apply[P] = ReactComponentB[Props[P]]("Nav")
-    .initialState(State(false))
-    .backend(new Backend[P](_))
-    .render(s => s.backend.render(s.props, s.state))
-    .build
+  private
+  def apply[P]: ReqProps[Props[P], State, Backend[P], TopNode] = ReactComponentB[Props[P]]("Nav")
+                                                                 .initialState(State(false))
+                                                                 .backend(new Backend[P](_))
+                                                                 .render(s => s.backend.render(s.props, s.state))
+                                                                 .build
 
 
 
-  val navigation: ReqProps[Props[Page], State, Backend[Page], TopNode] = MaterialUI_Main_ReactComponent.apply[Page]
+  private[this] val navigation: ReqProps[Props[Page], State, Backend[Page], TopNode] = MaterialUI_Main_ReactComponent.apply[Page]
 
   def layout(navs:Map[String,Page] )(ctl: RouterCtl[Page], r: Resolution[Page]):
   ReactComponentU[Props[Page], State, Backend[Page], TopNode] = {
