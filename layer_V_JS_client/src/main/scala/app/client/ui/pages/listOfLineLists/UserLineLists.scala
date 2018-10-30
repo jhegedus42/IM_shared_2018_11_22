@@ -1,9 +1,9 @@
 package app.client.ui.pages.listOfLineLists
 
-import app.client.wrapper.{EntityCacheVal, EntityReaderWriter, ReactCompWrapper, ReactCompWrapperFactory}
 import app.client.wrapper.types.PropsOfWrappedComp
 import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
+import app.client.wrapper.{EntityCacheVal, EntityReaderWriter, ReactCompWrapper}
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res

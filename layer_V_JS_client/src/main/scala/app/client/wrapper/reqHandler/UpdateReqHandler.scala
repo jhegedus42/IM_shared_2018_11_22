@@ -1,4 +1,4 @@
-package app.client.wrapper.wrapperFactory
+package app.client.wrapper.reqHandler
 
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
 import app.client.wrapper.{EntityCacheVal, EntityCache_MutableState, Ready, Updating}
@@ -15,8 +15,10 @@ import scala.reflect.ClassTag
 /**
   * Created by joco on 08/01/2018.
   */
-private[wrapper] object  UpdateReqHandler {
-  private[wrapper] def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
+private object  UpdateReqHandler {
+
+
+  def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
                                                                                  cache:          EntityCache_MutableState,
                                                                                  wr:             UpdateRequest[E],
                                                                                  pageRerenderer: () => Unit
