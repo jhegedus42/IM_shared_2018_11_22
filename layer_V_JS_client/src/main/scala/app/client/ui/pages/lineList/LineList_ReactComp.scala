@@ -3,7 +3,7 @@ package app.client.ui.pages.lineList
 import java.util.concurrent.ThreadLocalRandom
 
 import app.client.rest.commands.forTesting.Helpers
-import app.client.wrapper.{EntityCache, EntityCacheVal}
+import app.client.wrapper.{EntityReaderWriter, EntityCacheVal}
 import app.client.wrapper.types.PropsOfWrappedComp
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.shared.data.model.LineText
@@ -59,7 +59,7 @@ object LineList_ReactComp {
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: EntityCache = props.entityCache
+      val c: EntityReaderWriter = props.entityCache
 
       val ref: Ref[LineText] =
         Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d" ) // right

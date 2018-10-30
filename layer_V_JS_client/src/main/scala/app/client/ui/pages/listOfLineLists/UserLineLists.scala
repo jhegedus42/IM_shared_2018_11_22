@@ -1,10 +1,10 @@
 package app.client.ui.pages.listOfLineLists
 
-import app.client.wrapper.{EntityCache, EntityCacheVal}
+import app.client.wrapper.{EntityCacheVal, EntityReaderWriter, ReactCompWrapper}
 import app.client.wrapper.types.PropsOfWrappedComp
 import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.WrapperFactory
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReactCompWrapperFactory
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res
@@ -22,7 +22,7 @@ object UserLineListsComp {
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: EntityCache = props.entityCache
+      val c: EntityReaderWriter = props.entityCache
       // 442320ff08b24fd89244d566327a8cc4$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
       val u: EntityCacheVal[User] = props.entityCache.getEntity( props.ps )
       <.div(
@@ -63,13 +63,13 @@ object UserLineListsComp {
 
 }
 
-case class UserLineListsWrapping(wrapperHolder : WrapperFactory) {
+case class UserLineListsWrapping(wrapper : ReactCompWrapper) {
 
 //  val wrapperHolder: CacheRoot = new CacheRoot()
 
   val wrapped_CC
     : WrappedRootPageCompConstr[UserLineLists_Vanilla_RootReactComp_PhantomType.type, UserLineListsComp.Prop] =
-    wrapperHolder.wrapper
+    wrapper
     .createWrappedRootPageCompConstructor[UserLineLists_Vanilla_RootReactComp_PhantomType.type, UserLineListsComp.Prop](
         UserLineListsComp.compConstr
                                                                                                                        )

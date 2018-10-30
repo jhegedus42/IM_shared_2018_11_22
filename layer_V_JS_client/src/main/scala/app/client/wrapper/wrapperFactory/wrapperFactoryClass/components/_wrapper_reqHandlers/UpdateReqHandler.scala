@@ -1,9 +1,8 @@
-package app.client.wrapper._wrapper_reqHandlers
+package app.client.wrapper.wrapperFactory.wrapperFactoryClass.components._wrapper_reqHandlers
 
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
-import app.client.wrapper.wrapperFactory._wrapper_EntityCache_MutableState
 import app.client.wrapper.wrapperFactory.wrapperFactoryClass.UpdateRequest
-import app.client.wrapper.{EntityCacheVal, Ready, Updating}
+import app.client.wrapper.{EntityCacheVal, EntityCache_MutableState, Ready, Updating}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal
@@ -19,7 +18,7 @@ import scala.reflect.ClassTag
   */
 private[wrapper] object  UpdateReqHandler {
   private[wrapper] def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
-                                                                                 cache:          _wrapper_EntityCache_MutableState,
+                                                                                 cache:          EntityCache_MutableState,
                                                                                  wr:             UpdateRequest[E],
                                                                                  pageRerenderer: () => Unit
     ): Unit = {

@@ -1,24 +1,23 @@
-package app.client.wrapper.wrapperFactory
+package app.client.wrapper
 
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.WrapperFactory
-import app.client.wrapper.{EntityCache, EntityCacheVal, Loaded, Loading, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReactCompWrapperFactory
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 
 /**
   * f079711f_4c99b1ca
   *
-  * @param cacheRoute
+  * @param newCacheMapProvider
   */
 
-private[wrapper] class _wrapper_EntityCache_MutableState(cacheRoute:WrapperFactory) {
-  private[this] var immutableEntityCacheMap: EntityCache = cacheRoute.getNewCacheMap
-  // miért wrapped Map ?
-  // mibe van becsomagolva ?
+private[wrapper] class EntityCache_MutableState(newCacheMapProvider:ReactCompWrapperFactory) {
 
-  def getCacheMap: EntityCache = immutableEntityCacheMap
 
-  def resetCache(): Unit = immutableEntityCacheMap = cacheRoute.getNewCacheMap
+  private[this] var immutableEntityCacheMap: EntityReaderWriter = newCacheMapProvider.createNewEntityReaderWriter
+
+  def getCacheMap: EntityReaderWriter = immutableEntityCacheMap
+
+  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
 
   private[this] def updateCache[E <: Entity](key: Ref[E],
                                              cacheVal: EntityCacheVal[E],

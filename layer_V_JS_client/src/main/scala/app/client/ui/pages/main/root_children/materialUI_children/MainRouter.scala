@@ -5,8 +5,9 @@ import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
+import app.client.wrapper.ReactCompWrapper
 import app.client.wrapper.types.PropsOfVanillaComp
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.WrapperFactory
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReactCompWrapperFactory
 import app.shared.data.model.UserLineList
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
@@ -42,10 +43,11 @@ object RouterComp {
       (dsl: RouterConfigDsl[Page]) =>
         import dsl._
 
-        val que: WrapperFactory = new WrapperFactory()
+        val wrapperFactory: ReactCompWrapperFactory = ReactCompWrapperFactory()
+        val reactCompWrapper : ReactCompWrapper = wrapperFactory.wrapper
 
         val dr_lineDetail = {
-          val ldw=LineDetailWrapping(que)
+          val ldw=LineDetailWrapping(reactCompWrapper)
           val g = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
               ldw.wrapped(PropsOfVanillaComp(Ref.makeWithUUID(x.id), r))
@@ -55,7 +57,7 @@ object RouterComp {
 
         val dr_userlinelist: dsl.Rule ={
 
-          val ullw=UserLineListsWrapping(que)
+          val ullw=UserLineListsWrapping(reactCompWrapper)
 
           val g: (UserLineListPage,  RouterCtl[Page] ) => ReactElement =
             (u:UserLineListPage,r: RouterCtl[Page]) =>
@@ -65,7 +67,7 @@ object RouterComp {
         }
 
         val sr_lineList = {
-          val llw=LineListWrapping(que)
+          val llw=LineListWrapping(reactCompWrapper)
           staticRoute("#im", LineListPage) ~> renderR(llw.mk_wLL)
         }
 

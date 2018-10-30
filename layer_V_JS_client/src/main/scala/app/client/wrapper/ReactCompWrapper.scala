@@ -1,16 +1,14 @@
-package app.client.wrapper.wrapperFactory.wrapperFactoryClass.components
+package app.client.wrapper
 
-import app.client.wrapper.EntityCache
 import app.client.wrapper.types.RootPageConstructorTypes.{VanillaRootPageCompConstr, WrappedRootPageCompConstr}
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
 import app.client.wrapper.types.{PropsOfVanillaComp, PropsOfWrappedComp}
-import app.client.wrapper.wrapperFactory._wrapper_EntityCache_MutableState
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.{StateSettable, WrapperFactory}
+import app.client.wrapper.wrapperFactory.wrapperFactoryClass.{ReactCompWrapperFactory, StateSettable}
 
 /**
   * Created by joco on 03/09/2017.
   */
-private[wrapperFactoryClass] class ReactCompWrapper(re: WrapperFactory, cm: _wrapper_EntityCache_MutableState ) {
+class ReactCompWrapper(re: ReactCompWrapperFactory, cm: EntityCache_MutableState ) {
 
   def createWrappedRootPageCompConstructor[RootPagePageName <: Vanilla_RootReactComponent_PhantomType, Props](
       vanillaCC: VanillaRootPageCompConstr[RootPagePageName, Props]
@@ -19,14 +17,16 @@ private[wrapperFactoryClass] class ReactCompWrapper(re: WrapperFactory, cm: _wra
     import japgolly.scalajs.react._
 
     type P = PropsOfVanillaComp[Props]
-    class WBackend($ : BackendScope[P, EntityCache] ) {
-      def render(t: (P), statePassedToRender: EntityCache ): ReactElement =
+
+    class WBackend($ : BackendScope[P, EntityReaderWriter] ) {
+
+      def render(t: (P), statePassedToRender: EntityReaderWriter ): ReactElement =
         vanillaCC(PropsOfWrappedComp[Props, RootPagePageName](t.p, t.ctrl, statePassedToRender))
 
       def willMount: CallbackTo[Unit] = {
         Callback {
           re.currently_routed_page = Some( new StateSettable {
-            override def setState(c: EntityCache ): Unit = $.accessDirect.setState(c)
+            override def setState(c: EntityReaderWriter ): Unit = $.accessDirect.setState(c)
 
             // ez akkor kell, ha egy getEntity visszateresenek kovetkezteben meghivunk meg egy getEntity-t
             // pl. egymasba agyazott komponensek lerajzolasa soran - ugyanis minden setState elkuld meghiv egy render-t
@@ -42,13 +42,13 @@ private[wrapperFactoryClass] class ReactCompWrapper(re: WrapperFactory, cm: _wra
 
       def didMount = Callback {
         println( "did mount" );
-        re.readHandler.executeReadRequests()
+                                re.readRequestHandler.executeReadRequests()
       }
 
     }
 
     def getWrappedPageComponentConstructor
-      : ReactComponentC.ReqProps[PropsOfVanillaComp[Props], EntityCache, WBackend, TopNode] =
+      : ReactComponentC.ReqProps[PropsOfVanillaComp[Props], EntityReaderWriter, WBackend, TopNode] =
       ReactComponentB[PropsOfVanillaComp[Props]]("wrapped page component")
         .initialState( cm.getCacheMap )
         .backend[WBackend]( new WBackend( _ ) )
@@ -58,5 +58,7 @@ private[wrapperFactoryClass] class ReactCompWrapper(re: WrapperFactory, cm: _wra
         .build
 
     getWrappedPageComponentConstructor
+
   }
+
 }
