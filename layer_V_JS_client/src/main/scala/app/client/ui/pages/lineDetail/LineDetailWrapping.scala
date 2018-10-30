@@ -3,8 +3,7 @@ package app.client.ui.pages.lineDetail
 import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 import app.client.ui.pages.lineDetail.LineDetail_ReactComp.lineDetailConstructor
-import app.client.wrapper.ReactCompWrapper
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReactCompWrapperFactory
+import app.client.wrapper.{ReactCompWrapper, ReactCompWrapperFactory}
 
 /**
   * Created by joco on 06/01/2018.

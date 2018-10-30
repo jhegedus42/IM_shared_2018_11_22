@@ -1,7 +1,6 @@
-package app.client.wrapper.wrapperFactory.wrapperFactoryClass.components._wrapper_reqHandlers
+package app.client.wrapper.wrapperFactory
 
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.UpdateRequest
 import app.client.wrapper.{EntityCacheVal, EntityCache_MutableState, Ready, Updating}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity

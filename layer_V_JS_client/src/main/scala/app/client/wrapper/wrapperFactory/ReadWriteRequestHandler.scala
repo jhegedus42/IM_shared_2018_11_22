@@ -1,6 +1,6 @@
-package app.client.wrapper.wrapperFactory.wrapperFactoryClass
-import app.client.wrapper.ReadRequest
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.components._wrapper_reqHandlers.UpdateReqHandler
+package app.client.wrapper.wrapperFactory
+
+import app.client.wrapper.{ReactCompWrapperFactory, ReadRequest}
 import app.shared.data.model.Entity.Entity
 import io.circe.{Decoder, Encoder}
 

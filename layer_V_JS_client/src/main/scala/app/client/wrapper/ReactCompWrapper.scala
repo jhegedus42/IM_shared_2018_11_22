@@ -3,11 +3,44 @@ package app.client.wrapper
 import app.client.wrapper.types.RootPageConstructorTypes.{VanillaRootPageCompConstr, WrappedRootPageCompConstr}
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
 import app.client.wrapper.types.{PropsOfVanillaComp, PropsOfWrappedComp}
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.{ReactCompWrapperFactory, StateSettable}
+import app.client.wrapper.wrapperFactory.{ReadReqHandler, ReadWriteRequestHandler, StateSettable}
 
 /**
   * Created by joco on 03/09/2017.
   */
+
+case class ReactCompWrapperFactory() extends  ReadWriteRequestHandler with EntityReaderWriterFactory {
+
+  override def createNewEntityReaderWriter: EntityReaderWriter = new EntityReaderWriter(entityReadWriteRequestHandler = this)
+
+  //mutable - coz its a var
+
+  val cache: EntityCache_MutableState = new EntityCache_MutableState(this) //mutable state
+  // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
+
+  private[wrapper] var currently_routed_page: Option[StateSettable] = None
+
+  lazy val wrapper = new ReactCompWrapper( re = this, cm = cache )
+
+  val readRequestHandler = new ReadReqHandler(cache, reRenderCurrentlyRoutedPageComp)
+
+  //  private
+  //  def clearCache = {
+  //    cache.resetCache()
+  //    reRenderCurrentlyRoutedPageComp()
+  //  }
+
+  def reRenderCurrentlyRoutedPageComp(): Unit = {
+    val c: EntityReaderWriter = cache.getCacheMap
+    println( "re render with cache: " + c )
+    currently_routed_page.foreach( {
+                                     s =>
+                                       s.setState( c )
+                                   } )
+  }
+
+}
+
 class ReactCompWrapper(re: ReactCompWrapperFactory, cm: EntityCache_MutableState ) {
 
   def createWrappedRootPageCompConstructor[RootPagePageName <: Vanilla_RootReactComponent_PhantomType, Props](

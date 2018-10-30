@@ -1,4 +1,4 @@
-package app.client.wrapper.wrapperFactory.wrapperFactoryClass
+package app.client.wrapper.wrapperFactory
 
 import app.client.wrapper.EntityReaderWriter
 

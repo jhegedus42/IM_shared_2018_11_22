@@ -1,6 +1,5 @@
 package app.client.wrapper
 
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReactCompWrapperFactory
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 

@@ -1,4 +1,4 @@
-package app.client.wrapper.wrapperFactory.wrapperFactoryClass.components._wrapper_reqHandlers
+package app.client.wrapper.wrapperFactory
 
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
@@ -14,7 +14,7 @@ import scala.concurrent.Future
 /**
   * Created by joco on 29/12/2017.
   */
-private[wrapperFactoryClass] class ReadReqHandler(cache: EntityCache_MutableState, pageRerenderer: () => Unit)
+class ReadReqHandler(cache: EntityCache_MutableState, pageRerenderer: () => Unit)
     extends LazyLogging {
 
   private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()

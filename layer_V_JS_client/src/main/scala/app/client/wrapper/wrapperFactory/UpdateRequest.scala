@@ -1,4 +1,4 @@
-package app.client.wrapper.wrapperFactory.wrapperFactoryClass
+package app.client.wrapper.wrapperFactory
 
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal

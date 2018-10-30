@@ -3,9 +3,8 @@ package app.client.ui.pages.lineList
 import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
 import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
-import app.client.wrapper.ReactCompWrapper
+import app.client.wrapper.{ReactCompWrapper, ReactCompWrapperFactory}
 import app.client.wrapper.types.PropsOfVanillaComp
-import app.client.wrapper.wrapperFactory.wrapperFactoryClass.ReactCompWrapperFactory
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 
