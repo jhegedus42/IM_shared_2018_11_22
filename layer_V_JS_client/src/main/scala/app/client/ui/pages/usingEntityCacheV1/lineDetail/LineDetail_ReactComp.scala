@@ -1,12 +1,12 @@
 package app.client.ui.pages.usingEntityCacheV1.lineDetail
 
 import app.client.rest.commands.forTesting.Helpers
-import app.client.entityCache.entityCacheV1.types.PropsWithInjectedEntityReaderWriter
+import app.client.entityCache.entityCacheV1.types.PropsWithInjectedCache
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.{EntityCacheVal, Ready}
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Constructor_Providing_ExtendedProperties
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectedComponentConstructor
 import app.shared.data.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag
@@ -27,7 +27,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = PropsWithInjectedEntityReaderWriter[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
+  type Props = PropsWithInjectedCache[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
 
 //
   class Backend($ : BackendScope[Props, Unit] ) {
@@ -106,7 +106,7 @@ object LineDetail_ReactComp {
   }
 
   val lineDetailConstructor
-    : Constructor_Providing_ExtendedProperties[LineDetail_Vanilla_RootReactComp_PhantomType.type, Prop] = {
+    : CacheInjectedComponentConstructor[LineDetail_Vanilla_RootReactComp_PhantomType.type, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend

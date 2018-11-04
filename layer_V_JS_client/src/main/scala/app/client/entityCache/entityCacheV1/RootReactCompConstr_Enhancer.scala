@@ -1,27 +1,94 @@
 package app.client.entityCache.entityCacheV1
 
+import app.client.entityCache.entityCacheV1.reqHandler.ReadWriteRequestHandler
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{CacheInjectedComponentConstructor, CacheInjectorCompConstructor}
+import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
+import app.client.entityCache.entityCacheV1.types.{PropsWithInjectedCache, PropsWithoutEntityReaderWriter}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
-import app.client.entityCache.entityCacheV1.reqHandler.{ReadWriteRequestHandler, UpdateRequest}
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
-  Constructor_Providing_ExtendedProperties,
-  Constructor_Used_By_The_Parent_Component
-}
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
-import app.client.entityCache.entityCacheV1.types.{
-  PropsWithoutEntityReaderWriter,
-  PropsWithInjectedEntityReaderWriter
-}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 import io.circe.{Decoder, Encoder}
 import scalaz.{-\/, \/-}
 import slogging.LazyLogging
+
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 
-private[entityCacheV1] class ReadReqHandler(cache: EntityCache_MutableState, pageRerenderer: () => Unit )
+private [entityCacheV1] case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
+
+
+private[entityCacheV1] case class UpdateRequest[E <: Entity](rv: RefVal[E] )
+
+/**
+  * f079711f_4c99b1ca
+  *
+  * @param newCacheMapProvider
+  */
+// singleton - TODO - create a singleton factory for this
+class EntityCache_StateHolder(newCacheMapProvider:RootReactCompConstr_Enhancer) {
+
+
+  private[this] var immutableEntityCacheMap: ImmutableMapHolder = newCacheMapProvider.createNewState
+
+  def getState: ImmutableMapHolder = immutableEntityCacheMap
+
+  //  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
+
+  private[this] def updateCache[E <: Entity](key: Ref[E],
+                                             cacheVal: EntityCacheVal[E],
+                                             oldVal: EntityCacheVal[E]): Unit = {
+    assert(immutableEntityCacheMap.map(key).equals(oldVal))
+    val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
+      immutableEntityCacheMap.map.updated(key, cacheVal)
+    immutableEntityCacheMap = immutableEntityCacheMap.copy(map = newCacheMap)
+  }
+
+  object EntityStateChanger {
+
+    def setNotYetLoaded[E <: Entity](ref: Ref[E]): NotYetLoaded[E] = {
+      val res = NotYetLoaded(ref)
+      immutableEntityCacheMap = immutableEntityCacheMap.copy(map = immutableEntityCacheMap.map.updated(ref, res))
+      res
+    }
+
+    def setLoading[E <: Entity](e: NotYetLoaded[E]): Loading[E] = {
+
+      val res: Loading[E] = Loading(e.ref)
+      updateCache(e.ref, res, e)
+      res
+
+    }
+
+    def setUpdating[E <: Entity](oldVal: Ready[E],
+                                 newVal: RefVal[E]): Updating[E] = {
+      val updatingTo = Updating(newVal)
+      updateCache(oldVal.refVal.r, updatingTo, oldVal)
+      updatingTo
+    }
+
+    def setLoaded[E <: Entity](oldVal: Loading[E], newVal: RefVal[E]): Unit =
+      updateCache(newVal.r, Loaded(newVal), oldVal)
+
+    def setUpdated[E <: Entity](oldVal: Updating[E], newVal: RefVal[E]): Unit =
+      updateCache(newVal.r, Updated(newVal), oldVal)
+
+
+    def setReadFailed[E <: Entity](oldVal: Loading[E], errorMsg: String): Unit =
+      updateCache(oldVal.ref, ReadFailed(oldVal.ref, err = errorMsg), oldVal)
+
+    def setUpdateFailed[E <: Entity](oldVal: Updating[E], errorMsg: String): Unit =
+      updateCache(oldVal.refVal.r,
+                  UpdateFailed(oldVal.refVal, err = errorMsg),
+                  oldVal)
+
+  }
+
+}
+
+
+private[entityCacheV1] class ReadReqHandler(cache: EntityCache_StateHolder, pageRerenderer: () => Unit )
     extends LazyLogging {
   private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()
   private[entityCacheV1] def queRequest[E <: Entity](rr: ReadRequest[E] ): Unit = {
@@ -82,10 +149,21 @@ private[entityCacheV1] class ReadReqHandler(cache: EntityCache_MutableState, pag
 
 }
 
-case class EntityReaderWriter_State_To_React_Comp(
+
+/**
+  * @param map Immutable Map - Holding the current state
+  *
+  *
+  * @param entityReadWriteRequestHandler needs to be notified about read or write requests
+  *
+  *
+  */
+case class ImmutableMapHolder(
     map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
     entityReadWriteRequestHandler: ReadWriteRequestHandler)
     extends LazyLogging {
+
+  // def getView ...
 
   def getEntity[E <: Entity: ClassTag](r: Ref[E] ): EntityCacheVal[E] = {
 
@@ -110,24 +188,29 @@ case class EntityReaderWriter_State_To_React_Comp(
 
 }
 
+
 trait StateSettable {
-  def setState(c: EntityReaderWriter_State_To_React_Comp )
+  def setState(c: ImmutableMapHolder )
 }
+
 
 /**
   *
   * Takes a root react component constructor which creates a component with properties without
   * EntityReaderWriter.
   *
+  * This is a singleton.
+  *
   */
 case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
 
-  private[entityCacheV1] def createNewEntityReaderWriter: EntityReaderWriter_State_To_React_Comp =
-    new EntityReaderWriter_State_To_React_Comp( entityReadWriteRequestHandler = this )
+  private[entityCacheV1] def createNewState: ImmutableMapHolder =
+    new ImmutableMapHolder( entityReadWriteRequestHandler = this )
 
   //mutable - coz its a var
 
-  private[entityCacheV1] val cache: EntityCache_MutableState = new EntityCache_MutableState( this )
+  // this is a singleton, below
+  private[entityCacheV1] val stateProvider: EntityCache_StateHolder = new EntityCache_StateHolder( this )
 
   // mutable state
   // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
@@ -137,7 +220,7 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
   lazy val wrapper = this
 
   private[entityCacheV1] val readRequestHandler: ReadReqHandler =
-    new ReadReqHandler( cache, reRenderCurrentlyRoutedPageComp )
+    new ReadReqHandler( stateProvider, reRenderCurrentlyRoutedPageComp )
 
   //  private
   //  def clearCache = {
@@ -146,7 +229,7 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
   //  }
 
   private[entityCacheV1] def reRenderCurrentlyRoutedPageComp(): Unit = {
-    val c: EntityReaderWriter_State_To_React_Comp = cache.getCacheMap
+    val c: ImmutableMapHolder = stateProvider.getState
     println( "re render with cache: " + c )
 
     currently_routed_page.foreach( {
@@ -157,7 +240,11 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
   }
 
   /**
-    * @param vanillaCC
+    *
+    *
+    * @param constructorOfComponent_Taking_PropertiesAndInjectedCache This is the constructor into which the cache has been injected.
+    *                                More precisely, the cache was injected into it's parameters.
+    *
     *
     * @tparam RootPagePageName This is the name of the root page which is defined by the component created by this
     *                          constructor.
@@ -165,40 +252,55 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
     * @tparam Props These are the properties which will be extended with `PropsWithEntityReaderWriter`
     *               and will be also provided to the component created by the "enhanced constructor".
     *
-    * @return a Root React Comp Constructor that provides `PropsWithEntityReaderWriter` to the component
-    *         which it constructs.
+    * @return a Root React Comp Constructor that creates a Component which will be
+    *
+    *         mounted by the router as the Root Component.
+    *
+    *         This is the injector component that has the "real" component as a child, into which
+    *         the cache is injected.
+    *
+    *         This component injects the cache into the child component.
+    *
+    *         This component has a state EntityReaderWriter_State_To_React_Comp.
+    *
+    *
     */
-  def create_Enhanced_RootReactComp_Constructor[RootPagePageName <: RootReactComponent_MarkerTrait, Props](
-      vanillaCC: Constructor_Providing_ExtendedProperties[RootPagePageName, Props]
-    ): Constructor_Used_By_The_Parent_Component[RootPagePageName, Props] = {
+  def createCacheInjectorCompConstructor[RootPagePageName <: RootReactComponent_MarkerTrait, Props](
+      constructorOfComponent_Taking_PropertiesAndInjectedCache: CacheInjectedComponentConstructor[
+        RootPagePageName,
+        Props
+      ]
+    ): CacheInjectorCompConstructor[RootPagePageName, Props] = {
 
     import japgolly.scalajs.react._
 
     type P = PropsWithoutEntityReaderWriter[Props]
 
-    class WBackend($ : BackendScope[P, EntityReaderWriter_State_To_React_Comp] ) {
+    class WBackend($ : BackendScope[P, ImmutableMapHolder] ) {
 
-      def render(t: (P), statePassedToRender: EntityReaderWriter_State_To_React_Comp ): ReactElement =
-        vanillaCC(
-          PropsWithInjectedEntityReaderWriter[Props, RootPagePageName]( t.p, t.ctrl, statePassedToRender )
+      def render(t: (P), statePassedToRender: ImmutableMapHolder ): ReactElement =
+        constructorOfComponent_Taking_PropertiesAndInjectedCache(
+          PropsWithInjectedCache[Props, RootPagePageName]( t.p, t.ctrl, statePassedToRender )
         )
 
       def willMount: CallbackTo[Unit] = {
+
         Callback {
+
           currently_routed_page = Some( new StateSettable {
-            override def setState(c: EntityReaderWriter_State_To_React_Comp ): Unit =
+            override def setState(c: ImmutableMapHolder ): Unit =
               $.accessDirect.setState( c )
 
             // ez akkor kell, ha egy getEntity visszateresenek kovetkezteben meghivunk meg egy getEntity-t
             // pl. egymasba agyazott komponensek lerajzolasa soran - ugyanis minden setState elkuld meghiv egy render-t
             // es ennek a render-nek a meghivasa folyaman keletkezhetnek ujabb readRequest-ek
           } )
-        } >> $.setState( cache.getCacheMap )
+
+        } >> $.setState( stateProvider.getState ) // EZERT KELL NEKI STATE <<<<<<========
         // ez itt egy closure ennek a comp-nek a backend-jehez, amit oda kell adni a RequestExecutor-nak
         // hogy updatelni tudja a state-et, amikor visszajonnek a cuccok a future-bol
-        // set the state of this comp. needs to the current state of the cache ? - do we really need this
-        // if the initial state in - https://gitter.im/suzaku-io/diode?at=5963d7881c8697534a0e3fa0
-        // but it does not hurt ... to have that there...
+        // set the state of this comp. needs to the current state of the cache ?
+
       }
 
       def didMount = Callback {
@@ -208,17 +310,17 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
 
     }
 
-    def getWrappedPageComponentConstructor
-      : ReactComponentC.ReqProps[PropsWithoutEntityReaderWriter[Props], EntityReaderWriter_State_To_React_Comp, WBackend, TopNode] =
+    def getCompConstructorForRouter
+      : ReactComponentC.ReqProps[PropsWithoutEntityReaderWriter[Props], ImmutableMapHolder, WBackend, TopNode] =
       ReactComponentB[PropsWithoutEntityReaderWriter[Props]]( "wrapped page component" )
-        .initialState( cache.getCacheMap )
+        .initialState( stateProvider.getState )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend
         .componentDidMount( scope => scope.backend.didMount )
         .componentWillMount( scope => scope.backend.willMount )
         .build
 
-    getWrappedPageComponentConstructor
+    getCompConstructorForRouter
 
   }
 

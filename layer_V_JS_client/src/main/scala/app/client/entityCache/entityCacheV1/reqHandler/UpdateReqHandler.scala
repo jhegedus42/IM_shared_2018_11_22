@@ -1,7 +1,7 @@
 package app.client.entityCache.entityCacheV1.reqHandler
 
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
-import app.client.entityCache.entityCacheV1.{EntityCacheVal, EntityCache_MutableState, Ready, Updating}
+import app.client.entityCache.entityCacheV1.{EntityCacheVal, EntityCache_StateHolder, Ready, UpdateRequest, Updating}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal
@@ -19,14 +19,14 @@ private object  UpdateReqHandler {
 
 
   def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
-                                                                                 cache:          EntityCache_MutableState,
-                                                                                 wr:             UpdateRequest[E],
-                                                                                 pageRerenderer: () => Unit
+                                                                cache:          EntityCache_StateHolder,
+                                                                wr:             UpdateRequest[E],
+                                                                pageRerenderer: () => Unit
     ): Unit = {
     //only one ur can be dispatched at any given time
     //  ->  this makes things simpler
 
-    val e: EntityCacheVal[E] = cache.getCacheMap.getEntity( wr.rv.r )
+    val e: EntityCacheVal[E] = cache.getState.getEntity(wr.rv.r)
     if (e.isReady()) {
       val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
       val updating: Updating[E] = cache.EntityStateChanger.setUpdating( ready, wr.rv )

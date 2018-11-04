@@ -2,9 +2,9 @@ package app.client.ui.pages.usingEntityCacheV1.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.entityCache.entityCacheV1.types.PropsWithInjectedEntityReaderWriter
+import app.client.entityCache.entityCacheV1.types.PropsWithInjectedCache
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
-import app.client.entityCache.entityCacheV1.{EntityCacheVal, EntityReaderWriter_State_To_React_Comp}
+import app.client.entityCache.entityCacheV1.{EntityCacheVal, ImmutableMapHolder}
 import app.client.rest.commands.forTesting.Helpers
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
@@ -26,7 +26,7 @@ object LineList_ReactComp {
   import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes._
 
   type Prop  = Unit
-  type Props = PropsWithInjectedEntityReaderWriter[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]
+  type Props = PropsWithInjectedCache[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -59,7 +59,7 @@ object LineList_ReactComp {
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: EntityReaderWriter_State_To_React_Comp = props.entityCache
+      val c: ImmutableMapHolder = props.entityCache
 
       val ref: Ref[LineText] =
         Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d" ) // right
@@ -104,7 +104,7 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: Constructor_Providing_ExtendedProperties[LineList_Vanilla_RootReactComp_PhantomType.type, Unit] =
+  val LineListCompBuilder: CacheInjectedComponentConstructor[LineList_Vanilla_RootReactComp_PhantomType.type, Unit] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

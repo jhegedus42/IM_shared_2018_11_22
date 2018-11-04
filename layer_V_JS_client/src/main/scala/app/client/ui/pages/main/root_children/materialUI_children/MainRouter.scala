@@ -4,20 +4,28 @@ import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetailWrapping
 import app.client.ui.pages.usingEntityCacheV1.lineList.LineListWrapping
 import app.client.ui.pages.usingEntityCacheV1.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
-import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.{
+  LineDetailPage,
+  LineListPage,
+  UserLineListPage
+}
+import app.client.entityCache.entityCacheV1.{
+  ImmutableMapHolder,
+  RootReactCompConstr_Enhancer
+}
 import app.client.entityCache.entityCacheV1.types.PropsWithoutEntityReaderWriter
+import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetail_ReactComp.Prop
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}
-import japgolly.scalajs.react.ReactElement
+import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 object Pages {
   sealed trait Page
   case object LineListPage extends Page
   case object ReorderList extends Page
-  case class LineDetailPage(id: java.util.UUID ) extends Page
+  case class LineDetailPage(id:        java.util.UUID ) extends Page
   case class UserLineListPage(id_user: java.util.UUID ) extends Page
 }
 
@@ -30,10 +38,9 @@ object RouterComp {
   import Pages.Page
 
   private[this] val navs: Map[String, Page] = Map(
-    "User Line List" -> UserLineListPage(UUID(TestEntitiesForStateThree.user1uuid)),
+    "User Line List" -> UserLineListPage( UUID( TestEntitiesForStateThree.user1uuid ) ),
     "Line List" -> LineListPage,
     "Line Detail " -> LineDetailPage( notSpecUUID )
-
   )
 
   private[this] def routerConfig(): RouterConfig[Page] =
@@ -43,31 +50,47 @@ object RouterComp {
 
         val wrapperFactory: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer()
         //TODO ^^^ ennek szingletonnak kene lennie
-        val reactCompWrapper : RootReactCompConstr_Enhancer = wrapperFactory.wrapper
+        val reactCompWrapper: RootReactCompConstr_Enhancer = wrapperFactory.wrapper
 
         val dr_lineDetail = {
-          val ldw: LineDetailWrapping = LineDetailWrapping(reactCompWrapper)
-          val g = {
+          val ldw: LineDetailWrapping = LineDetailWrapping( reactCompWrapper )
+
+          val lineDetailCompCreatorForDynRenderR
+            : ( LineDetailPage, RouterCtl[Page] ) => ReactComponentU[PropsWithoutEntityReaderWriter[Prop],
+                                                                     ImmutableMapHolder,
+                                                                     _,
+                                                                     TopNode] = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
-              ldw.constructor_used_by_the_parent_component(PropsWithoutEntityReaderWriter(Ref.makeWithUUID(x.id), r))
+              ldw.constructor_used_by_the_parent_component(
+                PropsWithoutEntityReaderWriter( Ref.makeWithUUID( x.id ), r )
+
+                // KERDES ^^^ ide miert nem kell STATE ???
+                // KI AZ AKI A STATE-ET BUZERALJA ???
+                // mi a fasznak kell state ?
+
+
+              )
           }
-          dynamicRouteCT( "#item" / uuid.caseClass[LineDetailPage] ) ~> dynRenderR( g )
+
+          dynamicRouteCT( "#item" / uuid.caseClass[LineDetailPage] ) ~> dynRenderR(
+            lineDetailCompCreatorForDynRenderR
+          )
         }
 
-        val dr_userlinelist: dsl.Rule ={
+        val dr_userlinelist: dsl.Rule = {
 
-          val ullw=UserLineListsWrapping(reactCompWrapper)
+          val ullw = UserLineListsWrapping( reactCompWrapper )
 
-          val g: (UserLineListPage,  RouterCtl[Page] ) => ReactElement =
-            (u:UserLineListPage,r: RouterCtl[Page]) =>
-              ullw.wrapped_CC(PropsWithoutEntityReaderWriter(Ref.makeWithUUID(u.id_user), r))
+          val g: ( UserLineListPage, RouterCtl[Page] ) => ReactElement =
+            ( u: UserLineListPage, r: RouterCtl[Page] ) =>
+              ullw.wrapped_CC( PropsWithoutEntityReaderWriter( Ref.makeWithUUID( u.id_user ), r ) )
 
-          dynamicRouteCT( "#user" / uuid.caseClass[UserLineListPage]) ~> dynRenderR(g)
+          dynamicRouteCT( "#user" / uuid.caseClass[UserLineListPage] ) ~> dynRenderR( g )
         }
 
         val sr_lineList = {
-          val llw=LineListWrapping(reactCompWrapper)
-          staticRoute("#im", LineListPage) ~> renderR(llw.mk_wLL)
+          val llw = LineListWrapping( reactCompWrapper )
+          staticRoute( "#im", LineListPage ) ~> renderR( llw.mk_wLL )
         }
 
         val config: RouterConfig[Page] = (trimSlashes

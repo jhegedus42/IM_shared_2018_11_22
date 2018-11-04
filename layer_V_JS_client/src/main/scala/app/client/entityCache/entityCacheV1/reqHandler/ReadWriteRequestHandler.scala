@@ -1,6 +1,6 @@
 package app.client.entityCache.entityCacheV1.reqHandler
 
-import app.client.entityCache.entityCacheV1.{RootReactCompConstr_Enhancer, ReadRequest}
+import app.client.entityCache.entityCacheV1.{ReadRequest, RootReactCompConstr_Enhancer, UpdateRequest}
 import app.shared.data.model.Entity.Entity
 import io.circe.{Decoder, Encoder}
 
@@ -12,5 +12,5 @@ private[entityCacheV1] trait ReadWriteRequestHandler {
   def handleReadRequest[E <: Entity](rr: ReadRequest[E]): Unit = readRequestHandler.queRequest(rr)
 
   def handleUpdateReq[E <: Entity : ClassTag : Decoder : Encoder](er: UpdateRequest[E]): Unit = // mutates cache, rerenders page
-    UpdateReqHandler.launchUpdateReq(cache, er, reRenderCurrentlyRoutedPageComp)
+    UpdateReqHandler.launchUpdateReq(stateProvider, er, reRenderCurrentlyRoutedPageComp)
 }

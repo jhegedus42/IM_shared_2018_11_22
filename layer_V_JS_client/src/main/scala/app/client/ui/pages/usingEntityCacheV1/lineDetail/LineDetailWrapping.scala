@@ -2,7 +2,7 @@ package app.client.ui.pages.usingEntityCacheV1.lineDetail
 
 import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetail_ReactComp.lineDetailConstructor
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Constructor_Used_By_The_Parent_Component
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectorCompConstructor
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 
 /**
@@ -12,9 +12,9 @@ case class LineDetailWrapping(comp_constructor_enhancer: RootReactCompConstr_Enh
 //  val que = new CacheRoot()
 
   val constructor_used_by_the_parent_component
-    : Constructor_Used_By_The_Parent_Component[LineDetail_Vanilla_RootReactComp_PhantomType.type,
+    : CacheInjectorCompConstructor[LineDetail_Vanilla_RootReactComp_PhantomType.type,
                                                LineDetail_ReactComp.Prop] =
-    comp_constructor_enhancer.create_Enhanced_RootReactComp_Constructor[
+    comp_constructor_enhancer.createCacheInjectorCompConstructor[
       LineDetail_Vanilla_RootReactComp_PhantomType.type,
       LineDetail_ReactComp.Prop
     ](
