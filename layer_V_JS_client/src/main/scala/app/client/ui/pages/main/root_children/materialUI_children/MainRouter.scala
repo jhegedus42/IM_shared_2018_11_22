@@ -5,8 +5,8 @@ import app.client.ui.pages.lineList.LineListWrapping
 import app.client.ui.pages.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
-import app.client.wrapper.ReactCompWrapper
-import app.client.wrapper.types.PropsOfVanillaComp
+import app.client.entityCache.entityCacheV1.ReactCompWrapper
+import app.client.entityCache.entityCacheV1.types.PropsOfVanillaComp
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}

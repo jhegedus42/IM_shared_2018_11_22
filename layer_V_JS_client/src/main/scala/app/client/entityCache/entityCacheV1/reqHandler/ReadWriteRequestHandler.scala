@@ -1,12 +1,12 @@
-package app.client.wrapper.reqHandler
+package app.client.entityCache.entityCacheV1.reqHandler
 
-import app.client.wrapper.{ReactCompWrapper, ReadRequest}
+import app.client.entityCache.entityCacheV1.{ReactCompWrapper, ReadRequest}
 import app.shared.data.model.Entity.Entity
 import io.circe.{Decoder, Encoder}
 
 import scala.reflect.ClassTag
 
-private[wrapper] trait ReadWriteRequestHandler {
+private[entityCacheV1] trait ReadWriteRequestHandler {
   this: ReactCompWrapper =>
 
   def handleReadRequest[E <: Entity](rr: ReadRequest[E]): Unit = readRequestHandler.queRequest(rr)

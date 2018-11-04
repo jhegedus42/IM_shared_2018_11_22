@@ -1,14 +1,14 @@
-package app.client.wrapper
+package app.client.entityCache.entityCacheV1
 
 import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
-import app.client.wrapper.reqHandler.{ReadWriteRequestHandler, UpdateRequest}
-import app.client.wrapper.types.RootPageConstructorTypes.{
+import app.client.entityCache.entityCacheV1.reqHandler.{ReadWriteRequestHandler, UpdateRequest}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
   VanillaRootPageCompConstr,
   WrappedRootPageCompConstr
 }
-import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
-import app.client.wrapper.types.{PropsOfVanillaComp, PropsOfWrappedComp}
+import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
+import app.client.entityCache.entityCacheV1.types.{PropsOfVanillaComp, PropsOfWrappedComp}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
@@ -18,15 +18,15 @@ import slogging.LazyLogging
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 
-private[wrapper] class ReadReqHandler(cache: EntityCache_MutableState, pageRerenderer: () => Unit )
+private[entityCacheV1] class ReadReqHandler(cache: EntityCache_MutableState, pageRerenderer: () => Unit )
     extends LazyLogging {
   private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()
-  private[wrapper] def queRequest[E <: Entity](rr: ReadRequest[E] ): Unit = {
+  private[entityCacheV1] def queRequest[E <: Entity](rr: ReadRequest[E] ): Unit = {
     readRequests = readRequests + rr
     logger.trace( "in collect read requests - readRequests:" + rr )
   }
 
-  private[wrapper] def executeReadRequests(): Unit = {
+  private[entityCacheV1] def executeReadRequests(): Unit = {
     logger.trace( "in executeReadRequests read requests:" + readRequests )
     println( "137" + readRequests )
 
@@ -123,7 +123,7 @@ case class ReactCompWrapper() extends ReadWriteRequestHandler {
   // mutable state
   // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
 
-  private[wrapper] var currently_routed_page: Option[StateSettable] = None
+  private[entityCacheV1] var currently_routed_page: Option[StateSettable] = None
 
   lazy val wrapper = this
 
@@ -146,7 +146,7 @@ case class ReactCompWrapper() extends ReadWriteRequestHandler {
 
   }
 
-  def createWrappedRootPageCompConstructor[RootPagePageName <: Vanilla_RootReactComponent_PhantomType, Props](
+  def createWrappedRootPageCompConstructor[RootPagePageName <: RootReactComponent_MarkerTrait, Props](
       vanillaCC: VanillaRootPageCompConstr[RootPagePageName, Props]
     ): WrappedRootPageCompConstr[RootPagePageName, Props] = {
 

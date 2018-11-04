@@ -1,4 +1,4 @@
-package app.client.wrapper
+package app.client.entityCache.entityCacheV1
 
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}

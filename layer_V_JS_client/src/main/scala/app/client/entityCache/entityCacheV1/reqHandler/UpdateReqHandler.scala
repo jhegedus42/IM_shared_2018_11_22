@@ -1,7 +1,7 @@
-package app.client.wrapper.reqHandler
+package app.client.entityCache.entityCacheV1.reqHandler
 
 import app.client.rest.commands.generalCRUD.UpdateEntityAJAX
-import app.client.wrapper.{EntityCacheVal, EntityCache_MutableState, Ready, Updating}
+import app.client.entityCache.entityCacheV1.{EntityCacheVal, EntityCache_MutableState, Ready, Updating}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.RefVal

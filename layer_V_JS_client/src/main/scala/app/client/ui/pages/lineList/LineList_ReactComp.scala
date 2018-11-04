@@ -2,10 +2,10 @@ package app.client.ui.pages.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
+import app.client.entityCache.entityCacheV1.types.PropsOfWrappedComp
+import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
+import app.client.entityCache.entityCacheV1.{EntityCacheVal, EntityReaderWriter}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.wrapper.{EntityReaderWriter, EntityCacheVal}
-import app.client.wrapper.types.PropsOfWrappedComp
-import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
 import fansi.Str
@@ -23,7 +23,7 @@ import scala.concurrent.Future
 import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 
 object LineList_ReactComp {
-  import app.client.wrapper.types.RootPageConstructorTypes._
+  import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes._
 
   type Prop  = Unit
   type Props = PropsOfWrappedComp[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]
@@ -75,7 +75,7 @@ object LineList_ReactComp {
 //      def pp[T](t:T): String = pprint.apply(t).plainText
 
 //      <.div(^.whiteSpace:="pre", "joco\n moco")
-      import japgolly.scalajs.react.{Callback, ReactElement, ReactNode}
+      import japgolly.scalajs.react.Callback
 
       <.div(
         ^.whiteSpace := "pre",

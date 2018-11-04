@@ -1,7 +1,7 @@
-package app.client.wrapper.types
+package app.client.entityCache.entityCacheV1.types
 
-import app.client.wrapper.EntityReaderWriter
-import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.Vanilla_RootReactComponent_PhantomType
+import app.client.entityCache.entityCacheV1.EntityReaderWriter
+import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.TopNode
 
@@ -14,7 +14,7 @@ object RootPageConstructorTypes {
     * @tparam Vanilla_ReactComponent
     * @tparam P
     */
-  type VanillaRootPageCompConstr[Vanilla_ReactComponent <: Vanilla_RootReactComponent_PhantomType, P] =
+  type VanillaRootPageCompConstr[Vanilla_ReactComponent <: RootReactComponent_MarkerTrait, P] =
     ReqProps[PropsOfWrappedComp[P, Vanilla_ReactComponent], Unit, _, TopNode]
 
   /**
@@ -24,7 +24,7 @@ object RootPageConstructorTypes {
     * @tparam CompName
     * @tparam P
     */
-  type WrappedRootPageCompConstr[CompName <: Vanilla_RootReactComponent_PhantomType, P] =
+  type WrappedRootPageCompConstr[CompName <: RootReactComponent_MarkerTrait, P] =
     ReqProps[PropsOfVanillaComp[P], EntityReaderWriter, _, TopNode]
 
 }

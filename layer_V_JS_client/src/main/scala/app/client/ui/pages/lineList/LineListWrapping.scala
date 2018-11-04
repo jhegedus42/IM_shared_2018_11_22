@@ -1,10 +1,10 @@
 package app.client.ui.pages.lineList
 
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
-import app.client.wrapper.ReactCompWrapper
-import app.client.wrapper.types.PropsOfVanillaComp
-import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
-import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
+import app.client.entityCache.entityCacheV1.ReactCompWrapper
+import app.client.entityCache.entityCacheV1.types.PropsOfVanillaComp
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.WrappedRootPageCompConstr
+import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 

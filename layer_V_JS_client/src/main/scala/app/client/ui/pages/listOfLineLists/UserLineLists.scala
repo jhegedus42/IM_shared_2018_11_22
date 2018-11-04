@@ -1,16 +1,16 @@
 package app.client.ui.pages.listOfLineLists
 
-import app.client.wrapper.types.PropsOfWrappedComp
-import app.client.wrapper.types.RootPageConstructorTypes.WrappedRootPageCompConstr
-import app.client.wrapper.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
-import app.client.wrapper.{EntityCacheVal, EntityReaderWriter, ReactCompWrapper}
+import app.client.entityCache.entityCacheV1.types.PropsOfWrappedComp
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.WrappedRootPageCompConstr
+import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
+import app.client.entityCache.entityCacheV1.{EntityCacheVal, EntityReaderWriter, ReactCompWrapper}
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res
 import japgolly.scalajs.react.{BackendScope, ReactComponentB, ReactElement}
 
 object UserLineListsComp {
-  import app.client.wrapper.types.RootPageConstructorTypes._
+  import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes._
 
   type Prop = Ref[User]
 
@@ -69,7 +69,8 @@ case class UserLineListsWrapping(wrapper : ReactCompWrapper) {
   val wrapped_CC
     : WrappedRootPageCompConstr[UserLineLists_Vanilla_RootReactComp_PhantomType.type, UserLineListsComp.Prop] =
     wrapper
-    .createWrappedRootPageCompConstructor[UserLineLists_Vanilla_RootReactComp_PhantomType.type, UserLineListsComp.Prop](
+    .createWrappedRootPageCompConstructor[UserLineLists_Vanilla_RootReactComp_PhantomType.type,
+      UserLineListsComp.Prop](
         UserLineListsComp.compConstr
                                                                                                                        )
 
