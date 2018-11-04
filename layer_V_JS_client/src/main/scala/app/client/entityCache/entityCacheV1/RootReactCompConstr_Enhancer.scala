@@ -80,14 +80,53 @@ object CacheStates {
 
 private[entityCacheV1] case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
 
-/**
-  * Created by joco on 08/01/2018.
-  */
-
 private[entityCacheV1] case class UpdateRequest[E <: Entity](rv: RefVal[E] )
 
-private[entityCacheV1] class ReadReqHandler(cache: RootReactCompConstr_Enhancer, pageRerenderer: () => Unit )
+/**
+  * @param map Immutable Map - Holding the current state
+  *
+  *
+  * @param entityReadWriteRequestHandler needs to be notified about read or write requests
+  *                                      a callback function.
+  */
+case class CurrentStateOfCache(
+    map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
+    entityReadWriteRequestHandler: RootReactCompConstr_Enhancer)
     extends LazyLogging {
+
+  // def getView ...
+
+  def getEntity[E <: Entity: ClassTag](r: Ref[E] ): EntityCacheVal[E] = {
+    if (!map.contains( r )) { // csak akkor hivjuk meg ha meg nincs benne a cache-ben ...
+      entityReadWriteRequestHandler.handleReadRequest( r )
+    }
+    val res: EntityCacheVal[_ <: Entity] = map.getOrElse( r, NotInCache( r ) )
+    res.asInstanceOf[EntityCacheVal[E]]
+  }
+
+  def updateEntity[E <: Entity: ClassTag: Decoder: Encoder](rv: RefVal[E] ): Unit = {
+    entityReadWriteRequestHandler.handleUpdateReq( rv )
+  }
+
+}
+
+trait StateSettable {
+  def setState(c: CurrentStateOfCache )
+}
+
+/**
+  *
+  * Takes a root react component constructor which creates a component with properties without
+  * EntityReaderWriter.
+  *
+  * This is a singleton.
+  *
+  */
+object RootReactCompConstr_Enhancer {
+  lazy val wrapper = new RootReactCompConstr_Enhancer()
+}
+
+class RootReactCompConstr_Enhancer() extends LazyLogging {
 
   private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()
 
@@ -108,29 +147,29 @@ private[entityCacheV1] class ReadReqHandler(cache: RootReactCompConstr_Enhancer,
           import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
           val notYetLoaded: NotYetLoaded[E] =
-            cache.EntityStateChanger.setNotYetLoaded( rr.ref )
+            EntityStateChanger.setNotYetLoaded( rr.ref )
           // start Future
 
           val res: Future[ResDyn] = GetEntityAJAX.getEntityDyn( rr.ref )
 
-          val loading: Loading[E] = cache.EntityStateChanger.setLoading( notYetLoaded )
+          val loading: Loading[E] = EntityStateChanger.setLoading( notYetLoaded )
 
           res.map( {
             r: ResDyn =>
               println( s"future completed for $rr, result is $r" )
               val res: Unit = r.erv match {
                 case -\/( err ) =>
-                  cache.EntityStateChanger.setReadFailed[E]( loading, err.toString )
+                  EntityStateChanger.setReadFailed[E]( loading, err.toString )
                 case \/-( refValDyn ) =>
                   refValDyn.toRefVal_NoClassTagNeeded( rr.ref.dataType ) match {
                     case -\/( a: SomeError_Trait ) =>
-                      cache.EntityStateChanger.setReadFailed( oldVal = loading, errorMsg = a.string )
+                      EntityStateChanger.setReadFailed( oldVal = loading, errorMsg = a.string )
 
                     case \/-( b: RefVal[E] ) =>
-                      cache.EntityStateChanger.setLoaded[E]( oldVal = loading, newVal = b )
+                      EntityStateChanger.setLoaded[E]( oldVal = loading, newVal = b )
                   }
               }
-              pageRerenderer() // we rerender the page after each ajax came back
+              reRenderCurrentlyRoutedPageCompFunction() // we rerender the page after each ajax came back
           } )
           //637e3709d2fa4bd19e9167d45b58c425 commit b644e0744804cc562d4c7648aafaae93ec4727e5 Mon Dec 18 00:18:55 EET 2017
         }
@@ -144,78 +183,20 @@ private[entityCacheV1] class ReadReqHandler(cache: RootReactCompConstr_Enhancer,
     )
 
     readRequests = Set()
-    pageRerenderer() // we rerender the page after each ajax req has been started
+    reRenderCurrentlyRoutedPageCompFunction() // we rerender the page after each ajax req has been started
   }
 
-}
+  private[this] var immutableEntityCacheMap: CurrentStateOfCache = createNewState
 
-/**
-  * @param map Immutable Map - Holding the current state
-  *
-  *
-  * @param entityReadWriteRequestHandler needs to be notified about read or write requests
-  *
-  *
-  */
-case class ImmutableMapHolder(
-    map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
-    entityReadWriteRequestHandler: RootReactCompConstr_Enhancer)
-    extends LazyLogging {
-
-  // def getView ...
-
-  def getEntity[E <: Entity: ClassTag](r: Ref[E] ): EntityCacheVal[E] = {
-
-    if (!map.contains( r )) { // csak akkor hivjuk meg ha meg nincs benne a cache-ben ...
-      val readRequest: ReadRequest[E] = ReadRequest( r )
-      logger.trace( "getEntity - readRequest:" + readRequest )
-      entityReadWriteRequestHandler.handleReadRequest( readRequest )
-    }
-
-    val res: EntityCacheVal[_ <: Entity] = map.getOrElse( r, NotInCache( r ) )
-
-    res.asInstanceOf[EntityCacheVal[E]]
-  }
-
-  def updateEntity[E <: Entity: ClassTag: Decoder: Encoder](rv: RefVal[E] ): Unit = {
-    // 0 0d33c0acbc0240b9967f48951ddf79ed dispatch write request
-    entityReadWriteRequestHandler.handleUpdateReq( UpdateRequest( rv ) )
-    println( "update entity is called" + rv )
-
-    // -- as a response to user events (say pushing button) //    0d33c0acbc0240b9967f48951ddf79ed
-  }
-
-}
-
-trait StateSettable {
-  def setState(c: ImmutableMapHolder )
-}
-
-/**
-  *
-  * Takes a root react component constructor which creates a component with properties without
-  * EntityReaderWriter.
-  *
-  * This is a singleton.
-  *
-  */
-object RootReactCompConstr_Enhancer{
-  lazy val wrapper = new RootReactCompConstr_Enhancer()
-}
-
-class RootReactCompConstr_Enhancer() {
-
-  private[this] var immutableEntityCacheMap: ImmutableMapHolder = createNewState
-
-  def getState: ImmutableMapHolder = immutableEntityCacheMap
+  def getState: CurrentStateOfCache = immutableEntityCacheMap
 
   //  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
 
   private[this] def updateCache[E <: Entity](
-                                              key:      Ref[E],
-                                              cacheVal: EntityCacheVal[E],
-                                              oldVal:   EntityCacheVal[E]
-                                            ): Unit = {
+      key:      Ref[E],
+      cacheVal: EntityCacheVal[E],
+      oldVal:   EntityCacheVal[E]
+    ): Unit = {
     assert( immutableEntityCacheMap.map( key ).equals( oldVal ) )
     val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
       immutableEntityCacheMap.map.updated( key, cacheVal )
@@ -299,28 +280,30 @@ class RootReactCompConstr_Enhancer() {
     pageRerenderer()
   }
 
-  def handleReadRequest[E <: Entity](rr: ReadRequest[E] ): Unit = readRequestHandler.queRequest( rr )
+  def handleReadRequest[E <: Entity: ClassTag](r: Ref[E] ): Unit = {
+    val readRequest: ReadRequest[E] = ReadRequest( r )
+    logger.trace( "getEntity - readRequest:" + readRequest )
+    queRequest( readRequest )
+  }
 
   def handleUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
-      er: UpdateRequest[E]
+      rv: RefVal[E]
     ): Unit = // mutates cache, rerenders page
-    launchUpdateReq( stateProvider, er, reRenderCurrentlyRoutedPageComp )
+    {
+      launchUpdateReq( stateProvider, UpdateRequest( rv ), reRenderCurrentlyRoutedPageCompFunction )
+      println( "update entity is called" + rv )
+    }
 
-  private[entityCacheV1] def createNewState: ImmutableMapHolder =
-    new ImmutableMapHolder( entityReadWriteRequestHandler = this )
+  private[entityCacheV1] def createNewState: CurrentStateOfCache =
+    new CurrentStateOfCache( entityReadWriteRequestHandler = this )
 
   //mutable - coz its a var
 
   // this is a singleton, below
-  private[entityCacheV1] val stateProvider: RootReactCompConstr_Enhancer =  this
+  private[entityCacheV1] val stateProvider: RootReactCompConstr_Enhancer = this
 
   // mutable state
   // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
-
-
-
-  private[entityCacheV1] val readRequestHandler: ReadReqHandler =
-    new ReadReqHandler( stateProvider, reRenderCurrentlyRoutedPageComp )
 
   //  private
   //  def clearCache = {
@@ -328,15 +311,16 @@ class RootReactCompConstr_Enhancer() {
   //    reRenderCurrentlyRoutedPageComp()
   //  }
 
-  private[entityCacheV1] def reRenderCurrentlyRoutedPageComp(): Unit = {
-    val c: ImmutableMapHolder = stateProvider.getState
+  private[entityCacheV1] val reRenderCurrentlyRoutedPageCompFunction: () => Unit = () => {
+
+    val c: CurrentStateOfCache = getState
+
     println( "re render with cache: " + c )
 
     currently_routed_page.foreach( {
       s: StateSettable =>
         s.setState( c )
     } )
-
   }
 
   /**
@@ -376,9 +360,9 @@ class RootReactCompConstr_Enhancer() {
 
     type P = PropsGivenByTheRouter_To_Depth1Component[Props]
 
-    class WBackend($ : BackendScope[P, ImmutableMapHolder] ) {
+    class WBackend($ : BackendScope[P, CurrentStateOfCache] ) {
 
-      def render(t: (P), statePassedToRender: ImmutableMapHolder ): ReactElement =
+      def render(t: (P), statePassedToRender: CurrentStateOfCache ): ReactElement =
         constructorOfComponent_Taking_PropertiesAndInjectedCache(
           PropsWithInjectedCache_Fed_To_Depth2Comp[Props, RootPagePageName](
             t.p,
@@ -392,7 +376,7 @@ class RootReactCompConstr_Enhancer() {
         Callback {
 
           currently_routed_page = Some( new StateSettable {
-            override def setState(c: ImmutableMapHolder ): Unit =
+            override def setState(c: CurrentStateOfCache ): Unit =
               $.accessDirect.setState( c )
 
             // ez akkor kell, ha egy getEntity visszateresenek kovetkezteben meghivunk meg egy getEntity-t
@@ -409,13 +393,13 @@ class RootReactCompConstr_Enhancer() {
 
       def didMount = Callback {
         println( "did mount" );
-        readRequestHandler.executeReadRequests()
+        executeReadRequests()
       }
 
     }
 
     def getCompConstructorForRouter
-      : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], ImmutableMapHolder, WBackend, TopNode] =
+      : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], CurrentStateOfCache, WBackend, TopNode] =
       ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props]]( "wrapped page component" )
         .initialState( stateProvider.getState )
         .backend[WBackend]( new WBackend( _ ) )

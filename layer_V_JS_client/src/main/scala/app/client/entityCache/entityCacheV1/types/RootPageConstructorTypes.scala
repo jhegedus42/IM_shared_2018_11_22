@@ -1,6 +1,6 @@
 package app.client.entityCache.entityCacheV1.types
 
-import app.client.entityCache.entityCacheV1.ImmutableMapHolder
+import app.client.entityCache.entityCacheV1.CurrentStateOfCache
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
 import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsWithInjectedCache_Fed_To_Depth2Comp, PropsGivenByTheRouter_To_Depth1Component}
 import japgolly.scalajs.react.ReactComponentC.ReqProps
@@ -38,6 +38,6 @@ object RootPageConstructorTypes {
       Name_Of_The_Root_Page <: RootReactComponent_MarkerTrait,
       Props_Passed_By_TheParentComponent
   ] =
-    ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props_Passed_By_TheParentComponent], ImmutableMapHolder, _, TopNode]
+    ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props_Passed_By_TheParentComponent], CurrentStateOfCache, _, TopNode]
 
 }

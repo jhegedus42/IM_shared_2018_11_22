@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom
 import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
-import app.client.entityCache.entityCacheV1.ImmutableMapHolder
+import app.client.entityCache.entityCacheV1.CurrentStateOfCache
 import app.client.rest.commands.forTesting.Helpers
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
@@ -60,7 +60,7 @@ object LineList_ReactComp {
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: ImmutableMapHolder = props.entityCache
+      val c: CurrentStateOfCache = props.entityCache
 
       val ref: Ref[LineText] =
         Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d" ) // right

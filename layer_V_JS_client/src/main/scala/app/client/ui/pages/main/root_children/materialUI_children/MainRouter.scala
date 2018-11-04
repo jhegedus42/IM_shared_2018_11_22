@@ -6,7 +6,7 @@ import app.client.ui.pages.usingEntityCacheV1.lineList.LineListWrapping
 import app.client.ui.pages.usingEntityCacheV1.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
-import app.client.entityCache.entityCacheV1.{ImmutableMapHolder, RootReactCompConstr_Enhancer}
+import app.client.entityCache.entityCacheV1.{CurrentStateOfCache, RootReactCompConstr_Enhancer}
 import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetail_ReactComp.Prop
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
@@ -48,7 +48,7 @@ object RouterComp {
 
           val lineDetailCompCreatorForDynRenderR
             : ( LineDetailPage, RouterCtl[Page] ) => ReactComponentU[PropsGivenByTheRouter_To_Depth1Component[Prop],
-                                                                     ImmutableMapHolder,
+                                                                     CurrentStateOfCache,
                                                                      _,
                                                                      TopNode] = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
