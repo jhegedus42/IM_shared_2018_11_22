@@ -1,9 +1,15 @@
 package app.client.entityCache.entityCacheV1
 
 import app.client.entityCache.entityCacheV1.CacheStates._
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{CacheInjectedComponentConstructor, CacheInjectorCompConstructor}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
+  CacheInjectedComponentConstructor,
+  CacheInjectorCompConstructor
+}
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
-import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsGivenByTheRouter_To_Depth1Component, PropsWithInjectedCache_Fed_To_Depth2Comp}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{
+  PropsGivenByTheRouter_To_Depth1Component,
+  PropsWithInjectedCache_Fed_To_Depth2Comp
+}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
 import app.shared.SomeError_Trait
@@ -19,193 +25,72 @@ import scala.reflect.ClassTag
 
 object CacheStates {
 
-  sealed abstract
-  class EntityCacheVal[E <: Entity] {
+  sealed abstract class EntityCacheVal[E <: Entity] {
 
     //    def getValue : Option[HasValue[E]] = ???
     def getValue: Option[Ready[E]] = this match {
-      case _: Pending[E]     => None
-      case _: Failed[E]      => None
-      case NotInCache(ref)   => None
-      case NotYetLoaded(ref) => None
-      case g@Loaded(refVal)  => Some(g)
-      case g@Updated(refVal) => Some(g)
+      case _: Pending[E] => None
+      case _: Failed[E]  => None
+      case NotInCache( ref )     => None
+      case NotYetLoaded( ref )   => None
+      case g @ Loaded( refVal )  => Some( g )
+      case g @ Updated( refVal ) => Some( g )
     }
 
     def isReady(): Boolean = false
 
-    override def toString: String = pprint.apply(this).plainText
+    override def toString: String = pprint.apply( this ).plainText
   }
 
   abstract class Pending[E <: Entity] extends EntityCacheVal[E]
 
   abstract class Failed[E <: Entity] extends EntityCacheVal[E]
 
-  abstract
-  class Ready[E <: Entity]() extends EntityCacheVal[E] {
+  abstract class Ready[E <: Entity]() extends EntityCacheVal[E] {
     def refVal: RefVal[E]
   }
 
-  case class NotInCache[E <: Entity](val ref: Ref[E]) extends EntityCacheVal[E]
+  case class NotInCache[E <: Entity](val ref: Ref[E] ) extends EntityCacheVal[E]
 
-  case class NotYetLoaded[E <: Entity](val ref: Ref[E]) extends EntityCacheVal[E]
+  case class NotYetLoaded[E <: Entity](val ref: Ref[E] ) extends EntityCacheVal[E]
 
   // in cache but not yet loaded, not yet tried to load, nothing...
   //how can this ever be ?
 
-  case class Loading[E <: Entity](val ref: Ref[E]) extends Pending[E]
+  case class Loading[E <: Entity](val ref: Ref[E] ) extends Pending[E]
 
-  case class Updating[E <: Entity](val refVal: RefVal[E]) extends Pending[E]
+  case class Updating[E <: Entity](val refVal: RefVal[E] ) extends Pending[E]
 
   // writing
 
-  case
-  class Loaded[E <: Entity](val refVal: RefVal[E]) extends Ready[E] {
+  case class Loaded[E <: Entity](val refVal: RefVal[E] ) extends Ready[E] {
 
     override def isReady(): Boolean = true
   }
 
-  case
-  class Updated[E <: Entity](val refVal: RefVal[E]) extends Ready[E] {
+  case class Updated[E <: Entity](val refVal: RefVal[E] ) extends Ready[E] {
     override def isReady(): Boolean = true
   }
 
-  case class UpdateFailed[E <: Entity](val refVal: RefVal[E], err: String) extends Failed[E]
+  case class UpdateFailed[E <: Entity](val refVal: RefVal[E], err: String ) extends Failed[E]
 
-  case class ReadFailed[E <: Entity](val ref: Ref[E], err: String) extends Failed[E]
+  case class ReadFailed[E <: Entity](val ref: Ref[E], err: String ) extends Failed[E]
 
 }
 
-private [entityCacheV1] case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
+private[entityCacheV1] case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
 
 /**
   * Created by joco on 08/01/2018.
   */
-private object  UpdateReqHandler {
-
-
-  def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
-                                                                cache:          EntityCache_StateHolder,
-                                                                wr:             UpdateRequest[E],
-                                                                pageRerenderer: () => Unit
-                                                              ): Unit = {
-    //only one ur can be dispatched at any given time
-    //  ->  this makes things simpler
-
-    val e: EntityCacheVal[E] = cache.getState.getEntity(wr.rv.r)
-    if (e.isReady()) {
-      val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
-      val updating: Updating[E] = cache.EntityStateChanger.setUpdating( ready, wr.rv )
-
-      val f: Future[UpdateEntityRequestResult[E]] = UpdateEntityAJAX.updateEntity(wr.rv)
-      // ab58169c298a4c1bb18c252f092142da commit b644e0744804cc562d4c7648aafaae93ec4727e5 Tue Dec 19 02:45:20 EET 2017
-
-      import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-      val res: Future[Unit] =
-        f.map( {
-                 (r: UpdateEntityRequestResult[E]) =>
-                 {
-                   r match {
-                     case -\/( a: SomeError_Trait ) =>
-                       cache.EntityStateChanger.setUpdateFailed( updating, a.toString )
-                     case \/-( newVal: RefVal[E] ) =>
-                       cache.EntityStateChanger.setUpdated( updating, newVal )
-                   }
-                   pageRerenderer()
-                 }
-               } )
-    } else {
-      println(
-               "update request was not executed coz the to be updatedable cache cell was not ready (updated or loaded)"
-             )
-    }
-    pageRerenderer()
-  }
-
-}
-
-private[entityCacheV1] trait ReadWriteRequestHandler {
-  this: RootReactCompConstr_Enhancer =>
-
-  def handleReadRequest[E <: Entity](rr: ReadRequest[E]): Unit = readRequestHandler.queRequest(rr)
-
-  def handleUpdateReq[E <: Entity : ClassTag : Decoder : Encoder](er: UpdateRequest[E]): Unit = // mutates cache, rerenders page
-    UpdateReqHandler.launchUpdateReq(stateProvider, er, reRenderCurrentlyRoutedPageComp)
-}
-
 
 private[entityCacheV1] case class UpdateRequest[E <: Entity](rv: RefVal[E] )
 
-/**
-  * f079711f_4c99b1ca
-  *
-  * @param newCacheMapProvider
-  */
-// singleton - TODO - create a singleton factory for this
-class EntityCache_StateHolder(newCacheMapProvider:RootReactCompConstr_Enhancer) {
-
-
-  private[this] var immutableEntityCacheMap: ImmutableMapHolder = newCacheMapProvider.createNewState
-
-  def getState: ImmutableMapHolder = immutableEntityCacheMap
-
-  //  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
-
-  private[this] def updateCache[E <: Entity](key: Ref[E],
-                                             cacheVal: EntityCacheVal[E],
-                                             oldVal: EntityCacheVal[E]): Unit = {
-    assert(immutableEntityCacheMap.map(key).equals(oldVal))
-    val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
-      immutableEntityCacheMap.map.updated(key, cacheVal)
-    immutableEntityCacheMap = immutableEntityCacheMap.copy(map = newCacheMap)
-  }
-
-  object EntityStateChanger {
-
-    def setNotYetLoaded[E <: Entity](ref: Ref[E]): NotYetLoaded[E] = {
-      val res = NotYetLoaded(ref)
-      immutableEntityCacheMap = immutableEntityCacheMap.copy(map = immutableEntityCacheMap.map.updated(ref, res))
-      res
-    }
-
-    def setLoading[E <: Entity](e: NotYetLoaded[E]): Loading[E] = {
-
-      val res: Loading[E] = Loading(e.ref)
-      updateCache(e.ref, res, e)
-      res
-
-    }
-
-    def setUpdating[E <: Entity](oldVal: Ready[E],
-                                 newVal: RefVal[E]): Updating[E] = {
-      val updatingTo = Updating(newVal)
-      updateCache(oldVal.refVal.r, updatingTo, oldVal)
-      updatingTo
-    }
-
-    def setLoaded[E <: Entity](oldVal: Loading[E], newVal: RefVal[E]): Unit =
-      updateCache(newVal.r, Loaded(newVal), oldVal)
-
-    def setUpdated[E <: Entity](oldVal: Updating[E], newVal: RefVal[E]): Unit =
-      updateCache(newVal.r, Updated(newVal), oldVal)
-
-
-    def setReadFailed[E <: Entity](oldVal: Loading[E], errorMsg: String): Unit =
-      updateCache(oldVal.ref, ReadFailed(oldVal.ref, err = errorMsg), oldVal)
-
-    def setUpdateFailed[E <: Entity](oldVal: Updating[E], errorMsg: String): Unit =
-      updateCache(oldVal.refVal.r,
-                  UpdateFailed(oldVal.refVal, err = errorMsg),
-                  oldVal)
-
-  }
-
-}
-
-
-private[entityCacheV1] class ReadReqHandler(cache: EntityCache_StateHolder, pageRerenderer: () => Unit )
+private[entityCacheV1] class ReadReqHandler(cache: RootReactCompConstr_Enhancer, pageRerenderer: () => Unit )
     extends LazyLogging {
+
   private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()
+
   private[entityCacheV1] def queRequest[E <: Entity](rr: ReadRequest[E] ): Unit = {
     readRequests = readRequests + rr
     logger.trace( "in collect read requests - readRequests:" + rr )
@@ -264,7 +149,6 @@ private[entityCacheV1] class ReadReqHandler(cache: EntityCache_StateHolder, page
 
 }
 
-
 /**
   * @param map Immutable Map - Holding the current state
   *
@@ -275,7 +159,7 @@ private[entityCacheV1] class ReadReqHandler(cache: EntityCache_StateHolder, page
   */
 case class ImmutableMapHolder(
     map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
-    entityReadWriteRequestHandler: ReadWriteRequestHandler)
+    entityReadWriteRequestHandler: RootReactCompConstr_Enhancer)
     extends LazyLogging {
 
   // def getView ...
@@ -303,11 +187,9 @@ case class ImmutableMapHolder(
 
 }
 
-
 trait StateSettable {
   def setState(c: ImmutableMapHolder )
 }
-
 
 /**
   *
@@ -317,7 +199,112 @@ trait StateSettable {
   * This is a singleton.
   *
   */
-case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
+object RootReactCompConstr_Enhancer{
+  lazy val wrapper = new RootReactCompConstr_Enhancer()
+}
+
+class RootReactCompConstr_Enhancer() {
+
+  private[this] var immutableEntityCacheMap: ImmutableMapHolder = createNewState
+
+  def getState: ImmutableMapHolder = immutableEntityCacheMap
+
+  //  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
+
+  private[this] def updateCache[E <: Entity](
+                                              key:      Ref[E],
+                                              cacheVal: EntityCacheVal[E],
+                                              oldVal:   EntityCacheVal[E]
+                                            ): Unit = {
+    assert( immutableEntityCacheMap.map( key ).equals( oldVal ) )
+    val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
+      immutableEntityCacheMap.map.updated( key, cacheVal )
+    immutableEntityCacheMap = immutableEntityCacheMap.copy( map = newCacheMap )
+  }
+
+  object EntityStateChanger {
+
+    def setNotYetLoaded[E <: Entity](ref: Ref[E] ): NotYetLoaded[E] = {
+      val res = NotYetLoaded( ref )
+      immutableEntityCacheMap =
+        immutableEntityCacheMap.copy( map = immutableEntityCacheMap.map.updated( ref, res ) )
+      res
+    }
+
+    def setLoading[E <: Entity](e: NotYetLoaded[E] ): Loading[E] = {
+
+      val res: Loading[E] = Loading( e.ref )
+      updateCache( e.ref, res, e )
+      res
+
+    }
+
+    def setUpdating[E <: Entity](oldVal: Ready[E], newVal: RefVal[E] ): Updating[E] = {
+      val updatingTo = Updating( newVal )
+      updateCache( oldVal.refVal.r, updatingTo, oldVal )
+      updatingTo
+    }
+
+    def setLoaded[E <: Entity](oldVal: Loading[E], newVal: RefVal[E] ): Unit =
+      updateCache( newVal.r, Loaded( newVal ), oldVal )
+
+    def setUpdated[E <: Entity](oldVal: Updating[E], newVal: RefVal[E] ): Unit =
+      updateCache( newVal.r, Updated( newVal ), oldVal )
+
+    def setReadFailed[E <: Entity](oldVal: Loading[E], errorMsg: String ): Unit =
+      updateCache( oldVal.ref, ReadFailed( oldVal.ref, err = errorMsg ), oldVal )
+
+    def setUpdateFailed[E <: Entity](oldVal: Updating[E], errorMsg: String ): Unit =
+      updateCache( oldVal.refVal.r, UpdateFailed( oldVal.refVal, err = errorMsg ), oldVal )
+
+  }
+
+  private[entityCacheV1] var currently_routed_page: Option[StateSettable] = None
+
+  def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
+      cache:          RootReactCompConstr_Enhancer,
+      wr:             UpdateRequest[E],
+      pageRerenderer: () => Unit
+    ): Unit = {
+    //only one ur can be dispatched at any given time
+    //  ->  this makes things simpler
+
+    val e: EntityCacheVal[E] = cache.getState.getEntity( wr.rv.r )
+    if (e.isReady()) {
+      val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
+      val updating: Updating[E] = cache.EntityStateChanger.setUpdating( ready, wr.rv )
+
+      val f: Future[UpdateEntityRequestResult[E]] = UpdateEntityAJAX.updateEntity( wr.rv )
+      // ab58169c298a4c1bb18c252f092142da commit b644e0744804cc562d4c7648aafaae93ec4727e5 Tue Dec 19 02:45:20 EET 2017
+
+      import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+      val res: Future[Unit] =
+        f.map( {
+          (r: UpdateEntityRequestResult[E]) =>
+            {
+              r match {
+                case -\/( a: SomeError_Trait ) =>
+                  cache.EntityStateChanger.setUpdateFailed( updating, a.toString )
+                case \/-( newVal: RefVal[E] ) =>
+                  cache.EntityStateChanger.setUpdated( updating, newVal )
+              }
+              pageRerenderer()
+            }
+        } )
+    } else {
+      println(
+        "update request was not executed coz the to be updatedable cache cell was not ready (updated or loaded)"
+      )
+    }
+    pageRerenderer()
+  }
+
+  def handleReadRequest[E <: Entity](rr: ReadRequest[E] ): Unit = readRequestHandler.queRequest( rr )
+
+  def handleUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
+      er: UpdateRequest[E]
+    ): Unit = // mutates cache, rerenders page
+    launchUpdateReq( stateProvider, er, reRenderCurrentlyRoutedPageComp )
 
   private[entityCacheV1] def createNewState: ImmutableMapHolder =
     new ImmutableMapHolder( entityReadWriteRequestHandler = this )
@@ -325,14 +312,12 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
   //mutable - coz its a var
 
   // this is a singleton, below
-  private[entityCacheV1] val stateProvider: EntityCache_StateHolder = new EntityCache_StateHolder( this )
+  private[entityCacheV1] val stateProvider: RootReactCompConstr_Enhancer =  this
 
   // mutable state
   // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
 
-  private[entityCacheV1] var currently_routed_page: Option[StateSettable] = None
 
-  lazy val wrapper = this
 
   private[entityCacheV1] val readRequestHandler: ReadReqHandler =
     new ReadReqHandler( stateProvider, reRenderCurrentlyRoutedPageComp )
@@ -348,7 +333,7 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
     println( "re render with cache: " + c )
 
     currently_routed_page.foreach( {
-      s =>
+      s: StateSettable =>
         s.setState( c )
     } )
 
@@ -395,7 +380,11 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
 
       def render(t: (P), statePassedToRender: ImmutableMapHolder ): ReactElement =
         constructorOfComponent_Taking_PropertiesAndInjectedCache(
-                                                                  PropsWithInjectedCache_Fed_To_Depth2Comp[Props, RootPagePageName](t.p, t.ctrl, statePassedToRender)
+          PropsWithInjectedCache_Fed_To_Depth2Comp[Props, RootPagePageName](
+            t.p,
+            t.ctrl,
+            statePassedToRender
+          )
         )
 
       def willMount: CallbackTo[Unit] = {
@@ -427,7 +416,7 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
 
     def getCompConstructorForRouter
       : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], ImmutableMapHolder, WBackend, TopNode] =
-      ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props]]("wrapped page component")
+      ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props]]( "wrapped page component" )
         .initialState( stateProvider.getState )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend

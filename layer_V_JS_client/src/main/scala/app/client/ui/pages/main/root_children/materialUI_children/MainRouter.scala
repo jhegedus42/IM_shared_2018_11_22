@@ -41,9 +41,7 @@ object RouterComp {
       (dsl: RouterConfigDsl[Page]) =>
         import dsl._
 
-        val wrapperFactory: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer()
-        //TODO ^^^ ennek szingletonnak kene lennie
-        val reactCompWrapper: RootReactCompConstr_Enhancer = wrapperFactory.wrapper
+        val reactCompWrapper: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer.wrapper
 
         val dr_lineDetail = {
           val ldw: LineDetailWrapping = LineDetailWrapping( reactCompWrapper )
