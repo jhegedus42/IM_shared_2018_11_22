@@ -1,8 +1,9 @@
 package app.client.ui.pages.usingEntityCacheV1.listOfLineLists
 
-import app.client.entityCache.entityCacheV1.types.PropsWithInjectedCache
+import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
-import app.client.entityCache.entityCacheV1.{EntityCacheVal, ImmutableMapHolder}
+import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
+import app.client.entityCache.entityCacheV1.{ ImmutableMapHolder}
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res
@@ -13,7 +14,7 @@ object UserLineListsComp {
 
   type Prop = Ref[User]
 
-  type Props = PropsWithInjectedCache[Prop, UserLineLists_Vanilla_RootReactComp_PhantomType.type]
+  type Props = PropsWithInjectedCache_Fed_To_Depth2Comp[Prop, UserLineLists_Vanilla_RootReactComp_PhantomType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 

@@ -2,9 +2,9 @@ package app.client.ui.pages.usingEntityCacheV1.lineList
 
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
-import app.client.entityCache.entityCacheV1.types.PropsWithoutEntityReaderWriter
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectorCompConstructor
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
+import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 
@@ -23,7 +23,7 @@ case class LineListWrapping(wrapper:
     wrapper.createCacheInjectorCompConstructor[
       LineList_Vanilla_RootReactComp_PhantomType.type, LineListProp](LineList_ReactComp.LineListCompBuilder)
 
-  val mk_wLL: ( RouterCtl[Page] ) => ReactElement = (r: RouterCtl[Page]) => wLL(PropsWithoutEntityReaderWriter((), r))
+  val mk_wLL: ( RouterCtl[Page] ) => ReactElement = (r: RouterCtl[Page]) => wLL(PropsGivenByTheRouter_To_Depth1Component((), r))
 
 
 }

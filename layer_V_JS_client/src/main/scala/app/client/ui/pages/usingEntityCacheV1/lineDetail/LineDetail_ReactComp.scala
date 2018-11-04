@@ -1,9 +1,9 @@
 package app.client.ui.pages.usingEntityCacheV1.lineDetail
 
+import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.rest.commands.forTesting.Helpers
-import app.client.entityCache.entityCacheV1.types.PropsWithInjectedCache
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
-import app.client.entityCache.entityCacheV1.{EntityCacheVal, Ready}
+import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectedComponentConstructor
@@ -27,7 +27,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = PropsWithInjectedCache[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
+  type Props = PropsWithInjectedCache_Fed_To_Depth2Comp[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
 
 //
   class Backend($ : BackendScope[Props, Unit] ) {

@@ -1,14 +1,15 @@
 package app.client.entityCache.entityCacheV1
 
-import app.client.entityCache.entityCacheV1.reqHandler.ReadWriteRequestHandler
+import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{CacheInjectedComponentConstructor, CacheInjectorCompConstructor}
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
-import app.client.entityCache.entityCacheV1.types.{PropsWithInjectedCache, PropsWithoutEntityReaderWriter}
-import app.client.rest.commands.generalCRUD.GetEntityAJAX
+import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsGivenByTheRouter_To_Depth1Component, PropsWithInjectedCache_Fed_To_Depth2Comp}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
+import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
+import app.shared.rest.routes.crudRequests.UpdateEntityRequest.UpdateEntityRequestResult
 import io.circe.{Decoder, Encoder}
 import scalaz.{-\/, \/-}
 import slogging.LazyLogging
@@ -17,6 +18,61 @@ import scala.concurrent.Future
 import scala.reflect.ClassTag
 
 private [entityCacheV1] case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
+
+/**
+  * Created by joco on 08/01/2018.
+  */
+private object  UpdateReqHandler {
+
+
+  def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
+                                                                cache:          EntityCache_StateHolder,
+                                                                wr:             UpdateRequest[E],
+                                                                pageRerenderer: () => Unit
+                                                              ): Unit = {
+    //only one ur can be dispatched at any given time
+    //  ->  this makes things simpler
+
+    val e: EntityCacheVal[E] = cache.getState.getEntity(wr.rv.r)
+    if (e.isReady()) {
+      val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
+      val updating: Updating[E] = cache.EntityStateChanger.setUpdating( ready, wr.rv )
+
+      val f: Future[UpdateEntityRequestResult[E]] = UpdateEntityAJAX.updateEntity(wr.rv)
+      // ab58169c298a4c1bb18c252f092142da commit b644e0744804cc562d4c7648aafaae93ec4727e5 Tue Dec 19 02:45:20 EET 2017
+
+      import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+      val res: Future[Unit] =
+        f.map( {
+                 (r: UpdateEntityRequestResult[E]) =>
+                 {
+                   r match {
+                     case -\/( a: SomeError_Trait ) =>
+                       cache.EntityStateChanger.setUpdateFailed( updating, a.toString )
+                     case \/-( newVal: RefVal[E] ) =>
+                       cache.EntityStateChanger.setUpdated( updating, newVal )
+                   }
+                   pageRerenderer()
+                 }
+               } )
+    } else {
+      println(
+               "update request was not executed coz the to be updatedable cache cell was not ready (updated or loaded)"
+             )
+    }
+    pageRerenderer()
+  }
+
+}
+
+private[entityCacheV1] trait ReadWriteRequestHandler {
+  this: RootReactCompConstr_Enhancer =>
+
+  def handleReadRequest[E <: Entity](rr: ReadRequest[E]): Unit = readRequestHandler.queRequest(rr)
+
+  def handleUpdateReq[E <: Entity : ClassTag : Decoder : Encoder](er: UpdateRequest[E]): Unit = // mutates cache, rerenders page
+    UpdateReqHandler.launchUpdateReq(stateProvider, er, reRenderCurrentlyRoutedPageComp)
+}
 
 
 private[entityCacheV1] case class UpdateRequest[E <: Entity](rv: RefVal[E] )
@@ -274,13 +330,13 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
 
     import japgolly.scalajs.react._
 
-    type P = PropsWithoutEntityReaderWriter[Props]
+    type P = PropsGivenByTheRouter_To_Depth1Component[Props]
 
     class WBackend($ : BackendScope[P, ImmutableMapHolder] ) {
 
       def render(t: (P), statePassedToRender: ImmutableMapHolder ): ReactElement =
         constructorOfComponent_Taking_PropertiesAndInjectedCache(
-          PropsWithInjectedCache[Props, RootPagePageName]( t.p, t.ctrl, statePassedToRender )
+                                                                  PropsWithInjectedCache_Fed_To_Depth2Comp[Props, RootPagePageName](t.p, t.ctrl, statePassedToRender)
         )
 
       def willMount: CallbackTo[Unit] = {
@@ -311,8 +367,8 @@ case class RootReactCompConstr_Enhancer() extends ReadWriteRequestHandler {
     }
 
     def getCompConstructorForRouter
-      : ReactComponentC.ReqProps[PropsWithoutEntityReaderWriter[Props], ImmutableMapHolder, WBackend, TopNode] =
-      ReactComponentB[PropsWithoutEntityReaderWriter[Props]]( "wrapped page component" )
+      : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], ImmutableMapHolder, WBackend, TopNode] =
+      ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props]]("wrapped page component")
         .initialState( stateProvider.getState )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend

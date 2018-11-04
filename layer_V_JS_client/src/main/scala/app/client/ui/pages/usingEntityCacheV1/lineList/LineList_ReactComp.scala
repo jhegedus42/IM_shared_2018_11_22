@@ -2,9 +2,10 @@ package app.client.ui.pages.usingEntityCacheV1.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.entityCache.entityCacheV1.types.PropsWithInjectedCache
+import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
-import app.client.entityCache.entityCacheV1.{EntityCacheVal, ImmutableMapHolder}
+import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
+import app.client.entityCache.entityCacheV1.ImmutableMapHolder
 import app.client.rest.commands.forTesting.Helpers
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
@@ -26,7 +27,7 @@ object LineList_ReactComp {
   import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes._
 
   type Prop  = Unit
-  type Props = PropsWithInjectedCache[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]
+  type Props = PropsWithInjectedCache_Fed_To_Depth2Comp[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 

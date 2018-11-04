@@ -1,19 +1,12 @@
 package app.client.ui.pages.main.root_children.materialUI_children
 
+import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
 import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetailWrapping
 import app.client.ui.pages.usingEntityCacheV1.lineList.LineListWrapping
 import app.client.ui.pages.usingEntityCacheV1.listOfLineLists.UserLineListsWrapping
 import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.{
-  LineDetailPage,
-  LineListPage,
-  UserLineListPage
-}
-import app.client.entityCache.entityCacheV1.{
-  ImmutableMapHolder,
-  RootReactCompConstr_Enhancer
-}
-import app.client.entityCache.entityCacheV1.types.PropsWithoutEntityReaderWriter
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
+import app.client.entityCache.entityCacheV1.{ImmutableMapHolder, RootReactCompConstr_Enhancer}
 import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetail_ReactComp.Prop
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
@@ -56,17 +49,17 @@ object RouterComp {
           val ldw: LineDetailWrapping = LineDetailWrapping( reactCompWrapper )
 
           val lineDetailCompCreatorForDynRenderR
-            : ( LineDetailPage, RouterCtl[Page] ) => ReactComponentU[PropsWithoutEntityReaderWriter[Prop],
+            : ( LineDetailPage, RouterCtl[Page] ) => ReactComponentU[PropsGivenByTheRouter_To_Depth1Component[Prop],
                                                                      ImmutableMapHolder,
                                                                      _,
                                                                      TopNode] = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
               ldw.constructor_used_by_the_parent_component(
-                PropsWithoutEntityReaderWriter( Ref.makeWithUUID( x.id ), r )
+                                                            PropsGivenByTheRouter_To_Depth1Component(Ref.makeWithUUID(x.id), r)
 
-                // KERDES ^^^ ide miert nem kell STATE ???
-                // KI AZ AKI A STATE-ET BUZERALJA ???
-                // mi a fasznak kell state ?
+                                                            // KERDES ^^^ ide miert nem kell STATE ???
+                                                            // KI AZ AKI A STATE-ET BUZERALJA ???
+                                                            // mi a fasznak kell state ?
 
 
               )
@@ -83,7 +76,7 @@ object RouterComp {
 
           val g: ( UserLineListPage, RouterCtl[Page] ) => ReactElement =
             ( u: UserLineListPage, r: RouterCtl[Page] ) =>
-              ullw.wrapped_CC( PropsWithoutEntityReaderWriter( Ref.makeWithUUID( u.id_user ), r ) )
+              ullw.wrapped_CC(PropsGivenByTheRouter_To_Depth1Component(Ref.makeWithUUID(u.id_user), r))
 
           dynamicRouteCT( "#user" / uuid.caseClass[UserLineListPage] ) ~> dynRenderR( g )
         }
