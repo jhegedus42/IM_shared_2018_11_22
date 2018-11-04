@@ -1,6 +1,6 @@
 package app.client.ui.pages.usingEntityCacheV1.lineDetail
 
-import app.client.entityCache.entityCacheV1.CacheStates._
+import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp

@@ -1,15 +1,10 @@
 package app.client.entityCache.entityCacheV1
 
-import app.client.entityCache.entityCacheV1.CacheStates._
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
-  CacheInjectedComponentConstructor,
-  CacheInjectorCompConstructor
-}
+import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Loaded, Loading, NotInCache, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
+import app.client.entityCache.entityCacheV1.types.EntityReaderWriter
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{CacheInjectedComponentConstructor, CacheInjectorCompConstructor}
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootReactComponent_MarkerTrait
-import app.client.entityCache.entityCacheV1.types.componentProperties.{
-  PropsGivenByTheRouter_To_Depth1Component,
-  PropsWithInjectedCache_Fed_To_Depth2Comp
-}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsGivenByTheRouter_To_Depth1Component, PropsWithInjectedCache_Fed_To_Depth2Comp}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
 import app.shared.SomeError_Trait
@@ -23,64 +18,8 @@ import slogging.LazyLogging
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 
-object CacheStates {
 
-  sealed abstract class EntityCacheVal[E <: Entity] {
 
-    //    def getValue : Option[HasValue[E]] = ???
-    def getValue: Option[Ready[E]] = this match {
-      case _: Pending[E] => None
-      case _: Failed[E]  => None
-      case NotInCache( ref )     => None
-      case NotYetLoaded( ref )   => None
-      case g @ Loaded( refVal )  => Some( g )
-      case g @ Updated( refVal ) => Some( g )
-    }
-
-    def isReady(): Boolean = false
-
-    override def toString: String = pprint.apply( this ).plainText
-  }
-
-  abstract class Pending[E <: Entity] extends EntityCacheVal[E]
-
-  abstract class Failed[E <: Entity] extends EntityCacheVal[E]
-
-  abstract class Ready[E <: Entity]() extends EntityCacheVal[E] {
-    def refVal: RefVal[E]
-  }
-
-  case class NotInCache[E <: Entity](val ref: Ref[E] ) extends EntityCacheVal[E]
-
-  case class NotYetLoaded[E <: Entity](val ref: Ref[E] ) extends EntityCacheVal[E]
-
-  // in cache but not yet loaded, not yet tried to load, nothing...
-  //how can this ever be ?
-
-  case class Loading[E <: Entity](val ref: Ref[E] ) extends Pending[E]
-
-  case class Updating[E <: Entity](val refVal: RefVal[E] ) extends Pending[E]
-
-  // writing
-
-  case class Loaded[E <: Entity](val refVal: RefVal[E] ) extends Ready[E] {
-
-    override def isReady(): Boolean = true
-  }
-
-  case class Updated[E <: Entity](val refVal: RefVal[E] ) extends Ready[E] {
-    override def isReady(): Boolean = true
-  }
-
-  case class UpdateFailed[E <: Entity](val refVal: RefVal[E], err: String ) extends Failed[E]
-
-  case class ReadFailed[E <: Entity](val ref: Ref[E], err: String ) extends Failed[E]
-
-}
-
-private[entityCacheV1] case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
-
-private[entityCacheV1] case class UpdateRequest[E <: Entity](rv: RefVal[E] )
 
 /**
   * @param map Immutable Map - Holding the current state
@@ -89,7 +28,9 @@ private[entityCacheV1] case class UpdateRequest[E <: Entity](rv: RefVal[E] )
   * @param entityReadWriteRequestHandler needs to be notified about read or write requests
   *                                      a callback function.
   */
-case class CurrentStateOfCache(
+
+
+case class CacheState(
     map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
     entityReadWriteRequestHandler: RootReactCompConstr_Enhancer)
     extends LazyLogging {
@@ -98,20 +39,17 @@ case class CurrentStateOfCache(
 
   def getEntity[E <: Entity: ClassTag](r: Ref[E] ): EntityCacheVal[E] = {
     if (!map.contains( r )) { // csak akkor hivjuk meg ha meg nincs benne a cache-ben ...
-      entityReadWriteRequestHandler.handleReadRequest( r )
+      entityReadWriteRequestHandler.RequestHandling.handleReadRequest( r )
     }
+
     val res: EntityCacheVal[_ <: Entity] = map.getOrElse( r, NotInCache( r ) )
     res.asInstanceOf[EntityCacheVal[E]]
   }
 
   def updateEntity[E <: Entity: ClassTag: Decoder: Encoder](rv: RefVal[E] ): Unit = {
-    entityReadWriteRequestHandler.handleUpdateReq( rv )
+    entityReadWriteRequestHandler.RequestHandling.handleUpdateReq( rv )
   }
 
-}
-
-trait StateSettable {
-  def setState(c: CurrentStateOfCache )
 }
 
 /**
@@ -122,93 +60,153 @@ trait StateSettable {
   * This is a singleton.
   *
   */
+
 object RootReactCompConstr_Enhancer {
   lazy val wrapper = new RootReactCompConstr_Enhancer()
 }
 
-class RootReactCompConstr_Enhancer() extends LazyLogging {
+class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter {
 
-  private[this] var readRequests: Set[ReadRequest[_ <: Entity]] = Set()
-
-  private[entityCacheV1] def queRequest[E <: Entity](rr: ReadRequest[E] ): Unit = {
-    readRequests = readRequests + rr
-    logger.trace( "in collect read requests - readRequests:" + rr )
+  trait StateSettable {
+    def setState(c: CacheState )
   }
 
-  private[entityCacheV1] def executeReadRequests(): Unit = {
-    logger.trace( "in executeReadRequests read requests:" + readRequests )
-    println( "137" + readRequests )
+  def getState: CacheState = cacheState
 
-    def processRequest[E <: Entity]: ( ReadRequest[E] ) => Future[Unit] = {
-      (rr: ReadRequest[E]) =>
-        {
-          logger.trace( "..." )
-          println( "processing read request " + rr )
-          import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+  private var cacheState: CacheState =
+    new CacheState( entityReadWriteRequestHandler = this )
+  private var currently_routed_page: Option[StateSettable]         = None
+  private var readRequests:          Set[RequestHandling.ReadRequest[_ <: Entity]] = Set()
 
-          val notYetLoaded: NotYetLoaded[E] =
-            EntityStateChanger.setNotYetLoaded( rr.ref )
-          // start Future
+  object RequestHandling {
 
-          val res: Future[ResDyn] = GetEntityAJAX.getEntityDyn( rr.ref )
-
-          val loading: Loading[E] = EntityStateChanger.setLoading( notYetLoaded )
-
-          res.map( {
-            r: ResDyn =>
-              println( s"future completed for $rr, result is $r" )
-              val res: Unit = r.erv match {
-                case -\/( err ) =>
-                  EntityStateChanger.setReadFailed[E]( loading, err.toString )
-                case \/-( refValDyn ) =>
-                  refValDyn.toRefVal_NoClassTagNeeded( rr.ref.dataType ) match {
-                    case -\/( a: SomeError_Trait ) =>
-                      EntityStateChanger.setReadFailed( oldVal = loading, errorMsg = a.string )
-
-                    case \/-( b: RefVal[E] ) =>
-                      EntityStateChanger.setLoaded[E]( oldVal = loading, newVal = b )
-                  }
-              }
-              reRenderCurrentlyRoutedPageCompFunction() // we rerender the page after each ajax came back
-          } )
-          //637e3709d2fa4bd19e9167d45b58c425 commit b644e0744804cc562d4c7648aafaae93ec4727e5 Mon Dec 18 00:18:55 EET 2017
-        }
+    def handleReadRequest[E <: Entity: ClassTag](r: Ref[E] ): Unit = {
+      readRequests = readRequests + ReadRequest( r )
     }
 
-    readRequests.foreach(
-      (x: ReadRequest[_ <: Entity]) => {
+    def handleUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
+                                                                  rv: RefVal[E]
+                                                                ): Unit = // mutates cache, rerenders page
+    {
 
-        processRequest( x ) //we launch an AJAX call for each entity to be read
+      def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
+                                                                    wr:             UpdateRequest[E],
+                                                                    pageRerenderer: () => Unit
+                                                                  ): Unit = {
+        //only one ur can be dispatched at any given time
+        //  ->  this makes things simpler
+
+        val e: EntityCacheVal[E] = getState.getEntity( wr.rv.r )
+        if (e.isReady()) {
+          val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
+          val updating: Updating[E] = EntityStateChanger.setUpdating( ready, wr.rv )
+
+          val f: Future[UpdateEntityRequestResult[E]] = UpdateEntityAJAX.updateEntity( wr.rv )
+          // ab58169c298a4c1bb18c252f092142da commit b644e0744804cc562d4c7648aafaae93ec4727e5 Tue Dec 19 02:45:20 EET 2017
+
+          import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+          val res: Future[Unit] =
+            f.map( {
+                     (r: UpdateEntityRequestResult[E]) =>
+                     {
+                       r match {
+                         case -\/( a: SomeError_Trait ) =>
+                           EntityStateChanger.setUpdateFailed( updating, a.toString )
+                         case \/-( newVal: RefVal[E] ) =>
+                           EntityStateChanger.setUpdated( updating, newVal )
+                       }
+                       pageRerenderer()
+                     }
+                   } )
+        } else {
+          println(
+                   "update request was not executed coz the to be updatedable cache cell was not ready (updated or loaded)"
+                 )
+        }
+        pageRerenderer()
       }
-    )
 
-    readRequests = Set()
-    reRenderCurrentlyRoutedPageCompFunction() // we rerender the page after each ajax req has been started
+      launchUpdateReq( UpdateRequest( rv ), reRenderCurrentlyRoutedPage )
+      println( "update entity is called" + rv )
+    }
+
+    case class ReadRequest[E <: Entity: ClassTag](ref: Ref[E] )
+
+    private case class UpdateRequest[E <: Entity](rv: RefVal[E] )
+
+    def executeReadRequests(): Unit = {
+      logger.trace( "in executeReadRequests read requests:" + readRequests )
+      println( "137" + readRequests )
+
+      def processRequest[E <: Entity]: ( ReadRequest[E] ) => Future[Unit] = {
+        (rr: ReadRequest[E]) =>
+          {
+            logger.trace( "..." )
+            println( "processing read request " + rr )
+            import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+
+            val notYetLoaded: NotYetLoaded[E] =
+              EntityStateChanger.setNotYetLoaded( rr.ref )
+            // start Future
+
+            val res: Future[ResDyn] = GetEntityAJAX.getEntityDyn( rr.ref )
+
+            val loading: Loading[E] = EntityStateChanger.setLoading( notYetLoaded )
+
+            res.map( {
+              r: ResDyn =>
+                println( s"future completed for $rr, result is $r" )
+                val res: Unit = r.erv match {
+                  case -\/( err ) =>
+                    EntityStateChanger.setReadFailed[E]( loading, err.toString )
+                  case \/-( refValDyn ) =>
+                    refValDyn.toRefVal_NoClassTagNeeded( rr.ref.dataType ) match {
+                      case -\/( a: SomeError_Trait ) =>
+                        EntityStateChanger.setReadFailed( oldVal = loading, errorMsg = a.string )
+
+                      case \/-( b: RefVal[E] ) =>
+                        EntityStateChanger.setLoaded[E]( oldVal = loading, newVal = b )
+                    }
+                }
+                reRenderCurrentlyRoutedPage() // we rerender the page after each ajax came back
+            } )
+            //637e3709d2fa4bd19e9167d45b58c425 commit b644e0744804cc562d4c7648aafaae93ec4727e5 Mon Dec 18 00:18:55 EET 2017
+          }
+      }
+
+      readRequests.foreach(
+        (x: ReadRequest[_ <: Entity]) => {
+
+          processRequest( x ) //we launch an AJAX call for each entity to be read
+        }
+      )
+
+      readRequests = Set()
+      reRenderCurrentlyRoutedPage() // we rerender the page after each ajax req has been started
+
+    }
+
   }
 
-  private[this] var immutableEntityCacheMap: CurrentStateOfCache = createNewState
-
-  def getState: CurrentStateOfCache = immutableEntityCacheMap
-
-  //  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
-
-  private[this] def updateCache[E <: Entity](
+  private def updateCache[E <: Entity](
       key:      Ref[E],
       cacheVal: EntityCacheVal[E],
       oldVal:   EntityCacheVal[E]
     ): Unit = {
-    assert( immutableEntityCacheMap.map( key ).equals( oldVal ) )
+
+    assert( cacheState.map( key ).equals( oldVal ) )
     val newCacheMap: Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] =
-      immutableEntityCacheMap.map.updated( key, cacheVal )
-    immutableEntityCacheMap = immutableEntityCacheMap.copy( map = newCacheMap )
+      cacheState.map.updated( key, cacheVal )
+    cacheState = cacheState.copy( map = newCacheMap )
   }
 
-  object EntityStateChanger {
+  private object EntityStateChanger {
 
     def setNotYetLoaded[E <: Entity](ref: Ref[E] ): NotYetLoaded[E] = {
       val res = NotYetLoaded( ref )
-      immutableEntityCacheMap =
-        immutableEntityCacheMap.copy( map = immutableEntityCacheMap.map.updated( ref, res ) )
+
+      cacheState = cacheState.copy( map = cacheState.map.updated( ref, res ) )
+
       res
     }
 
@@ -239,81 +237,9 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
       updateCache( oldVal.refVal.r, UpdateFailed( oldVal.refVal, err = errorMsg ), oldVal )
 
   }
+  private val reRenderCurrentlyRoutedPage: () => Unit = () => {
 
-  private[entityCacheV1] var currently_routed_page: Option[StateSettable] = None
-
-  def launchUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
-      cache:          RootReactCompConstr_Enhancer,
-      wr:             UpdateRequest[E],
-      pageRerenderer: () => Unit
-    ): Unit = {
-    //only one ur can be dispatched at any given time
-    //  ->  this makes things simpler
-
-    val e: EntityCacheVal[E] = cache.getState.getEntity( wr.rv.r )
-    if (e.isReady()) {
-      val ready:    Ready[E]    = e.asInstanceOf[Ready[E]]
-      val updating: Updating[E] = cache.EntityStateChanger.setUpdating( ready, wr.rv )
-
-      val f: Future[UpdateEntityRequestResult[E]] = UpdateEntityAJAX.updateEntity( wr.rv )
-      // ab58169c298a4c1bb18c252f092142da commit b644e0744804cc562d4c7648aafaae93ec4727e5 Tue Dec 19 02:45:20 EET 2017
-
-      import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-      val res: Future[Unit] =
-        f.map( {
-          (r: UpdateEntityRequestResult[E]) =>
-            {
-              r match {
-                case -\/( a: SomeError_Trait ) =>
-                  cache.EntityStateChanger.setUpdateFailed( updating, a.toString )
-                case \/-( newVal: RefVal[E] ) =>
-                  cache.EntityStateChanger.setUpdated( updating, newVal )
-              }
-              pageRerenderer()
-            }
-        } )
-    } else {
-      println(
-        "update request was not executed coz the to be updatedable cache cell was not ready (updated or loaded)"
-      )
-    }
-    pageRerenderer()
-  }
-
-  def handleReadRequest[E <: Entity: ClassTag](r: Ref[E] ): Unit = {
-    val readRequest: ReadRequest[E] = ReadRequest( r )
-    logger.trace( "getEntity - readRequest:" + readRequest )
-    queRequest( readRequest )
-  }
-
-  def handleUpdateReq[E <: Entity: ClassTag: Decoder: Encoder](
-      rv: RefVal[E]
-    ): Unit = // mutates cache, rerenders page
-    {
-      launchUpdateReq( stateProvider, UpdateRequest( rv ), reRenderCurrentlyRoutedPageCompFunction )
-      println( "update entity is called" + rv )
-    }
-
-  private[entityCacheV1] def createNewState: CurrentStateOfCache =
-    new CurrentStateOfCache( entityReadWriteRequestHandler = this )
-
-  //mutable - coz its a var
-
-  // this is a singleton, below
-  private[entityCacheV1] val stateProvider: RootReactCompConstr_Enhancer = this
-
-  // mutable state
-  // egyszerre csak 1 updateRequest futhat (fut=Future el van kuldve)
-
-  //  private
-  //  def clearCache = {
-  //    cache.resetCache()
-  //    reRenderCurrentlyRoutedPageComp()
-  //  }
-
-  private[entityCacheV1] val reRenderCurrentlyRoutedPageCompFunction: () => Unit = () => {
-
-    val c: CurrentStateOfCache = getState
+    val c: CacheState = getState
 
     println( "re render with cache: " + c )
 
@@ -321,6 +247,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
       s: StateSettable =>
         s.setState( c )
     } )
+
   }
 
   /**
@@ -360,9 +287,9 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
 
     type P = PropsGivenByTheRouter_To_Depth1Component[Props]
 
-    class WBackend($ : BackendScope[P, CurrentStateOfCache] ) {
+    class WBackend($ : BackendScope[P, CacheState] ) {
 
-      def render(t: (P), statePassedToRender: CurrentStateOfCache ): ReactElement =
+      def render(t: (P), statePassedToRender: CacheState ): ReactElement =
         constructorOfComponent_Taking_PropertiesAndInjectedCache(
           PropsWithInjectedCache_Fed_To_Depth2Comp[Props, RootPagePageName](
             t.p,
@@ -376,7 +303,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
         Callback {
 
           currently_routed_page = Some( new StateSettable {
-            override def setState(c: CurrentStateOfCache ): Unit =
+            override def setState(c: CacheState ): Unit =
               $.accessDirect.setState( c )
 
             // ez akkor kell, ha egy getEntity visszateresenek kovetkezteben meghivunk meg egy getEntity-t
@@ -384,7 +311,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
             // es ennek a render-nek a meghivasa folyaman keletkezhetnek ujabb readRequest-ek
           } )
 
-        } >> $.setState( stateProvider.getState ) // EZERT KELL NEKI STATE <<<<<<========
+        } >> $.setState( getState ) // EZERT KELL NEKI STATE <<<<<<========
         // ez itt egy closure ennek a comp-nek a backend-jehez, amit oda kell adni a RequestExecutor-nak
         // hogy updatelni tudja a state-et, amikor visszajonnek a cuccok a future-bol
         // set the state of this comp. needs to the current state of the cache ?
@@ -393,15 +320,15 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
 
       def didMount = Callback {
         println( "did mount" );
-        executeReadRequests()
+        RequestHandling.executeReadRequests()
       }
 
     }
 
     def getCompConstructorForRouter
-      : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], CurrentStateOfCache, WBackend, TopNode] =
+      : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], CacheState, WBackend, TopNode] =
       ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props]]( "wrapped page component" )
-        .initialState( stateProvider.getState )
+        .initialState( getState )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend
         .componentDidMount( scope => scope.backend.didMount )
@@ -412,4 +339,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
 
   }
 
+  override def getEntity[E <: Entity : ClassTag](r: Ref[E]): EntityCacheVal[E] = ???
+
+  override def updateEntity[E <: Entity : ClassTag : Decoder : Encoder](rv: RefVal[E]): Unit = ???
 }

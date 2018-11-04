@@ -3,7 +3,7 @@ package app.client.ui.pages.usingEntityCacheV1.listOfLineLists
 import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
-import app.client.entityCache.entityCacheV1.{ CurrentStateOfCache}
+import app.client.entityCache.entityCacheV1.{ CacheState}
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res
@@ -21,7 +21,7 @@ object UserLineListsComp {
     import japgolly.scalajs.react.vdom.prefix_<^._
 
     def render(props: Props ): ReactElement = {
-      val c: CurrentStateOfCache = props.entityCache
+      val c: CacheState = props.entityCache
       // 442320ff08b24fd89244d566327a8cc4$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
       val u: EntityCacheVal[User] = props.entityCache.getEntity( props.ps )
       <.div(
