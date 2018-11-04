@@ -1,4 +1,4 @@
-//package app.client.ui.pages.lineDetail.children
+//package app.client.ui.pages.usingEntityCacheV1.lineDetail.children
 //
 //import app.client._jsTools.{ImgDim, ImgTools}
 //import app.shared.data.ref.RefVal

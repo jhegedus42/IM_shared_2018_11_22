@@ -1,4 +1,4 @@
-package app.client.entityCache.entityCacheV2.compPropExtender
+package app.client.entityCache.entityCacheV2.visibleToUI.compPropExtender
 
 /**
   *

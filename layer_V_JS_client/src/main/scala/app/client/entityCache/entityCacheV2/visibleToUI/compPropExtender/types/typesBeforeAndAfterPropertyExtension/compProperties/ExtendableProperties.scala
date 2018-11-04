@@ -1,6 +1,0 @@
-package app.client.entityCache.entityCacheV2.compPropExtender.types.typesBeforeAndAfterPropertyExtension.compProperties
-
-import app.client.entityCache.entityCacheV2.visibleToUI.compPropExtender.types.MarkerObjects_for_Components_Whose_Properties_Can_Be_Extended.A_RootReactComponent
-
-trait ExtendableProperties[Comp <:A_RootReactComponent]
-

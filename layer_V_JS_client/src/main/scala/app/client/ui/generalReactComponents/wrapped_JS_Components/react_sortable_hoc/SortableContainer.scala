@@ -1,6 +1,6 @@
 package app.client.ui.generalReactComponents.wrapped_JS_Components.react_sortable_hoc
 
-import app.client.ui.pages.lineList.ListReorderService
+import app.client.ui.pages.usingEntityCacheV1.lineList.ListReorderService
 import japgolly.scalajs.react._
 
 import scala.scalajs.js

@@ -9,12 +9,12 @@ import app.shared.data.ref.{Ref, RefVal}
   * @param newCacheMapProvider
   */
 
-class EntityCache_MutableState(newCacheMapProvider:ReactCompWrapper) {
+class EntityCache_MutableState(newCacheMapProvider:RootReactCompConstr_Enhancer) {
 
 
-  private[this] var immutableEntityCacheMap: EntityReaderWriter = newCacheMapProvider.createNewEntityReaderWriter
+  private[this] var immutableEntityCacheMap: EntityReaderWriter_State_To_React_Comp = newCacheMapProvider.createNewEntityReaderWriter
 
-  def getCacheMap: EntityReaderWriter = immutableEntityCacheMap
+  def getCacheMap: EntityReaderWriter_State_To_React_Comp = immutableEntityCacheMap
 
 //  def resetCache(): Unit = immutableEntityCacheMap = newCacheMapProvider.createNewEntityReaderWriter
 
