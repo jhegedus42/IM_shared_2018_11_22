@@ -1,4 +1,4 @@
-package app.client.ui.pages.pages.listOfLineLists
+package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.listOfLineLists
 
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr

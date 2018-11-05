@@ -1,7 +1,7 @@
 package app.client.entityCache.entityCacheV2.visibleToUI.compPropExtender.types.typesBeforeAndAfterPropertyExtension.compProperties
 
 import app.client.entityCache.entityCacheV2.visibleToUI.compPropExtender.types.MarkerObjects_for_Components_Whose_Properties_Can_Be_Extended.A_RootReactComponent
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 /**

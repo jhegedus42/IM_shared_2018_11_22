@@ -1,38 +1,25 @@
-package app.client.ui.pages.main.root_children.materialUI_children
+package app.client.ui.pages.main.childComp.routerComp
 
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
 import app.client.entityCache.entityCacheV1.{CacheState, RootReactCompConstr_Enhancer}
-import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.{
-  LineDetailPage,
-  LineListPage,
-  UserLineListPage
-}
-import app.client.ui.pages.pages.lineDetail.LineDetailWrapping
-import app.client.ui.pages.pages.lineDetail.LineDetail_ReactComp.Prop
-import app.client.ui.pages.pages.lineList.LineListWrapping
-import app.client.ui.pages.pages.listOfLineLists.UserLineListsWrapping
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.{LineDetailPage, LineListPage, UserLineListPage}
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineDetail.LineDetailWrapping
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineDetail.LineDetail_ReactComp.Prop
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineList.LineListWrapping
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.listOfLineLists.UserLineListsWrapping
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.NavigatorComponent
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}
 import japgolly.scalajs.react.extra.router.{Router, RouterCtl}
 import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}
-
-object Pages {
-  sealed trait Page
-  case object LineListPage extends Page
-  case object ReorderList extends Page
-  case class LineDetailPage(id:        java.util.UUID ) extends Page
-  case class UserLineListPage(id_user: java.util.UUID ) extends Page
-}
-
 import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, RouterConfig, RouterConfigDsl}
 
 object RouterComp {
 
   private val notSpecUUID = java.util.UUID.fromString( TestEntities.theUUIDofTheLine )
 
-  import Pages.Page
+  import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
 
   private[this] val navs: Map[String, Page] = Map(
     "User Line List" -> UserLineListPage( UUID( TestEntitiesForStateThree.user1uuid ) ),
@@ -91,8 +78,8 @@ object RouterComp {
           | dr_lineDetail)
           .notFound( redirectToPage( LineListPage )( Redirect.Replace ) )
           .renderWith(
-            MaterialUI_Main_ReactComponent
-              .layout( navs )( _, _ )
+                       NavigatorComponent
+                       .layout( navs )( _, _ )
           )
         config
     }

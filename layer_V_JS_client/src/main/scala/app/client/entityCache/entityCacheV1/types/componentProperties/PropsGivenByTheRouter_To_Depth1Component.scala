@@ -1,6 +1,6 @@
 package app.client.entityCache.entityCacheV1.types.componentProperties
 
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 

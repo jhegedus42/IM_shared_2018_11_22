@@ -1,4 +1,4 @@
-package app.client.ui.pages.pages.lineList
+package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 

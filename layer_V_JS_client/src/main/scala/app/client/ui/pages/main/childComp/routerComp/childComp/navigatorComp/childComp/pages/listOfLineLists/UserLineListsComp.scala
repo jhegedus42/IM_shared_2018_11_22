@@ -1,4 +1,4 @@
-package app.client.ui.pages.pages.listOfLineLists
+package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.listOfLineLists
 
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp

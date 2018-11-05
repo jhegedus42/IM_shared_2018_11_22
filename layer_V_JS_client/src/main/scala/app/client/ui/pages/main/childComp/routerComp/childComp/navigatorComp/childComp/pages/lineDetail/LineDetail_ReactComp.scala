@@ -1,4 +1,4 @@
-package app.client.ui.pages.pages.lineDetail
+package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineDetail
 
 import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers

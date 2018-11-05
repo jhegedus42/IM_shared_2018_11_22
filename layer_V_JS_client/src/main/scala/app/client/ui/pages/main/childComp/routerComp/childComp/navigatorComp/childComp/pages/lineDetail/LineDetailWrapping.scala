@@ -1,6 +1,6 @@
-package app.client.ui.pages.pages.lineDetail
+package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineDetail
 
-import app.client.ui.pages.pages.lineDetail.LineDetail_ReactComp.lineDetailConstructor
+import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineDetail.LineDetail_ReactComp.lineDetailConstructor
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
