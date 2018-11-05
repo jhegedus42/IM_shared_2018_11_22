@@ -1,3 +1,10 @@
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.reorderList_inactive
+
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+
+case object ReorderList extends PossibleChildOfNavigator
+
+
 //package app.client.ui.pages.usingEntityCacheV1.lineList
 //
 //import app.client.wrapper.cache.entityCache.EntityCacheMap

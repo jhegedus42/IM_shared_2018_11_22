@@ -1,10 +1,10 @@
-package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineList
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList
 
-import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 
@@ -23,7 +23,7 @@ case class LineListWrapping(wrapper:
     wrapper.depth1CompConstr[
       LineList_Vanilla_RootReactComp_PhantomType.type, LineListProp](LineList_ReactComp.LineListCompBuilder)
 
-  val mk_wLL: ( RouterCtl[Page] ) => ReactElement = (r: RouterCtl[Page]) => wLL(PropsGivenByTheRouter_To_Depth1Component((), r))
+  val mk_wLL: ( RouterCtl[PossibleChildOfNavigator] ) => ReactElement = (r: RouterCtl[PossibleChildOfNavigator]) => wLL(PropsGivenByTheRouter_To_Depth1Component((), r))
 
 
 }

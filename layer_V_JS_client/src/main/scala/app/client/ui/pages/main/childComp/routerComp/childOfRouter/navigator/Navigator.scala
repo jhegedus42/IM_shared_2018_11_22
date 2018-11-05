@@ -1,7 +1,7 @@
-package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator
 
 import app.client.ui.generalReactComponents.ViewRelatedUtils
-import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import chandu0101.scalajs.react.components.materialui._
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.extra.Reusability
@@ -12,7 +12,7 @@ import org.scalajs.dom.html.Div
 
 import scala.scalajs.js
 
-object NavigatorComponent {
+object Navigator {
 
   case class Props[P](
       routerCtl:  RouterCtl[P],
@@ -106,16 +106,16 @@ object NavigatorComponent {
       .render( s => s.backend.render( s.props, s.state ) )
       .build
 
-  private[this] val navigatorCompConstr: ReqProps[Props[Page], State, Backend[Page], TopNode] =
-    NavigatorComponent.apply[Page]
+  private[this] val navigatorCompConstr: ReqProps[Props[PossibleChildOfNavigator], State, Backend[PossibleChildOfNavigator], TopNode] =
+    Navigator.apply[PossibleChildOfNavigator]
 
   def layout(
-      navs: Map[String, Page]
-    )(ctl:  RouterCtl[Page],
-      r:    Resolution[Page]
-    ): ReactComponentU[Props[Page], State, Backend[Page], TopNode] = {
+      navs: Map[String, PossibleChildOfNavigator]
+    )(ctl:  RouterCtl[PossibleChildOfNavigator],
+      r:    Resolution[PossibleChildOfNavigator]
+    ): ReactComponentU[Props[PossibleChildOfNavigator], State, Backend[PossibleChildOfNavigator], TopNode] = {
     val title = "Joco App"
-    val np: Props[Page] = NavigatorComponent.Props( ctl, r, r.page, navs, title )
+    val np: Props[PossibleChildOfNavigator] = Navigator.Props(ctl, r, r.page, navs, title)
     navigatorCompConstr( np )
   }
 

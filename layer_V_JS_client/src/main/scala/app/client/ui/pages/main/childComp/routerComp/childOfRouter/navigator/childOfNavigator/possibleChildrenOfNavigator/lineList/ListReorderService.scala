@@ -1,4 +1,4 @@
-package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineList
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList
 
 import scala.collection.mutable.ListBuffer
 

@@ -2,7 +2,7 @@ package app.client.entityCache.entityCacheV1.types.componentProperties
 
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootComps_PhType
-import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 /**
@@ -13,7 +13,7 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   *
   * @param ps     value of props passed to Depth 1 (parent) Component.
   * @param router a client API to the router - passed in by the
-  *               [[app.client.ui.pages.main.childComp.routerComp.RouterComp]] .
+  *               [[app.client.ui.pages.main.childComp.routerComp.MyRouter]] .
   * @param entityCache
   * @tparam D1Comp_Props Type of props passed to Depth 1 Component.
   * @tparam RootComp_PhType The root page which is described
@@ -22,5 +22,5 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   */
 case class Props_Of_Depth2Comp[D1Comp_Props, RootComp_PhType <: RootComps_PhType](
     ps:          D1Comp_Props,
-    router:      RouterCtl[Page],
+    router:      RouterCtl[PossibleChildOfNavigator],
     entityCache: CacheState)

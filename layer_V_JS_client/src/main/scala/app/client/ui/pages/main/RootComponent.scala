@@ -1,10 +1,9 @@
 package app.client.ui.pages.main
 
-import app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.Pages.Page
-import app.client.ui.pages.main.childComp.routerComp.RouterComp
+import app.client.ui.pages.main.childComp.routerComp.MyRouter
 import chandu0101.scalajs.react.components.materialui.{Mui, MuiMuiThemeProvider}
-import japgolly.scalajs.react.{ReactComponentB, ReactComponentC, TopNode}
 import japgolly.scalajs.react.extra.router.Router
+import japgolly.scalajs.react.{ReactComponentB, ReactComponentC, TopNode}
 
 /**
   *
@@ -12,7 +11,7 @@ import japgolly.scalajs.react.extra.router.Router
   * in [[app.client.Main]] to create the root react component.
   *
   * The React Comp Hierarchy is the following :
-  * [[RootComponent]] -> [[MuiMuiThemeProvider]] -> [[RouterComp]] ->
+  * [[RootComponent]] -> [[MuiMuiThemeProvider]] -> [[Router]] ->
   *
   *
   */
@@ -34,8 +33,6 @@ object RootComponent {
   // Our top-level component, display pages based on URL, with app bar and navigation
   //val router = DemoRoutes.router
 
-  private val router: Router[Page] = RouterComp.constructor()
-
   // Need to wrap our top-level router component in a theme for Material-UI to work
   // 548215156450c85ecbb738120e5b4139548215156450c85ecbb738120e5b4139
 
@@ -44,7 +41,7 @@ object RootComponent {
       .render(
         _ =>
           MuiMuiThemeProvider( muiTheme = theme )(
-            router()
+            MyRouter.routerConstructor() // when this is called the routerConstructor makes a router
         )
       )
       .build

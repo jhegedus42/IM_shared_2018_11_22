@@ -1,4 +1,4 @@
-package app.client.ui.pages.main.childComp.routerComp.childComp.navigatorComp.childComp.pages.lineDetail.children
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.children
 
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory
 import app.client.ui.generalReactComponents.wrapped_JS_Components.ImgCropReactCompFactory.JSCrop
