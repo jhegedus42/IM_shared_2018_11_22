@@ -1,19 +1,19 @@
-package app.client.ui.pages.usingEntityCacheV1.listOfLineLists
+package app.client.ui.pages.pages.listOfLineLists
 
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectorCompConstructor
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
 
 case class UserLineListsWrapping( wrapper: RootReactCompConstr_Enhancer ) {
 
 //  val wrapperHolder: CacheRoot = new CacheRoot()
 
-  val wrapped_CC: CacheInjectorCompConstructor[
+  val wrapped_CC: Depth1CompConstr[
     UserLineLists_Vanilla_RootReactComp_PhantomType.type,
     UserLineListsComp.Prop
   ] =
     wrapper
-    .createCacheInjectorCompConstructor[
+    .depth1CompConstr[
         UserLineLists_Vanilla_RootReactComp_PhantomType.type,
         UserLineListsComp.Prop
       ](

@@ -21,7 +21,7 @@ object CacheStates {
       case g @ Updated( refVal ) => Some( g )
     }
 
-    def isReady(): Boolean = false
+    def isReady: Boolean = false
 
     override def toString: String = pprint.apply( this ).plainText
   }
@@ -34,31 +34,31 @@ object CacheStates {
     def refVal: RefVal[E]
   }
 
-  case class NotInCache[E <: Entity](val ref: Ref[E] ) extends EntityCacheVal[E]
+  case class NotInCache[E <: Entity](ref    : Ref[E] ) extends EntityCacheVal[E]
 
-  case class NotYetLoaded[E <: Entity](val ref: Ref[E] ) extends EntityCacheVal[E]
+  case class NotYetLoaded[E <: Entity](ref    : Ref[E] ) extends EntityCacheVal[E]
 
   // in cache but not yet loaded, not yet tried to load, nothing...
   //how can this ever be ?
 
-  case class Loading[E <: Entity](val ref: Ref[E] ) extends Pending[E]
+  case class Loading[E <: Entity](ref    : Ref[E] ) extends Pending[E]
 
-  case class Updating[E <: Entity](val refVal: RefVal[E] ) extends Pending[E]
+  case class Updating[E <: Entity](refVal    : RefVal[E] ) extends Pending[E]
 
   // writing
 
-  case class Loaded[E <: Entity](val refVal: RefVal[E] ) extends Ready[E] {
+  case class Loaded[E <: Entity](refVal    : RefVal[E] ) extends Ready[E] {
 
-    override def isReady(): Boolean = true
+    override def isReady: Boolean = true
   }
 
-  case class Updated[E <: Entity](val refVal: RefVal[E] ) extends Ready[E] {
-    override def isReady(): Boolean = true
+  case class Updated[E <: Entity](refVal    : RefVal[E] ) extends Ready[E] {
+    override def isReady: Boolean = true
   }
 
-  case class UpdateFailed[E <: Entity](val refVal: RefVal[E], err: String ) extends Failed[E]
+  case class UpdateFailed[E <: Entity](refVal    : RefVal[E], err: String ) extends Failed[E]
 
-  case class ReadFailed[E <: Entity](val ref: Ref[E], err: String ) extends Failed[E]
+  case class ReadFailed[E <: Entity](ref    : Ref[E], err: String ) extends Failed[E]
 
 }
 

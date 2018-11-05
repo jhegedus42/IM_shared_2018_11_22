@@ -1,18 +1,22 @@
 package app.client.ui.pages.main.root_children.materialUI_children
 
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
-import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetailWrapping
-import app.client.ui.pages.usingEntityCacheV1.lineList.LineListWrapping
-import app.client.ui.pages.usingEntityCacheV1.listOfLineLists.UserLineListsWrapping
-import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
-import app.client.ui.pages.main.root_children.materialUI_children.Pages.{LineDetailPage, LineListPage, UserLineListPage}
 import app.client.entityCache.entityCacheV1.{CacheState, RootReactCompConstr_Enhancer}
-import app.client.ui.pages.usingEntityCacheV1.lineDetail.LineDetail_ReactComp.Prop
+import app.client.ui.pages.main.root_children.MaterialUI_Main_ReactComponent
+import app.client.ui.pages.main.root_children.materialUI_children.Pages.{
+  LineDetailPage,
+  LineListPage,
+  UserLineListPage
+}
+import app.client.ui.pages.pages.lineDetail.LineDetailWrapping
+import app.client.ui.pages.pages.lineDetail.LineDetail_ReactComp.Prop
+import app.client.ui.pages.pages.lineList.LineListWrapping
+import app.client.ui.pages.pages.listOfLineLists.UserLineListsWrapping
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}
+import japgolly.scalajs.react.extra.router.{Router, RouterCtl}
 import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}
-import japgolly.scalajs.react.extra.router.RouterCtl
 
 object Pages {
   sealed trait Page
@@ -22,11 +26,11 @@ object Pages {
   case class UserLineListPage(id_user: java.util.UUID ) extends Page
 }
 
-import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Router, RouterConfig, RouterConfigDsl}
+import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, RouterConfig, RouterConfigDsl}
 
 object RouterComp {
 
-  val notSpecUUID = java.util.UUID.fromString( TestEntities.theUUIDofTheLine )
+  private val notSpecUUID = java.util.UUID.fromString( TestEntities.theUUIDofTheLine )
 
   import Pages.Page
 
@@ -38,7 +42,7 @@ object RouterComp {
 
   private[this] def routerConfig(): RouterConfig[Page] =
     RouterConfigDsl[Page].buildConfig {
-      (dsl: RouterConfigDsl[Page]) =>
+      dsl: RouterConfigDsl[Page] =>
         import dsl._
 
         val reactCompWrapper: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer.wrapper
@@ -46,20 +50,17 @@ object RouterComp {
         val dr_lineDetail = {
           val ldw: LineDetailWrapping = LineDetailWrapping( reactCompWrapper )
 
-          val lineDetailCompCreatorForDynRenderR
-            : ( LineDetailPage, RouterCtl[Page] ) => ReactComponentU[PropsGivenByTheRouter_To_Depth1Component[Prop],
-                                                                     CacheState,
-                                                                     _,
-                                                                     TopNode] = {
+          val lineDetailCompCreatorForDynRenderR: (
+              LineDetailPage,
+              RouterCtl[Page]
+          ) => ReactComponentU[PropsGivenByTheRouter_To_Depth1Component[Prop], CacheState, _, TopNode] = {
             ( x: LineDetailPage, r: RouterCtl[Page] ) =>
               ldw.constructor_used_by_the_parent_component(
-                                                            PropsGivenByTheRouter_To_Depth1Component(Ref.makeWithUUID(x.id), r)
+                PropsGivenByTheRouter_To_Depth1Component( Ref.makeWithUUID( x.id ), r )
 
-                                                            // KERDES ^^^ ide miert nem kell STATE ???
-                                                            // KI AZ AKI A STATE-ET BUZERALJA ???
-                                                            // mi a fasznak kell state ?
-
-
+                // KERDES ^^^ ide miert nem kell STATE ???
+                // KI AZ AKI A STATE-ET BUZERALJA ???
+                // mi a fasznak kell state ?
               )
           }
 
@@ -74,7 +75,7 @@ object RouterComp {
 
           val g: ( UserLineListPage, RouterCtl[Page] ) => ReactElement =
             ( u: UserLineListPage, r: RouterCtl[Page] ) =>
-              ullw.wrapped_CC(PropsGivenByTheRouter_To_Depth1Component(Ref.makeWithUUID(u.id_user), r))
+              ullw.wrapped_CC( PropsGivenByTheRouter_To_Depth1Component( Ref.makeWithUUID( u.id_user ), r ) )
 
           dynamicRouteCT( "#user" / uuid.caseClass[UserLineListPage] ) ~> dynRenderR( g )
         }

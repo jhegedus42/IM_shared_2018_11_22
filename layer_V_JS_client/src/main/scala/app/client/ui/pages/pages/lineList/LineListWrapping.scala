@@ -1,8 +1,8 @@
-package app.client.ui.pages.usingEntityCacheV1.lineList
+package app.client.ui.pages.pages.lineList
 
 import app.client.ui.pages.main.root_children.materialUI_children.Pages.Page
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectorCompConstructor
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
 import japgolly.scalajs.react.ReactElement
@@ -19,8 +19,8 @@ case class LineListWrapping(wrapper:
 
 //  val que: CacheRoot = new CacheRoot()
 
-  val wLL: CacheInjectorCompConstructor[LineList_Vanilla_RootReactComp_PhantomType.type, LineListProp] =
-    wrapper.createCacheInjectorCompConstructor[
+  val wLL: Depth1CompConstr[LineList_Vanilla_RootReactComp_PhantomType.type, LineListProp] =
+    wrapper.depth1CompConstr[
       LineList_Vanilla_RootReactComp_PhantomType.type, LineListProp](LineList_ReactComp.LineListCompBuilder)
 
   val mk_wLL: ( RouterCtl[Page] ) => ReactElement = (r: RouterCtl[Page]) => wLL(PropsGivenByTheRouter_To_Depth1Component((), r))

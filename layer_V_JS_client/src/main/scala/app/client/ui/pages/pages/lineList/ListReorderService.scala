@@ -1,4 +1,4 @@
-package app.client.ui.pages.usingEntityCacheV1.lineList
+package app.client.ui.pages.pages.lineList
 
 import scala.collection.mutable.ListBuffer
 

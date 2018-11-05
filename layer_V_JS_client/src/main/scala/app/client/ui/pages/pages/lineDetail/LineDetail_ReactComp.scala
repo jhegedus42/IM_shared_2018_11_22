@@ -1,12 +1,12 @@
-package app.client.ui.pages.usingEntityCacheV1.lineDetail
+package app.client.ui.pages.pages.lineDetail
 
 import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
-import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
+import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.CacheInjectedComponentConstructor
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth2CompConstr
 import app.shared.data.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag
@@ -27,7 +27,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = PropsWithInjectedCache_Fed_To_Depth2Comp[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
+  type Props = Props_Of_Depth2Comp[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
 
 //
   class Backend($ : BackendScope[Props, Unit] ) {
@@ -106,7 +106,7 @@ object LineDetail_ReactComp {
   }
 
   val lineDetailConstructor
-    : CacheInjectedComponentConstructor[LineDetail_Vanilla_RootReactComp_PhantomType.type, Prop] = {
+    : Depth2CompConstr[LineDetail_Vanilla_RootReactComp_PhantomType.type, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend

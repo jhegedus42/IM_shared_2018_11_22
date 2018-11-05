@@ -11,12 +11,12 @@ package app.client.entityCache.entityCacheV1.types
 
 object Vanilla_RootReactComponent_PhantomTypes {
 
-  sealed trait RootReactComponent_MarkerTrait // Phantom type
+  sealed trait RootComps_PhType // Phantom type
 
-  object LineList_Vanilla_RootReactComp_PhantomType extends RootReactComponent_MarkerTrait
+  object LineList_Vanilla_RootReactComp_PhantomType extends RootComps_PhType
 
-  object LineDetail_Vanilla_RootReactComp_PhantomType extends RootReactComponent_MarkerTrait
+  object LineDetail_Vanilla_RootReactComp_PhantomType extends RootComps_PhType
 
-  object UserLineLists_Vanilla_RootReactComp_PhantomType extends RootReactComponent_MarkerTrait
+  object UserLineLists_Vanilla_RootReactComp_PhantomType extends RootComps_PhType
 
 }

@@ -1,9 +1,9 @@
-package app.client.ui.pages.usingEntityCacheV1.listOfLineLists
+package app.client.ui.pages.pages.listOfLineLists
 
-import app.client.entityCache.entityCacheV1.CacheStates._
 import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
-import app.client.entityCache.entityCacheV1.types.componentProperties.PropsWithInjectedCache_Fed_To_Depth2Comp
-import app.client.entityCache.entityCacheV1.{ CacheState}
+import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
+import app.client.entityCache.entityCacheV1.CacheState
+import app.client.entityCache.entityCacheV1.types.CacheStates.EntityCacheVal
 import app.shared.data.model.User
 import app.shared.data.ref.Ref
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView_Res
@@ -14,7 +14,7 @@ object UserLineListsComp {
 
   type Prop = Ref[User]
 
-  type Props = PropsWithInjectedCache_Fed_To_Depth2Comp[Prop, UserLineLists_Vanilla_RootReactComp_PhantomType.type]
+  type Props = Props_Of_Depth2Comp[Prop, UserLineLists_Vanilla_RootReactComp_PhantomType.type]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -54,7 +54,7 @@ object UserLineListsComp {
 
   }
 
-  val compConstr: CacheInjectedComponentConstructor[UserLineLists_Vanilla_RootReactComp_PhantomType.type, Prop] =
+  val compConstr: Depth2CompConstr[UserLineLists_Vanilla_RootReactComp_PhantomType.type, Prop] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"
