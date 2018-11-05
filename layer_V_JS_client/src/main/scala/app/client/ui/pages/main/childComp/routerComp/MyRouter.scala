@@ -5,7 +5,7 @@ import app.client.entityCache.entityCacheV1.{CacheState, RootReactCompConstr_Enh
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.Navigator
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.LineDetail_ReactComp.Prop
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.{LineDetailWrapping, LineDetail_Page}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.LineDetail_Page
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList.{LineListWrapping, LineList_Page}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.listOfLineLists.{ListOfLineListsOfAGivenUser_Page, UserLineListsWrapping}
 import app.shared.data.ref.Ref
@@ -15,7 +15,6 @@ import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Router, RouterCon
 import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}
 
 object MyRouter {
-
 
   private val notSpecUUID = java.util.UUID.fromString( TestEntities.theUUIDofTheLine )
 

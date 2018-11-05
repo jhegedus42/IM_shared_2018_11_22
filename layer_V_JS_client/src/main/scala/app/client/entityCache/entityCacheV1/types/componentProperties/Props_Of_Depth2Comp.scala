@@ -1,7 +1,6 @@
 package app.client.entityCache.entityCacheV1.types.componentProperties
 
 import app.client.entityCache.entityCacheV1.CacheState
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootComps_PhType
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import japgolly.scalajs.react.extra.router.RouterCtl
 
@@ -20,7 +19,7 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   *                         by the component to which {{{this}}} object is passed as
   *                         property.
   */
-case class Props_Of_Depth2Comp[D1Comp_Props, RootComp_PhType <: RootComps_PhType](
+case class Props_Of_Depth2Comp[D1Comp_Props, RootComp_PhType <: PossibleChildOfNavigator](
     ps:          D1Comp_Props,
     router:      RouterCtl[PossibleChildOfNavigator],
     entityCache: CacheState)

@@ -2,7 +2,6 @@ package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.ch
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineList_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.types.CacheStates.EntityCacheVal

@@ -1,9 +1,8 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail
 
 import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Ready}
-import app.client.rest.commands.forTesting.Helpers
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.LineDetail_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
+import app.client.rest.commands.forTesting.Helpers
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth2CompConstr
@@ -24,10 +23,14 @@ import japgolly.scalajs.react.{Callback, ReactElement, ReactNode}
 import japgolly.scalajs.react.vdom.prefix_<^._
 import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+
+case class LineDetail_Page(idOfLine:    java.util.UUID ) extends PossibleChildOfNavigator
+
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = Props_Of_Depth2Comp[Prop, LineDetail_Vanilla_RootReactComp_PhantomType.type]
+  type Props = Props_Of_Depth2Comp[Prop, LineDetail_Page]
 
 //
   class Backend($ : BackendScope[Props, Unit] ) {
@@ -105,8 +108,9 @@ object LineDetail_ReactComp {
     }
   }
 
+  
   val lineDetailConstructor
-    : Depth2CompConstr[LineDetail_Vanilla_RootReactComp_PhantomType.type, Prop] = {
+    : Depth2CompConstr[LineDetail_Page, Prop] = {
     ReactComponentB[Props]( "LineDetail" )
       .backend[Backend]( new Backend( _ ) )
       .renderBackend
@@ -117,3 +121,5 @@ object LineDetail_ReactComp {
 //
 
 }
+
+

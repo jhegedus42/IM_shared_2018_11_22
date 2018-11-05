@@ -2,7 +2,7 @@ package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.ch
 
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.UserLineLists_Vanilla_RootReactComp_PhantomType
+import .UserLineLists_Vanilla_RootReactComp_PhantomType
 
 case class UserLineListsWrapping( wrapper: RootReactCompConstr_Enhancer ) {
 

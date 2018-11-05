@@ -1,8 +1,8 @@
 package app.client.entityCache.entityCacheV1.types
 
 import app.client.entityCache.entityCacheV1.CacheState
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootComps_PhType
-import app.client.entityCache.entityCacheV1.types.componentProperties.{Props_Of_Depth2Comp, PropsGivenByTheRouter_To_Depth1Component}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsGivenByTheRouter_To_Depth1Component, Props_Of_Depth2Comp}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.TopNode
 
@@ -17,7 +17,7 @@ object RootPageConstructorTypes {
     *
     * @tparam Props_Passed_By_The_Parent_Component
     */
-  type Depth2CompConstr[Name_Of_The_Root_Page <: RootComps_PhType,
+  type Depth2CompConstr[Name_Of_The_Root_Page <: PossibleChildOfNavigator,
                                Props_Passed_By_The_Parent_Component] =
     ReqProps[Props_Of_Depth2Comp[Props_Passed_By_The_Parent_Component, Name_Of_The_Root_Page],
              Unit,
@@ -35,7 +35,7 @@ object RootPageConstructorTypes {
     * @tparam Props_Passed_By_TheParentComponent
     */
   type Depth1CompConstr[
-      Name_Of_The_Root_Page <: RootComps_PhType,
+      Name_Of_The_Root_Page <: PossibleChildOfNavigator,
       Props_Passed_By_TheParentComponent
   ] =
     ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props_Passed_By_TheParentComponent], CacheState, _, TopNode]

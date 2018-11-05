@@ -1,29 +1,12 @@
 package app.client.entityCache.entityCacheV1
 
-import app.client.entityCache.entityCacheV1.types.CacheStates.{
-  EntityCacheVal,
-  Loaded,
-  Loading,
-  NotInCache,
-  NotYetLoaded,
-  ReadFailed,
-  Ready,
-  UpdateFailed,
-  Updated,
-  Updating
-}
+import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Loaded, Loading, NotInCache, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
 import app.client.entityCache.entityCacheV1.types.EntityReaderWriter
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
-  Depth2CompConstr,
-  Depth1CompConstr
-}
-import app.client.entityCache.entityCacheV1.types.Vanilla_RootReactComponent_PhantomTypes.RootComps_PhType
-import app.client.entityCache.entityCacheV1.types.componentProperties.{
-  PropsGivenByTheRouter_To_Depth1Component,
-  Props_Of_Depth2Comp
-}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{Depth1CompConstr, Depth2CompConstr}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsGivenByTheRouter_To_Depth1Component, Props_Of_Depth2Comp}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
@@ -293,7 +276,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
     *
     *
     */
-  def depth1CompConstr[RootComp_PhType <: RootComps_PhType, Props](
+  def depth1CompConstr[RootComp_PhType <: PossibleChildOfNavigator, Props](
       depth2CompConstr: Depth2CompConstr[
         RootComp_PhType,
         Props
