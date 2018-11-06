@@ -5,7 +5,7 @@ import app.client.entityCache.entityCacheV1.{CacheState, RootReactCompConstr_Enh
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.Navigator
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.LineDetail_ReactComp.Prop
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.LineDetail_Page
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.{LineDetailWrapping, LineDetail_Page}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList.{LineListWrapping, LineList_Page}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.listOfLineLists.{ListOfLineListsOfAGivenUser_Page, UserLineListsWrapping}
 import app.shared.data.ref.Ref
@@ -20,7 +20,7 @@ object MyRouter {
 
   private[this] val navs: Map[String, PossibleChildOfNavigator] = Map(
     "User Line List" -> ListOfLineListsOfAGivenUser_Page( UUID( TestEntitiesForStateThree.user1uuid ) ),
-    "Line List" -> LineList_Page,
+    "Line List" -> LineList_Page(),
     "Line Detail " -> LineDetail_Page( notSpecUUID )
   )
 
@@ -68,7 +68,7 @@ object MyRouter {
 
         val sr_lineList = {
           val llw = LineListWrapping( reactCompWrapper )
-          staticRoute( "#im", LineList_Page ) ~> renderR( llw.mk_wLL )
+          staticRoute( "#im", LineList_Page() ) ~> renderR( llw.mk_wLL )
         }
 
         val config: RouterConfig[PossibleChildOfNavigator] = {
@@ -76,7 +76,7 @@ object MyRouter {
            | dr_userlinelist
            | sr_lineList
            | dr_lineDetail)
-            .notFound( redirectToPage( LineList_Page )( Redirect.Replace ) )
+            .notFound( redirectToPage( LineList_Page() )( Redirect.Replace ) )
             .renderWith(
                          Navigator
                          .layout( navs )( _, _ )

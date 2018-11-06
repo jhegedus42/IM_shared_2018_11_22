@@ -26,7 +26,7 @@ object LineList_ReactComp {
   import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes._
 
   type Prop  = Unit
-  type Props = Props_Of_Depth2Comp[Prop, LineList_Vanilla_RootReactComp_PhantomType.type]
+  type Props = Props_Of_Depth2Comp[Prop, LineList_Page ]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -104,7 +104,7 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: Depth2CompConstr[LineList_Vanilla_RootReactComp_PhantomType.type, Unit] =
+  val LineListCompBuilder: Depth2CompConstr[LineList_Page, Unit] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

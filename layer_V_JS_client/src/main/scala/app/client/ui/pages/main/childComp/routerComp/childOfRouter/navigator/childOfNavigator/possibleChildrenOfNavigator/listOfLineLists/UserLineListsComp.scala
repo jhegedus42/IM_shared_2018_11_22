@@ -1,6 +1,5 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.listOfLineLists
 
-import .UserLineLists_Vanilla_RootReactComp_PhantomType
 import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.types.CacheStates.EntityCacheVal
@@ -14,7 +13,7 @@ object UserLineListsComp {
 
   type Prop = Ref[User]
 
-  type Props = Props_Of_Depth2Comp[Prop, UserLineLists_Vanilla_RootReactComp_PhantomType.type]
+  type Props = Props_Of_Depth2Comp[Prop, ListOfLineListsOfAGivenUser_Page]
 
   class Backend($ : BackendScope[Props, Unit] ) {
 
@@ -54,7 +53,7 @@ object UserLineListsComp {
 
   }
 
-  val compConstr: Depth2CompConstr[UserLineLists_Vanilla_RootReactComp_PhantomType.type, Prop] =
+  val compConstr: Depth2CompConstr[ListOfLineListsOfAGivenUser_Page, Prop] =
     ReactComponentB[Props](
       "wrapped " +
         "page component"

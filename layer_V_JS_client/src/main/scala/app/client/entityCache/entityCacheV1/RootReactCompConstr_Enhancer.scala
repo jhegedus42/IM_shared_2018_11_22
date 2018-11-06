@@ -23,7 +23,7 @@ import scala.reflect.ClassTag
   *
   *
   * @param entityReadWriteRequestHandler needs to be notified about read or write requests
-  *                                      a callback function.
+  *                                      this is a callback function.
   */
 case class CacheState(
     map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),

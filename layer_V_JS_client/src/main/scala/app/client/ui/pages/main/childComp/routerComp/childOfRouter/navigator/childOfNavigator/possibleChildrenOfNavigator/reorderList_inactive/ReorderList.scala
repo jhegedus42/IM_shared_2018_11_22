@@ -2,7 +2,7 @@ package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.ch
 
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 
-case object ReorderList extends PossibleChildOfNavigator
+case class ReorderList() extends PossibleChildOfNavigator
 
 
 //package app.client.ui.pages.usingEntityCacheV1.lineList

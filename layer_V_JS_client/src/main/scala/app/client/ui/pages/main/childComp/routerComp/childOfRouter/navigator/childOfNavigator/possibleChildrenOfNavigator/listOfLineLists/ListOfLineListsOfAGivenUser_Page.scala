@@ -2,4 +2,5 @@ package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.ch
 
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
 
-case class ListOfLineListsOfAGivenUser_Page(id_ofUser: java.util.UUID ) extends PossibleChildOfNavigator
+case class ListOfLineListsOfAGivenUser_Page(id_ofUser: java.util.UUID )
+  extends PossibleChildOfNavigator
