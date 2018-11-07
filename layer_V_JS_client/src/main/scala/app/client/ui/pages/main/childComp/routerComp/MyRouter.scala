@@ -3,7 +3,7 @@ package app.client.ui.pages.main.childComp.routerComp
 import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
 import app.client.entityCache.entityCacheV1.{CacheState, RootReactCompConstr_Enhancer}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.Navigator
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.MainPage
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.LineDetail_ReactComp.Prop
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.{LineDetailWrapping, LineDetail_Page}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList.{LineListWrapping, LineList_Page}
@@ -18,15 +18,15 @@ object MyRouter {
 
   private val notSpecUUID = java.util.UUID.fromString( TestEntities.theUUIDofTheLine )
 
-  private[this] val navs: Map[String, PossibleChildOfNavigator] = Map(
+  private[this] val navs: Map[String, MainPage] = Map(
     "User Line List" -> ListOfLineListsOfAGivenUser_Page( UUID( TestEntitiesForStateThree.user1uuid ) ),
     "Line List" -> LineList_Page(),
     "Line Detail " -> LineDetail_Page( notSpecUUID )
-  )
+                                                     )
 
-  private[this] def routerConfig(): RouterConfig[PossibleChildOfNavigator] =
-    RouterConfigDsl[PossibleChildOfNavigator].buildConfig {
-      dsl: RouterConfigDsl[PossibleChildOfNavigator] =>
+  private[this] def routerConfig(): RouterConfig[MainPage] =
+    RouterConfigDsl[MainPage].buildConfig {
+      dsl: RouterConfigDsl[MainPage] =>
         import dsl._
 
         val reactCompWrapper: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer.wrapper
@@ -36,9 +36,9 @@ object MyRouter {
 
           val lineDetailCompCreatorForDynRenderR: (
               LineDetail_Page,
-              RouterCtl[PossibleChildOfNavigator]
+              RouterCtl[MainPage]
           ) => ReactComponentU[PropsGivenByTheRouter_To_Depth1Component[Prop], CacheState, _, TopNode] = {
-            ( x: LineDetail_Page, r: RouterCtl[PossibleChildOfNavigator] ) =>
+            ( x: LineDetail_Page, r: RouterCtl[MainPage] ) =>
               ldw.constructor_used_by_the_parent_component(
                 PropsGivenByTheRouter_To_Depth1Component( Ref.makeWithUUID( x.idOfLine ), r )
 
@@ -57,8 +57,8 @@ object MyRouter {
 
           val ullw = UserLineListsWrapping( reactCompWrapper )
 
-          val g: ( ListOfLineListsOfAGivenUser_Page, RouterCtl[PossibleChildOfNavigator] ) => ReactElement =
-            ( u: ListOfLineListsOfAGivenUser_Page, r: RouterCtl[PossibleChildOfNavigator] ) =>
+          val g: ( ListOfLineListsOfAGivenUser_Page, RouterCtl[MainPage] ) => ReactElement =
+            ( u: ListOfLineListsOfAGivenUser_Page, r: RouterCtl[MainPage] ) =>
               ullw.wrapped_CC(
                 PropsGivenByTheRouter_To_Depth1Component( Ref.makeWithUUID( u.id_ofUser ), r )
             )
@@ -71,7 +71,7 @@ object MyRouter {
           staticRoute( "#im", LineList_Page() ) ~> renderR( llw.mk_wLL )
         }
 
-        val config: RouterConfig[PossibleChildOfNavigator] = {
+        val config: RouterConfig[MainPage] = {
           (trimSlashes
            | dr_userlinelist
            | sr_lineList
@@ -88,7 +88,7 @@ object MyRouter {
 
   private[this] val baseUrl: BaseUrl = BaseUrl.fromWindowOrigin_/
 
-  lazy val routerConstructor: Router[PossibleChildOfNavigator] =
+  lazy val routerConstructor: Router[MainPage] =
     Router( baseUrl, routerConfig().logToConsole )
 
 }

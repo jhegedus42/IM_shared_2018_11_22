@@ -1,7 +1,7 @@
 package app.client.entityCache.entityCacheV2.visibleToUI.compPropExtender.types.typesBeforeAndAfterPropertyExtension.compProperties
 
 import app.client.entityCache.entityCacheV2.visibleToUI.compPropExtender.types.MarkerObjects_for_Components_Whose_Properties_Can_Be_Extended.A_RootReactComponent
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.MainPage
 import japgolly.scalajs.react.extra.router.RouterCtl
 
 /**
@@ -37,4 +37,4 @@ case class CompPropertiesBeforeExtension[
     RootReactComp <: A_RootReactComponent,
     PassedProperties <: ExtendableProperties_PhantomType[RootReactComp]
   ](passedProperties: PassedProperties,
-    ctrl:             RouterCtl[PossibleChildOfNavigator])
+    ctrl:             RouterCtl[MainPage])

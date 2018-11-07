@@ -36,7 +36,7 @@ object UserLineListsComp {
         <.br,
         "SumIntView 2+3:", {
           SumIntView_Res( 2 + 3 ).toString
-
+          // TODO - let's put the result into here ....
           // dd60dc57_fe44c5caca343510efae45088b352ddb7231b4c6$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
           // props.
 

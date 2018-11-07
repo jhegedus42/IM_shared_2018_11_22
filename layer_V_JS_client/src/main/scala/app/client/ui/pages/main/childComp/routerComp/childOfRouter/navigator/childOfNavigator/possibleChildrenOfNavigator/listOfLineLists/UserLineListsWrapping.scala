@@ -12,7 +12,7 @@ case class UserLineListsWrapping( wrapper: RootReactCompConstr_Enhancer ) {
     UserLineListsComp.Prop
   ] =
     wrapper
-    .depth1CompConstr[
+    .create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[
       ListOfLineListsOfAGivenUser_Page,
         UserLineListsComp.Prop
       ](

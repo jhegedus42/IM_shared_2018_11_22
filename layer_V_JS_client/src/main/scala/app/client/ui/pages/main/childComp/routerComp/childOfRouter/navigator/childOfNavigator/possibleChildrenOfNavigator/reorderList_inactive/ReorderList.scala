@@ -1,8 +1,8 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.reorderList_inactive
 
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.MainPage
 
-case class ReorderList() extends PossibleChildOfNavigator
+case class ReorderList() extends MainPage
 
 
 //package app.client.ui.pages.usingEntityCacheV1.lineList

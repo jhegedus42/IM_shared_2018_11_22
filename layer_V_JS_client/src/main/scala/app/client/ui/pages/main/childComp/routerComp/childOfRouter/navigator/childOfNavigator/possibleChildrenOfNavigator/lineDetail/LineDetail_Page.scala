@@ -1,5 +1,5 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail
 
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.MainPage
 
-case class LineDetail_Page(idOfLine:    java.util.UUID ) extends PossibleChildOfNavigator
+case class LineDetail_Page(idOfLine:    java.util.UUID ) extends MainPage

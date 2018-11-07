@@ -1,12 +1,29 @@
 package app.client.entityCache.entityCacheV1
 
-import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Loaded, Loading, NotInCache, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
+import app.client.entityCache.entityCacheV1.types.CacheStates.{
+  EntityCacheVal,
+  Loaded,
+  Loading,
+  NotInCache,
+  NotYetLoaded,
+  ReadFailed,
+  Ready,
+  UpdateFailed,
+  Updated,
+  Updating
+}
 import app.client.entityCache.entityCacheV1.types.EntityReaderWriter
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{Depth1CompConstr, Depth2CompConstr}
-import app.client.entityCache.entityCacheV1.types.componentProperties.{PropsGivenByTheRouter_To_Depth1Component, Props_Of_Depth2Comp}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
+  Depth1CompConstr,
+  Depth2CompConstr
+}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{
+  PropsGivenByTheRouter_To_Depth1Component,
+  Props_Of_Depth2Comp
+}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.PossibleChildOfNavigator
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.MainPage
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
@@ -18,23 +35,33 @@ import slogging.LazyLogging
 import scala.concurrent.Future
 import scala.reflect.ClassTag
 
+// TODO ehhez csak egy interfeszt adni
+// amit elvileg lehet type class-szal is
+//
+// de miert ???
+// hogy az implementaciot aztan belul tudjam buzeralni ...
+//
+// meg veletlenul se fordulhasson elo, hogy a kliens fugg attol, hogy mi van a CacheState-ben ...
+//
+
 /**
   * @param map Immutable Map - Holding the current state
   *
-  *
-  * @param entityReadWriteRequestHandler needs to be notified about read or write requests
+  * fa9def4f_b9f40805
+  * @param entityReadWriteRequestHandler_callBack needs to be notified about read or write requests
   *                                      this is a callback function.
   */
 case class CacheState(
-    map:                           Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
-    entityReadWriteRequestHandler: RootReactCompConstr_Enhancer)
+    map:                                    Map[Ref[_ <: Entity], EntityCacheVal[_ <: Entity]] = Map(),
+    entityReadWriteRequestHandler_callBack: RootReactCompConstr_Enhancer)
+// TODO ^^^ ez nem state, ennek folosleges itt lennie)
     extends LazyLogging {
 
   // def getView ...
 
   def getEntity[E <: Entity: ClassTag](r: Ref[E] ): EntityCacheVal[E] = {
     if (!map.contains( r )) { // csak akkor hivjuk meg ha meg nincs benne a cache-ben ...
-      entityReadWriteRequestHandler.RequestHandling.handleReadRequest( r )
+      entityReadWriteRequestHandler_callBack.RequestHandling.handleReadRequest( r )
     }
 
     val res: EntityCacheVal[_ <: Entity] = map.getOrElse( r, NotInCache( r ) )
@@ -42,7 +69,7 @@ case class CacheState(
   }
 
   def updateEntity[E <: Entity: ClassTag: Decoder: Encoder](rv: RefVal[E] ): Unit = {
-    entityReadWriteRequestHandler.RequestHandling.handleUpdateReq( rv )
+    entityReadWriteRequestHandler_callBack.RequestHandling.handleUpdateReq( rv )
   }
 
 }
@@ -52,7 +79,7 @@ case class CacheState(
   * Takes a root react component constructor which creates a component with properties without
   * EntityReaderWriter.
   *
-  * This is a singleton.
+  * This is a singleton. //TODO make this az a singleton trait make this az a singleton trait
   *
   */
 
@@ -60,9 +87,48 @@ object RootReactCompConstr_Enhancer {
   lazy val wrapper = new RootReactCompConstr_Enhancer()
 }
 
+/**
+  * @tparam State
+  * @tparam SpecificStatefulObject
+  */
+
+trait StateOfAStateFulObject[
+    State <: StateOfAStateFulObject[State, SpecificStatefulObject],
+    SpecificStatefulObject <: StatefulObject[State, SpecificStatefulObject]]
+
+/**
+  * @tparam State
+  * @tparam SpecificStatefulObject
+  */
+sealed trait StatefulObject[
+    State <: StateOfAStateFulObject[State, SpecificStatefulObject],
+    SpecificStatefulObject <: StatefulObject[State, SpecificStatefulObject]] {
+  def setState(s: State )
+  def getState: State
+}
+
+//case class CurrentlyRoutedPage[T](page )
+
+trait Singleton[Type <: Singleton[Type]] {
+
+  lazy val singletonInstance: Type = getInstance()
+  def getSingletonInstance:   Type = singletonInstance
+  protected def getInstance(): Type
+}
+
+object States {
+
+  // currently routed page
+
+}
+
+//TODO
 class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter {
 
-  private trait StateSettable {
+  // TODO ettol megszabadulni
+  // illetve a fenti trait-ekkel implementalni
+
+  private trait StateChangerInterfaceForCurrentlyRoutedPage[_ <: MainPage] {
 
     // mi a faszomat csinal ez ????
     // ki hasznalja ezt ?
@@ -74,9 +140,18 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
   def getSnapShotOfCurrentState: CacheState = cacheState
 
   private var cacheState: CacheState =
-    new CacheState( entityReadWriteRequestHandler = this )
-  private var currently_routed_page: Option[StateSettable]                         = None
-  private var readRequests:          Set[RequestHandling.ReadRequest[_ <: Entity]] = Set()
+    new CacheState( entityReadWriteRequestHandler_callBack = this )
+
+  // ez egyaltalan mi ?
+  // conceptually ?
+  // ki hasznalja ?
+  // mikor ?
+  // mire ?
+
+  private var currently_routed_page // af18ce29_b9f40805
+    : Option[StateChangerInterfaceForCurrentlyRoutedPage[_ <: MainPage]] = None
+
+  private var readRequests: Set[RequestHandling.ReadRequest[_ <: Entity]] = Set()
 
   object RequestHandling {
 
@@ -126,7 +201,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
           pageRerenderer()
         }
 
-        launchUpdateReq( UpdateRequest( rv ), reRenderCurrentlyRoutedPage )
+        launchUpdateReq( UpdateRequest( rv ), reRenderCurrentlyRoutedPageCB )
         println( "update entity is called" + rv )
       }
 
@@ -168,7 +243,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
                         EntityStateChanger.setLoaded[E]( oldVal = loading, newVal = b )
                     }
                 }
-                reRenderCurrentlyRoutedPage() // we rerender the page after each ajax came back
+                reRenderCurrentlyRoutedPageCB() // we rerender the page after each ajax came back
             } )
             //637e3709d2fa4bd19e9167d45b58c425 commit b644e0744804cc562d4c7648aafaae93ec4727e5 Mon Dec 18 00:18:55 EET 2017
           }
@@ -182,7 +257,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
       )
 
       readRequests = Set()
-      reRenderCurrentlyRoutedPage() // we rerender the page after each ajax req has been started
+      reRenderCurrentlyRoutedPageCB() // we rerender the page after each ajax req has been started
 
     }
 
@@ -237,14 +312,15 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
       updateCache( oldVal.refVal.r, UpdateFailed( oldVal.refVal, err = errorMsg ), oldVal )
 
   }
-  private val reRenderCurrentlyRoutedPage: () => Unit = () => {
+
+  private val reRenderCurrentlyRoutedPageCB: () => Unit = () => {
 
     val c: CacheState = getSnapShotOfCurrentState
 
     println( "re render with cache: " + c )
 
     currently_routed_page.foreach( {
-      s: StateSettable =>
+      s: StateChangerInterfaceForCurrentlyRoutedPage[_ <: MainPage] =>
         s.setState( c )
     } )
 
@@ -255,14 +331,10 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
     *
     * @param depth2CompConstr This is the constructor into which the cache has been injected.
     *                                More precisely, the cache was injected into it's parameters.
-    *
-    *
-    * @tparam RootComp_PhType This is the name of the root page which is defined by
-    *                         the component created by [[depth1CompConstr()]].
-    *
-    * @tparam Props These are the properties which will be extended with `PropsWithEntityReaderWriter`
-    *               and will be also provided to the component created by the "enhanced constructor".
-    *
+    * @tparam RootComp_PhType                      This is the name of the root page which is defined by
+    *                                              the component created by [[create_Depth1CompConstr_by_wrapping_Depth2CompConstructor()]].
+    * @tparam Props_Passed_By_The_Parent_Component These are the properties which will be extended with `PropsWithEntityReaderWriter`
+    *                                              and will be also provided to the component created by the "enhanced constructor".
     * @return a Root React Comp Constructor that creates a Component which will be
     *
     *         mounted by the router as the Root Component.
@@ -276,16 +348,18 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
     *
     *
     */
-  def depth1CompConstr[RootComp_PhType <: PossibleChildOfNavigator, Props](
-      depth2CompConstr: Depth2CompConstr[
+  def create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[
+      RootComp_PhType <: MainPage,
+      Props_Passed_By_The_Parent_Component
+    ](depth2CompConstr: Depth2CompConstr[
         RootComp_PhType,
-        Props
+        Props_Passed_By_The_Parent_Component
       ]
-    ): Depth1CompConstr[RootComp_PhType, Props] = {
+    ): Depth1CompConstr[RootComp_PhType, Props_Passed_By_The_Parent_Component] = {
 
     import japgolly.scalajs.react._
 
-    type PropsDepth1Comp = PropsGivenByTheRouter_To_Depth1Component[Props]
+    type PropsDepth1Comp = PropsGivenByTheRouter_To_Depth1Component[Props_Passed_By_The_Parent_Component]
 
     class WBackend($ : BackendScope[PropsDepth1Comp, CacheState] ) {
 
@@ -296,30 +370,62 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
         */
       def render(t: PropsDepth1Comp, statePassedToRender: CacheState ): ReactElement =
         depth2CompConstr(
-                          Props_Of_Depth2Comp[Props, RootComp_PhType](
+          Props_Of_Depth2Comp[Props_Passed_By_The_Parent_Component, RootComp_PhType](
             t.p,
             t.ctrl,
             statePassedToRender
-                                                                     )
+          )
         )
 
       def willMount: CallbackTo[Unit] = {
 
         Callback {
 
-          currently_routed_page = Some( new StateSettable {
+          // itt mi adunk egy
+          currently_routed_page = Some( new StateChangerInterfaceForCurrentlyRoutedPage[RootComp_PhType] {
             override def setState(c: CacheState ): Unit =
               $.accessDirect.setState( c )
 
-            // ez akkor kell, ha egy getEntity visszateresenek kovetkezteben meghivunk meg egy getEntity-t
+            // fcaab126_b9f40805
+
+            // ez akkor kell, ha egy getEntity visszateresenek kovetkezteben meghivunk
+            //
+            //
+            // ha egy get entity visszajon , akkor mi tortenik ?
+            //
+            //
+            // meg egy getEntity-t
             // pl. egymasba agyazott komponensek lerajzolasa soran - ugyanis minden setState elkuld meghiv egy render-t
             // es ennek a render-nek a meghivasa folyaman keletkezhetnek ujabb readRequest-ek
+
           } )
 
         } >> $.setState( getSnapShotOfCurrentState ) // EZERT KELL NEKI STATE <<<<<<========
-        // ez itt egy closure ennek a comp-nek a backend-jehez, amit oda kell adni a RequestExecutor-nak
+        // ez itt egy closure ennek a comp-nek a backend-jehez,
         // hogy updatelni tudja a state-et, amikor visszajonnek a cuccok a future-bol
-        // set the state of this comp. needs to the current state of the cache ?
+        //
+        // de mi a fasznak kell ez ?
+        // miert kell a komponens state-jet updatelni ?
+        //
+        //
+        // a komponensnek nem kell state
+        // a state az itt van
+        // minden state itt van
+        // amiben az entitik tarolodnak
+        //
+        // ez az egesz baszas nem is kell
+        //
+        // csak annyi kell, hogy a render-t ujra meg kell hivni, ha visszajott egy future
+        //
+        // de hol hivjuk meg azt a render-t ?
+        // elvileg itt, azaltal, hogy set state-et hivunk
+        //
+        // tehat lenyegeben a Root Comp - ben van a state
+        // vagy legalabbis ott van egy state a Cache - bol
+        //
+        // de erre nincsen szukseg TODO !!!!
+        // ====== >>>>> KISZEDNI A STATE-ET a ROOT Comp-bol
+        //
 
       }
 
@@ -330,10 +436,12 @@ class RootReactCompConstr_Enhancer() extends LazyLogging with EntityReaderWriter
 
     }
 
-    def getCompConstructorForRouter
-      : ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props], CacheState, WBackend, TopNode] =
-      ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props]]( "wrapped page component" )
-        .initialState( getSnapShotOfCurrentState )
+    def getCompConstructorForRouter: ReactComponentC.ReqProps[PropsGivenByTheRouter_To_Depth1Component[
+      Props_Passed_By_The_Parent_Component
+    ], CacheState, WBackend, TopNode] =
+      ReactComponentB[PropsGivenByTheRouter_To_Depth1Component[Props_Passed_By_The_Parent_Component]](
+        "wrapped page component"
+      ).initialState( getSnapShotOfCurrentState )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend
         .componentDidMount( scope => scope.backend.didMount )

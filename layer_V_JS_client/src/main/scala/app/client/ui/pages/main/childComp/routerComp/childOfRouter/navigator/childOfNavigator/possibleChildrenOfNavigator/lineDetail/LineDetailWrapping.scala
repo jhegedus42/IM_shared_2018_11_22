@@ -13,7 +13,7 @@ case class LineDetailWrapping(comp_constructor_enhancer: RootReactCompConstr_Enh
   val constructor_used_by_the_parent_component
     : Depth1CompConstr[LineDetail_Page,
                                                LineDetail_ReactComp.Prop] =
-    comp_constructor_enhancer.depth1CompConstr[
+    comp_constructor_enhancer.create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[
       LineDetail_Page,
       LineDetail_ReactComp.Prop
     ](
