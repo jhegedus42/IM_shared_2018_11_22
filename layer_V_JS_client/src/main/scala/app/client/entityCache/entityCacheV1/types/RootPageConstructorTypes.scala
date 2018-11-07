@@ -20,8 +20,7 @@ object RootPageConstructorTypes {
     *
     * @tparam Props_Passed_By_The_Parent_Component
     */
-  type Depth2CompConstr[Name_Of_The_Root_Page <: MainPage,
-                        Props_Passed_By_The_Parent_Component] =
+  type Depth2CompConstr[Name_Of_The_Root_Page <: MainPage, Props_Passed_By_The_Parent_Component] =
     ReqProps[Props_Of_Depth2Comp[Props_Passed_By_The_Parent_Component, Name_Of_The_Root_Page],
              Unit,
              _,
@@ -34,13 +33,20 @@ object RootPageConstructorTypes {
     * Ki olvassa ?
     *
     *
-    * @tparam Name_Of_The_Root_Page
+    * @tparam SpacificMainPage_DefinedBy_TheDepth2Comp the depth2 comp here is the child comp of the depth1 comp which
+    *                                                  is created by this depth1 comp constructor
+    *
+    *
     * @tparam Props_Passed_By_Depth1Comp_To_Depth2Comp
     */
   type Depth1CompConstr[
-      Name_Of_The_Root_Page <: MainPage,
+      SpacificMainPage_DefinedBy_TheDepth2Comp <: MainPage,
       Props_Passed_By_Depth1Comp_To_Depth2Comp
   ] =
     ReqProps[PropsGivenByTheRouter_To_Depth1Component[Props_Passed_By_Depth1Comp_To_Depth2Comp], CacheState, _, TopNode]
+
+  // TODO ezt a type aliast ^^^^ lecserelni egy rendes case class-ra, ami becsomagolja az aktualis construktort
+  // es akkor meg lehetne kulonboztetni, hogy ki mit csinal
+  // depth1 depth2 es hasonlok
 
 }
