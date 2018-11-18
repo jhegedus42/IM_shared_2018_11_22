@@ -1,10 +1,9 @@
 package app.modelling_purely_for_modelling_not_to_be_used_in_real_app.getViewCommunicationModel.client
 
-import ViewCacheStates.{LoadedAndValid, LoadingCacheState, ViewCacheState}
-import app.modelling_purely_for_modelling_not_to_be_used_in_real_app.getViewCommunicationModel.shared.views.{Parameter, Result, View}
+import app.modelling_purely_for_modelling_not_to_be_used_in_real_app.getViewCommunicationModel.client.ViewCacheStates.{LoadedAndValid, LoadingCacheState, ViewCacheState}
+import app.modelling_purely_for_modelling_not_to_be_used_in_real_app.getViewCommunicationModel.shared.views.{Parameter, View}
 import io.circe.{Decoder, Encoder}
 
-import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scala.util.{Failure, Success, Try}
 //import scala.concurrent
@@ -80,7 +79,7 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
 
       case Some( vcs ) => {
 
-        // todo some logic is needed to handle the Invalidated state
+        // to do some logic is needed to handle the Invalidated state
 
         val res: ViewCacheState[V] = vcs.asInstanceOf[ViewCacheState[V]]
 

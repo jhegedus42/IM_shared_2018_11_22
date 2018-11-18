@@ -1,10 +1,9 @@
 package app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.client
 
-import ViewCacheStates.{Loaded, LoadingCacheState, ViewCacheState}
-import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.{Parameter, Result, View}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.client.ViewCacheStates.{Loaded, LoadingCacheState, ViewCacheState}
+import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.shared.views.{Parameter, View}
 import io.circe.{Decoder, Encoder}
 
-import scala.concurrent.Future
 import scala.reflect.ClassTag
 import scala.util.{Failure, Success, Try}
 //import scala.concurrent
@@ -80,7 +79,7 @@ case class Cache(ajaxInterface: AjaxInterface, pendingGetViewAjaxRequests: Pendi
 
       case Some( vcs ) => {
 
-        // todo some logic is needed to handle the Invalidated state
+        // to do some logic is needed to handle the Invalidated state
 
         val res: ViewCacheState[V] = vcs.asInstanceOf[ViewCacheState[V]]
 

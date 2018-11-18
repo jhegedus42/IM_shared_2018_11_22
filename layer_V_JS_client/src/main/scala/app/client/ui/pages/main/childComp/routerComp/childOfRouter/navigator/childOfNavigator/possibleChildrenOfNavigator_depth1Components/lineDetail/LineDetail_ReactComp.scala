@@ -1,8 +1,9 @@
-package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail
 
-import app.client.entityCache.entityCacheV1.types.CacheStates.{EntityCacheVal, Ready}
+import app.client.entityCache.entityCacheV1.state.CacheStates.{EntityCacheVal, Ready}
 import app.client.rest.commands.forTesting.Helpers
-import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
+import app.client.entityCache.entityCacheV1.types.componentProperties.Props4_Depth2CompConstr
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.LineDetail_Page
 import app.shared.data.model.LineText
 //import app.client.rest.ClientRestAJAX
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth2CompConstr
@@ -26,7 +27,7 @@ import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 object LineDetail_ReactComp {
   type Prop = Ref[LineText]
 
-  type Props = Props_Of_Depth2Comp[Prop, LineDetail_Page]
+  type Props = Props4_Depth2CompConstr[Prop, LineDetail_Page]
 
 //
   class Backend($ : BackendScope[Props, Unit] ) {

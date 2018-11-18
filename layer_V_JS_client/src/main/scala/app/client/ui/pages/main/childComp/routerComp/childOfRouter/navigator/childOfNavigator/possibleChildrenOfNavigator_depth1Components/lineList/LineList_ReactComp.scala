@@ -1,11 +1,12 @@
-package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList
+package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineList
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Of_Depth2Comp
+import app.client.entityCache.entityCacheV1.types.componentProperties.Props4_Depth2CompConstr
 import app.client.entityCache.entityCacheV1.CacheState
-import app.client.entityCache.entityCacheV1.types.CacheStates.EntityCacheVal
+import app.client.entityCache.entityCacheV1.state.CacheStates.EntityCacheVal
 import app.client.rest.commands.forTesting.Helpers
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.LineList_Page
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
 import fansi.Str
@@ -26,9 +27,8 @@ object LineList_ReactComp {
   import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes._
 
   type Prop  = Unit
-  type Props = Props_Of_Depth2Comp[Prop, LineList_Page ]
 
-  class Backend($ : BackendScope[Props, Unit] ) {
+  class Backend($ : BackendScope[Props4_Depth2CompConstr[Prop, LineList_Page], Unit] ) {
 
     def r: Int = {
       val min: Int = 1e6.toInt
@@ -58,7 +58,7 @@ object LineList_ReactComp {
 
     import japgolly.scalajs.react.vdom.prefix_<^._
 
-    def render(props: Props ): ReactElement = {
+    def render(props: Props4_Depth2CompConstr[Prop, LineList_Page]): ReactElement = {
       val c: CacheState = props.entityCache
 
       val ref: Ref[LineText] =
@@ -81,7 +81,7 @@ object LineList_ReactComp {
         ^.whiteSpace := "pre",
         "cache:",
         <.br,
-        pprint.apply( c.map ).plainText,
+//        pprint.apply( c.map ).plainText,
         <.br,
         " entity: ",
         <.br,
@@ -105,7 +105,7 @@ object LineList_ReactComp {
   }
 
   val LineListCompBuilder: Depth2CompConstr[LineList_Page, Unit] =
-    ReactComponentB[Props](
+    ReactComponentB[Props4_Depth2CompConstr[Prop, LineList_Page]](
       "wrapped " +
         "page component"
     ).backend[Backend]( new Backend( _ ) ).renderBackend.build

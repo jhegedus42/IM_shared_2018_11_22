@@ -1,13 +1,13 @@
 package app.client.ui.pages.main.childComp.routerComp
 
-import app.client.entityCache.entityCacheV1.types.componentProperties.PropsGivenByTheRouter_To_Depth1Component
+import app.client.entityCache.entityCacheV1.types.componentProperties.Props_Navigator_To_Depth1CompConstr
 import app.client.entityCache.entityCacheV1.{CacheState, RootReactCompConstr_Enhancer}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.Navigator
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.MainPage
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.LineDetail_ReactComp.Prop
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineDetail.{LineDetailWrapping, LineDetail_Page}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.lineList.{LineListWrapping, LineList_Page}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator.listOfLineLists.{ListOfLineListsOfAGivenUser_Page, UserLineListsWrapping}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{LineDetail_Page, LineList_Page, LineListsOfUser, URL}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail.LineDetail_ReactComp.Prop
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail.LineDetailWrapping
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineList.LineListWrapping
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.listOfLineLists.UserLineListsWrapping
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.navigatorPrivate.NavigatorFacade
 import app.shared.data.ref.Ref
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}
@@ -18,69 +18,71 @@ object MyRouter {
 
   private val notSpecUUID = java.util.UUID.fromString( TestEntities.theUUIDofTheLine )
 
-  private[this] val navs: Map[String, MainPage] = Map(
-    "User Line List" -> ListOfLineListsOfAGivenUser_Page( UUID( TestEntitiesForStateThree.user1uuid ) ),
+  val reactCompWrapper: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer.wrapper
+
+  private[this] val navs: Map[String, URL] = Map(
+    "User Line List" -> LineListsOfUser( UUID( TestEntitiesForStateThree.user1uuid ) ),
     "Line List" -> LineList_Page(),
     "Line Detail " -> LineDetail_Page( notSpecUUID )
-                                                     )
+                                                )
 
-  private[this] def routerConfig(): RouterConfig[MainPage] =
-    RouterConfigDsl[MainPage].buildConfig {
-      dsl: RouterConfigDsl[MainPage] =>
-        import dsl._
-
-        val reactCompWrapper: RootReactCompConstr_Enhancer = RootReactCompConstr_Enhancer.wrapper
-
-        val dr_lineDetail = {
-          val ldw: LineDetailWrapping = LineDetailWrapping( reactCompWrapper )
+  private[this] def routerConfig(): RouterConfig[URL] =
+    RouterConfigDsl[URL].buildConfig {
+      dsl: RouterConfigDsl[URL] =>
+        val dr_lineDetail: dsl.Rule = {
 
           val lineDetailCompCreatorForDynRenderR: (
               LineDetail_Page,
-              RouterCtl[MainPage]
-          ) => ReactComponentU[PropsGivenByTheRouter_To_Depth1Component[Prop], CacheState, _, TopNode] = {
-            ( x: LineDetail_Page, r: RouterCtl[MainPage] ) =>
-              ldw.constructor_used_by_the_parent_component(
-                PropsGivenByTheRouter_To_Depth1Component( Ref.makeWithUUID( x.idOfLine ), r )
-
-                // KERDES ^^^ ide miert nem kell STATE ???
-                // KI AZ AKI A STATE-ET BUZERALJA ???
-                // mi a fasznak kell state ?
+              RouterCtl[URL]
+          ) => ReactComponentU[Props_Navigator_To_Depth1CompConstr[Prop], CacheState, _, TopNode] = {
+            ( x: LineDetail_Page, r: RouterCtl[URL] ) =>
+              LineDetailWrapping( reactCompWrapper ).constructor_used_by_the_parent_component(
+                Props_Navigator_To_Depth1CompConstr( Ref.makeWithUUID( x.idOfLine ), r )
               )
           }
 
-          dynamicRouteCT( "#item" / uuid.caseClass[LineDetail_Page] ) ~> dynRenderR(
-            lineDetailCompCreatorForDynRenderR
-          )
+          {
+            import dsl._
+            dsl.dynamicRouteCT( "#item" / dsl.uuid.caseClass[LineDetail_Page] ) ~> dsl.dynRenderR(
+              lineDetailCompCreatorForDynRenderR
+            )
+          }
         }
 
         val dr_userlinelist: dsl.Rule = {
 
           val ullw = UserLineListsWrapping( reactCompWrapper )
 
-          val g: ( ListOfLineListsOfAGivenUser_Page, RouterCtl[MainPage] ) => ReactElement =
-            ( u: ListOfLineListsOfAGivenUser_Page, r: RouterCtl[MainPage] ) =>
+          val g: ( LineListsOfUser, RouterCtl[URL] ) => ReactElement =
+            ( u: LineListsOfUser, r: RouterCtl[URL] ) =>
               ullw.wrapped_CC(
-                PropsGivenByTheRouter_To_Depth1Component( Ref.makeWithUUID( u.id_ofUser ), r )
+                Props_Navigator_To_Depth1CompConstr( Ref.makeWithUUID( u.id_ofUser ), r )
             )
 
-          dynamicRouteCT( "#user" / uuid.caseClass[ListOfLineListsOfAGivenUser_Page] ) ~> dynRenderR( g )
+          {
+            import dsl._
+            dynamicRouteCT( "#user" / uuid.caseClass[LineListsOfUser] ) ~> dynRenderR( g )
+
+          }
         }
+
+        import dsl._
 
         val sr_lineList = {
           val llw = LineListWrapping( reactCompWrapper )
-          staticRoute( "#im", LineList_Page() ) ~> renderR( llw.mk_wLL )
+          dsl.staticRoute( "#im", LineList_Page() ) ~> dsl.renderR( llw.mk_wLL )
         }
 
-        val config: RouterConfig[MainPage] = {
+        val config: RouterConfig[URL] = {
           (trimSlashes
-           | dr_userlinelist
-           | sr_lineList
-           | dr_lineDetail)
+            | dr_userlinelist
+            | sr_lineList
+            | dr_lineDetail)
             .notFound( redirectToPage( LineList_Page() )( Redirect.Replace ) )
             .renderWith(
-                         Navigator
-                         .layout( navs )( _, _ )
-                       )
+                         NavigatorFacade
+                         .getNavigatorCompConstr(navs)(_, _)
+            )
         }
 
         config
@@ -88,7 +90,7 @@ object MyRouter {
 
   private[this] val baseUrl: BaseUrl = BaseUrl.fromWindowOrigin_/
 
-  lazy val routerConstructor: Router[MainPage] =
+  lazy val routerConstructor: Router[URL] =
     Router( baseUrl, routerConfig().logToConsole )
 
 }

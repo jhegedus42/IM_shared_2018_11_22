@@ -21,7 +21,7 @@
 //
 //  case class Props(line: RefVal[LineOld], nextLine: RefVal[LineOld])
 //
-//  //todo display the size of the image here ^^^
+//  //to do display the size of the image here ^^^
 //
 //  case class Images(lineAndImgDim: (ImgDim, LineOld), nextLineAndImgDim: (ImgDim, LineOld))
 //
@@ -144,7 +144,7 @@
 //      // warning.js:36 Warning: setState(...): Can only update a mounted or mounting component.
 //      // This usually means you called setState() on an unmounted component. This is a no-op.
 //      // Please check the code for the SvgImgQue component.
-//      // todo something .... about this ?
+//      // to do something .... about this ?
 //    }
 //
 //    def render(p: Props, s: State) = {

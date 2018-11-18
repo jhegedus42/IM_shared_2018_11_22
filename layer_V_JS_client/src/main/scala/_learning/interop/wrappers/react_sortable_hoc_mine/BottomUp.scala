@@ -76,5 +76,5 @@ object SortableItem
   val MySortableItem_Scala:Props => RCScala=MySortableItem
   //need to turn a js component to scala component, but how ?
   case class Wrapper( )
-  // todo write wrapper as in https://github.com/chandu0101/scalajs-react-components/blob/master/doc/InteropWithThirdParty.md
+  // to do soha --- write wrapper as in https://github.com/chandu0101/scalajs-react-components/blob/master/doc/InteropWithThirdParty.md
 }

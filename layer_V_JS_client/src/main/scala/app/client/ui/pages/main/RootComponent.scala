@@ -13,7 +13,7 @@ import japgolly.scalajs.react.{ReactComponentB, ReactComponentC, TopNode}
   * The React Comp Hierarchy is the following :
   * [[RootComponent]] -> [[MuiMuiThemeProvider]] -> [[Router]] ->
   *
-  *
+  * 55ec29a9_83dd163e
   */
 
 object RootComponent {
@@ -36,11 +36,13 @@ object RootComponent {
   // Need to wrap our top-level router component in a theme for Material-UI to work
   // 548215156450c85ecbb738120e5b4139548215156450c85ecbb738120e5b4139
 
-  val rootCompConstructor: ReactComponentC.ConstProps[Unit, Unit, Unit, TopNode] =
+  type RootCompConstructor = ReactComponentC.ConstProps[Unit, Unit, Unit, TopNode]
+
+  val rootCompConstructor: RootCompConstructor  =
     ReactComponentB[Unit]( "themedView" )
       .render(
         _ =>
-          MuiMuiThemeProvider( muiTheme = theme )(
+          MuiMuiThemeProvider( muiTheme = theme )( // 617c9e8a_83dd163e
             MyRouter.routerConstructor() // when this is called the routerConstructor makes a router
         )
       )

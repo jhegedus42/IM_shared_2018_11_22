@@ -4,19 +4,14 @@ import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import app.comm_model_on_the_server_side.simple_route.SumIntViewRoute_For_Testing
-import app.server.RESTService.routes.entityCRUD.{
-  CreateEntityRoute,
-  GetAllEntitiesRoute,
-  GetRoute,
-  UpdateEntityRoute
-}
+import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.RESTService.routes.views.ViewRoute
 import app.shared.data.model.LineWithQue
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView
 //import app.server.RESTService.routes.views.UserLineListViewRoute
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.config.Config
-import app.shared.data.model.Entity.{Data, Entity}
+import app.shared.data.model.Entity.Entity
 import app.shared.data.model.{LineText, User, UserLineList}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -38,10 +33,11 @@ trait HttpServer_For_ImageMemory_App {
   self: InterfaceToStateAccessor =>
 
   implicit lazy val isa: InterfaceToStateAccessor = this
+
   // magunkat mint implicitet behozzuk a scope-ba
   // ez fassagnak tunik, vmi el van baszva ...
   // ezt az "architekturat" at kene valahogy rendezni...
-  // de hogyan ? todolater - miutan becsajoztam a progival
+  // de hogyan ? later - miutan becsajoztam a progival
   // egyaltalan mi a fasznak csinaljuk ezt ?
   // biztos valami teszteleses fassag miatt
 

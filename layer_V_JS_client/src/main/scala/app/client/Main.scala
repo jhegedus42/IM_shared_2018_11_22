@@ -1,9 +1,8 @@
 package app.client
 
-import app.client.ui.pages.main.RootComponent._
-import japgolly.scalajs.react.vdom.ReactTagOf
-import japgolly.scalajs.react.{ReactComponentU, ReactDOM, TopNode}
-import org.scalajs
+import app.client.ui.pages.main.RootComponent
+import app.client.ui.pages.main.RootComponent.RootCompConstructor
+import japgolly.scalajs.react.ReactDOM
 import org.scalajs.dom
 
 import scala.scalajs.js
@@ -14,15 +13,19 @@ object Main extends js.JSApp {
 
   @JSExport
   def main(): Unit = {
-
+    // 53acb313_83dd163e
     import slogging._
     LoggerConfig.factory = PrintLoggerFactory()
     LoggerConfig.level   = LogLevel.TRACE
 
-//    MyStyles.addToDocument()
+//    MyStyles.addTo Document()
 
     // 8145b90cc28755c8e070e99187dd92ad
-    ReactDOM.render( rootCompConstructor(), dom.document.getElementById( "joco" ) )
+    // 53acb313_83dd163ea
+
+    val compConstructor : RootCompConstructor = RootComponent.rootCompConstructor
+
+    ReactDOM.render( compConstructor(), dom.document.getElementById( "joco" ) )
 //    ReactDOM.render(OuterComp.comp("Start State"),
 //                    scalajs.dom.document.getElementById("joco"))
   }

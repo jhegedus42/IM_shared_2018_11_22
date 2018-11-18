@@ -20,7 +20,6 @@ case class SortableListWrapper( containerHeight: Int, elementHeight: Double )
     val si=js.Dynamic.global.SortableItem
     println("si="+si)
     val f: Dynamic = React.asInstanceOf[js.Dynamic].createFactory(si)
-    //todo 3 this needs to change - but why?
     f(props, children.toJSArray).asInstanceOf[ReactComponentU_]
   }
 }

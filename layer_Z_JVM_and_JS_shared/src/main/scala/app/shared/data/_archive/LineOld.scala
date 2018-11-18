@@ -6,7 +6,7 @@ import monocle.macros.Lenses
 
 @Lenses
 case class LineOld(val pl: LinePayload) extends Data{
-//  def getImgSrc: ImgUrl = ? ? ? //TODO implement this
+//  def getImgSrc: ImgUrl = ? ? ? //TO DO implement this
 //ad image as entity.... need to wait for ref implementation
   def getImgSrc: ImgUrl = ImgUrl(CommonStrings.imageRoute + "/" + 0 + ".jpg")
 }

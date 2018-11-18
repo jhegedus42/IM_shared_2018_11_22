@@ -1,13 +1,13 @@
 package app.shared.data.ref
 
-import app.shared.{InvalidUUIDinURLError, SomeError_Trait, StateOpsError, TypeError}
-import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.data.model.{DataType, User}
-import uuid.{UUID, UUIDCompare}
+import app.shared.data.model.DataType
+import app.shared.data.model.Entity.Entity
+import app.shared.data.ref.uuid.{UUID, UUIDCompare}
+import app.shared.{InvalidUUIDinURLError, SomeError_Trait, TypeError}
 import monocle.macros.Lenses
+import scalaz.{-\/, \/, \/-}
 
 import scala.reflect.ClassTag
-import scalaz.{-\/, Equal, \/, \/-}
 
 case class RefDyn(uuid: UUID, et: DataType) {
   def toRef[E <: Entity: ClassTag](): \/[TypeError, Ref[E]] = {
@@ -31,7 +31,7 @@ object RefDyn {
 @Lenses
 case class Ref[T <: Entity](uuid: UUID = UUID.random(), dataType: DataType) {
 
-  //  todo get rid of this below, use make with circe,
+  //  to do get rid of this below, use make with circe,
   //  write decoder and encoder by hand, to use the make function
   //  ask this on gitter how to do this
 
