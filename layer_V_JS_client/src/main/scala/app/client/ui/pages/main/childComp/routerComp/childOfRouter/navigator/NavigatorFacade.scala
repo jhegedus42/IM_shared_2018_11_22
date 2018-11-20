@@ -1,7 +1,7 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator
 
 import app.client.ui.generalReactComponents.ViewRelatedUtils
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL_STr
 import chandu0101.scalajs.react.components.materialui._
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.extra.Reusability
@@ -24,14 +24,14 @@ package navigatorPrivate {
 
     case class NavigatorState(drawerOpen: Boolean )
 
-    case class NavigatorProps[URL_TP <: URL](
+    case class NavigatorProps[URL_TP <: URL_STr](
         routerCtl:  RouterCtl[URL_TP],
         resolution: Resolution[URL_TP],
         page:       URL_TP,
         navs:       Map[String, URL_TP],
         title:      String)
 
-    class NavigatorBackend[URL_TP <: URL](scope: BackendScope[NavigatorProps[URL_TP], NavigatorState] ) {
+    class NavigatorBackend[URL_TP <: URL_STr](scope: BackendScope[NavigatorProps[URL_TP], NavigatorState] ) {
 
       private val toggleDrawerOpen: Callback = {
         println( "callback running" );
@@ -99,7 +99,7 @@ package navigatorPrivate {
 
   private[navigatorPrivate] object NavigatorCompConstrHolder {
     //Reusable if all fields are equal except routerCtl, where we use its own reusability
-    private implicit def navPropsReuse[P <: URL]: Reusability[NavigatorProps[P]] = Reusability.fn {
+    private implicit def navPropsReuse[P <: URL_STr]: Reusability[NavigatorProps[P]] = Reusability.fn {
       case ( a, b ) if a eq b => true // First because most common case and fastest
       case ( a, b )
           if a.page == b.page && a.navs == b.navs && a.title == b.title && a.resolution == b.resolution =>
@@ -109,7 +109,7 @@ package navigatorPrivate {
 
     //Just make the component constructor - props to be supplied later to make a component
     private def apply[
-        NavigatorChildDescriptor <: URL
+        NavigatorChildDescriptor <: URL_STr
       ]: ReqProps[NavigatorProps[NavigatorChildDescriptor], NavigatorState, NavigatorBackend[
       NavigatorChildDescriptor
     ], TopNode] =
@@ -120,25 +120,28 @@ package navigatorPrivate {
         .build
 
     val navigatorCompConstr: ReqProps[NavigatorProps[
-      URL
+      URL_STr
     ], NavigatorState, NavigatorBackend[
-      URL
+      URL_STr
     ], TopNode] =
-      apply[URL]
+      apply[URL_STr]
 
   }
 
   object NavigatorFacade {
 
     type NavigatorCompConstr =
-      ReactComponentU[NavigatorProps[URL], NavigatorState, NavigatorBackend[URL], TopNode]
+      ReactComponentU[NavigatorProps[URL_STr], NavigatorState, NavigatorBackend[URL_STr], TopNode]
 
-    def getNavigatorCompConstr( navs: Map[String, URL] )(ctl:  RouterCtl[URL],
-        r:    Resolution[URL]
+    def getNavigatorCompConstr(mapStr2URL: Map[String, URL_STr] )(ctl:  RouterCtl[URL_STr],
+                                                                  r  :    Resolution[URL_STr]
       ): NavigatorCompConstr = {
+
       val title = "Joco App"
-      val np: NavigatorProps[URL] = NavigatorProps( ctl, r, r.page, navs, title )
+      val np: NavigatorProps[URL_STr] = NavigatorProps(ctl, r, r.page, mapStr2URL, title)
+
       NavigatorCompConstrHolder.navigatorCompConstr( np )
+
     }
 
   }

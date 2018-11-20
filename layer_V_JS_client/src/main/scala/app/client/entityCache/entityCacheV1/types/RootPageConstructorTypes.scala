@@ -1,8 +1,12 @@
 package app.client.entityCache.entityCacheV1.types
 
 import app.client.entityCache.entityCacheV1.CacheState
-import app.client.entityCache.entityCacheV1.types.componentProperties.{Props4_Depth2CompConstr, Props_Navigator_To_Depth1CompConstr}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL
+import app.client.entityCache.entityCacheV1.types.componentProperties.{
+  D1Comp_Props,
+  Depth1CompProps_With_RouterCtl,
+  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
+}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL_STr
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.TopNode
 
@@ -12,39 +16,45 @@ object RootPageConstructorTypes {
     *
     * Constructor providing extended properties to the component which it creates.
     *
-    * @tparam Descriptor Phantom type corresponding to the root page which is defined by
-    *                               the component that is constructed by this constructor.
+    * @tparam URL_TP Type of the data structure that represents the URL
+    *                to which this Depth2 Comp Constructor corresponds. Corresponds
+    *                here means = the React Component (vdom) created by this Depth2 Comp
+    *                Constructor visualises the page which is defined by the URL.
     *
-    * @tparam Props_Passed_By_The_Navigator_To_The_Depth1_Component
+    * @tparam Depth1CompProps_TP Props passed by navigator comp constr to depth 1 comp constructor.
     */
-  type Depth2CompConstr[Descriptor <: URL,
-                        Props_Passed_By_The_Navigator_To_The_Depth1_Component] =
-    ReqProps[Props4_Depth2CompConstr[Props_Passed_By_The_Navigator_To_The_Depth1_Component, Descriptor],
-             Unit,
-             _,
-             TopNode]
+  type Depth2CompConstr_Alias[URL_TP <: URL_STr, Depth1CompProps_TP <: D1Comp_Props] =
+    ReqProps[Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Depth1CompProps_TP, URL_TP], Unit, _, TopNode]
 
   /**
     *
+    * Keletkezes :
+    *
     * Ki hoz ilyen tipust letre ?
+    * Illetve, hogyan jon letre ?
+    * Mikor jon letre ?
+    * Miert jon letre
+    * Valamire adott reakcio miatt jon letre. Mi ez a valami ?
+    * Mi inditja el a lancot ami ezt letrehozza ?
     *
-    * Ki olvassa ?
+    *
+    * Felhasznalas (olvasas):
+    *
+    * Ki olvassa ? Navigator Comp Constructor's render method.
+    * Kinek kell ?
+    * Mihez kell ?
     *
     *
-    * @tparam SpacificMainPage_DefinedBy_TheDepth2Comp the depth2 comp here is the child comp of the depth1 comp which
+    * @tparam URL_TP the depth2 comp here is the child comp of the depth1 comp which
     *                                                  is created by this depth1 comp constructor
     *
     *
-    * @tparam Props_Passed_By_Depth1Comp_To_Depth2Comp
+    * @tparam Depth2CompProps_TypePar
     */
-  type Depth1CompConstr[
-      SpacificMainPage_DefinedBy_TheDepth2Comp <: URL,
-      Props_Passed_By_Depth1Comp_To_Depth2Comp
-  ] =
-    ReqProps[Props_Navigator_To_Depth1CompConstr[Props_Passed_By_Depth1Comp_To_Depth2Comp], CacheState, _, TopNode]
+  type Depth1CompConstr_Alias[URL_TP <: URL_STr, Depth2CompProps_TypePar] =
+    // TODO Depth2CompProps_TypePar into a trait+case classes
+    ReqProps[Depth1CompProps_With_RouterCtl[Depth2CompProps_TypePar], CacheState, _, TopNode]
 
-
-  case class Depth1CompConstrWrapper[RPD <: URL, Props](
-                                                                   wrappedCompConstr: Depth1CompConstr[RPD, Props])
+  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, Depth2CompProps_TP](
+      wrappedDepth1CompConstr: Depth1CompConstr_Alias[URL_TP, Depth2CompProps_TP])
 }
-

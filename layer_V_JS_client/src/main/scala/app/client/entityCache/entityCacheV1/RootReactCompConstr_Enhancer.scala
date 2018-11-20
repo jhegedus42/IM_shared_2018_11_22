@@ -1,12 +1,12 @@
 package app.client.entityCache.entityCacheV1
 
 import app.client.entityCache.entityCacheV1.state.CacheStates.{EntityCacheVal, Loaded, Loading, NotInCache, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{Depth1CompConstr, Depth2CompConstr}
-import app.client.entityCache.entityCacheV1.types.componentProperties.{Props4_Depth2CompConstr, Props_Navigator_To_Depth1CompConstr}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{Depth1CompConstr_Alias, Depth2CompConstr_Alias}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, Depth1CompProps_With_RouterCtl, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache}
 import app.client.entityCache.entityCacheV1.types.entityReadWrite.{EntityReadRequestHandlerTr, EntityWriteRequestHandlerTr}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL_STr
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
@@ -17,8 +17,6 @@ import slogging.LazyLogging
 
 import scala.concurrent.Future
 import scala.reflect.ClassTag
-
-
 
 
 
@@ -75,7 +73,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
   // illetve a fenti trait-ekkel implementalni
 
   private trait StateChangerInterfaceForCurrentlyRoutedPage[
-      _ <: URL] {
+      _ <: URL_STr] {
 
     // mi a faszomat csinal ez ????
     // ki hasznalja ezt ?
@@ -91,7 +89,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
 
   private var currently_routed_page // af18ce29_b9f40805
     : Option[
-      StateChangerInterfaceForCurrentlyRoutedPage[_ <: URL]
+      StateChangerInterfaceForCurrentlyRoutedPage[_ <: URL_STr]
     ] = None
 
   private var readRequests: Set[RequestHandling.ReadRequest[_ <: Entity]] = Set()
@@ -264,7 +262,7 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
 
     currently_routed_page.foreach( {
       s: StateChangerInterfaceForCurrentlyRoutedPage[
-        _ <: URL
+        _ <: URL_STr
       ] =>
         s.setState( c )
     } )
@@ -294,18 +292,18 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
     *
     */
   def create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[
-      RootComp_PhType <: URL,
-      Props_Passed_By_The_Parent_Component
-    ](depth2CompConstr: Depth2CompConstr[
+      RootComp_PhType <: URL_STr,
+      Props_Passed_By_The_Parent_Component<:D1Comp_Props
+    ](depth2CompConstr: Depth2CompConstr_Alias[
         RootComp_PhType,
         Props_Passed_By_The_Parent_Component
       ]
-    ): Depth1CompConstr[RootComp_PhType, Props_Passed_By_The_Parent_Component] = {
+    ): Depth1CompConstr_Alias[RootComp_PhType, Props_Passed_By_The_Parent_Component] = {
 
     import japgolly.scalajs.react._
 
     type PropsDepth1Comp =
-      Props_Navigator_To_Depth1CompConstr[Props_Passed_By_The_Parent_Component]
+      Depth1CompProps_With_RouterCtl[Props_Passed_By_The_Parent_Component]
 
     class WBackend(backendScope: BackendScope[PropsDepth1Comp, CacheState] ) {
 
@@ -316,11 +314,11 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
         */
       def render(t: PropsDepth1Comp, statePassedToRender: CacheState ): ReactElement =
         depth2CompConstr(
-                          Props4_Depth2CompConstr[Props_Passed_By_The_Parent_Component, RootComp_PhType](
+                          Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Props_Passed_By_The_Parent_Component, RootComp_PhType](
             t.p,
             t.ctrl,
             statePassedToRender
-                                                                                                        )
+                                                                                                                                                )
         )
 
       def willMount(): CallbackTo[Unit] = {
@@ -383,10 +381,10 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
     }
 
     def getCompConstructorForRouter
-      : ReactComponentC.ReqProps[Props_Navigator_To_Depth1CompConstr[
+      : ReactComponentC.ReqProps[Depth1CompProps_With_RouterCtl[
         Props_Passed_By_The_Parent_Component
       ], CacheState, WBackend, TopNode] =
-      ReactComponentB[Props_Navigator_To_Depth1CompConstr[
+      ReactComponentB[Depth1CompProps_With_RouterCtl[
         Props_Passed_By_The_Parent_Component
       ]](
         "wrapped page component"

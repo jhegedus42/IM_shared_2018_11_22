@@ -2,7 +2,7 @@ package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.ch
 
 import java.util.concurrent.ThreadLocalRandom
 
-import app.client.entityCache.entityCacheV1.types.componentProperties.Props4_Depth2CompConstr
+import app.client.entityCache.entityCacheV1.types.componentProperties.Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.state.CacheStates.EntityCacheVal
 import app.client.rest.commands.forTesting.Helpers
@@ -28,7 +28,7 @@ object LineList_ReactComp {
 
   type Prop  = Unit
 
-  class Backend($ : BackendScope[Props4_Depth2CompConstr[Prop, LineList_Page], Unit] ) {
+  class Backend($ : BackendScope[Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Prop, LineList_Page], Unit] ) {
 
     def r: Int = {
       val min: Int = 1e6.toInt
@@ -58,7 +58,7 @@ object LineList_ReactComp {
 
     import japgolly.scalajs.react.vdom.prefix_<^._
 
-    def render(props: Props4_Depth2CompConstr[Prop, LineList_Page]): ReactElement = {
+    def render(props: Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Prop, LineList_Page]): ReactElement = {
       val c: CacheState = props.entityCache
 
       val ref: Ref[LineText] =
@@ -104,10 +104,10 @@ object LineList_ReactComp {
 
   }
 
-  val LineListCompBuilder: Depth2CompConstr[LineList_Page, Unit] =
-    ReactComponentB[Props4_Depth2CompConstr[Prop, LineList_Page]](
+  val LineListCompBuilder: Depth2CompConstr_Alias[LineList_Page, Unit] =
+    ReactComponentB[Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Prop, LineList_Page]](
       "wrapped " +
         "page component"
-    ).backend[Backend]( new Backend( _ ) ).renderBackend.build
+                                                                                                         ).backend[Backend]( new Backend( _ ) ).renderBackend.build
 
 }
