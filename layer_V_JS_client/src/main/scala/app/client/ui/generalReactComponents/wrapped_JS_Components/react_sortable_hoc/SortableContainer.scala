@@ -1,6 +1,6 @@
 package app.client.ui.generalReactComponents.wrapped_JS_Components.react_sortable_hoc
 
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineList.ListReorderService
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.reorderList_inactive.ListReorderService
 import japgolly.scalajs.react._
 
 import scala.scalajs.js

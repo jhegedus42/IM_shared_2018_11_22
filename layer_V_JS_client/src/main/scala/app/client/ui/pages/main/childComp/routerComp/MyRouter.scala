@@ -2,13 +2,9 @@ package app.client.ui.pages.main.childComp.routerComp
 
 import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail.LineDetail_CompConstr_Holder
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineList.LineListWrapping
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.listOfLineLists.UserLineListsCompConstr_Holder
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{
-  LineDetail_URL,
-  LineList_Page,
-  LineListsOfUser_URL,
-  URL_STr
-}
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{LineDetail_URL, LineList_Page, LineListsOfUser_URL, URL_STr}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.navigatorPrivate.NavigatorFacade
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.{TestEntities, TestEntitiesForStateThree}

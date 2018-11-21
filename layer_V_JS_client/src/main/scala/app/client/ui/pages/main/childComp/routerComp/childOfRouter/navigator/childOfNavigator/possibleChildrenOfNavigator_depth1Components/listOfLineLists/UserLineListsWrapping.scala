@@ -10,12 +10,12 @@ case class UserLineListsWrapping(wrapper: RootReactCompConstr_Enhancer ) {
 
   val wrapped_CC: Depth1CompConstr_Alias[
     LineListsOfUser_URL,
-    UserLineListsCompConstr_Holder.D1CompProps_LocTAlias
+    UserLineListsCompConstr_Holder.D1CompProps_UserLineList
   ] =
     wrapper
       .create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[
         LineListsOfUser_URL,
-        UserLineListsCompConstr_Holder.D1CompProps_LocTAlias
+        UserLineListsCompConstr_Holder.D1CompProps_UserLineList
       ](
          UserLineListsCompConstr_Holder.compConstr
       )

@@ -49,12 +49,12 @@ object RootPageConstructorTypes {
     *                                                  is created by this depth1 comp constructor
     *
     *
-    * @tparam Depth2CompProps_TypePar
+    * @tparam D1Comp_Props_TP
     */
-  type Depth1CompConstr_Alias[URL_TP <: URL_STr, Depth2CompProps_TypePar] =
+  type Depth1CompConstr_Alias[URL_TP <: URL_STr, D1Comp_Props_TP<:D1Comp_Props] =
     // TODO Depth2CompProps_TypePar into a trait+case classes
-    ReqProps[Depth1CompProps_With_RouterCtl[Depth2CompProps_TypePar], CacheState, _, TopNode]
+    ReqProps[Depth1CompProps_With_RouterCtl[D1Comp_Props_TP], CacheState, _, TopNode]
 
-  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, Depth2CompProps_TP](
-      wrappedDepth1CompConstr: Depth1CompConstr_Alias[URL_TP, Depth2CompProps_TP])
+  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, D1CompProps_TP<:D1Comp_Props](
+      wrappedDepth1CompConstr: Depth1CompConstr_Alias[URL_TP, D1CompProps_TP])
 }
