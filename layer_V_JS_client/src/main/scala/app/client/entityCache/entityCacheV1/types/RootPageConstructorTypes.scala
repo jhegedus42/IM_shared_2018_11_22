@@ -57,4 +57,5 @@ object RootPageConstructorTypes {
 
   case class Depth1CompConstrWrapper[URL_TP <: URL_STr, D1CompProps_TP<:D1Comp_Props](
       wrappedDepth1CompConstr: Depth1CompConstr_Alias[URL_TP, D1CompProps_TP])
+
 }
