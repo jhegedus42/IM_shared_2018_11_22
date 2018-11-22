@@ -12,6 +12,7 @@ object SumIntView_HolderObject {
     // corresponds to a1704dea5c4b41bf8297f4d7a9f3c3af
     case class SumIntView_Par(x:Int, y:Int ) extends Parameter
 
+    // TODO _ <= alahuzast kiszedni ....
     case class SumIntView_Res(sum: Int ) extends Result
     // 8c42c673e5f34b4481db743cbd255152$f613bee1c9520139dfa883a5b364d39c2d2ed17c
 

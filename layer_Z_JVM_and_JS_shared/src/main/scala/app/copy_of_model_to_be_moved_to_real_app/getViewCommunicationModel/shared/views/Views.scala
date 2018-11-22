@@ -4,12 +4,22 @@ abstract class View {
   type Par <: Parameter
   type Res <: Result
 }
+
 trait Result
-trait Parameter
+trait Parameter // marker trait parameter nelkul egy nagy rakas szar
+
+trait Request[Response] {
+}
+
+case class PersonListResponse(persons: List[Person])
+
+case class GetPersonListRequest(searchText: String) extends Request[PersonListResponse]
+
+
 
 object View1_HolderObject {
 
-  case class View1_Par(s: String ) extends Parameter
+  case class View1_Par(s: String ) extends Parameter // View1-t parameterkent ide a Parameter[...-be]
 
   case class View1_Res(res: String ) extends Result
 
