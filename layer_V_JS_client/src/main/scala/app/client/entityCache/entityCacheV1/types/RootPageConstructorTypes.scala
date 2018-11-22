@@ -24,7 +24,10 @@ object RootPageConstructorTypes {
     * @tparam Depth1CompProps_TP Props passed by navigator comp constr to depth 1 comp constructor.
     */
   type Depth2CompConstr_Alias[URL_TP <: URL_STr, Depth1CompProps_TP <: D1Comp_Props] =
-    ReqProps[Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Depth1CompProps_TP, URL_TP], Unit, _, TopNode]
+    ReqProps[Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[Depth1CompProps_TP, URL_TP],
+             Unit,
+             _,
+             TopNode]
 
   /**
     *
@@ -51,11 +54,11 @@ object RootPageConstructorTypes {
     *
     * @tparam D1Comp_Props_TP
     */
-  type Depth1CompConstr_Alias[URL_TP <: URL_STr, D1Comp_Props_TP<:D1Comp_Props] =
+  type Depth1CompConstr_Alias[URL_TP <: URL_STr, D1Comp_Props_TP <: D1Comp_Props] =
     // TODO Depth2CompProps_TypePar into a trait+case classes
     ReqProps[Depth1CompProps_With_RouterCtl[D1Comp_Props_TP], CacheState, _, TopNode]
 
-  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, D1CompProps_TP<:D1Comp_Props](
-      wrappedDepth1CompConstr: Depth1CompConstr_Alias[URL_TP, D1CompProps_TP])
+  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, D1CompProps_TP <: D1Comp_Props](
+      d1Constr: Depth1CompConstr_Alias[URL_TP, D1CompProps_TP])
 
 }

@@ -1,6 +1,6 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.listOfLineLists
 
-import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
+import app.client.entityCache.entityCacheV1.D2toD1Transformer
 import app.client.entityCache.entityCacheV1.types.componentProperties.{
   D1Comp_Props,
   Depth1CompProps_With_RouterCtl,
@@ -73,15 +73,22 @@ object UserLineListsCompConstr_Holder {
   // TODO below, create a case class wrapper for
   // this funny type below
   // something like `case class functionNeeded_By_dynRenderR`
-  def getFunctionNeededForDynRenderR( reactCompWrapper: RootReactCompConstr_Enhancer ):
-  ( LineListsOfUser_URL, RouterCtl[URL_STr] ) => ReactElement = {
+  def getFunctionNeededForDynRenderR(
+      d2tod1: D2toD1Transformer
+    ): ( LineListsOfUser_URL, RouterCtl[URL_STr] ) => ReactElement = {
     ( u: LineListsOfUser_URL, r: RouterCtl[URL_STr] ) =>
       {
-        val refU: Ref[User] = Ref.makeWithUUID[User](u.id_ofUser)
-        val d1_comp=D1CompProps_UserLineList(refU)
-          UserLineListsWrapping( reactCompWrapper ).wrapped_CC(
+
+        val refU: Ref[User] = Ref.makeWithUUID[User]( u.id_ofUser )
+
+        val d1_comp = D1CompProps_UserLineList( refU )
+
+        val f: Depth1CompProps_With_RouterCtl[D1CompProps_UserLineList] =
           Depth1CompProps_With_RouterCtl( d1_comp, r )
-        )
+
+        val res: Depth1CompConstrWrapper[LineListsOfUser_URL, D1CompProps_UserLineList] =
+          UserLineListsWrapping( d2tod1 ).wrapped_CC
+        res.d1Constr (f)
       }
   }
 

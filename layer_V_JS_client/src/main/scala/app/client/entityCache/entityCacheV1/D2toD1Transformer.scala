@@ -1,9 +1,30 @@
 package app.client.entityCache.entityCacheV1
 
-import app.client.entityCache.entityCacheV1.state.CacheStates.{EntityCacheVal, Loaded, Loading, NotInCache, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{Depth1CompConstrWrapper, Depth2CompConstr_Alias}
-import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, Depth1CompProps_With_RouterCtl, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache}
-import app.client.entityCache.entityCacheV1.types.entityReadWrite.{EntityReadRequestHandlerTr, EntityWriteRequestHandlerTr}
+import app.client.entityCache.entityCacheV1.state.CacheStates.{
+  EntityCacheVal,
+  Loaded,
+  Loading,
+  NotInCache,
+  NotYetLoaded,
+  ReadFailed,
+  Ready,
+  UpdateFailed,
+  Updated,
+  Updating
+}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
+  Depth1CompConstrWrapper,
+  Depth2CompConstr_Alias
+}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{
+  D1Comp_Props,
+  Depth1CompProps_With_RouterCtl,
+  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
+}
+import app.client.entityCache.entityCacheV1.types.entityReadWrite.{
+  EntityReadRequestHandlerTr,
+  EntityWriteRequestHandlerTr
+}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL_STr
@@ -53,8 +74,8 @@ case class CacheState(
   * This is a singleton. //TODO make this az a singleton trait make this az a singleton trait
   *
   */
-object RootReactCompConstr_Enhancer {
-  lazy val wrapper = new RootReactCompConstr_Enhancer()
+object D2toD1Transformer {
+  lazy val wrapper = new D2toD1Transformer()
 }
 
 trait ReRenderInitiator {
@@ -63,7 +84,7 @@ trait ReRenderInitiator {
 
 }
 
-class RootReactCompConstr_Enhancer() extends LazyLogging {
+class D2toD1Transformer() extends LazyLogging {
   // c26d7190_83dd163e
 
   // TODO ettol megszabadulni
@@ -270,10 +291,10 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
     *
     * @param depth2CompConstr This is the constructor into which the cache has been injected.
     *                                More precisely, the cache was injected into it's parameters.
-    * @tparam URL_TP                      This is the name of the root page which is defined by
-    *                                              the component created by [[create_Depth1CompConstr_by_wrapping_Depth2CompConstructor()]].
+    * @tparam URL_TP         This is the name of the root page which is defined by
+    *                        the component created by [[trD2toD1()]].
     * @tparam D1CompProps_TP These are the properties which will be extended with `PropsWithEntityReaderWriter`
-    *                                              and will be also provided to the component created by the "enhanced constructor".
+    *                        and will be also provided to the component created by the "enhanced constructor".
     * @return a Root React Comp Constructor that creates a Component which will be
     *
     *         mounted by the router as the Root Component.
@@ -287,10 +308,8 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
     *
     *
     */
-  def create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[
-      URL_TP <: URL_STr,
-      D1CompProps_TP <: D1Comp_Props
-    ](depth2CompConstr: Depth2CompConstr_Alias[
+  def trD2toD1[URL_TP <: URL_STr, D1CompProps_TP <: D1Comp_Props](
+      depth2CompConstr: Depth2CompConstr_Alias[
         URL_TP,
         D1CompProps_TP
       ]
@@ -378,9 +397,9 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
 
     }
 
-    def getCompConstructorForRouter: ReactComponentC.ReqProps[Depth1CompProps_With_RouterCtl[ D1CompProps_TP ],
-                                          CacheState, WBackend, TopNode] =
-      ReactComponentB[Depth1CompProps_With_RouterCtl[ D1CompProps_TP ]](
+    def getCompConstructorForRouter
+      : ReactComponentC.ReqProps[Depth1CompProps_With_RouterCtl[D1CompProps_TP], CacheState, WBackend, TopNode] =
+      ReactComponentB[Depth1CompProps_With_RouterCtl[D1CompProps_TP]](
         "wrapped page component"
       ).initialState( getSnapShotOfCurrentState )
         .backend[WBackend]( new WBackend( _ ) )
@@ -389,8 +408,8 @@ class RootReactCompConstr_Enhancer() extends LazyLogging {
         .componentWillMount( scope => scope.backend.willMount )
         .build
 
-    val  res :Depth1CompConstrWrapper[URL_TP, D1CompProps_TP]  =
-       Depth1CompConstrWrapper[URL_TP, D1CompProps_TP](getCompConstructorForRouter)
+    val res: Depth1CompConstrWrapper[URL_TP, D1CompProps_TP] =
+      Depth1CompConstrWrapper[URL_TP, D1CompProps_TP]( getCompConstructorForRouter )
     res
   }
 

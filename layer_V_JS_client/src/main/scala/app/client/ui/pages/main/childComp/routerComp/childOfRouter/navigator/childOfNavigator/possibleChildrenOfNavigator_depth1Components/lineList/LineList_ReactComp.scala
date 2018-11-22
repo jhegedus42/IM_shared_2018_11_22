@@ -4,12 +4,8 @@ import java.util.concurrent.ThreadLocalRandom
 
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.state.CacheStates.EntityCacheVal
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth1CompConstr_Alias
-import app.client.entityCache.entityCacheV1.types.componentProperties.{
-  D1Comp_Props,
-  Depth1CompProps_With_RouterCtl,
-  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
-}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes
+import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, Depth1CompProps_With_RouterCtl, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.LineList_Page
 import app.shared.data.model.LineText
@@ -122,11 +118,8 @@ object LineList_ReactComp {
 
 }
 
-import app.client.entityCache.entityCacheV1.RootReactCompConstr_Enhancer
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{
-  LineList_Page,
-  URL_STr
-}
+import app.client.entityCache.entityCacheV1.D2toD1Transformer
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{LineList_Page, URL_STr}
 import japgolly.scalajs.react.ReactElement
 import japgolly.scalajs.react.extra.router.RouterCtl
 
@@ -134,18 +127,17 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   * Created by joco on 06/01/2018.
   *
   */
-case class LineListWrapping(wrapper: RootReactCompConstr_Enhancer ) {
+case class LineListWrapping(wrapper: D2toD1Transformer ) {
 
-  type LineListProp = NoProps.type
 
 //  val que: CacheRoot = new CacheRoot()
 
-  val wLL: Depth1CompConstr_Alias[LineList_Page, LineListProp] =
-    wrapper.create_Depth1CompConstr_by_wrapping_Depth2CompConstructor[LineList_Page, NoProps.type](
+  val wLL: RootPageConstructorTypes.Depth1CompConstrWrapper[LineList_Page, NoProps.type] =
+    wrapper.trD2toD1[LineList_Page, NoProps.type](
       LineList_ReactComp.LineListCompBuilder
     )
 
   val mk_wLL: ( RouterCtl[URL_STr] ) => ReactElement = (r: RouterCtl[URL_STr]) =>
-    wLL( Depth1CompProps_With_RouterCtl( NoProps, r ) )
+    wLL.d1Constr( Depth1CompProps_With_RouterCtl( NoProps, r ) )
 
 }
