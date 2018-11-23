@@ -6,8 +6,8 @@ import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes
 import app.client.rest.commands.forTesting.Helpers
 import app.client.entityCache.entityCacheV1.types.componentProperties.{
   D1Comp_Props,
-  RouterToD1Props,
-  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
+  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache,
+  RouterToD1Props
 }
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{
   LineDetail_URL,
@@ -19,6 +19,7 @@ import japgolly.scalajs.react.{ReactComponentU, TopNode}
 import japgolly.scalajs.react.extra.router.RouterCtl
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth2CompConstr_Alias
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail.LineDetail_CompConstr_Holder.F.Res
 import app.shared.data.ref.{Ref, RefVal}
 
 import scala.reflect.ClassTag
@@ -40,13 +41,13 @@ object LineDetail_CompConstr_Holder {
     *
     */
   private type Depth2CompProps_Alias =
-    Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[LineDetail_D1_Props,
-                                                                    LineDetail_URL]
+    Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[LineDetail_D1_Props, LineDetail_URL]
 
   object F {
-    type Par = ( LineDetail_URL, RouterCtl[URL_STr] )
 
     type Props = RouterToD1Props[LineDetail_D1_Props]
+
+    type Par = ( LineDetail_URL, RouterCtl[URL_STr] )
 
     type Res = ReactComponentU[Props, CacheState, _, TopNode]
     //TODO ezt a cache-state-es baromsagot atirni RW access provider-re
@@ -59,26 +60,26 @@ object LineDetail_CompConstr_Holder {
     */
   def getCompConstr_For_dynRenderR_In_Router(trD2toD1: D2toD1Transformer ): F.Par => F.Res = {
 
-    val res: F.Par => F.Res =
-      ( x: LineDetail_URL, r: RouterCtl[URL_STr] ) => {
-        val rlt: Ref[LineText] = Ref.makeWithUUID( x.idOfLine )
-        val d1c = LineDetail_D1_Props(rlt)
+    val res: ( LineDetail_URL, RouterCtl[URL_STr] ) => F.Res = {
 
-        val f = RouterToD1Props(d1c, r)
-        val g: F.Res =
-          LineDetailWrapping( trD2toD1 ).constructor_used_by_the_parent_component
-        g
-      }
+      ( x: LineDetail_URL, r: RouterCtl[URL_STr] ) =>
+        {
+          val rlt: Ref[LineText] = Ref.makeWithUUID( x.idOfLine )
+          val d1c = LineDetail_D1_Props( rlt )
+
+          val f = RouterToD1Props( d1c, r )
+          val g: F.Res = LineDetailWrapping( trD2toD1 ).constructor_used_by_the_parent_component.d1Constr( f )
+          g
+        }
+
+    }
     res
   }
 
 //
   class Backend_LineDetail(backendScope: BackendScope[Depth2CompProps_Alias, Unit] ) {
 
-    def renderLine(
-                    lineRefVal:      LineDetail_D1_Props,
-                    depth2CompProps: Depth2CompProps_Alias
-      ): ReactNode = {
+    def renderLine(lineRefVal: LineDetail_D1_Props, depth2CompProps: Depth2CompProps_Alias ): ReactNode = {
       <.div(
 //
         lineRefVal.toString
@@ -151,8 +152,7 @@ object LineDetail_CompConstr_Holder {
     }
   }
 
-  val lineDetail_Depth2CompConstructor
-    : Depth2CompConstr_Alias[LineDetail_URL, LineDetail_D1_Props] = {
+  val lineDetail_Depth2CompConstructor: Depth2CompConstr_Alias[LineDetail_URL, LineDetail_D1_Props] = {
     ReactComponentB[Depth2CompProps_Alias]( "LineDetail" )
       .backend[Backend_LineDetail]( new Backend_LineDetail( _ ) )
       .renderBackend
