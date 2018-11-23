@@ -11,14 +11,13 @@ import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.chi
 /**
   * Created by joco on 06/01/2018.
   */
-case class LineDetailWrapping(enhancer: D2toD1Transformer ) {
+case class LineDetailWrapping(trD2toD1_provider: D2toD1Transformer ) {
 //  val que = new CacheRoot()
 
-  type T = RootPageConstructorTypes.
-    Depth1CompConstrWrapper[LineDetail_URL, LineDetail_D1_Props]
+  type D1Wrapper = RootPageConstructorTypes.Depth1CompConstrWrapper[LineDetail_URL, LineDetail_D1_Props]
 
-  val constructor_used_by_the_parent_component: T =
-    enhancer.trD2toD1[
+  val constructor_used_by_the_parent_component: D1Wrapper =
+    trD2toD1_provider.trD2toD1[
       LineDetail_URL,
       LineDetail_CompConstr_Holder.LineDetail_D1_Props
     ](

@@ -8,9 +8,6 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   *
   * @param p
   * @param ctrl
-  * @tparam Depth1CompProps The type of the actual properties which are passed to Depth 1 comp by the Router.
+  * @tparam D1Props The type of the actual properties which are passed to Depth 1 comp by the Router.
   */
-case class Depth1CompProps_With_RouterCtl[Depth1CompProps<:D1Comp_Props](
-    p:    Depth1CompProps,
-    ctrl: RouterCtl[URL_STr])
-
+case class RouterToD1Props[D1Props <: D1Comp_Props](p: D1Props, ctrl: RouterCtl[URL_STr] )

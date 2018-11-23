@@ -3,7 +3,7 @@ package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.ch
 import app.client.entityCache.entityCacheV1.D2toD1Transformer
 import app.client.entityCache.entityCacheV1.types.componentProperties.{
   D1Comp_Props,
-  Depth1CompProps_With_RouterCtl,
+  RouterToD1Props,
   Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
 }
 import app.client.entityCache.entityCacheV1.state.CacheStates.EntityCacheVal
@@ -83,8 +83,8 @@ object UserLineListsCompConstr_Holder {
 
         val d1_comp = D1CompProps_UserLineList( refU )
 
-        val f: Depth1CompProps_With_RouterCtl[D1CompProps_UserLineList] =
-          Depth1CompProps_With_RouterCtl( d1_comp, r )
+        val f: RouterToD1Props[D1CompProps_UserLineList] =
+          RouterToD1Props(d1_comp, r)
 
         val res: Depth1CompConstrWrapper[LineListsOfUser_URL, D1CompProps_UserLineList] =
           UserLineListsWrapping( d2tod1 ).wrapped_CC

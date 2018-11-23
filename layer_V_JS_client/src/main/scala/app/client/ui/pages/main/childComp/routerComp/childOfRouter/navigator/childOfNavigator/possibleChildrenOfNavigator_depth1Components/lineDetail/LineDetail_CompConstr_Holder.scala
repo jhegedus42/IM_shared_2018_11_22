@@ -6,7 +6,7 @@ import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes
 import app.client.rest.commands.forTesting.Helpers
 import app.client.entityCache.entityCacheV1.types.componentProperties.{
   D1Comp_Props,
-  Depth1CompProps_With_RouterCtl,
+  RouterToD1Props,
   Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
 }
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{
@@ -46,7 +46,7 @@ object LineDetail_CompConstr_Holder {
   object F {
     type Par = ( LineDetail_URL, RouterCtl[URL_STr] )
 
-    type Props = Depth1CompProps_With_RouterCtl[LineDetail_D1_Props]
+    type Props = RouterToD1Props[LineDetail_D1_Props]
 
     type Res = ReactComponentU[Props, CacheState, _, TopNode]
     //TODO ezt a cache-state-es baromsagot atirni RW access provider-re
@@ -64,7 +64,7 @@ object LineDetail_CompConstr_Holder {
         val rlt: Ref[LineText] = Ref.makeWithUUID( x.idOfLine )
         val d1c = LineDetail_D1_Props(rlt)
 
-        val f = Depth1CompProps_With_RouterCtl( d1c, r )
+        val f = RouterToD1Props(d1c, r)
         val g: F.Res =
           LineDetailWrapping( trD2toD1 ).constructor_used_by_the_parent_component
         g

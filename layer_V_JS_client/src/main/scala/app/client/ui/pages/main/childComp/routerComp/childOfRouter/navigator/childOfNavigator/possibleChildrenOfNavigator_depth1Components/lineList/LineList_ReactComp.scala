@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.state.CacheStates.EntityCacheVal
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes
-import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, Depth1CompProps_With_RouterCtl, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, RouterToD1Props, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache}
 import app.client.rest.commands.forTesting.Helpers
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.LineList_Page
 import app.shared.data.model.LineText
@@ -138,6 +138,6 @@ case class LineListWrapping(wrapper: D2toD1Transformer ) {
     )
 
   val mk_wLL: ( RouterCtl[URL_STr] ) => ReactElement = (r: RouterCtl[URL_STr]) =>
-    wLL.d1Constr( Depth1CompProps_With_RouterCtl( NoProps, r ) )
+    wLL.d1Constr(RouterToD1Props(NoProps, r))
 
 }

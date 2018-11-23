@@ -18,7 +18,7 @@ import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
 }
 import app.client.entityCache.entityCacheV1.types.componentProperties.{
   D1Comp_Props,
-  Depth1CompProps_With_RouterCtl,
+  RouterToD1Props,
   Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
 }
 import app.client.entityCache.entityCacheV1.types.entityReadWrite.{
@@ -317,7 +317,7 @@ class D2toD1Transformer() extends LazyLogging {
     import japgolly.scalajs.react._
 
     type PropsDepth1Comp =
-      Depth1CompProps_With_RouterCtl[D1CompProps_TP]
+      RouterToD1Props[D1CompProps_TP]
 
     class WBackend(backendScope: BackendScope[PropsDepth1Comp, CacheState] ) {
 
@@ -398,10 +398,10 @@ class D2toD1Transformer() extends LazyLogging {
     }
 
     def getCompConstructorForRouter
-      : ReactComponentC.ReqProps[Depth1CompProps_With_RouterCtl[D1CompProps_TP], CacheState, WBackend, TopNode] =
-      ReactComponentB[Depth1CompProps_With_RouterCtl[D1CompProps_TP]](
+      : ReactComponentC.ReqProps[RouterToD1Props[D1CompProps_TP], CacheState, WBackend, TopNode] =
+      ReactComponentB[RouterToD1Props[D1CompProps_TP]](
         "wrapped page component"
-      ).initialState( getSnapShotOfCurrentState )
+                                                      ).initialState( getSnapShotOfCurrentState )
         .backend[WBackend]( new WBackend( _ ) )
         .renderBackend
         .componentDidMount( scope => scope.backend.didMount )

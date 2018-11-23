@@ -3,7 +3,7 @@ package app.client.entityCache.entityCacheV1.types
 import app.client.entityCache.entityCacheV1.CacheState
 import app.client.entityCache.entityCacheV1.types.componentProperties.{
   D1Comp_Props,
-  Depth1CompProps_With_RouterCtl,
+  RouterToD1Props,
   Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
 }
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL_STr
@@ -49,16 +49,11 @@ object RootPageConstructorTypes {
     *
     *
     * @tparam URL_TP the depth2 comp here is the child comp of the depth1 comp which
-    *                                                  is created by this depth1 comp constructor
+    *                is created by this depth1 comp constructor
     *
     *
-    * @tparam D1Comp_Props_TP
     */
-  type Depth1CompConstr_Alias[URL_TP <: URL_STr, D1Comp_Props_TP <: D1Comp_Props] =
-    // TODO Depth2CompProps_TypePar into a trait+case classes
-    ReqProps[Depth1CompProps_With_RouterCtl[D1Comp_Props_TP], CacheState, _, TopNode]
-
-  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, D1CompProps_TP <: D1Comp_Props](
-      d1Constr: Depth1CompConstr_Alias[URL_TP, D1CompProps_TP])
+  case class Depth1CompConstrWrapper[URL_TP <: URL_STr, D1_Props <: D1Comp_Props](
+      d1Constr: ReqProps[RouterToD1Props[D1_Props], CacheState, _, TopNode])
 
 }
