@@ -1,31 +1,18 @@
 package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail
 
-import app.client.entityCache.entityCacheV1.{CacheState, D2toD1Transformer}
 import app.client.entityCache.entityCacheV1.state.CacheStates.{EntityCacheVal, Ready}
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes
-import app.client.rest.commands.forTesting.Helpers
-import app.client.entityCache.entityCacheV1.types.componentProperties.{
-  D1Comp_Props,
-  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache,
-  RouterToD1Props
-}
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{
-  LineDetail_URL,
-  URL_STr,
-  possibleChildrenOfNavigator_depth1Components
-}
-import app.shared.data.model.LineText
-import japgolly.scalajs.react.{ReactComponentU, TopNode}
-import japgolly.scalajs.react.extra.router.RouterCtl
 import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.Depth2CompConstr_Alias
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail
-import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail.LineDetail_CompConstr_Holder.F.Res
+import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache, RouterToD1Props}
+import app.client.entityCache.entityCacheV1.{CacheState, D2toD1Transformer}
+import app.client.rest.commands.forTesting.Helpers
+import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.{LineDetail_URL, URL_STr}
+import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal}
+import japgolly.scalajs.react.extra.router.RouterCtl
+import japgolly.scalajs.react.vdom.prefix_<^._
+import japgolly.scalajs.react.{BackendScope, Callback, ReactComponentB, ReactComponentU, ReactElement, ReactNode, TopNode}
 
 import scala.reflect.ClassTag
-import japgolly.scalajs.react.{Callback, ReactElement, ReactNode}
-import japgolly.scalajs.react.vdom.prefix_<^._
-import japgolly.scalajs.react.{BackendScope, ReactComponentB}
 
 object LineDetail_CompConstr_Holder {
 
@@ -50,6 +37,8 @@ object LineDetail_CompConstr_Holder {
     type Par = ( LineDetail_URL, RouterCtl[URL_STr] )
 
     type Res = ReactComponentU[Props, CacheState, _, TopNode]
+
+    type Res2 = Par => Res
     //TODO ezt a cache-state-es baromsagot atirni RW access provider-re
   }
 
@@ -58,23 +47,43 @@ object LineDetail_CompConstr_Holder {
     *                 returns a D1 comp constructor.
     * @return
     */
-  def getCompConstr_For_dynRenderR_In_Router(trD2toD1: D2toD1Transformer ): F.Par => F.Res = {
+  def getCompConstr_For_dynRenderR_In_Router(trD2toD1: D2toD1Transformer ): F.Res2 = {
 
-    val res: ( LineDetail_URL, RouterCtl[URL_STr] ) => F.Res = {
 
-      ( x: LineDetail_URL, r: RouterCtl[URL_STr] ) =>
-        {
-          val rlt: Ref[LineText] = Ref.makeWithUUID( x.idOfLine )
-          val d1c = LineDetail_D1_Props( rlt )
-
-          val f = RouterToD1Props( d1c, r )
-          val g: F.Res = LineDetailWrapping( trD2toD1 ).constructor_used_by_the_parent_component.d1Constr( f )
-          g
-        }
-
+    val res2: F.Res2 = {
+      ???
     }
-    res
+
+
+//    res2
+    def  f ( x: LineDetail_URL, r: RouterCtl[URL_STr] ): F.Res = ???
+
+//    val res3: F.Res2 = f(_, _)
+//
+
+//    val t: (LineDetail_URL, RouterCtl[URL_STr]) => Res = res3
+    ???
   }
+
+
+//
+//  {
+//
+//    val res: ( LineDetail_URL, RouterCtl[URL_STr] ) => F.Res = {
+//
+//      ( x: LineDetail_URL, r: RouterCtl[URL_STr] ) =>
+//        {
+//          val rlt: Ref[LineText] = Ref.makeWithUUID( x.idOfLine )
+//          val d1c = LineDetail_D1_Props( rlt )
+//
+//          val f = RouterToD1Props( d1c, r )
+//          val g: F.Res = LineDetailWrapping( trD2toD1 ).constructor_used_by_the_parent_component.d1Constr( f )
+//          g
+//        }
+//
+//    }
+//    res
+//  }
 
 //
   class Backend_LineDetail(backendScope: BackendScope[Depth2CompProps_Alias, Unit] ) {
