@@ -36,15 +36,14 @@ object D0_MaterialUIWrapperComp {
   // Need to wrap our top-level router component in a theme for Material-UI to work
   // 548215156450c85ecbb738120e5b4139548215156450c85ecbb738120e5b4139
 
-  type RootCompConstructor = ReactComponentC.ConstProps[Unit, Unit, Unit, TopNode]
+  type D0_RootCompConstructor = ReactComponentC.ConstProps[Unit, Unit, Unit, TopNode]
 
-  val rootCompConstructor: RootCompConstructor  =
+  val rootCompConstructor: D0_RootCompConstructor =
     ReactComponentB[Unit]( "themedView" )
       .render(
         _ =>
           MuiMuiThemeProvider( muiTheme = theme )( // 617c9e8a_83dd163e
 
-            //TODO ide tenni vmit
             D1_MyRouterV2.routerConstructor() // when this is called the routerConstructor makes a router
 
 

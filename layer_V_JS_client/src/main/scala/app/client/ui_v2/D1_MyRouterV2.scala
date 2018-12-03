@@ -1,23 +1,34 @@
 package app.client.ui_v2
 
-import app.client.ui_v2.D1_MyRouterV2.URLs.{LineListPageURLRepr, LineListsOfUserURLReprl, URL_Repr}
+import app.client.ui_v2.D1_MyRouterV2.URLs.{LineListPageURLRepr, UserIDDisplayer, URL_Repr}
 import app.shared.data.ref.uuid.UUID
 import app.testHelpersShared.data.TestEntitiesForStateThree
-import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Router, RouterConfig, RouterConfigDsl}
+import japgolly.scalajs.react.ReactElement
+import japgolly.scalajs.react.extra.router.{
+  BaseUrl,
+  Redirect,
+  Router,
+  RouterConfig,
+  RouterConfigDsl,
+  RouterCtl
+}
 
 object D1_MyRouterV2 {
 
+  // ez fog majd egy kess-t csinalni es beinjektalja a D3 komponensekbe
+  // ... vhogy ... majd megleglatjuk, hogy hogy ...
+
   object URLs {
 
-    sealed trait URL_Repr
+    sealed trait URL_Repr // this is called Page in the router world
 
     case class LineListPageURLRepr() extends URL_Repr
 
-    case class LineListsOfUserURLReprl(id_ofUser: java.util.UUID ) extends URL_Repr
+    case class UserIDDisplayer(id_ofUser: java.util.UUID ) extends URL_Repr
   }
 
   private[this] val navs: Map[String, URL_Repr] = Map(
-    "User Line List" -> LineListsOfUserURLReprl( UUID( TestEntitiesForStateThree.user1uuid ) ),
+    "User Line List" -> UserIDDisplayer( UUID( TestEntitiesForStateThree.user1uuid ) ),
     "Line List" -> LineListPageURLRepr()
   )
 
@@ -26,11 +37,15 @@ object D1_MyRouterV2 {
       dsl: RouterConfigDsl[URL_Repr] =>
         import dsl._
 
+        val g: ( UserIDDisplayer, RouterCtl[UserIDDisplayer] ) => ReactElement = ??? //
+        // TODO 1 put Simplest ReactComp ^^^ here
+
 //        def dynRenderR[P <: Page, A <% ReactElement](g: (P, RouterCtl[Page]) => A): P => Renderer = ...
 
         val dr_userlinelist: dsl.Rule =
-          dynamicRouteCT( "#user" / uuid.caseClass[LineListsOfUserURLReprl] ) ~> dynRenderR( ??? )
-        // TODO make a static client - no comm with server... just a router + navigator + 2 pages
+          dynamicRouteCT( "#user" / uuid.caseClass[UserIDDisplayer] ) ~> dynRenderR( ??? )
+        // TODO 2 use it UserIDDisplayer here ^^^^
+
 
         import dsl._
 
