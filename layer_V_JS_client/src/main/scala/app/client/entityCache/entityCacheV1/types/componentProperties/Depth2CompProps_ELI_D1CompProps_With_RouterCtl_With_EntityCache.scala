@@ -23,7 +23,7 @@ case class Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache[
     URL_TP <: URL_STr
   ](depth1CompProps:          D1Comp_Props_TP,
     router:      RouterCtl[URL_STr],
-    // TODO change to URL_TP ^^^ and figure out what that change means
+    // BACKLOG change to URL_TP ^^^ and figure out what that change means
     // and why it is needed ? how will it help ? what will it effect ?
     // who will see it ?
     entityCache: CacheState)

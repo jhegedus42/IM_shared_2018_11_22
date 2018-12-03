@@ -63,14 +63,14 @@ object UserLineListsCompConstr_Holder {
 
   }
 
-  // TODO `Depth2CompConstr_Alias` helyebe vmi case class-t kene tenni
+  // SOHA `Depth2CompConstr_Alias` helyebe vmi case class-t kene tenni
   val compConstr: Depth2CompConstr_Alias[LineListsOfUser_URL, D1CompProps_UserLineList] =
     ReactComponentB[D2CompProps_LocTAlias](
       "wrapped " +
         "page component"
     ).backend[UserLineList_Backend]( new UserLineList_Backend( _ ) ).renderBackend.build
 
-  // TODO below, create a case class wrapper for
+  // SOHA  below, create a case class wrapper for
   // this funny type below
   // something like `case class functionNeeded_By_dynRenderR`
   def getFunctionNeededForDynRenderR(

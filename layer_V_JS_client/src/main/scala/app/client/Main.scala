@@ -1,7 +1,7 @@
 package app.client
 
-import app.client.ui.pages.main.RootComponent
-import app.client.ui.pages.main.RootComponent.RootCompConstructor
+import app.client.ui_v2.D0_MaterialUIWrapperComp
+import app.client.ui_v2.D0_MaterialUIWrapperComp.RootCompConstructor
 import japgolly.scalajs.react.ReactDOM
 import org.scalajs.dom
 
@@ -23,8 +23,10 @@ object Main extends js.JSApp {
     // 8145b90cc28755c8e070e99187dd92ad
     // 53acb313_83dd163ea
 
-    val compConstructor : RootCompConstructor = RootComponent.rootCompConstructor
+//    val compConstructor : RootCompConstructor = RootComponent.rootCompConstructor
+    val compConstructor : RootCompConstructor = D0_MaterialUIWrapperComp.rootCompConstructor
 
+//    ReactDOM.render( compConstructor(), dom.document.getElementById( "joco" ) )
     ReactDOM.render( compConstructor(), dom.document.getElementById( "joco" ) )
 //    ReactDOM.render(OuterComp.comp("Start State"),
 //                    scalajs.dom.document.getElementById("joco"))

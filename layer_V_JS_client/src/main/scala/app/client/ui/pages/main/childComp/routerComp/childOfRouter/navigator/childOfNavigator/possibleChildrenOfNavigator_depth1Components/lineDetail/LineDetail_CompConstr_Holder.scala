@@ -16,7 +16,7 @@ import scala.reflect.ClassTag
 
 object LineDetail_CompConstr_Holder {
 
-  case class LineDetail_D1_Props(refLineText: Ref[LineText] ) extends D1Comp_Props //TODO - ide tenni az URL-t, hogy kihez tartozik
+  case class LineDetail_D1_Props(refLineText: Ref[LineText] ) extends D1Comp_Props //SOHA - ide tenni az URL-t, hogy kihez tartozik
 
   /**
     *
@@ -39,7 +39,7 @@ object LineDetail_CompConstr_Holder {
     type Res = ReactComponentU[Props, CacheState, _, TopNode]
 
     type Res2 = Par => Res
-    //TODO ezt a cache-state-es baromsagot atirni RW access provider-re
+    //SOHA ezt a cache-state-es baromsagot atirni RW access provider-re
   }
 
   /**

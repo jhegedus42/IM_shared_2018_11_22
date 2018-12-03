@@ -1,30 +1,9 @@
 package app.client.entityCache.entityCacheV1
 
-import app.client.entityCache.entityCacheV1.state.CacheStates.{
-  EntityCacheVal,
-  Loaded,
-  Loading,
-  NotInCache,
-  NotYetLoaded,
-  ReadFailed,
-  Ready,
-  UpdateFailed,
-  Updated,
-  Updating
-}
-import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{
-  Depth1CompConstrWrapper,
-  Depth2CompConstr_Alias
-}
-import app.client.entityCache.entityCacheV1.types.componentProperties.{
-  D1Comp_Props,
-  RouterToD1Props,
-  Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache
-}
-import app.client.entityCache.entityCacheV1.types.entityReadWrite.{
-  EntityReadRequestHandlerTr,
-  EntityWriteRequestHandlerTr
-}
+import app.client.entityCache.entityCacheV1.state.CacheStates.{EntityCacheVal, Loaded, Loading, NotInCache, NotYetLoaded, ReadFailed, Ready, UpdateFailed, Updated, Updating}
+import app.client.entityCache.entityCacheV1.types.RootPageConstructorTypes.{Depth1CompConstrWrapper, Depth2CompConstr_Alias}
+import app.client.entityCache.entityCacheV1.types.componentProperties.{D1Comp_Props, Depth2CompProps_ELI_D1CompProps_With_RouterCtl_With_EntityCache, RouterToD1Props}
+import app.client.entityCache.entityCacheV1.types.entityReadWrite.{EntityReadRequestHandlerTr, EntityWriteRequestHandlerTr}
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.ResDyn
 import app.client.rest.commands.generalCRUD.{GetEntityAJAX, UpdateEntityAJAX}
 import app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.URL_STr
@@ -71,7 +50,6 @@ case class CacheState(
   * Takes a root react component constructor which creates a component with properties without
   * EntityReaderWriter.
   *
-  * This is a singleton. //TODO make this az a singleton trait make this az a singleton trait
   *
   */
 object D2toD1Transformer {
@@ -79,7 +57,7 @@ object D2toD1Transformer {
 }
 
 trait ReRenderInitiator {
-  // TODO interface that provides support for initiating a re-render of the root page
+  // BACKLOG interface that provides support for initiating a re-render of the root page
   def initiateReRender(): Unit
 
 }
@@ -87,7 +65,6 @@ trait ReRenderInitiator {
 class D2toD1Transformer() extends LazyLogging {
   // c26d7190_83dd163e
 
-  // TODO ettol megszabadulni
   // illetve a fenti trait-ekkel implementalni
 
   private trait StateChangerInterfaceForCurrentlyRoutedPage[_ <: URL_STr] {
@@ -273,7 +250,7 @@ class D2toD1Transformer() extends LazyLogging {
 
   private val reRenderCurrentlyRoutedPageCB: () => Unit = () => {
 
-    val c: CacheState = getSnapShotOfCurrentState //TODO mi ez az erhetetlen fassage ???
+    val c: CacheState = getSnapShotOfCurrentState //BACKLOG mi ez az erhetetlen fassage ???
 
     println( "re render with cache: " + c )
 
@@ -384,7 +361,6 @@ class D2toD1Transformer() extends LazyLogging {
         // tehat lenyegeben a Root Comp - ben van a state
         // vagy legalabbis ott van egy state a Cache - bol
         //
-        // de erre nincsen szukseg TODO !!!!
         // ====== >>>>> KISZEDNI A STATE-ET a ROOT Comp-bol
         //
 
