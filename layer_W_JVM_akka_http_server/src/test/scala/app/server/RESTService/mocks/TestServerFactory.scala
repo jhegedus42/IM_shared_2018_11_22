@@ -55,7 +55,12 @@ object TestServerFactory {
       }
 
 //      override  val route = selfExp.route -- nyolc teszt elszall
-      override lazy val rootPageHtml = IndexDotHtmlTestTemplate.txt
+
+
+
+      override lazy val rootPageHtml = IndexDotHtmlTestTemplate.txt(false)
+
+
 
       override def initState: ApplicationState = iState
 

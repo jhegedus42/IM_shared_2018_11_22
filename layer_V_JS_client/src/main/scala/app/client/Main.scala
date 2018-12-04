@@ -28,7 +28,7 @@ object Main extends js.JSApp {
 
 
 //    ReactDOM.render( compConstructor(), dom.document.getElementById( "joco" ) )
-    ReactDOM.render( compConstructor, dom.document.getElementById( "joco" ) )
+    ReactDOM.render( compConstructor, dom.document.getElementById( "rootComp" ) )
   }
 }
 
