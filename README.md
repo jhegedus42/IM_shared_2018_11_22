@@ -53,20 +53,20 @@ Start a second `sbt`:
   Execute the following commands in the REPL:
 
 ```bash
-> project layer_Y_JS_client
+> project layer_V_JS_client
 
 > compile
 
 > fastOptJS
 ```
 
-This will create the following files in the `layer_Y_JS_client/target/scala-2.11` directory:
+This will create the following files in the `layer_V_JS_client/target/scala-2.11` directory:
 
 ```
-layer_y_js_client-fastopt.js        <<<=== the main appp
-layer_y_js_client-fastopt.js.map    <<<=== source map
-layer_y_js_client-jsdeps.js         <<<=== dependencies (empty in this case)
-layer_y_js_client-launcher.js       <<<=== app launcher (called by the 'html page')
+layer_v_js_client-fastopt.js        <<<=== the main appp
+layer_v_js_client-fastopt.js.map    <<<=== source map
+layer_v_js_client-jsdeps.js         <<<=== dependencies (empty in this case)
+layer_v_js_client-launcher.js       <<<=== app launcher (called by the 'html page')
 ```
 
 # (Integration) Testing
@@ -98,7 +98,7 @@ Start a second `sbt`:
   Execute the following commands in the REPL:
 
 ```
-> project layer_Y_JS_client
+> project layer_V_JS_client
 
 > compile
 
@@ -117,7 +117,7 @@ Before starting `sbt`, execute:
 Then start `sbt` and run the tests from there :
 
 ```
-> project layer_Y_JS_client
+> project layer_V_JS_client
 > test
 ```
 

@@ -5,7 +5,7 @@ object IndexDotHtmlTestTemplate {
   import scalatags.Text.all._
   import scalatags.Text.tags2.title
 
-  val jsModulesName          = "layer_Y_JS_client"
+  val jsModulesName          = "layer_V_JS_client"
   val jsModulesNameLowerCase = jsModulesName.map( x => x.toLower )
 
   def txt(testClient: Boolean ) = {
