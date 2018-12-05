@@ -1,6 +1,6 @@
 package app.client
 
-import app.client.ui_v2.app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail.D0_SimpleComp
+import app.client.ui_v2.D0_SimpleComp
 import japgolly.scalajs.react.ReactDOM
 import org.scalajs.dom
 
@@ -17,8 +17,9 @@ object Main extends js.JSApp {
     LoggerConfig.factory = PrintLoggerFactory()
     LoggerConfig.level   = LogLevel.TRACE
 
+ //   val compConstructor = ???
 
-//    val compConstructor : D0_RootCompConstructor = D0_MaterialUIWrapperComp.rootCompConstructor
+  //  val compConstructor : D0_RootCompConstructor = D0_MaterialUIWrapperComp.rootCompConstructor
     val compConstructor  = D0_SimpleComp.simpleCompConstr("hello42")
     // TODO 0 ^^^  replace this with a simple static react page that displays something very
     // simple, like a text ... a hello world ... and then show that in the browser

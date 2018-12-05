@@ -1,7 +1,5 @@
 package app.client.ui_v2
 
-package app.client.ui.pages.main.childComp.routerComp.childOfRouter.navigator.childOfNavigator.possibleChildrenOfNavigator_depth1Components.lineDetail
-
 import japgolly.scalajs.react.ReactComponentC.ReqProps
 import japgolly.scalajs.react.vdom.prefix_<^._
 import japgolly.scalajs.react.{BackendScope, ReactComponentB, ReactElement, TopNode}
