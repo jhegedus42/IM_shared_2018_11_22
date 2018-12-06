@@ -17,17 +17,20 @@ lazy val layer_Z_JVM_shared = layer_Z_JVM_and_JS_shared.jvm.settings( name := "l
 lazy val layer_Z_JS_shared = layer_Z_JVM_and_JS_shared.js.settings( name := "layer_Z_JS_shared" )
 
 // instantiate the JS project for SBT with some additional settings
-lazy val layer_V_JS_client: Project = (project in file("layer_V_JS_client"))
+lazy val layer_V_JS_client: Project = (project in file( "layer_V_JS_client" ))
   .settings(
+//    npmDependencies in Compile ++= Seq( "react" -> "15.6.1", "react-dom" -> "15.6.1" ),
     name := "layer_V_JS_client",
     version := Settings.version,
-    jsDependencies += RuntimeDOM % "test",
+//    jsDependencies += RuntimeDOM % "test",
+    jsEnv := new org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv,
     scalaVersion := Settings.versions.scala,
 //                                      scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.scalajsDependencies.value,
     parallelExecution in Test := false,
     mainClass in Compile := Some( "app.client.Main" ),
-    persistLauncher in Compile := true,
+//    scalaJSUseMainModuleInitializer := true,
+//    scalaJSUseMainModuleInitializer in Compile := true,
 //    persistLauncher in Test := false,
 //    persistLauncher in Test := true,
     jsEnv := new JSDOMNodeJSEnv2(),
@@ -35,6 +38,7 @@ lazy val layer_V_JS_client: Project = (project in file("layer_V_JS_client"))
     scalaJSOptimizerOptions ~= { _.withDisableOptimizer( true ) }
   )
   .enablePlugins( ScalaJSPlugin )
+//  .enablePlugins( ScalaJSBundlerPlugin )
   .dependsOn( layer_Z_JS_shared % "compile->compile;test->test" )
 
 // Client projects (just one in this case)
@@ -76,7 +80,7 @@ lazy val layer_W_JVM_akka_http_server = (project in file( "layer_W_JVM_akka_http
 logBuffered in Test := false
 //
 
-persistLauncher in Compile := true
+scalaJSUseMainModuleInitializer in Compile := true
 
 //persistLauncher in Test := false
 

@@ -5,7 +5,7 @@ import app.shared.data.ref.Ref
 
 case class Date(date: java.util.Date = java.util.Calendar.getInstance().getTime() )
 
-import enumeratum._
+//import enumeratum._
 
 //b3beb0310c464f69ad37651ab49a1c42
 
