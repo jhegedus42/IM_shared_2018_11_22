@@ -41,10 +41,33 @@ then open the browser at `http://localhost:8043/`
 
 
 
-#Unit testing the server
+# Testing
+
+## Unit testing the server
 
 Execute the following script:
 
 ```
  ./runUnitTestsForServer.sh
 ```
+
+## Compiling all (server side) tests
+
+```
+sbt
+> test:compile
+``` 
+
+## Integration testing (client <-> server)
+
+Execute the code below for compiling and building client side (integration) test code:
+
+```
+sbt
+> project layer_V_JS_client
+> test:clean
+> test:compile
+> test:fastOptJS
+```
+
+QUESTION : how to execute these integrations tests ??? //TODO
