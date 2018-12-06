@@ -2,8 +2,8 @@
 // rebeam: Improves click/tap performance, see
 //   https://github.com/callemall/material-ui#react-tap-event-plugin
 //   http://stackoverflow.com/a/34015469/988941
-var injectTapEventPlugin = require('react-tap-event-plugin');
-injectTapEventPlugin();
+// var injectTapEventPlugin = require('react-tap-event-plugin');
+// injectTapEventPlugin();
 
 // rebeam: Original index.js bundle did not include material, but for now
 // it's easier to just require immediately rather than loading async. However
