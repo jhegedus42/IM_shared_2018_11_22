@@ -39,42 +39,12 @@ If you want to clear all caches then execute the following command before the ab
 
 then open the browser at `http://localhost:8043/`
 
-This will create the following files in the `layer_V_JS_client/target/scala-2.11` directory:
 
 
-# (Integration) Testing
+#Unit testing the server
 
-## Compiling and running the test server
-
-In contrary to the "production" case, here, set the parameter to `IndexDotHtmlTestTemplate.txt` to `false`
-in `app.server.RESTService.mocks.TestServerFactory`.
-
-Then start `sbt` and type:
+Execute the following script:
 
 ```
-> layer_W_JVM_akka_http_server/test:runMain app.server.RESTService.mocks.runnableApps.TestServer_App_LabelOne_ClientTesting "localhost"
+ ./runUnitTestsForServer.sh
 ```
-
-or at the command prompt, run :
-```
-./runTestServerInSbt.sh
-```
-
-then open the browser at `http://localhost:8043/`
-
-## Compiling the test client
-
-Start a second `sbt`:
-  - "Second" here means: "other than the one in which the test server is running."
-  -  it should be started in the project root, where this `README.md` file is located
-
-  Execute the following commands in the REPL:
-
-```
-> project layer_V_JS_client
-
-> compile
-
-> fastOptJS
-```
-

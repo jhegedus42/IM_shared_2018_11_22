@@ -33,7 +33,7 @@ lazy val layer_V_JS_client: Project = (project in file( "layer_V_JS_client" ))
 //    scalaJSUseMainModuleInitializer in Compile := true,
 //    persistLauncher in Test := false,
 //    persistLauncher in Test := true,
-    jsEnv := new JSDOMNodeJSEnv2(),
+//    jsEnv := new JSDOMNodeJSEnv2(),
     //    jsDependencies += RuntimeDOM,
     scalaJSOptimizerOptions ~= { _.withDisableOptimizer( true ) }
   )
