@@ -34,7 +34,7 @@ lazy val layer_V_JS_client: Project = (project in file( "layer_V_JS_client" ))
 //    persistLauncher in Test := false,
 //    persistLauncher in Test := true,
 //    jsEnv := new JSDOMNodeJSEnv2(),
-    //    jsDependencies += RuntimeDOM,
+//    jsDependencies += RuntimeDOM,
     scalaJSOptimizerOptions ~= { _.withDisableOptimizer( true ) }
   )
   .enablePlugins( ScalaJSPlugin )
