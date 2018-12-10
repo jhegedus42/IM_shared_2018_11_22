@@ -217,7 +217,6 @@ object Settings {
       "com.github.japgolly.scalacss" %%% "core" % versions.scalaCSS,
 
   "org.scala-js" %%% "scalajs-dom" % versions.scalaDom,
-//      "com.github.chandu0101.scalajs-react-components" %%% "core" % "0.5.0",
       "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
     )
   )

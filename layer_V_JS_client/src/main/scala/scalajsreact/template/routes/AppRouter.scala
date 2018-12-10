@@ -44,7 +44,8 @@ object AppRouter {
       Footer()
     )
 
-  val baseUrl = BaseUrl.fromWindowOrigin / "scalajs-react-template/"
+//  val baseUrl = BaseUrl.fromWindowOrigin / "scalajs-react-template/"
+  val baseUrl = BaseUrl.fromWindowOrigin
 
   val router = Router(baseUrl, config)
 }
