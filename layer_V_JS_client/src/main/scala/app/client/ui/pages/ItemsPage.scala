@@ -1,9 +1,9 @@
-package scalajsreact.template.pages
+package app.client.ui.pages
 
 import scalacss.Defaults._
 import scalacss.ScalaCssReact._
-import scalajsreact.template.components.LeftNav
-import scalajsreact.template.routes.Item
+import app.client.ui.components.LeftNav
+import app.client.ui.routes.Item
 
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.router.RouterCtl

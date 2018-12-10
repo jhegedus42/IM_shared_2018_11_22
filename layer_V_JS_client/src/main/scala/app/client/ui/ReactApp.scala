@@ -1,10 +1,10 @@
-package scalajsreact.template
+package app.client.ui
 
 
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
-import scalajsreact.template.css.AppCSS
-import scalajsreact.template.routes.AppRouter
+import app.client.ui.css.AppCSS
+import app.client.ui.routes.AppRouter
 
 import scala.scalajs.js.JSApp
 
@@ -17,7 +17,6 @@ object ReactApp extends JSApp {
     AppRouter.router().renderIntoDOM(e)
   }
 }
-
 
 
 

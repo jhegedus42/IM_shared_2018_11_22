@@ -1,7 +1,7 @@
-package scalajsreact.template.routes
+package app.client.ui.routes
 
-import scalajsreact.template.components.items.{Item1Data, Item2Data, ItemsInfo}
-import scalajsreact.template.pages.ItemsPage
+import app.client.ui.components.items.{Item1Data, Item2Data, ItemsInfo}
+import app.client.ui.pages.ItemsPage
 
 import japgolly.scalajs.react.extra.router.RouterConfigDsl
 import japgolly.scalajs.react.vdom.VdomElement

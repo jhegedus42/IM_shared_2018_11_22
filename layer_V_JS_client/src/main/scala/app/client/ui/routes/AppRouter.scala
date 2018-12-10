@@ -1,8 +1,8 @@
-package scalajsreact.template.routes
+package app.client.ui.routes
 
-import scalajsreact.template.components.{Footer, TopNav}
-import scalajsreact.template.models.Menu
-import scalajsreact.template.pages.HomePage
+import app.client.ui.components.{Footer, TopNav}
+import app.client.ui.models.Menu
+import app.client.ui.pages.HomePage
 
 import japgolly.scalajs.react.extra.router.{
   Resolution,

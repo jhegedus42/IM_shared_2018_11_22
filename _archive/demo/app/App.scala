@@ -3,8 +3,8 @@ package demo.app
 import demo.app.components.Main
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
-import scalajsreact.template.css.AppCSS
-import scalajsreact.template.routes.AppRouter
+import app.client.ui.css.AppCSS
+import app.client.ui.routes.AppRouter
 
 import scala.scalajs.js.JSApp
 

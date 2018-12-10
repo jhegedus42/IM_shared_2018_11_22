@@ -74,7 +74,7 @@ object IndexDotHtmlTestTemplate {
 
   def router_index(testClient: Boolean ) = {
     val testString   = if (testClient) "-test-" else "-"
-    val packageName="scalajsreact.template"
+    val packageName="app.client.template"
     val js_code_path = s"./${jsModulesName}/target/scala-2" + s".12/$jsModulesNameLowerCase${testString}fastopt.js"
 
     val index_html =

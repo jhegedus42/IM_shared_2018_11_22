@@ -80,10 +80,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <![endif]-->
 </head>
 <body>
-<h1 id="pre-requeisites"><span class="header-section-number">1</span> Pre-requeisites</h1>
-<h2 id="installing-js-dependencies"><span class="header-section-number">1.1</span> Installing JS dependencies</h2>
+<h1 id="what-is-this-"><span class="header-section-number">1</span> What is this ?</h1>
+<p>A humble attempt at writing a 'full-stack' end-to-end 'Scala-only' Single-page-app "Hello-World web-framework" with the following properties:</p>
+<ul>
+<li><p>Server :</p>
+<ul>
+<li>Event Sourcing</li>
+<li>Persistence
+<ul>
+<li>achieved by journaling all CRUD events</li>
+</ul></li>
+</ul></li>
+<li><p>Client</p>
+<ul>
+<li>React</li>
+<li>Single page application</li>
+<li>URL router</li>
+<li>State is NOT stored using
+<ul>
+<li>FLUX</li>
+<li>DIODE</li>
+<li>REDUX</li>
+</ul></li>
+<li>State is stored in a Cache
+<ul>
+<li><p>simple and transparent</p></li>
+<li><p>same (relational) data representation as on server</p>
+<ul>
+<li>relational in the sense :
+<ul>
+<li>both normalized and denormalized representation of the domain model is possible</li>
+<li>references : "primary keys", "foreign keys"</li>
+<li>joins, etc ...</li>
+</ul></li>
+<li>data is contained in <code>case classes</code></li>
+</ul></li>
+<li><p>can contain both normalized ("Entities") and denormalized data (views)</p></li>
+</ul></li>
+</ul></li>
+<li><p>Domain model</p>
+<ul>
+<li>Normalized data representation (relational model)</li>
+<li>Views that can be denormalized</li>
+</ul></li>
+<li><p>Communication</p>
+<ul>
+<li>type-safe RPC calls (poor man's <a href="https://haskell-servant.github.io/">servant</a> for Scala)
+<ul>
+<li>implemented using type classes</li>
+<li>type-safe RPC call interface is available to client and server</li>
+</ul></li>
+<li>the same data structures (types) can be used in the source code for both
+<ul>
+<li>the client</li>
+<li>the server</li>
+</ul></li>
+<li>this is possible because : part of the source code is compiled into both
+<ul>
+<li><code>JVM bytecode</code></li>
+<li><code>Javascript</code></li>
+</ul></li>
+<li>Entities, Views, RPC calls are transmitted as <code>case classes</code> encoded into <code>JSON</code></li>
+</ul></li>
+</ul>
+<h1 id="pre-requeisites"><span class="header-section-number">2</span> Pre-requeisites</h1>
+<h2 id="installing-js-dependencies"><span class="header-section-number">2.1</span> Installing JS dependencies</h2>
 <p>In <code>node</code> directory run <code>yarn</code> and then <code>./node_modules/.bin/webpack</code>. This will create <code>node/generated.js/index-bundle.js</code> which contains all dependencies "bundled up" into a single JS file.</p>
-<h1 id="starting-the-test-server"><span class="header-section-number">2</span> Starting the Test Server</h1>
+<h1 id="starting-the-test-server"><span class="header-section-number">3</span> Starting the Test Server</h1>
 <p>First, ake sure that in</p>
 <pre><code>app.server.RESTService.mocks.TestServerFactory
 </code></pre>
@@ -98,16 +161,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>./clean.sh
 </code></pre>
 <p>then open the browser at <code>http://localhost:8043/</code></p>
-<h1 id="testing"><span class="header-section-number">3</span> Testing</h1>
-<h2 id="unit-testing-the-server"><span class="header-section-number">3.1</span> Unit testing the server</h2>
+<h1 id="testing"><span class="header-section-number">4</span> Testing</h1>
+<h2 id="unit-testing-the-server"><span class="header-section-number">4.1</span> Unit testing the server</h2>
 <p>Execute the following script:</p>
 <pre><code> ./runUnitTestsForServer.sh
 </code></pre>
-<h3 id="compiling-all-server-side-tests"><span class="header-section-number">3.1.1</span> Compiling all (server side) tests</h3>
+<h3 id="compiling-all-server-side-tests"><span class="header-section-number">4.1.1</span> Compiling all (server side) tests</h3>
 <pre><code>sbt
 &gt; test:compile
 </code></pre>
-<h3 id="running-the-unit-tests"><span class="header-section-number">3.1.2</span> Running the unit tests</h3>
+<h3 id="running-the-unit-tests"><span class="header-section-number">4.1.2</span> Running the unit tests</h3>
 <p>We run unit tests for two different types of code:</p>
 <ol>
 <li>for testing pure JVM bytecode which is compiled for running the the server</li>
@@ -215,7 +278,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb8-79" title="79">[<span class="ex">success</span>] Total time: 16 s, completed Dec 9, 2018 7:05:26 AM</a></code></pre></div>
 <p>In short, you can also execute the following command in <code>bash</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="ex">./runUnitTestsForServer.sh</span></a></code></pre></div>
-<h2 id="integration-testing-client---server"><span class="header-section-number">3.2</span> Integration testing (client &lt;-&gt; server)</h2>
+<h2 id="integration-testing-client---server"><span class="header-section-number">4.2</span> Integration testing (client &lt;-&gt; server)</h2>
 <ul>
 <li>Execute the code below for compiling and building client side (integration) test code:</li>
 </ul>
@@ -237,7 +300,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><code>karma</code> : running the integration tests in the browser</li>
 </ul></li>
 </ul>
-<h1 id="generating-html-for-readmemd"><span class="header-section-number">4</span> Generating html for README.md</h1>
+<h1 id="generating-html-for-readmemd"><span class="header-section-number">5</span> Generating html for README.md</h1>
 <ul>
 <li>Install <code>pandoc</code></li>
 <li>Execute <code>utils/markdown/generateHtmlForREADME.sh</code> in the base directory (where <code>README.md</code> is)</li>

@@ -10,9 +10,9 @@ import japgolly.scalajs.react.extra.router.RouterCtl
   *
   * [[]]
   *
-  * @param depth1CompProps     value of props passed to Depth 1 (parent) Component.
-  * @param router a client API to the router - passed in by the
-  *               [[app.client.ui.pages.main.childComp.routerComp.MyRouter]] .
+  * @param depth1CompProps value of props passed to Depth 1 (parent) Component.
+  * @param router          a client API to the router - passed in by the
+  *                        [[app.client.ui.pages.main.childComp.routerComp.MyRouter]] .
   * @tparam D1Comp_Props_TP Type of props passed to Depth 1 Component.
   * @tparam URL_TP The root page which is described
   *                         by the component to which {{{this}}} object is passed as

@@ -1,4 +1,4 @@
-package scalajsreact.template.pages
+package app.client.ui.pages
 
 import scalacss.Defaults._
 import scalacss.ScalaCssReact._

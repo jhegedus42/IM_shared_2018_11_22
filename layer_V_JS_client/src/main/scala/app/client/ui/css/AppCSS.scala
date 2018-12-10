@@ -1,9 +1,9 @@
-package scalajsreact.template.css
+package app.client.ui.css
 
 import scalacss.Defaults._
 import scalacss.internal.mutable.GlobalRegistry
-import scalajsreact.template.components.{LeftNav, TopNav}
-import scalajsreact.template.pages.{HomePage, ItemsPage}
+import app.client.ui.components.{LeftNav, TopNav}
+import app.client.ui.pages.{HomePage, ItemsPage}
 
 object AppCSS {
 

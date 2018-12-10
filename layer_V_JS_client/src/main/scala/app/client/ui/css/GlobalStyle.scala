@@ -1,4 +1,4 @@
-package scalajsreact.template.css
+package app.client.ui.css
 
 import scalacss.DevDefaults._
 
