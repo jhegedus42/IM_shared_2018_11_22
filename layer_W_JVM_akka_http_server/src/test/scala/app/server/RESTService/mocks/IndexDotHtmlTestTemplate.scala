@@ -9,7 +9,7 @@ object IndexDotHtmlTestTemplate {
   val jsModulesNameLowerCase = jsModulesName.map( x => x.toLower )
 
   // this is here because we might need it 'one day'
-  def txt_with_old_comments(testClient: Boolean ) = {
+  def _do_not_use_this_anymore_txt_with_old_comments(testClient: Boolean ) = {
 
     val testString = if (testClient) "-test-" else "-"
 
@@ -49,32 +49,10 @@ object IndexDotHtmlTestTemplate {
       )
   }
 
-  def txt(testClient: Boolean ) = {
-    val testString   = if (testClient) "-test-" else "-"
-    val js_code_path = s"./${jsModulesName}/target/scala-2" + s".12/$jsModulesNameLowerCase${testString}fastopt.js"
-
-    val index_html =
-      s"<!DOCTYPE html>" +
-        html(
-          head(
-            title( "Simple example of full scala, full stack single page web app" ),
-            meta( httpEquiv := "Content-Type", content := "text/html; charset=UTF-8" ),
-            link( rel := "stylesheet", media := "screen", href := "./www/assets/stylesheets/general.css" ),
-          ),
-          body( margin := 0 )(
-            div( id := "rootComp" ),
-            div( id := "rootComp2" ),
-            script( `type` := "text/javascript", src := "./node/generated.js/index-bundle.js" ),
-            script( `type` := "text/javascript", src := js_code_path ),
-            script( "demo.app.App().main()" )
-          )
-        )
-    index_html
-  }
 
   def router_index(testClient: Boolean ) = {
     val testString   = if (testClient) "-test-" else "-"
-    val packageName="app.client.template"
+    val packageName="app.client"
     val js_code_path = s"./${jsModulesName}/target/scala-2" + s".12/$jsModulesNameLowerCase${testString}fastopt.js"
 
     val index_html =
@@ -89,7 +67,8 @@ object IndexDotHtmlTestTemplate {
             div( id := "rootComp" ),
             script( `type` := "text/javascript", src := "./node/generated.js/index-bundle.js" ),
             script( `type` := "text/javascript", src := js_code_path ),
-              script( s"${packageName}.ReactApp.main()" )
+//              script( s"${packageName}.ReactApp.main()" )
+              script( s"${packageName}.Main().main()" )
           )
         )
     index_html

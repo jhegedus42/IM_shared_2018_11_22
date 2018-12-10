@@ -58,7 +58,7 @@ object TestServerFactory {
 
 
 
-      override lazy val rootPageHtml = IndexDotHtmlTestTemplate.txt(false)
+      override lazy val rootPageHtml = IndexDotHtmlTestTemplate.router_index(false)
 //      override lazy val rootPageHtml = IndexDotHtmlTestTemplate.router_index(false)
 
 

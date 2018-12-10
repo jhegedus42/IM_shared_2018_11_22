@@ -1,4 +1,3 @@
-utils/clean.sh
 sbt 'clean'
 sbt 'compile'
 sbt 'fastOptJS'
