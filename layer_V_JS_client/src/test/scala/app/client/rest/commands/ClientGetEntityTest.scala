@@ -20,6 +20,7 @@ class ClientGetEntityTest extends AsyncFunSuite with Matchers with BeforeTester 
 
   println( "42" )
 
+  // entity does not exist
   testWithBefore( resetDBBeforeTest )(
     "getEntity should return does not exist error if entity does not exist with given uuid"
   ) {
@@ -34,6 +35,7 @@ class ClientGetEntityTest extends AsyncFunSuite with Matchers with BeforeTester 
     } )
   }
 
+  // invalid uuid error
   testWithBefore( resetDBBeforeTest )(
     "getEntity should return invalid uuid error if the uuid is invalidly formatted"
   ) {
@@ -48,6 +50,7 @@ class ClientGetEntityTest extends AsyncFunSuite with Matchers with BeforeTester 
     } )
   }
 
+  // happy path
   testWithBefore( resetDBBeforeTest )( "getEntity should return a nice RefVal[Line] on the happy path " ) {
     // just like in AkkHttpServerTest ...
     val ref: Ref[LineText] =

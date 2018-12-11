@@ -239,6 +239,69 @@ The last command should give something like this:
 - Execute the integration tests. There are two possibilities for doing this :
     - `node` :  running the integration tests on `node`
     - `karma` :  running the integration tests in the browser
+    
+For running the integration tests using `node`, execute the following commands in the root directory of the 
+project (where this README.md file is located), also make sure that the test server is running :
+
+In bash:
+```bash
+export NODE_PATH=./node/node_modules:$NODE_PATH
+sbt
+``` 
+In `sbt`  REPL:
+```sbtshell
+> project layer_V_JS_client
+> clean
+> test:compile
+> test:fastOptJS
+```
+
+This should give something like the following :
+```sbtshell
+Jozsefs-MacBook-Pro:im-2018jan joco$ sbt
+[info] Loading global plugins from /Users/joco/.sbt/0.13/plugins
+[info] Loading project definition from /Users/joco/dev/IM/im-2018jan/project
+[info] Set current project to IM root project (in build file:/Users/joco/dev/IM/im-2018jan/)
+> project layer_V_JS_client
+[info] Set current project to layer_V_JS_client (in build file:/Users/joco/dev/IM/im-2018jan/)
+> clean
+[success] Total time: 1 s, completed Dec 11, 2018 8:50:02 PM
+> test:compile
+[info] Updating {file:/Users/joco/dev/IM/im-2018jan/}layer_V_JS_client...
+[info] Resolving org.eclipse.jetty#jetty-continuation;8.1.16.v20140903 ...
+[info] Done updating.
+[info] Compiling 21 Scala sources to /Users/joco/dev/IM/im-2018jan/layer_V_JS_client/target/scala-2.12/classes...
+[warn] /Users/joco/dev/IM/im-2018jan/layer_V_JS_client/src/main/scala/app/client/Main.scala:11: @JSExport on objects is deprecated and will be removed in 1.0.0. Use @JSExportTopLevel instead. Note that it exports the object itself (rather than a 0-arg function returning the object), so the calling JavaScript code must be adapted.
+[warn]   (you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressExportDeprecations` to scalac)
+[warn] @JSExport( "Main" )
+[warn]  ^
+[warn] /Users/joco/dev/IM/im-2018jan/layer_V_JS_client/src/main/scala/app/client/_jsTools/JsTools.scala:17: @JSExport on objects is deprecated and will be removed in 1.0.0. Use @JSExportTopLevel instead. Note that it exports the object itself (rather than a 0-arg function returning the object), so the calling JavaScript code must be adapted.
+[warn]   (you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressExportDeprecations` to scalac)
+[warn] @JSExport
+[warn]  ^
+[warn] /Users/joco/dev/IM/im-2018jan/layer_V_JS_client/src/main/scala/app/client/_jsTools/JsTools.scala:45: Top-level native JS classes and objects should have an @JSGlobal or @JSImport annotation. This will be enforced in 1.0.
+[warn]   If migrating from 0.6.14 or earlier, the equivalent behavior is an @JSGlobal without parameter.
+[warn]   (you can suppress this warning in 0.6.x by passing the option `-P:scalajs:suppressMissingJSGlobalDeprecations` to scalac)
+[warn] object vkbeautify extends js.Object {
+[warn]        ^
+[warn] there were 22 deprecation warnings (since 0.5.3)
+[warn] there was one deprecation warning (since 0.6.20)
+[warn] there was one deprecation warning (since always)
+[warn] there were 24 deprecation warnings in total; re-run with -deprecation for details
+[warn] 7 warnings found
+[info] Compiling 9 Scala sources to /Users/joco/dev/IM/im-2018jan/layer_V_JS_client/target/scala-2.12/test-classes...
+[success] Total time: 56 s, completed Dec 11, 2018 8:51:06 PM
+> test:fastOptJS
+[info] Fast optimizing /Users/joco/dev/IM/im-2018jan/layer_V_JS_client/target/scala-2.12/layer_v_js_client-test-fastopt.js
+[success] Total time: 10 s, completed Dec 11, 2018 8:51:25 PM
+>
+```
+
+Now execute the `test` command in sbt:
+
+```sbtshell
+> test
+```
 
 # Generating html for README.md
 
