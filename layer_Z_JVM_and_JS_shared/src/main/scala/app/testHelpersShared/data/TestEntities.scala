@@ -12,7 +12,14 @@ object TestEntities {
   val line                     = LineText(title= "pina",text="text")
   //    private[this] val line                     = Line()
   val refToLine: Ref[LineText] = Ref.makeWithUUID(theUUIDofTheLine)
+
+
+
+
   val refValOfLineV0           = RefVal(refToLine, line, Version())
+
+
+
   val refValOfLineV1           = RefVal(refToLine, line, Version().inc())
 
 }

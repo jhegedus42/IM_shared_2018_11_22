@@ -20,12 +20,18 @@ import scalaz.\/
     }
 
     import app.testHelpersShared.data.TestEntities.refValOfLineV0
+
+
     val TestState_LabelOne_OneLine_WithVersionZero_nothing_else:  ApplicationState =
       ApplicationState().insertEntity(refValOfLineV0).toEither.right.get
+
+
 
     object LabelOneEntities{
       val lineInState: RefVal[LineText] = refValOfLineV0
     }
+
+
 
 
     val TestState_LabelTwo_OneLine_WithVersionOne_nothing_else:  ApplicationState = {
