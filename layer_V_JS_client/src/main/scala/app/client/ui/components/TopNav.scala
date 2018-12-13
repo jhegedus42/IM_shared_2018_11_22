@@ -18,7 +18,7 @@ object TopNav {
 
     val navMenu = style(display.flex,
                         alignItems.center,
-                        backgroundColor(c"#F2706D"),
+                        backgroundColor.gray,
                         margin.`0`,
                         listStyle := "none")
 
@@ -28,8 +28,8 @@ object TopNav {
         fontSize(1.5.em),
         cursor.pointer,
         color(c"rgb(244, 233, 233)"),
-        mixinIfElse(selected)(backgroundColor(c"#E8433F"), fontWeight._500)(
-          &.hover(backgroundColor(c"#B6413E")))
+        mixinIfElse(selected)(backgroundColor.darkslategray, fontWeight._500)(
+          &.hover(backgroundColor.darkgray))
       )
     }
   }

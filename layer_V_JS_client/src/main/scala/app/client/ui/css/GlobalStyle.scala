@@ -11,7 +11,9 @@ object GlobalStyle extends StyleSheet.Inline {
       margin.`0`,
       padding.`0`,
       fontSize(14.px),
-      fontFamily := "Roboto, sans-serif"
+      fontFamily := "Roboto, sans-serif",
+      backgroundColor.dimgrey,
+      color.white
     )
   )
 }

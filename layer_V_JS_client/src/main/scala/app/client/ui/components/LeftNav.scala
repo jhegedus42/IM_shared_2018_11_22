@@ -26,9 +26,9 @@ object LeftNav {
         padding :=! "0 25px",
         cursor.pointer,
         textDecoration := "none",
-        mixinIfElse(selected)(color.red, fontWeight._500)(
+        mixinIfElse(selected)(color.white, fontWeight._500,backgroundColor.darkslategrey)(
           color.black,
-          &.hover(color(c"#555555"), backgroundColor(c"#ecf0f1"))
+          &.hover(color.black, backgroundColor.darkgrey)
         )
       )
     }
