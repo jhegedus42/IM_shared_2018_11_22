@@ -28,7 +28,7 @@ object TopNav {
         fontSize(1.5.em),
         cursor.pointer,
         color(c"rgb(244, 233, 233)"),
-        mixinIfElse(selected)(backgroundColor.darkslategray, fontWeight._500)(
+        mixinIfElse(selected)(color(c"#504747"), fontWeight._500)(
           &.hover(backgroundColor.darkgray))
       )
     }
