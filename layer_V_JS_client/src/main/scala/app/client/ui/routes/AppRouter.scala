@@ -6,12 +6,12 @@ import app.client.ui.pages.HomePage
 import japgolly.scalajs.react.extra.router.StaticDsl.Route
 import japgolly.scalajs.react.extra.router.{Resolution, RouterConfigDsl, RouterCtl, _}
 import japgolly.scalajs.react.vdom.html_<^._
-
-
 import scalacss.Defaults._
 import scalacss.ScalaCssReact._
-
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.component.Js
+import japgolly.scalajs.react.component.Scala.Unmounted
+import japgolly.scalajs.react.extra.OnUnmount
 import japgolly.scalajs.react.vdom.html_<^._
 
 
@@ -33,6 +33,8 @@ object AppRouter {
                            p => <.div(s"Info for item #${p.props.id}")
                          })
                  .build
+  // ^^^ ennek kell adni egy state-et
+
 
   val config = RouterConfigDsl[AppPage].buildConfig { dsl =>
     import dsl._
@@ -62,14 +64,20 @@ object AppRouter {
   )
 
   def layout(c: RouterCtl[AppPage], r: Resolution[AppPage]) =
+  {
+    // pl ide lehetne rakni vmit ami updateli a Cache.currentChild-jat ...
+    // odaadja neki a resolution-t
+
+    println(s"page = ${r.page}")
     <.div(
-      TopNav(TopNav.Props(mainMenu, r.page, c)),
-      r.render(),
-      Footer()
-    )
+           TopNav(TopNav.Props(mainMenu, r.page, c)),
+           r.render(),
+           Footer() //
+         )
+  }
 
 //  val baseUrl = BaseUrl.fromWindowOrigin / "scalajs-react-template/"
   val baseUrl = BaseUrl.fromWindowOrigin_/
 
-  val router = Router(baseUrl, config)
+  val router  = Router(baseUrl, config)
 }
