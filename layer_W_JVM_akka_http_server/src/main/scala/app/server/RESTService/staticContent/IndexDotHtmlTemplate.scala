@@ -1,7 +1,5 @@
 package app.server.RESTService.staticContent
 
-import akka.http.scaladsl.model.headers.LinkParams.title
-
 object IndexDotHtmlTemplate{
   import scalatags.Text.all._
   import scalatags.Text.tags2.title
@@ -26,7 +24,8 @@ object IndexDotHtmlTemplate{
           script(`type`:="text/javascript", src:="./node/generated.js/index-bundle.js"),
           script(`type`:="text/javascript", src:="./js/target/scala-2.11/js-fastopt.js"),
           script(`type`:="text/javascript", src:="./js/target/scala-2.11/js-jsdeps.js"),
-          script("app.client.Main().main()")//, //start scalajs-react app
+//          script("app.client.Main().main()")//, //start scalajs-react app
+          script("experiments.cache.MainWithCache.main()")//, //start scalajs-react app
 //          script("console.log('pina 42')") //start scalajs-react app
         )
       )
