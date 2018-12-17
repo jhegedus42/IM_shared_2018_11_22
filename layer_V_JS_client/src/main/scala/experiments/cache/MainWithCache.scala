@@ -13,7 +13,7 @@ import scala.scalajs.js.annotation.JSExport
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
-@JSExport( "Main" )
+@JSExport( "MainWithCache" )
 object MainWithCache extends js.JSApp {
   implicit def executionContext: ExecutionContextExecutor =
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue

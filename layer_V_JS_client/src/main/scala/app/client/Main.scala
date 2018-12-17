@@ -12,7 +12,7 @@ import scala.scalajs.js.annotation.JSExport
 // this needs to be supressed
 // we can have one such export
 // otherwise ScalaJS fastOptJS fails
-//@JSExport( "Main" )
+@JSExport( "Main" )
 object Main extends js.JSApp {
   implicit def executionContext: ExecutionContextExecutor =
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
