@@ -4,6 +4,7 @@ import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.shared.data.model.LineText
 import app.shared.data.ref.Ref
 import app.testHelpersShared.data.TestEntities
+import experiments.cache.css.AppWithCacheCSS
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
 
@@ -12,6 +13,9 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
+
+
+
 
 @JSExport( "MainWithCache" )
 object MainWithCache extends js.JSApp {
@@ -22,6 +26,7 @@ object MainWithCache extends js.JSApp {
   def main(): Unit = {
 
 
+    AppWithCacheCSS.load
     import slogging._
     LoggerConfig.factory = PrintLoggerFactory()
     LoggerConfig.level   = LogLevel.TRACE
