@@ -1,13 +1,8 @@
 package app.client.rest.commands
 
-import app.client.rest.commands.generalCRUD.GetEntityAJAX.{ResDyn, getEntityDyn}
-import app.shared.InvalidUUIDinURLError
-import app.shared.data.model.LineText
-import app.shared.data.ref.{Ref, RefValDyn, Version}
-import app.testHelpersShared.data.TestEntities
-import org.scalatest.{Assertion, AsyncFunSuite, Matchers}
+import org.scalatest.{AsyncFunSuite, Matchers}
 
-import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.concurrent.ExecutionContextExecutor
 
 /**
   * Created by joco on 16/12/2017.
@@ -39,27 +34,27 @@ class ClientGetEntityDynTest extends AsyncFunSuite with Matchers with BeforeTest
   )( test1 )*/
 
 
+//
+//  testWithBefore( resetDBBeforeTest )( "incorrectly formatted uuid - return invalid uuid error" ) {
+//    val ref: Ref[LineText] =
+//      Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e0d9a" ) // wrong
+//    getEntityDyn( ref ).map( x => {
+//      println( "before checking getLines' result" );
+//      x.erv.toEither.left.get shouldBe a[InvalidUUIDinURLError]
+//    } )
+//  }
 
-  testWithBefore( resetDBBeforeTest )( "incorrectly formatted uuid - return invalid uuid error" ) {
-    val ref: Ref[LineText] =
-      Ref.makeWithUUID[LineText]( "4ce6fca0-0fd5-4197-a946-90f5e7e0d9a" ) // wrong
-    getEntityDyn( ref ).map( x => {
-      println( "before checking getLines' result" );
-      x.erv.toEither.left.get shouldBe a[InvalidUUIDinURLError]
-    } )
-  }
-
-  testWithBefore( resetDBBeforeTest )( "happy path should return us a nice RefVal[Line]" ) {
-    val ref: Ref[LineText] =
-      Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-
-
-    def f2: Future[Assertion] =
-      getEntityDyn( ref ).map((x: ResDyn) => {
-        println( "before checking getLines' result" );
-        x.erv.toEither.right.get shouldBe RefValDyn( ref, TestEntities.line, Version( 0 ) )
-      } )
-    f2
-  }
+//  testWithBefore( resetDBBeforeTest )( "happy path should return us a nice RefVal[Line]" ) {
+//    val ref: Ref[LineText] =
+//      Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+//
+//
+//    def f2: Future[Assertion] =
+//      getEntityDyn( ref ).map((x: ResDyn) => {
+//        println( "before checking getLines' result" );
+//        x.erv.toEither.right.get shouldBe RefValDyn( ref, TestEntities.line, Version( 0 ) )
+//      } )
+//    f2
+//  }
 
 }

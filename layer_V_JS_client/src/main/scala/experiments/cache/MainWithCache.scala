@@ -2,7 +2,7 @@ package experiments.cache
 
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.shared.data.model.LineText
-import app.shared.data.ref.Ref
+import app.shared.data.ref.{Ref, RefDyn}
 import app.testHelpersShared.data.TestEntities
 import experiments.cache.css.AppWithCacheCSS
 import org.scalajs.dom.document
@@ -14,8 +14,13 @@ import scala.scalajs.js.annotation.JSExport
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.html_<^._
 
+object Cache {
+  var requests: List[Ref[LineText]] = List()
 
-
+  def askForLineText(r: Ref[LineText] ): Unit = {
+    requests = r :: requests
+  }
+}
 
 @JSExport( "MainWithCache" )
 object MainWithCache extends js.JSApp {
@@ -24,7 +29,6 @@ object MainWithCache extends js.JSApp {
 
   @JSExport
   def main(): Unit = {
-
 
     AppWithCacheCSS.load()
     import slogging._
@@ -36,15 +40,24 @@ object MainWithCache extends js.JSApp {
     val ref: Ref[LineText] =
       Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
 
-    val res: Future[Unit] = getEntity[LineText](ref).map(x => println(s"az entity visszavage $x"))
+    val res: Future[Unit] = getEntity[LineText]( ref ).map( x => println( s"az entity visszavage $x" ) )
 
-    val e: Element = document.getElementById("rootComp")
+    val e: Element = document.getElementById( "rootComp" )
 
+    val HelloMessage = ScalaComponent
+      .builder[String]( "HelloMessage" )
+      .render( $ => <.div( "Hello ", $.props ) )
+      .componentDidMount(
+        x =>
+          Callback(
+            {
+              println( "didmount " + x )
 
-    val HelloMessage = ScalaComponent.builder[String]("HelloMessage")
-                       .render($ => <.div("Hello ", $.props))
-                       .build
+            }
+        )
+      )
+      .build
 
-    HelloMessage("John").renderIntoDOM(e)
+    HelloMessage( "John" ).renderIntoDOM( e )
   }
 }
