@@ -26,7 +26,7 @@ object MainWithCache extends js.JSApp {
   def main(): Unit = {
 
 
-    AppWithCacheCSS.load
+    AppWithCacheCSS.load()
     import slogging._
     LoggerConfig.factory = PrintLoggerFactory()
     LoggerConfig.level   = LogLevel.TRACE
