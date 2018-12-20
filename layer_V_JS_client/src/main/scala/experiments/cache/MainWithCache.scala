@@ -46,13 +46,25 @@ object MainWithCache extends js.JSApp {
 
     val HelloMessage = ScalaComponent
       .builder[String]( "HelloMessage" )
-      .render( $ => <.div( "Hello ", $.props ) )
+      .render(
+        $ => <.div( "Hello ", $.props )
+        // TODO println list of line text-s
+      )
       .componentDidMount(
         x =>
           Callback(
             {
               println( "didmount " + x )
-
+              //TODO put ajax call here, which updates the component when it comes back
+            }
+        )
+      )
+      .componentDidUpdate(
+        x =>
+          Callback(
+            {
+              println( "did update " + x )
+              //TODO put ajax call here, which updates the component when it comes back
             }
         )
       )
