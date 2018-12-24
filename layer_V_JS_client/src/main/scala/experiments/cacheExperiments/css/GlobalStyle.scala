@@ -1,4 +1,4 @@
-package experiments.cache.css
+package experiments.cacheExperiments.css
 import scalacss.DevDefaults._
 import scalacss.ScalaCssReact._
 

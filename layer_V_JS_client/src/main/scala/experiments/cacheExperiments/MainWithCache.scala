@@ -1,10 +1,10 @@
-package experiments.cache
+package experiments.cacheExperiments
 
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefDyn}
 import app.testHelpersShared.data.TestEntities
-import experiments.cache.css.AppWithCacheCSS
+import experiments.cacheExperiments.css.AppWithCacheCSS
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
 
@@ -12,15 +12,10 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
 import japgolly.scalajs.react._
+import japgolly.scalajs.react.component.Scala.Unmounted
 import japgolly.scalajs.react.vdom.html_<^._
 
-object Cache {
-  var requests: List[Ref[LineText]] = List()
 
-  def askForLineText(r: Ref[LineText] ): Unit = {
-    requests = r :: requests
-  }
-}
 
 @JSExport( "MainWithCache" )
 object MainWithCache extends js.JSApp {
@@ -44,32 +39,8 @@ object MainWithCache extends js.JSApp {
 
     val e: Element = document.getElementById( "rootComp" )
 
-    val HelloMessage = ScalaComponent
-      .builder[String]( "HelloMessage" )
-      .render(
-        $ => <.div( "Hello ", $.props )
-        // TODO println list of line text-s
-      )
-      .componentDidMount(
-        x =>
-          Callback(
-            {
-              println( "didmount " + x )
-              //TODO put ajax call here, which updates the component when it comes back
-            }
-        )
-      )
-      .componentDidUpdate(
-        x =>
-          Callback(
-            {
-              println( "did update " + x )
-              //TODO put ajax call here, which updates the component when it comes back
-            }
-        )
-      )
-      .build
+    MainComp("John" ).renderIntoDOM( e )
+    val mc: Unmounted[String, Unit, Unit] = MainComp.apply("x")
 
-    HelloMessage( "John" ).renderIntoDOM( e )
   }
 }
