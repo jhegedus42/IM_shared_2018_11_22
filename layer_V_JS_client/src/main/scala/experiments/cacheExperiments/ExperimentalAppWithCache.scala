@@ -33,10 +33,6 @@ object ExperimentalAppWithCache extends js.JSApp {
 
     import io.circe.generic.auto._
 
-    val ref: Ref[LineText] =
-      Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-
-    val res: Future[Unit] = getEntity[LineText]( ref ).map( x => println( s"az entity visszavage $x" ) )
 
     val e: Element = document.getElementById( "rootComp" )
 

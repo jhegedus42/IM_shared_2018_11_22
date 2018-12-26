@@ -19,8 +19,20 @@ object RootComp {
             props.toString
             )
 
-    // TODO push button => load Some Uuid Ref
-    // TODO push button => print SumIntView x+y
+
+    // TODO push button : increase counter (in state)
+
+    // TODO
+    // push button A : increase counter 5 seconds later
+    // push button B : increase counter now
+
+
+
+    // TODO push button : increase counter (in cache)
+
+    // TODO
+    // push button A : increase counter 5 seconds later in cache
+    // push button B : increase counter now in cache
 
   }
 
