@@ -26,7 +26,7 @@ case class LineWithQue(line: LineText, que: Option[ImgQue] = None ) extends Enti
 
 case class Tag(name: String ) extends Entity
 
-case class LineText(title: String, text: String, tags: Set[Ref[Tag]] = Set() ) extends Entity
+case class LineText(title: String, text: String, tags: Set[Ref[Tag]] = Set()  ) extends Entity
 
 case class ImgQue(rect1: Option[ImgQue.Rect], rect2: Option[ImgQue.Rect], img: ImgQue.Img ) extends Entity
 

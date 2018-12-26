@@ -46,10 +46,8 @@ object ExperimentalAppWithCache extends js.JSApp {
     import scala.scalajs.js.timers._
 
     setTimeout(1000) {
-
-                        rootComp //TODO set state....
-//                        rootComp.set
-
+                       // rootComp //TODO set state....
+                       println("1s has elapsed")
                      }
   }
 }

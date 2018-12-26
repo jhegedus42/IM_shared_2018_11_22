@@ -1,6 +1,7 @@
 package experiments.cacheExperiments.components
 
-import japgolly.scalajs.react._
+import japgolly.scalajs.react.{CtorType, _}
+import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.vdom.html_<^._
 
 object RootComp {
@@ -10,17 +11,20 @@ object RootComp {
 
   class Backend($ : BackendScope[Props, State] ) {
 
-//    def render(state : State) =
-//      <.div("State passed: ", state.toString)
     def render(state:State, props:Props) =
       <.div("State passed: ",
             state.toString,
+            <.br,
             "Props passed:",
             props.toString
             )
 
+    // TODO push button => load Some Uuid Ref
+    // TODO push button => print SumIntView x+y
+
   }
 
+  //noinspection TypeAnnotation
   lazy val compConstructor =
     ScalaComponent
       .builder[Props]( "Cache Experiment" )
@@ -31,7 +35,6 @@ object RootComp {
           Callback(
             {
               println( "didmount " + x )
-              //TODO put ajax call here, which updates the component when it comes back
             }
         )
       )
@@ -40,7 +43,6 @@ object RootComp {
           Callback(
             {
               println( "did update " + x )
-              //TODO put ajax call here, which updates the component when it comes back
 
             }
         )
