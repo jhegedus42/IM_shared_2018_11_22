@@ -16,12 +16,25 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.component.Scala.Unmounted
 import japgolly.scalajs.react.vdom.html_<^._
 
+import scala.scalajs.js.timers.SetTimeoutHandle
+
 
 
 @JSExport( "ExperimentalAppWithCache" )
 object ExperimentalAppWithCache extends js.JSApp {
   implicit def executionContext: ExecutionContextExecutor =
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+
+  def tick(): SetTimeoutHandle ={
+
+    import scala.scalajs.js.timers._
+
+    setTimeout(10000) {
+                        // rootComp //TODO set state....
+                        println("10s has elapsed")
+                        ExperimentalAppWithCache.tick
+                      }
+  }
 
   @JSExport
   def main(): Unit = {
@@ -36,14 +49,10 @@ object ExperimentalAppWithCache extends js.JSApp {
 
     val e: Element = document.getElementById( "rootComp" )
 
+    tick()
+
     val rootComp= RootComp.compConstructor(RootComp.Props("These are the props"))
         rootComp.renderIntoDOM( e )
 
-    import scala.scalajs.js.timers._
-
-    setTimeout(1000) {
-                       // rootComp //TODO set state....
-                       println("1s has elapsed")
-                     }
   }
 }
