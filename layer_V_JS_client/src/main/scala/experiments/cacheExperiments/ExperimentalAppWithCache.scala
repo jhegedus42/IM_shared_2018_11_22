@@ -4,6 +4,7 @@ import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefDyn}
 import app.testHelpersShared.data.TestEntities
+import experiments.cacheExperiments.components.RootComp
 import experiments.cacheExperiments.css.AppWithCacheCSS
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
@@ -17,8 +18,8 @@ import japgolly.scalajs.react.vdom.html_<^._
 
 
 
-@JSExport( "MainWithCache" )
-object MainWithCache extends js.JSApp {
+@JSExport( "ExperimentalAppWithCache" )
+object ExperimentalAppWithCache extends js.JSApp {
   implicit def executionContext: ExecutionContextExecutor =
     scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
@@ -39,8 +40,16 @@ object MainWithCache extends js.JSApp {
 
     val e: Element = document.getElementById( "rootComp" )
 
-    MainComp("John" ).renderIntoDOM( e )
-    val mc: Unmounted[String, Unit, Unit] = MainComp.apply("x")
+    val rootComp= RootComp.compConstructor(RootComp.Props("These are the props"))
+        rootComp.renderIntoDOM( e )
 
+    import scala.scalajs.js.timers._
+
+    setTimeout(1000) {
+
+                        rootComp //TODO set state....
+//                        rootComp.set
+
+                     }
   }
 }

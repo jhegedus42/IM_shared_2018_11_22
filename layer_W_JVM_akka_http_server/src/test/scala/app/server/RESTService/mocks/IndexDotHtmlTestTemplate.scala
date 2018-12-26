@@ -68,7 +68,7 @@ object IndexDotHtmlTestTemplate {
             script( `type` := "text/javascript", src := js_code_path ),
 //              script( s"${packageName}.ReactApp.main()" )
 //              script( s"${packageName}.Main().main()" )
-            script( "experiments.cache.MainWithCache().main()" ) //, //start scalajs-react app
+            script( "experiments.cacheExperiments.ExperimentalAppWithCache().main()" ) //, //start scalajs-react app
           )
         )
     index_html
