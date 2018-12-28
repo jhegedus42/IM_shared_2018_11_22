@@ -20,19 +20,12 @@ object RootComp {
             )
 
 
-    // TODO push button : increase counter (in state)
-
-    // TODO
-    // push button A : increase counter 5 seconds later
-    // push button B : increase counter now
+    // dd029475_f9ddbea9
+    // TODO in dynalist at
+    // https://dynalist.io/d/1FvMKMOA-9w4G3dY9dXkBknT#z=qNJ7FMqu1lUdSxfTSB81W91x
 
 
 
-    // TODO push button : increase counter (in cache)
-
-    // TODO
-    // push button A : increase counter 5 seconds later in cache
-    // push button B : increase counter now in cache
 
   }
 
