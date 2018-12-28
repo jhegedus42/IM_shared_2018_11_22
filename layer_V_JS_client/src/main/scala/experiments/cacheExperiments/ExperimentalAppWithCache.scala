@@ -36,6 +36,12 @@ object ExperimentalAppWithCache extends js.JSApp {
                       }
   }
 
+  def exampleAjaxRequest(): Unit = {
+    import io.circe.generic.auto._
+    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+    val res: Future[Unit] = getEntity[LineText]( ref ).map( x => println( s"az entity visszavage $x" ) )
+  }
+
   @JSExport
   def main(): Unit = {
 
@@ -44,12 +50,12 @@ object ExperimentalAppWithCache extends js.JSApp {
     LoggerConfig.factory = PrintLoggerFactory()
     LoggerConfig.level   = LogLevel.TRACE
 
-    import io.circe.generic.auto._
-
 
     val e: Element = document.getElementById( "rootComp" )
 
     tick()
+
+    exampleAjaxRequest()
 
     val rootComp= RootComp.compConstructor(RootComp.Props("These are the props"))
         rootComp.renderIntoDOM( e )
