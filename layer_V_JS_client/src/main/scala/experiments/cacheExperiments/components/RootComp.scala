@@ -11,12 +11,17 @@ object RootComp {
 
   class Backend($ : BackendScope[Props, State] ) {
 
+
     def render(state:State, props:Props) =
       <.div("State passed: ",
             state.toString,
             <.br,
             "Props passed:",
-            props.toString
+            props.toString,
+            <.br,
+            <.button( ^.onClick --> Callback.alert("The button was pressed!"), "Press me (alert)!"),
+            <.br,
+            <.button( ^.onClick --> Callback.log("button pressed"), "Press me (log)!")
             )
 
 
