@@ -14,6 +14,12 @@ object RootComp {
 
     val incCounter: CallbackTo[Unit] = $.modState(s=> s.copy(i= s.i + 1))
 
+    val incCounterFiveSecLater: CallbackTo[Unit] = Callback{
+      import scala.scalajs.js.timers._
+      setTimeout(5000) { $.modState(s => s.copy(i = s.i + 1)).runNow() }
+    }
+
+
 
     def render(state:State, props:Props) =
       <.div("State passed: ",
@@ -24,9 +30,11 @@ object RootComp {
             <.br,
             <.button( ^.onClick --> Callback.alert("The button was pressed!"), "Press me (alert)!"),
             <.br,
-            <.button( ^.onClick --> incCounter, "Increment counter!"),
+            <.button( ^.onClick --> incCounter, "Increment counter!"), // TASK: 061c2893_a517cd11
             <.br,
-            <.button( ^.onClick --> Callback.log("button pressed"), "Press me (log)!")
+            <.button( ^.onClick --> Callback.log("button pressed"), "Press me (log)!"),
+            <.br,
+            <.button( ^.onClick --> incCounterFiveSecLater, "Increment counter 5 sec later!"), // a1b6f428_671bf29d
             )
 
 
