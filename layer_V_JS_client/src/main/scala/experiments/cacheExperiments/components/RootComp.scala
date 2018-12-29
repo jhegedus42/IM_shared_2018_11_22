@@ -12,6 +12,9 @@ object RootComp {
   class Backend($ : BackendScope[Props, State] ) {
 
 
+    val incCounter: CallbackTo[Unit] = $.modState(s=> s.copy(i= s.i + 1))
+
+
     def render(state:State, props:Props) =
       <.div("State passed: ",
             state.toString,
@@ -20,6 +23,8 @@ object RootComp {
             props.toString,
             <.br,
             <.button( ^.onClick --> Callback.alert("The button was pressed!"), "Press me (alert)!"),
+            <.br,
+            <.button( ^.onClick --> incCounter, "Increment counter!"),
             <.br,
             <.button( ^.onClick --> Callback.log("button pressed"), "Press me (log)!")
             )
