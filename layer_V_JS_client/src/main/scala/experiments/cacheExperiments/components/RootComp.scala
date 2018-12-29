@@ -6,6 +6,7 @@ import app.shared.data.ref.{Ref, RefVal}
 import app.testHelpersShared.data.TestEntities
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
+import japgolly.scalajs.react.component.builder.Lifecycle
 import japgolly.scalajs.react.vdom.html_<^._
 import scalaz.\/
 
@@ -26,6 +27,12 @@ object RootComp {
       setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
     }
 
+    val incCounterFiveSecLater_CalledFromComponentDidMount: CallbackTo[Unit] = Callback { // for TASK_e66038a2_ece05d8e
+      import scala.scalajs.js.timers._
+      println("incCounterFiveSecLater_CalledFromComponentDidMount was called")
+      setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
+    }
+
     val fetchDataFromServer: CallbackTo[Unit] =
       Callback {
         implicit def executionContext: ExecutionContextExecutor =
@@ -36,9 +43,9 @@ object RootComp {
         val res: Future[Unit] = getEntity[LineText]( ref ).map(
           x => {
             println( s"az entity visszavage $x" )
-            val lt: \/[SomeError_Trait, RefVal[LineText]] = x
-            val res: Option[RefVal[LineText]] = lt.toOption
-            $.modState( s => s.copy(lineTextOption = res)).runNow()
+            val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
+            val res: Option[RefVal[LineText]]              = lt.toOption
+            $.modState( s => s.copy( lineTextOption = res ) ).runNow()
           }
         )
       }
@@ -74,12 +81,9 @@ object RootComp {
       .initialState( State( 42, None ) )
       .renderBackend[Backend]
       .componentDidMount(
-        x =>
-          Callback(
-            {
-              println( "didmount " + x )
-            }
-        )
+        (x: Lifecycle.Base[Props, State, Backend]) =>
+        x.backend.incCounterFiveSecLater_CalledFromComponentDidMount // for TASK_e66038a2_ece05d8e
+        // here we can pass the re-render triggering function to the cache
       )
       .componentDidUpdate(
         x =>
