@@ -1,49 +1,69 @@
 package experiments.cacheExperiments.components
 
+import app.shared.SomeError_Trait
+import app.shared.data.model.LineText
+import app.shared.data.ref.{Ref, RefVal}
+import app.testHelpersShared.data.TestEntities
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.vdom.html_<^._
+import scalaz.\/
+
+import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object RootComp {
 
-  case class State(i:Int)
-  case class Props(s:String)
+  case class State(i: Int, lineTextOption: Option[RefVal[LineText]] )
+
+  case class Props(s: String )
 
   class Backend($ : BackendScope[Props, State] ) {
 
+    val incCounter: CallbackTo[Unit] = $.modState( s => s.copy( i = s.i + 1 ) )
 
-    val incCounter: CallbackTo[Unit] = $.modState(s=> s.copy(i= s.i + 1))
-
-    val incCounterFiveSecLater: CallbackTo[Unit] = Callback{
+    val incCounterFiveSecLater: CallbackTo[Unit] = Callback {
       import scala.scalajs.js.timers._
-      setTimeout(5000) { $.modState(s => s.copy(i = s.i + 1)).runNow() }
+      setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
     }
 
+    val fetchDataFromServer: CallbackTo[Unit] =
+      Callback {
+        implicit def executionContext: ExecutionContextExecutor =
+          scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+        import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
+        import io.circe.generic.auto._
+        val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+        val res: Future[Unit] = getEntity[LineText]( ref ).map(
+          x => {
+            println( s"az entity visszavage $x" )
+            val lt: \/[SomeError_Trait, RefVal[LineText]] = x
+            val res: Option[RefVal[LineText]] = lt.toOption
+            $.modState( s => s.copy(lineTextOption = res)).runNow()
+          }
+        )
+      }
 
-
-    def render(state:State, props:Props) =
-      <.div("State passed: ",
-            state.toString,
-            <.br,
-            "Props passed:",
-            props.toString,
-            <.br,
-            <.button( ^.onClick --> Callback.alert("The button was pressed!"), "Press me (alert)!"),
-            <.br,
-            <.button( ^.onClick --> incCounter, "Increment counter!"), // TASK: 061c2893_a517cd11
-            <.br,
-            <.button( ^.onClick --> Callback.log("button pressed"), "Press me (log)!"),
-            <.br,
-            <.button( ^.onClick --> incCounterFiveSecLater, "Increment counter 5 sec later!"), // a1b6f428_671bf29d
-            )
-
-
+    def render(state: State, props: Props ) =
+      <.div(
+        "State passed: ",
+        state.toString,
+        <.br,
+        "Props passed:",
+        props.toString,
+        <.br,
+        <.button( ^.onClick --> Callback.alert( "The button was pressed!" ), "Press me (alert)!" ),
+        <.br,
+        <.button( ^.onClick --> incCounter, "Increment counter!" ), // TASK: 061c2893_a517cd11
+        <.br,
+        <.button( ^.onClick --> Callback.log( "button pressed" ), "Press me (log)!" ),
+        <.br,
+        <.button( ^.onClick --> incCounterFiveSecLater, "Increment counter 5 sec later!" ), // TASK_a1b6f428_671bf29d
+        <.br,
+        <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ) // TASK_fa6672bc_9bb672a8
+      )
     // dd029475_f9ddbea9
     // TODO in dynalist at
     // https://dynalist.io/d/1FvMKMOA-9w4G3dY9dXkBknT#z=qNJ7FMqu1lUdSxfTSB81W91x
-
-
-
 
   }
 
@@ -51,7 +71,7 @@ object RootComp {
   lazy val compConstructor =
     ScalaComponent
       .builder[Props]( "Cache Experiment" )
-      .initialState(State(42))
+      .initialState( State( 42, None ) )
       .renderBackend[Backend]
       .componentDidMount(
         x =>
