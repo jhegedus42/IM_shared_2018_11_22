@@ -4,6 +4,7 @@ import app.shared.SomeError_Trait
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal}
 import app.testHelpersShared.data.TestEntities
+import experiments.cacheExperiments.cache.Cache
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -17,6 +18,8 @@ object RootComp {
   case class State(i: Int, lineTextOption: Option[RefVal[LineText]] )
 
   case class Props(s: String )
+
+  def getLineRefValOptionFromCacheAsString():String = Cache.read().toString
 
   class Backend($ : BackendScope[Props, State] ) {
 
@@ -67,7 +70,11 @@ object RootComp {
         <.br,
         <.button( ^.onClick --> incCounterFiveSecLater, "Increment counter 5 sec later!" ), // TASK_a1b6f428_671bf29d
         <.br,
-        <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ) // TASK_fa6672bc_9bb672a8
+        <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ), // TASK_fa6672bc_9bb672a8
+        <.br,
+        "Cache contains:",
+        <.br,
+        getLineRefValOptionFromCacheAsString()
       )
     // dd029475_f9ddbea9
     // TODO in dynalist at
