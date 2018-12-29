@@ -33,6 +33,7 @@ object RootComp {
       setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
     }
 
+
     val fetchDataFromServer: CallbackTo[Unit] =
       Callback {
         implicit def executionContext: ExecutionContextExecutor =
