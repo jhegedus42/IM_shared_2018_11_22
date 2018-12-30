@@ -5,7 +5,7 @@ import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal}
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
-import experiments.cacheExperiments.cache.{Cache, ReRenderTriggerer}
+import experiments.cacheExperiments.cache.{AJAXRequestsWatcher, Cache, ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -20,11 +20,10 @@ object RootComp {
 
   case class Props(s: String )
 
-  def getLineRefValOptionFromCacheAsString(): String =
-    {
-      val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-      Cache.read().toString
-    }
+  def getLineRefValOptionFromCacheAsString(): String = {
+    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+    Cache.read().toString
+  }
 
   class Backend($ : BackendScope[Props, State] ) {
 
@@ -101,7 +100,7 @@ object RootComp {
           println( "we have just increased the counter in the component" )
         } )
 
-      Cache.reRenderTriggerer = Some( reRenderTriggerer )
+      AJAXRequestsWatcher.reRenderTriggerer = Some( reRenderTriggerer )
     }
 
   //noinspection TypeAnnotation

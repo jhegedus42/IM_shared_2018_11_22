@@ -12,27 +12,34 @@ import scalaz.\/
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
-//object Cache {
-//  var requests: List[Ref[LineText]] = List()
-//
-//  def askForLineText(r: Ref[LineText] ): Unit = {
-//    requests = r :: requests
-//  }
-//}
-
 case class ReRenderTriggerer(triggerReRender: Unit => Unit )
 
 /**
+  * This is watching over the ajax requests and what they are doing.
   * If the number of ajax requests drops to zero then we trigger a re-render
+  * // TODO ^^^^
   */
 
 object AJAXRequestsWatcher {
   var reRenderTriggerer: Option[ReRenderTriggerer] = None
+  // TODO somebody ^^^ should give this a good init value ^^^
+  // this changes ^^^^ because the top component changes (unless the
+  // top component that I will re-render is the router... but I might just
+  // simply skip the router and all that crap.
 
   var inFlightEntityReadAjaxRequests: Set[InFlightEntityReadAjaxRequest[_ <: Entity]] = Set()
 
-  def handleAjaxReqSent[E<:Entity](descriptor: InFlightEntityReadAjaxRequest[E] ) = ???
+  def handleAjaxReqHasBeenLaunched[E<:Entity](descriptor: InFlightEntityReadAjaxRequest[E] ): Unit =
+  {
+    val newVal=inFlightEntityReadAjaxRequests+descriptor
+    inFlightEntityReadAjaxRequests=newVal
+  }
 
+  /**
+    *
+    * @param inFlightEntityReadAjaxRequest - honnan jon ez ?
+    * @tparam E
+    */
   def ajaxHasCompleted[E <: Entity](
       inFlightEntityReadAjaxRequest: InFlightEntityReadAjaxRequest[E]
     ): Unit = {
@@ -64,6 +71,7 @@ object AJAXApi {
         res
       }
     )
+
     ( ajaxRequestFuture, InFlightEntityReadAjaxRequest( ref ) )
   }
 
@@ -75,12 +83,28 @@ object CacheStates {
   case class Loaded[E](r:  Ref[E], refVal: RefVal[E] ) extends CacheState[E]
 }
 
+/**
+  * This contains a Map which is type safe, it can only contain one type of entity. This nicely
+  * eliminates the RefDyn problem. Everything is type safe all the way. There are some ugly global dependencies
+  * but ... what can one do ? Why are they bad ? No testability ? Difficult to see the data flow ? Yes
+  * that is annoying, but stuff changes and for the sake of dataflow I don't want to use FRP here.
+  * The state is scattered all over the place ? Yes, or no, its all in this file.
+  * State transitions are not first class objects ? => Well this could help, but in this case
+  * that would be an overkill.
+  *
+  * Dependencies are not wired up explicitly ? Modularly ? Swappably ?
+  * Big deal, nobody wants to swap them.
+  *
+  * @tparam E
+  */
+
 class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
 
-  def handleAjaxReqSent(res: Ref[E] ) = ??? //TODO
+  def handleAjaxReqSent(reqDesc:InFlightEntityReadAjaxRequest[E]): Unit =
+    AJAXRequestsWatcher.handleAjaxReqHasBeenLaunched(reqDesc)
 
-  def handleAjaxReqReturned(ajaxReqSentAndReturned: InFlightEntityReadAjaxRequest[E] ) =
+  def handleAjaxReqReturned(ajaxReqSentAndReturned: InFlightEntityReadAjaxRequest[E] ): Unit =
     AJAXRequestsWatcher.ajaxHasCompleted( ajaxReqSentAndReturned )
 
   // IF all our pending requests have arrived then we remove ourselves from the
@@ -93,6 +117,7 @@ class EntityCacheMap[E <: Entity]() {
       val loading = Loading( refToEntity )
       val ( t1: Future[Option[RefVal[E]]], t2: AJAXApi.InFlightEntityReadAjaxRequest[E] ) =
         AJAXApi.launchAjaxRequestFuture( refToEntity )
+      handleAjaxReqSent(t2)
       t1.map( _ => handleAjaxReqReturned(t2)) // we are mapping here to get a side effect
       loading
     } else map( refToEntity )
