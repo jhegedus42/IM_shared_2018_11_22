@@ -24,9 +24,9 @@ object AJAXApi {
 
   case class InFlightEntityReadAjaxRequest[E <: Entity](ref: Ref[E] )
 
-  def getAjaxRequestFuture[E <: Entity](
-      ref: Ref[E]
-    ): ( Future[Option[RefVal[E]]], InFlightEntityReadAjaxRequest[E] ) = {
+  type Res[E]=(Future[Option[RefVal[E]]], InFlightEntityReadAjaxRequest[E])
+  def getAjaxRequestFuture[E <: Entity]( ref: Ref[E] ): Res[E] ={
+
     implicit def executionContext: ExecutionContextExecutor =
       scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
     import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
