@@ -26,6 +26,7 @@ object AJAXApi {
     import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
     import io.circe.generic.auto._
     val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+    println("elkuldunk a kovetkezo sorban egy ajax-ot")
     val res: Future[Unit] = getEntity[LineText]( ref ).map(
       x => {
         println( s"az entity visszavage az AJAXApi-ban $x" )

@@ -86,14 +86,19 @@ object RootComp {
 
   }
 
-  def forComponentDidMount(x: Lifecycle.Base[Props, State, Backend] ): CallbackTo[Unit] = {
-    println( "component did mount" )
-    val reRenderTriggerer =
-      ReRenderTriggerer( _ => println( "we trigger now a re-render" ) )
-    Cache.reRenderTriggerer = Some( reRenderTriggerer )
-    val res: CallbackTo[Unit] = x.backend.incCounterFiveSecLater_CalledFromComponentDidMount
-    res
-  }
+  def forComponentDidMount(x: Lifecycle.Base[Props, State, Backend] ): CallbackTo[Unit] =
+    Callback {
+      println( "component did mount" )
+
+      val reRenderTriggerer =
+        ReRenderTriggerer( _ => {
+          println( "we trigger now a re-render (because the reRenderTriggerer was executed." )
+          x.backend.incCounter.runNow() // WE TRIGGER HERE A REAL RE-RENDER
+          println( "we have just increased the counter in the component" )
+        } )
+
+      Cache.reRenderTriggerer = Some( reRenderTriggerer )
+    }
 
   //noinspection TypeAnnotation
   lazy val compConstructor =
