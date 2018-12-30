@@ -20,7 +20,11 @@ object RootComp {
 
   case class Props(s: String )
 
-  def getLineRefValOptionFromCacheAsString(): String = Cache.read().toString
+  def getLineRefValOptionFromCacheAsString(): String =
+    {
+      val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+      Cache.read().toString
+    }
 
   class Backend($ : BackendScope[Props, State] ) {
 

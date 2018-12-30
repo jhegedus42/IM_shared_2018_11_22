@@ -20,7 +20,30 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 case class ReRenderTriggerer(triggerReRender: Unit => Unit )
 
-object AJAXApi {}
+object AJAXApi {
+
+  case class InFlightEntityReadAjaxRequest[E <: Entity](ref: Ref[E] )
+
+  def getAjaxRequestFuture[E <: Entity](
+      ref: Ref[E]
+    ): ( Future[Option[RefVal[E]]], InFlightEntityReadAjaxRequest[E] ) = {
+    implicit def executionContext: ExecutionContextExecutor =
+      scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+    import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
+    import io.circe.generic.auto._
+
+    val ajaxRequestFuture: Future[Option[RefVal[E]]] = getEntity[E]( ref ).map(
+      x => {
+        println( s"az entity visszavage az AJAXApi-ban $x" )
+        val lt:  \/[SomeError_Trait, RefVal[E]] = x
+        val res: Option[RefVal[E]]              = lt.toOption
+        res
+      }
+    )
+    ajaxRequestFuture
+  }
+
+}
 
 object CacheStates {
   sealed trait CacheState[E]
@@ -31,45 +54,40 @@ object CacheStates {
 class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
 
+  def handleAjaxReqSent(res:     Ref[E] )            = ???
+  def handleAjaxReqReturned(res: Option[RefVal[E]] ) = ???
+  // IF all our pending requests have arrived then we remove ourselves from the
+  // global cache's register, saying that we are happy and ready, and if all other
+  // EntityCacheMap-s are also happy and ready, then the global cache can trigger
+  // a react re-render
+
   def readEntity(refToEntity: Ref[E] ): CacheState[E] = { // 74291aeb_02f0aea6
     if (!map.contains( refToEntity )) {
       val loading = Loading( refToEntity )
-      pullEntityFromServerIntoCache()
+
+      AJAXApi.getAjaxRequestFuture( refToEntity ).map( ( r, req_descr ) => handleAjaxReqReturned( r ) )
+
+      // TODO ... continue here ^^^^
+
+      // TODO send "message" to the Cache that we are in the state of having at least one
+      // outstanding/pending/in-flight AJAX request
+
+      loading
     } else map.get( refToEntity )
 
     // TASK_19ffbc83_02f0aea6
 
-    def pullEntityFromServerIntoCache(ref: Ref[E] ) = {
-      implicit def executionContext: ExecutionContextExecutor =
-        scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-      import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
-      import io.circe.generic.auto._
-      val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-      println( "elkuldunk a kovetkezo sorban egy ajax-ot" )
-      val res: Future[Unit] = getEntity[LineText]( ref ).map(
-        x => {
-          println( s"az entity visszavage az AJAXApi-ban $x" )
-          val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
-          val res: Option[RefVal[LineText]]              = lt.toOption
-
-          println( "we will update the cache here" )
-          Cache.map = res // MURDEEEEERRRR BLOOOODDD HEELLLLLLL DAAAAANNNNNGGGGEEEEERRRR :)
-          println( "we will call here the re render trigger" )
-          val r = Cache.reRenderTriggerer.get // WE GONNA BURN IN HELLL FOR THIS UNSAFE GET !!!!
-          r.triggerReRender()
-          // here we trigger a re-render
-        }
-      )
-    }
-
   }
-
 }
 
 object Cache {
 
-  //cache will have a separate map for each entity, each view
+  // cache will have a separate map for each entity
+  // for each view
+  // ezek adnak egy type safety-t, nem kell kasztolgatni, az is latszik tisztan, hogy milyen
+  // entity-t vannak hasznalatban
 
+  def ajaxHasCompleted() = ???
   var reRenderTriggerer: Option[ReRenderTriggerer] = None
 
 }
