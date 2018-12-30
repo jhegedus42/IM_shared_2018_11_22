@@ -36,7 +36,8 @@ object AJAXApi {
         Cache.lineTextOption = res // MURDEEEEERRRR BLOOOODDD HEELLLLLLL DAAAAANNNNNGGGGEEEEERRRR :)
         println( "we will call here the re render trigger" )
         val r = Cache.reRenderTriggerer.get // WE GONNA BURN IN HELLL FOR THIS UNSAFE GET !!!!
-        r.triggerer() // here we trigger a re-render
+        r.triggerer()
+        // here we trigger a re-render
       }
     )
   }
