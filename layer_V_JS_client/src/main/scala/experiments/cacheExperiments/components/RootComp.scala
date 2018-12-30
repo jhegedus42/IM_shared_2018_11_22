@@ -89,15 +89,18 @@ object RootComp {
       .initialState( State( 42, None ) )
       .renderBackend[Backend]
       .componentDidMount(
-        (x: Lifecycle.Base[Props, State, Backend]) =>
-        x.backend.incCounterFiveSecLater_CalledFromComponentDidMount // for TASK_e66038a2_ece05d8e
+        (x: Lifecycle.Base[Props, State, Backend]) => {
+          println("component did mount")
+          x.backend.incCounterFiveSecLater_CalledFromComponentDidMount
+        }
+        // for TASK_e66038a2_ece05d8e
         // here we can pass the re-render triggering function to the cache
       )
       .componentDidUpdate(
         x =>
           Callback(
             {
-              println( "did update " + x )
+              println( "component did update " + x )
 
             }
         )
