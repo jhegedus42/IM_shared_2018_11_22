@@ -31,13 +31,13 @@ object CacheStates {
 class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
 
-  def readEntity(refToEntity: Ref[E] ): CacheState[E] = {
+  def readEntity(refToEntity: Ref[E] ): CacheState[E] = { // 74291aeb_02f0aea6
     if (!map.contains( refToEntity )) {
       val loading = Loading( refToEntity )
       pullEntityFromServerIntoCache()
     } else map.get( refToEntity )
 
-
+    // TASK_19ffbc83_02f0aea6
 
     def pullEntityFromServerIntoCache(ref: Ref[E] ) = {
       implicit def executionContext: ExecutionContextExecutor =
