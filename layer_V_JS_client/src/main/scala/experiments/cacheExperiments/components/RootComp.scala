@@ -4,7 +4,8 @@ import app.shared.SomeError_Trait
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal}
 import app.testHelpersShared.data.TestEntities
-import experiments.cacheExperiments.cache.Cache
+import experiments.cacheExperiments.cache
+import experiments.cacheExperiments.cache.{Cache, ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -19,23 +20,26 @@ object RootComp {
 
   case class Props(s: String )
 
-  def getLineRefValOptionFromCacheAsString():String = Cache.read().toString
+  def getLineRefValOptionFromCacheAsString(): String = Cache.read().toString
 
   class Backend($ : BackendScope[Props, State] ) {
 
     val incCounter: CallbackTo[Unit] = $.modState( s => s.copy( i = s.i + 1 ) )
+
+    val triggerReRenderAndIncCounter: CallbackTo[Unit] =
+      $.modState( s => s.copy( i = s.i + 1 ) )
 
     val incCounterFiveSecLater: CallbackTo[Unit] = Callback {
       import scala.scalajs.js.timers._
       setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
     }
 
-    val incCounterFiveSecLater_CalledFromComponentDidMount: CallbackTo[Unit] = Callback { // for TASK_e66038a2_ece05d8e
-      import scala.scalajs.js.timers._
-      println("incCounterFiveSecLater_CalledFromComponentDidMount was called")
-      setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
-    }
-
+    val incCounterFiveSecLater_CalledFromComponentDidMount: CallbackTo[Unit] =
+      Callback { // for TASK_e66038a2_ece05d8e
+        import scala.scalajs.js.timers._
+        println( "incCounterFiveSecLater_CalledFromComponentDidMount was called" )
+        setTimeout( 5000 ) { $.modState( s => s.copy( i = s.i + 1 ) ).runNow() }
+      }
 
     val fetchDataFromServer: CallbackTo[Unit] =
       Callback {
@@ -77,9 +81,18 @@ object RootComp {
         getLineRefValOptionFromCacheAsString()
       )
     // dd029475_f9ddbea9
-    // TODO in dynalist at
+    // completed TASK described in dynalist at
     // https://dynalist.io/d/1FvMKMOA-9w4G3dY9dXkBknT#z=qNJ7FMqu1lUdSxfTSB81W91x
 
+  }
+
+  def forComponentDidMount(x: Lifecycle.Base[Props, State, Backend] ): CallbackTo[Unit] = {
+    println( "component did mount" )
+    val reRenderTriggerer =
+      ReRenderTriggerer( _ => println( "we trigger now a re-render" ) )
+    Cache.reRenderTriggerer = Some( reRenderTriggerer )
+    val res: CallbackTo[Unit] = x.backend.incCounterFiveSecLater_CalledFromComponentDidMount
+    res
   }
 
   //noinspection TypeAnnotation
@@ -88,24 +101,8 @@ object RootComp {
       .builder[Props]( "Cache Experiment" )
       .initialState( State( 42, None ) )
       .renderBackend[Backend]
-      .componentDidMount(
-        (x: Lifecycle.Base[Props, State, Backend]) => {
-          println("component did mount")
-          x.backend.incCounterFiveSecLater_CalledFromComponentDidMount
-        }
-        // for TASK_e66038a2_ece05d8e
-        // here we can pass the re-render triggering function to the cache
-        TODO TODO TODO TODO TODO ^ ^ ^ ^ ^ ^
-      )
-      .componentDidUpdate(
-        x =>
-          Callback(
-            {
-              println( "component did update " + x )
-
-            }
-        )
-      )
+      .componentDidMount( forComponentDidMount( _ ) )
+      .componentDidUpdate( x => Callback( println( "component did update " + x ) ) )
       .build
 
 }

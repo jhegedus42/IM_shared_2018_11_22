@@ -30,7 +30,6 @@ object ExperimentalAppWithCache extends js.JSApp {
     import scala.scalajs.js.timers._
 
     setTimeout(10000) {
-                        // rootComp //TODO set state....
                         println("10s has elapsed")
                         ExperimentalAppWithCache.tick
                       }

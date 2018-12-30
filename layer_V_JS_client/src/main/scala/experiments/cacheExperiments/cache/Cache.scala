@@ -20,29 +20,31 @@ case class ReRenderTriggerer(triggerer: Unit => Unit )
 
 object AJAXApi {
 
-  def fetchDataFromServer() =
-     {
-      implicit def executionContext: ExecutionContextExecutor =
-        scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-      import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
-      import io.circe.generic.auto._
-      val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-      val res: Future[Unit] = getEntity[LineText]( ref ).map(
-        x => {
-          println( s"az entity visszavage az AJAXApi-ban $x" )
-          val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
-          val res: Option[RefVal[LineText]]              = lt.toOption
+  def fetchDataFromServer() = {
+    implicit def executionContext: ExecutionContextExecutor =
+      scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+    import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
+    import io.circe.generic.auto._
+    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+    val res: Future[Unit] = getEntity[LineText]( ref ).map(
+      x => {
+        println( s"az entity visszavage az AJAXApi-ban $x" )
+        val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
+        val res: Option[RefVal[LineText]]              = lt.toOption
 
-          println("we will update the cache here")
-          Cache.lineTextOption =res  // MURDEEEEERRRR BLOOOODDD HEELLLLLLL DAAAAANNNNNGGGGEEEEERRRR :)
-          println("we will call here the re render trigger")
-          TODO TODO TODO ^^^^^^^^
-        }
-      )
-    }
+        println( "we will update the cache here" )
+        Cache.lineTextOption = res // MURDEEEEERRRR BLOOOODDD HEELLLLLLL DAAAAANNNNNGGGGEEEEERRRR :)
+        println( "we will call here the re render trigger" )
+        val r = Cache.reRenderTriggerer.get // WE GONNA BURN IN HELLL FOR THIS UNSAFE GET !!!!
+        r.triggerer() // here we trigger a re-render
+      }
+    )
+  }
 }
 
 object Cache {
+
+  //cache will have a separate map for each entity, each view
 
   type State = Option[RefVal[LineText]]
   var lineTextOption: State = None
@@ -50,14 +52,9 @@ object Cache {
   var reRenderTriggerer: Option[ReRenderTriggerer] = None
 
   def read(): State = {
-    if ( lineTextOption.isEmpty ) {
+    if (lineTextOption.isEmpty) {
       AJAXApi.fetchDataFromServer()
       None
     } else lineTextOption
-
-    // we call reRenderTriggerer's callback, which was set in
-    // componentDidMount in
-    // experiments.cacheExperiments.components.RootComp.compConstructor
   }
-
 }
