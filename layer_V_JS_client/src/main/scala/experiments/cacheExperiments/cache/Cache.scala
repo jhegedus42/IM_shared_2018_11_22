@@ -36,6 +36,7 @@ object AJAXApi {
           println("we will update the cache here")
           Cache.lineTextOption =res  // MURDEEEEERRRR BLOOOODDD HEELLLLLLL DAAAAANNNNNGGGGEEEEERRRR :)
           println("we will call here the re render trigger")
+          TODO TODO TODO ^^^^^^^^
         }
       )
     }
