@@ -83,30 +83,12 @@ object CacheStates {
   case class Loaded[E](r:  Ref[E], refVal: RefVal[E] ) extends CacheState[E]
 }
 
+
+
 /**
-  * This contains a Map which is type safe, it can only contain one type of entity. This nicely
-  * eliminates the RefDyn problem. Everything is type safe all the way. There are some ugly global dependencies
-  * but ... what can one do ? Why are they bad ? No testability ? Difficult to see the data flow ? Yes
-  * that is annoying, but stuff changes and for the sake of dataflow I don't want to use FRP here.
-  * The state is scattered all over the place ? Yes, or no, its all in this file.
-  * State transitions are not first class objects ? => Well this could help, but in this case
-  * that would be an overkill.
-  *
-  * Dependencies are not wired up explicitly ? Modularly ? Swappably ?
-  * Big deal, nobody wants to swap them.
-  *
+  * This is a map that contains cached Entities.
   * @tparam E
   */
-// TODO ebbol vmi type class-t csinalni
-// es impliciten betolni a kessbe
-
-trait CanReadEntityFromCache[E<:Entity]{
-  def readEntityFromCacyyhe(refToEntity:Ref[E]):CacheState[E]
-}
-object CanReadEntityFromCache{
-
-  def readEntityFromCache()
-}
 
 class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
@@ -140,7 +122,9 @@ class EntityCacheMap[E <: Entity]() {
 object Cache {
 
   // erre lehetni irni type class-okat: vmi altalanos getEntity
-  // metodust
+  // metodust, azaz pl. attol fuggoen h. milyen entity't ker a react comp mas instance hivodik meg...
+  // de ezt majd irjuk meg azutan ha a konkret dolgok kesz vannak
+
 
 
   // cache will have a separate map for each entity

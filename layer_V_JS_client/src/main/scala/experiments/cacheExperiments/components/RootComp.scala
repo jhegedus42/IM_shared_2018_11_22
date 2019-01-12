@@ -3,6 +3,7 @@ package experiments.cacheExperiments.components
 import app.shared.SomeError_Trait
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefVal}
+import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
 import experiments.cacheExperiments.cache.{AJAXRequestsWatcher, Cache, ReRenderTriggerer}
@@ -16,13 +17,14 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object RootComp {
 
-  case class State(i: Int, lineTextOption: Option[RefVal[LineText]] )
+  case class State(counter: Int)
 
   case class Props(s: String )
 
-  def getLineRefValOptionFromCacheAsString(): String = {
+  def getLineRefValOptionFromCacheAsString: String = {
     val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-    Cache.read().toString
+    val res=Cache.read().toString
+    PrettyPrint.prettyPrint(res)
   }
 
   class Backend($ : BackendScope[Props, State] ) {
@@ -69,27 +71,20 @@ object RootComp {
         "Props passed:",
         props.toString,
         <.br,
-        <.button( ^.onClick --> Callback.alert( "The button was pressed!" ), "Press me (alert)!" ),
-        <.br,
-        <.button( ^.onClick --> incCounter, "Increment counter!" ), // TASK: 061c2893_a517cd11
-        <.br,
-        <.button( ^.onClick --> Callback.log( "button pressed" ), "Press me (log)!" ),
-        <.br,
-        <.button( ^.onClick --> incCounterFiveSecLater, "Increment counter 5 sec later!" ), // TASK_a1b6f428_671bf29d
-        <.br,
         <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ), // TASK_fa6672bc_9bb672a8
         <.br,
         "Cache contains:",
         <.br,
         getLineRefValOptionFromCacheAsString()
       )
+
     // dd029475_f9ddbea9
     // completed TASK described in dynalist at
     // https://dynalist.io/d/1FvMKMOA-9w4G3dY9dXkBknT#z=qNJ7FMqu1lUdSxfTSB81W91x
 
   }
 
-  def forComponentDidMount(x: Lifecycle.Base[Props, State, Backend] ): CallbackTo[Unit] =
+  def toBeCalledByComponentDidMount(x: Lifecycle.Base[Props, State, Backend] ): CallbackTo[Unit] =
     Callback {
       println( "component did mount" )
 
@@ -109,7 +104,7 @@ object RootComp {
       .builder[Props]( "Cache Experiment" )
       .initialState( State( 42, None ) )
       .renderBackend[Backend]
-      .componentDidMount( forComponentDidMount( _ ) )
+      .componentDidMount(toBeCalledByComponentDidMount(_))
       .componentDidUpdate( x => Callback( println( "component did update " + x ) ) )
       .build
 
