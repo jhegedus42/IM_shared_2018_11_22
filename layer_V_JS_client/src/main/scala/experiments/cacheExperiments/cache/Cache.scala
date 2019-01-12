@@ -97,6 +97,16 @@ object CacheStates {
   *
   * @tparam E
   */
+// TODO ebbol vmi type class-t csinalni
+// es impliciten betolni a kessbe
+
+trait CanReadEntityFromCache[E<:Entity]{
+  def readEntityFromCacyyhe(refToEntity:Ref[E]):CacheState[E]
+}
+object CanReadEntityFromCache{
+
+  def readEntityFromCache()
+}
 
 class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
@@ -128,6 +138,9 @@ class EntityCacheMap[E <: Entity]() {
 }
 
 object Cache {
+
+  // erre lehetni irni type class-okat: vmi altalanos getEntity
+  // metodust
 
 
   // cache will have a separate map for each entity
