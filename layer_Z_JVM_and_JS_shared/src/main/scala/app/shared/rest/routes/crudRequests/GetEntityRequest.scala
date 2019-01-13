@@ -9,9 +9,9 @@ import app.shared.rest.routes.Command
 import scala.reflect.ClassTag
 import scalaz.\/
 
-/**
-  * Documentation should go here.
-  */
+
+
+
 case class GetEntityRequest[E<:Entity:ClassTag]() extends Command[E] {
   type Params = String //uuid
   type Result = \/[SomeError_Trait,RefVal[E]]

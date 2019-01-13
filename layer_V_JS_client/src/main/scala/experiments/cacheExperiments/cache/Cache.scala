@@ -5,15 +5,16 @@ import app.shared.data.model.Entity.Entity
 import app.shared.data.model.LineText
 import app.shared.data.ref.uuid.UUID
 import app.shared.data.ref.{Ref, RefVal}
+import app.shared.rest.routes.crudRequests.GetEntityRequest
 import app.testHelpersShared.data.TestEntities
-import experiments.cacheExperiments.cache.AJAXApi.InFlight_EntityRead_AjaxRequest
+import experiments.cacheExperiments.cache.AJAXApi.{Completed__ReadEntity_AjaxCall, InFlight_ReadEntity}
 import experiments.cacheExperiments.cache.CacheStates.{CacheState, Loading}
 import scalaz.\/
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 
 /**
-  * This is used by the [[AJAXRequestsWatcher]] to cause a re-render
+  * This is used by the [[AJAXReqInFlightMonitor]] to cause a re-render
   * of the react tree if needed.
   *
   * This is created in [[experiments.cacheExperiments.components.RootComp]] by the
@@ -22,8 +23,6 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
   *
   *  Some answer can be found in
   *  [[https://learn.co/lessons/react-component-mounting-and-unmounting]].
-  *
-  *
   *
   * @param triggerReRender
   */
@@ -44,18 +43,14 @@ case class ReRenderTriggerer(triggerReRender: Unit => Unit )
   *
   */
 
-object AJAXRequestsWatcher {
+object AJAXReqInFlightMonitor {
 
   var reRenderTriggerer: Option[ReRenderTriggerer] = None
-  // TODO somebody ^^^ should give this a good init value ^^^
-  // this changes ^^^^ because the top component changes (unless the
-  // top component that I will re-render is the router... but I might just
-  // simply skip the router and all that crap.
 
-  var inFlightEntityReadAjaxRequests: Set[InFlight_EntityRead_AjaxRequest[_ <: Entity]] = Set()
+  var inFlightEntityReadAjaxRequests: Set[InFlight_ReadEntity[_ <: Entity]] = Set()
 
-  def handleAjaxReqHasBeenLaunched[E <: Entity](descriptor: InFlight_EntityRead_AjaxRequest[E] ): Unit = {
-    val newVal = inFlightEntityReadAjaxRequests + descriptor
+  def addToInFlightReqList[E <: Entity](request: InFlight_ReadEntity[E] ): Unit = {
+    val newVal = inFlightEntityReadAjaxRequests + request
     inFlightEntityReadAjaxRequests = newVal
   }
 
@@ -68,11 +63,11 @@ object AJAXRequestsWatcher {
     * it recieves an ajax request that has been sent and returned.
     *
     *
-    * @param ajaxReq
+    * @param ajaxReq This handles the event when an ajax request has been completed.
     * @tparam E
     */
-  def ajaxHasCompletedEventHandler[E <: Entity](ajaxReq: InFlight_EntityRead_AjaxRequest[E] ): Unit = {
-    val newVal = inFlightEntityReadAjaxRequests - ajaxReq
+  def removeAjaxCallFromInFlightList[E <: Entity](ajaxReq: Completed__ReadEntity_AjaxCall[E] ): Unit = {
+    val newVal = inFlightEntityReadAjaxRequests - ajaxReq.inFlight_ReadEntity
     inFlightEntityReadAjaxRequests = newVal
     if (inFlightEntityReadAjaxRequests.isEmpty) reRenderTriggerer.get.triggerReRender()
   }
@@ -81,39 +76,39 @@ object AJAXRequestsWatcher {
 
 object AJAXApi {
 
-  case class InFlight_EntityRead_AjaxRequest[E <: Entity](ref: Ref[E], futureUUID: UUID = UUID.random() )
+  /**
+    *
+    * This describes an Entity Read AJAX request in flight.
+    *
+    * @param ref
+    * @param resultAsFuture
+    * @param futureUUID
+    * @tparam E
+    */
+  case class InFlight_ReadEntity[E <: Entity](
+      ref:            Ref[E],
+      resultAsFuture: Future[Option[RefVal[E]]],
+      futureUUID:     UUID = UUID.random())
 
-  type Res[E] = ( Future[Option[RefVal[E]]], InFlight_EntityRead_AjaxRequest[E] )
+  case class Completed__ReadEntity_AjaxCall[E <: Entity](
+                                                        inFlight_ReadEntity: InFlight_ReadEntity[E])
 
   /**
     *
     * Who uses this ?
     * [[experiments.cacheExperiments.cache.EntityCacheMap.readEntity]]
-    * and who calls that ?
+    * Why ?
+    *
+    * What does this do ?
+    *
+    * It launches an AJAX request to get an entity from the server.
     *
     *
     * @param ref
     * @tparam E
     * @return
     */
-  def launchAjaxRequestFuture[E <: Entity](ref: Ref[E] ): Res[E] = {
 
-    implicit def executionContext: ExecutionContextExecutor =
-      scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
-    import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
-    import io.circe.generic.auto._
-
-    val ajaxRequestFuture: Future[Option[RefVal[E]]] = getEntity[E]( ref ).map(
-      x => {
-        println( s"az entity visszavage az AJAXApi-ban $x" )
-        val lt:  \/[SomeError_Trait, RefVal[E]] = x
-        val res: Option[RefVal[E]]              = lt.toOption
-        res
-      }
-    )
-
-    ( ajaxRequestFuture, InFlight_EntityRead_AjaxRequest( ref ) )
-  }
 
 }
 
@@ -131,26 +126,42 @@ object CacheStates {
 class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
 
-  def handleAjaxReqSent(reqDesc: InFlight_EntityRead_AjaxRequest[E] ): Unit =
-    AJAXRequestsWatcher.handleAjaxReqHasBeenLaunched( reqDesc )
+  def launchReadAjax[E <: Entity](ref: Ref[E] ): Unit = {
 
-  def handleAjaxReqReturned(ajaxReqSentAndReturned: InFlight_EntityRead_AjaxRequest[E] ): Unit =
-    AJAXRequestsWatcher.ajaxHasCompletedEventHandler( ajaxReqSentAndReturned )
+    // QUESTION TODO => should we launch this future immediately or only after the render method has been
+    // completed ?  => not yet, only if needed
+
+    implicit def executionContext: ExecutionContextExecutor =
+      scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
+    import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
+    import io.circe.generic.auto._
+
+//    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = .map(
+
+
+    def extractRes( x:  \/[SomeError_Trait, RefVal[E]]  )
+    x => {
+      val lt: = x
+      val res: Option[RefVal[E]]              = lt.toOption
+      res
+    }
+
+    for {
+      res<-getEntity[E]( ref )
+
+    }
+
+    val ajaxCall=InFlight_ReadEntity(ref, ajaxCallAsFuture)
+    AJAXReqInFlightMonitor.addToInFlightReqList(ajaxCall)
+
+    ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))
+  }
 
   def readEntity(refToEntity: Ref[E] ): CacheState[E] = { // 74291aeb_02f0aea6
     if (!map.contains( refToEntity )) {
       val loading = Loading( refToEntity )
 
-      val ( t1: Future[Option[RefVal[E]]],
-            t2: AJAXApi.InFlight_EntityRead_AjaxRequest[E] ) =
-        AJAXApi.launchAjaxRequestFuture( refToEntity )
-
-      // QUESTION TODO => should we launch this future immediately or only after the render method has been
-      // completed ?  => not yet, only if needed
-
-      handleAjaxReqSent( t2 )
-
-      t1.map( _ => handleAjaxReqReturned( t2 ) ) // we are mapping here to get a side effect
+      AJAXApi.launchReadAjax(refToEntity)
 
       loading
 

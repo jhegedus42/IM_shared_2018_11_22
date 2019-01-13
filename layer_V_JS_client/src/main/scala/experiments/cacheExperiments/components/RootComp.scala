@@ -6,7 +6,7 @@ import app.shared.data.ref.{Ref, RefVal}
 import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
-import experiments.cacheExperiments.cache.{AJAXRequestsWatcher, Cache, ReRenderTriggerer}
+import experiments.cacheExperiments.cache.{AJAXReqInFlightMonitor, Cache, ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -97,7 +97,7 @@ object RootComp {
           println( "we have just increased the counter in the component" )
         } )
 
-      AJAXRequestsWatcher.reRenderTriggerer = Some( reRenderTriggerer )
+               AJAXReqInFlightMonitor.reRenderTriggerer = Some(reRenderTriggerer)
     }
 
   //noinspection TypeAnnotation
