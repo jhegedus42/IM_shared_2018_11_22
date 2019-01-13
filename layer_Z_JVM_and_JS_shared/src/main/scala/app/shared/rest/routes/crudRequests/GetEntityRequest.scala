@@ -14,7 +14,8 @@ import scalaz.\/
 
 case class GetEntityRequest[E<:Entity:ClassTag]() extends Command[E] {
   type Params = String //uuid
-  type Result = \/[SomeError_Trait,RefVal[E]]
+
+  case class GetEntityReqResult(res: \/[SomeError_Trait,RefVal[E]])
 
   /**
     * server path does not start with /

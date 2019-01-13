@@ -18,10 +18,14 @@ object GetEntityAJAX {
 
   import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 
-  def getEntity[E <: Entity : ClassTag : Decoder](ref: Ref[E])(implicit gec: GetEntityRequest[E]):
+  def getEntity[E <: Entity : ClassTag : Decoder](ref: Ref[E]):
   Future[gec.Result] = {
     val route: String = gec.queryURL(ref)
-    GeneralGetAJAX.get[E](route, gec)(decode[GetEntityRequest[E]#Result])
+    Ajax
+    .get( route )
+    .map( _.responseText )
+    .map( decoder( _ ) )
+    .map( x => x.right.get )
   }
 
 }
