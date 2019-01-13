@@ -59,6 +59,7 @@ object RootComp {
             val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
             val res: Option[RefVal[LineText]]              = lt.toOption
             $.modState( s => s.copy( lineTextOption = res ) ).runNow()
+            // TODO ^^^ ezt atirni kessre ...
           }
         )
       }
@@ -72,6 +73,7 @@ object RootComp {
         props.toString,
         <.br,
         <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ), // TASK_fa6672bc_9bb672a8
+        // TODO ^^^ ezt atirni kessre ...
         <.br,
         "Cache contains:",
         <.br,
