@@ -5,7 +5,6 @@ import app.shared.data.model.Entity.Entity
 import app.shared.data.model.LineText
 import app.shared.data.ref.uuid.UUID
 import app.shared.data.ref.{Ref, RefVal}
-import app.shared.rest.routes.crudRequests.GetEntityRequest
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache.AJAXApi.{Completed__ReadEntity_AjaxCall, InFlight_ReadEntity}
 import experiments.cacheExperiments.cache.CacheStates.{CacheState, Loading}

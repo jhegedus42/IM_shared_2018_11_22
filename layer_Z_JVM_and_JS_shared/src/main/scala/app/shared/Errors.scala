@@ -2,35 +2,29 @@ package app.shared
 
 import app.shared.data.ref.Version
 
-
-sealed trait SomeError_Trait{
-  val string:String
+sealed trait SomeError_Trait {
+  val string: String
 }
 
-case class EntityIsNotUpdateableError(string:String,
-                                      edne:Option[SomeError_Trait]=None
-                                     ) extends SomeError_Trait
+case class EntityIsNotUpdateableError(string: String, edne: Option[SomeError_Trait] = None )
+    extends SomeError_Trait
 
-case class EntityIsNotCreateableError(string:String,
-                                      edne:Option[SomeError_Trait]=None
-                                     ) extends SomeError_Trait
+case class EntityIsNotCreateableError(string: String, edne: Option[SomeError_Trait] = None )
+    extends SomeError_Trait
 
+case class EntityDoesNotExistError(string: String ) extends SomeError_Trait
 
+case class InvalidUUIDinURLError(string: String ) extends SomeError_Trait
 
-case class EntityDoesNotExistError(string:String) extends SomeError_Trait
+case class InvalidViewParamsError(string: String ) extends SomeError_Trait
 
+case class StateOpsError(string: String ) extends SomeError_Trait
 
-case class InvalidUUIDinURLError(string:String) extends SomeError_Trait
+case class InvalidVersionError(string: String, expected: Version, actual: Version ) extends SomeError_Trait
 
-case class InvalidViewParamsError(string:String) extends SomeError_Trait
+case class TypeError(string: String ) extends SomeError_Trait
 
-case class StateOpsError(string:String) extends SomeError_Trait
-
-case class InvalidVersionError(string:String, expected:Version,actual:Version) extends SomeError_Trait
-
-case class TypeError(string:String) extends SomeError_Trait
-
-case class CirceDecoderImplicitNotFoundTest(t:String)
+case class CirceDecoderImplicitNotFoundTest(t: String )
 
 object SomeError_Trait {
 
