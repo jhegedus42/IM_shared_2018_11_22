@@ -127,7 +127,7 @@ class EntityCacheMap[E <: Entity]() {
 
   def launchReadAjax[E <: Entity](ref: Ref[E] ): Unit = {
 
-    // QUESTION TODO => should we launch this future immediately or only after the render method has been
+    // QUESTION BACKLOG => should we launch this future immediately or only after the render method has been
     // completed ?  => not yet, only if needed
 
     implicit def executionContext: ExecutionContextExecutor =
@@ -138,19 +138,19 @@ class EntityCacheMap[E <: Entity]() {
 //    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = .map(
 
 
-    def extractRes( x:  \/[SomeError_Trait, RefVal[E]]  )
-    x => {
-      val lt: = x
-      val res: Option[RefVal[E]]              = lt.toOption
-      res
-    }
+//    def extractRes( x:  \/[SomeError_Trait, RefVal[E]]  )
+//    x => {
+//      val lt: = x
+//      val res: Option[RefVal[E]]              = lt.toOption
+//      res
+//    }
 
-    for {
-      res<-getEntity[E]( ref )
+//    for {
+//      res<-getEntity[E]( ref )
+//
+//    }
 
-    }
-
-    val ajaxCall=InFlight_ReadEntity(ref, ajaxCallAsFuture)
+//    val ajaxCall=InFlight_ReadEntity(ref, ajaxCallAsFuture)
     AJAXReqInFlightMonitor.addToInFlightReqList(ajaxCall)
 
     ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))

@@ -28,7 +28,7 @@ import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.share
 import app.comm_model_on_the_server_side.serverSide.logic.ServerSideLogic.ServerLogicTypeClass
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder, Error}
-import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
+//import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
 import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 import app.shared.SomeError_Trait
 import app.shared.data.model.Entity.{Data, Entity}

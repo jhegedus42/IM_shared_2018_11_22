@@ -25,13 +25,15 @@ object GetEntityAJAX {
   Future[GetEntityReqResult[E]] = {
     import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
     val route: String =GetEntityRequest.queryURL(ref)
+
 //    val route: String = ???
+
     Ajax
     .get( route )
     .map( _.responseText )
     .map( decode )
-    .map((x: Either[circe.Error, RefVal[E]) => x.right.get)
-    .map( x:RefVal[E] => GetEntityReqResult )
+    .map((x: Either[circe.Error, RefVal[E]]) => x.right.get)
+    .map( x:RefVal[E] => GetEntityReqResult[E] )
   }
 
 }

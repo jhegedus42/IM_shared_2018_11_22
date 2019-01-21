@@ -4,7 +4,7 @@ import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import app.comm_model_on_the_server_side.simple_route.SumIntViewRoute_For_Testing
-import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
+//import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.RESTService.routes.views.ViewRoute
 import app.shared.data.model.LineWithQue
 import app.shared.rest.views.viewsForDevelopingTheViewFramework.SumIntView_HolderObject.SumIntView
@@ -58,10 +58,11 @@ trait HttpServer_For_ImageMemory_App {
 
 
   def crudEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
-    new UpdateEntityRoute[E]().route ~
-      new CreateEntityRoute[E]().route ~
-      new GetAllEntitiesRoute[E].route ~
-      new GetRoute[E]().route
+//    new UpdateEntityRoute[E]().route ~
+//      new CreateEntityRoute[E]().route ~
+//      new GetAllEntitiesRoute[E].route ~
+//      new GetRoute[E]().route
+    ??? // NOW TODO
   }
 
   /**

@@ -9,6 +9,7 @@ lazy val layer_Z_JVM_and_JS_shared =
     .settings(
       addCompilerPlugin( "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full ),
       scalaVersion := Settings.versions.scala,
+      logLevel := Level.Error,
       libraryDependencies ++= Settings.sharedDependencies.value
     )
 
@@ -28,6 +29,7 @@ lazy val layer_V_JS_client: Project = (project in file( "layer_V_JS_client" ))
 //                                      scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.scalajsDependencies.value,
     parallelExecution in Test := false,
+logLevel := Level.Error,
     mainClass in Compile := Some( "app.client.Main" ),
 //    scalaJSUseMainModuleInitializer := true,
 //    scalaJSUseMainModuleInitializer in Compile := true,
@@ -48,6 +50,7 @@ lazy val layer_Y_JVM_persistence = (project in file( "layer_Y_JVM_persistence" )
   .settings(
     name := "layer_Y_JVM_persistence",
     version := Settings.version,
+    logLevel := Level.Error,
     libraryDependencies ++= Settings.jvmDependencies.value,
     scalaVersion := Settings.versions.scala
   ).dependsOn( layer_Z_JVM_shared )
@@ -56,6 +59,7 @@ lazy val layer_X_JVM_stateAccess = (project in file( "layer_X_JVM_stateAccess" )
   .settings(
     name := "layer_X_JVM_stateAccess",
     version := Settings.version,
+    logLevel := Level.Error,
     libraryDependencies ++= Settings.jvmDependencies.value,
     scalaVersion := Settings.versions.scala
   ).dependsOn( layer_Y_JVM_persistence % "compile->compile;test->test" )
@@ -65,6 +69,7 @@ lazy val layer_W_JVM_akka_http_server = (project in file( "layer_W_JVM_akka_http
   .settings(
     name := "layer_W_JVM_akka_http_server",
     version := Settings.version,
+    logLevel := Level.Error,
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.jvmDependencies.value,
@@ -85,3 +90,6 @@ scalaJSUseMainModuleInitializer in Compile := true
 //persistLauncher in Test := false
 
 cancelable in Global := true
+logLevel := Level.Error
+
+

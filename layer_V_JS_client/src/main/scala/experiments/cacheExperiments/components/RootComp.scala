@@ -17,14 +17,16 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object RootComp {
 
-  case class State(counter: Int)
+  case class State(i: Int)
 
   case class Props(s: String )
 
   def getLineRefValOptionFromCacheAsString: String = {
-    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-    val res=Cache.read().toString
-    PrettyPrint.prettyPrint(res)
+//    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+//    val res=Cache.read().toString
+//    PrettyPrint.prettyPrint(res)
+    println("fix this") //TODO
+    "fix this"
   }
 
   class Backend($ : BackendScope[Props, State] ) {
@@ -53,15 +55,17 @@ object RootComp {
         import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
         import io.circe.generic.auto._
         val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-        val res: Future[Unit] = getEntity[LineText]( ref ).map(
-          x => {
-            println( s"az entity visszavage $x" )
-            val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
-            val res: Option[RefVal[LineText]]              = lt.toOption
-            $.modState( s => s.copy( lineTextOption = res ) ).runNow()
-            // TODO ^^^ ezt atirni kessre ...
-          }
-        )
+//        val res: Future[Unit] = getEntity[LineText]( ref ).map(
+//          x => {
+//            println( s"az entity visszavage $x" )
+//            val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
+//            val res: Option[RefVal[LineText]]              = lt.toOption
+////            $.modState( s => s.copy( lineTextOption = res ) ).runNow()
+//            // BACKLOG ^^^ ezt atirni kessre ...
+//          }
+//        )
+//        ??? // TODO
+        println("fix this")
       }
 
     def render(state: State, props: Props ) =
@@ -73,11 +77,11 @@ object RootComp {
         props.toString,
         <.br,
         <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ), // TASK_fa6672bc_9bb672a8
-        // TODO ^^^ ezt atirni kessre ...
+        // BACKLOG ^^^ ezt atirni kessre ...
         <.br,
         "Cache contains:",
         <.br,
-        getLineRefValOptionFromCacheAsString()
+//        getLineRefValOptionFromCacheAsString() // TODO - make this line compile
       )
 
     // dd029475_f9ddbea9
@@ -104,7 +108,7 @@ object RootComp {
   lazy val compConstructor =
     ScalaComponent
       .builder[Props]( "Cache Experiment" )
-      .initialState( State( 42, None ) )
+      .initialState( State( 42 ) )
       .renderBackend[Backend]
       .componentDidMount(toBeCalledByComponentDidMount(_))
       .componentDidUpdate( x => Callback( println( "component did update " + x ) ) )
