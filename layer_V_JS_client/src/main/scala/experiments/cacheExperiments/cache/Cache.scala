@@ -103,8 +103,8 @@ object AJAXApi {
     * It launches an AJAX request to get an entity from the server.
     *
     *
-    * @param ref
-    * @tparam E
+//    * @param ref
+//    * @tparam E
     * @return
     */
 
@@ -135,7 +135,7 @@ class EntityCacheMap[E <: Entity]() {
     import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
     import io.circe.generic.auto._
 
-//    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = .map(
+    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = ??? // .map( // to-define
 
 
 //    def extractRes( x:  \/[SomeError_Trait, RefVal[E]]  )
@@ -150,7 +150,7 @@ class EntityCacheMap[E <: Entity]() {
 //
 //    }
 
-//    val ajaxCall=InFlight_ReadEntity(ref, ajaxCallAsFuture)
+    val ajaxCall=InFlight_ReadEntity(ref, ajaxCallAsFuture)
     AJAXReqInFlightMonitor.addToInFlightReqList(ajaxCall)
 
     ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))
@@ -160,7 +160,7 @@ class EntityCacheMap[E <: Entity]() {
     if (!map.contains( refToEntity )) {
       val loading = Loading( refToEntity )
 
-      AJAXApi.launchReadAjax(refToEntity)
+//      AJAXApi.launchReadAjax(refToEntity) //todonext make this compile
 
       loading
 

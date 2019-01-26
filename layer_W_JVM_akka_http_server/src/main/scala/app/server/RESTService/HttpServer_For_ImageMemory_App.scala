@@ -62,7 +62,7 @@ trait HttpServer_For_ImageMemory_App {
 //      new CreateEntityRoute[E]().route ~
 //      new GetAllEntitiesRoute[E].route ~
 //      new GetRoute[E]().route
-    ??? // NOW TODO
+    ??? // TODONEXT
   }
 
   /**
@@ -110,7 +110,7 @@ trait HttpServer_For_ImageMemory_App {
     // val bindingFuture = Http().bindAndHandle( route, "192.168.2.50", Config.port )
     // server
 
-    println( s"listening on ${host}:${Config.port}" )
+    println( s"listening on $host:${Config.port}")
   }
 
 }

@@ -10,7 +10,7 @@ import scalaz.\/
 
 object GetEntityRequest {
   case class GetEntityReqParam[E<:Entity](ref:Ref[E])
-  case class GetEntityReqResult[E<:Entity](res: \/[circe.Error,RefVal[E]])
+//  case class GetEntityReqResult[E<:Entity](res: \/[circe.Error,RefVal[E]])
 
   def getServerPath[E<:Entity:ClassTag]: String = "getSingleEntity" +
                                        implicitly[ClassTag[E]].runtimeClass.getName
