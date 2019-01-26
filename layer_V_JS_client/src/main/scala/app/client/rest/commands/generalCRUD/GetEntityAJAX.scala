@@ -28,12 +28,13 @@ object GetEntityAJAX {
 
 //    val route: String = ???
 
-    Ajax
-    .get( route )
-    .map( _.responseText )
-    .map( decode )
-    .map((x: Either[circe.Error, RefVal[E]]) => x.right.get)
-    .map( x:RefVal[E] => GetEntityReqResult[E] )
+    val res: Future[RefVal[E]] = Ajax
+                                 .get( route )
+                                 .map( _.responseText )
+                                 .map( decode )
+                                 .map((x: Either[circe.Error, RefVal[E]]) => x.right.get)
+//    .map( x:RefVal[E] => GetEntityReqResult[E] )
+    ??? //todo
   }
 
 }
