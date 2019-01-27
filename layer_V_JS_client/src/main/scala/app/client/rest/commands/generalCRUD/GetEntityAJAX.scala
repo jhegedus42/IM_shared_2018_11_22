@@ -28,10 +28,12 @@ object GetEntityAJAX {
 
 //    val route: String = ???
 
+    def dd(s:String) : Either[circe.Error, RefVal[E]]= decode(s)
+
     val res: Future[RefVal[E]] = Ajax
                                  .get( route )
                                  .map( _.responseText )
-                                 .map( decode )
+                                 .map( x=>dd(x) )
                                  .map((x: Either[circe.Error, RefVal[E]]) => x.right.get) //backlog
 //    .map( x:RefVal[E] => GetEntityReqResult[E] )
     ??? //todo
