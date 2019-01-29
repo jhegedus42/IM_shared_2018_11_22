@@ -41,7 +41,8 @@ logLevel := Level.Error,
   )
   .enablePlugins( ScalaJSPlugin )
 //  .enablePlugins( ScalaJSBundlerPlugin )
-  .dependsOn( layer_Z_JS_shared % "compile->compile;test->test" )
+//  .dependsOn( layer_Z_JS_shared % "compile->compile;test->test" )
+  .dependsOn( layer_Z_JS_shared % "compile->compile" )
 
 // Client projects (just one in this case)
 lazy val clients = Seq( layer_V_JS_client )
