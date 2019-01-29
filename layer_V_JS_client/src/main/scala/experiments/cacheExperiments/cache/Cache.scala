@@ -112,9 +112,9 @@ object AJAXApi {
 }
 
 object CacheStates {
-  sealed trait CacheState[E]
-  case class Loading[E](r: Ref[E] ) extends CacheState[E]
-  case class Loaded[E](r:  Ref[E], refVal: RefVal[E] ) extends CacheState[E]
+  sealed trait CacheState[E<:Entity]
+  case class Loading[E<:Entity](r: Ref[E] ) extends CacheState[E]
+  case class Loaded[E<:Entity](r:  Ref[E], refVal: RefVal[E] ) extends CacheState[E]
 }
 
 /**
