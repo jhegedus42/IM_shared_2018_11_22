@@ -1,7 +1,7 @@
 //package app.server.RESTService.routes.entityCRUD
 //
 //import akka.http.scaladsl.server.Route
-//import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
+////import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
 //import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
 //import app.shared.SomeError_Trait
 //import app.shared.data.model.Entity.{Data, Entity}

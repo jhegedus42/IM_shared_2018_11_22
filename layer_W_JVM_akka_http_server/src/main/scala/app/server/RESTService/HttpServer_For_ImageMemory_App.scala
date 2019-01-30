@@ -56,13 +56,17 @@ trait HttpServer_For_ImageMemory_App {
 
   def shutdownActorSystem(): Future[Terminated] = system.terminate()
 
+  def getGetEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
+    ??? // INPROGRESS
+  }
 
   def crudEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
 //    new UpdateEntityRoute[E]().route ~
 //      new CreateEntityRoute[E]().route ~
 //      new GetAllEntitiesRoute[E].route ~
 //      new GetRoute[E]().route
-    ??? // TODONEXT
+
+    getGetEntityRoute[E]
   }
 
   /**
@@ -91,7 +95,6 @@ trait HttpServer_For_ImageMemory_App {
   def start(args: Array[String] ): Unit = {
     // 4dc327e9dce94fcfa994ad032bdcd3dd$4c99b1ca2b825dfc2e311c49f3572327a7c77e8d
 
-
     implicit val materializer = ActorMaterializer()
 
     // needed for the future flatMap/onComplete in the end
@@ -110,7 +113,7 @@ trait HttpServer_For_ImageMemory_App {
     // val bindingFuture = Http().bindAndHandle( route, "192.168.2.50", Config.port )
     // server
 
-    println( s"listening on $host:${Config.port}")
+    println( s"listening on $host:${Config.port}" )
   }
 
 }
