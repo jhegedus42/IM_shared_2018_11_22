@@ -4,6 +4,8 @@ import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import app.comm_model_on_the_server_side.simple_route.SumIntViewRoute_For_Testing
+import app.shared.{InvalidUUIDinURLError, SomeError_Trait}
+import app.shared.data.ref.{Ref, RefVal}
 import app.shared.rest.routes.crudRequests.GetEntityRequest
 //import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.RESTService.routes.views.ViewRoute
@@ -79,13 +81,38 @@ trait HttpServer_For_ImageMemory_App {
     import akka.http.scaladsl.server.Directives._
     import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
     val pathStr: String = GetEntityRequest.pathForGetEntityRoute_serverSideCode
-    println(pathStr)
+    println( pathStr )
     val route =
       path( pathStr ) {
         get {
           parameters( 'id ) {
-             id  =>
-              complete( s"The color is '$id'." )
+            id =>
+              {
+
+                import app.shared.data.ref.uuid.UUID
+                import scalaz._
+
+                val refDis: InvalidUUIDinURLError \/ Ref[E] =
+                  UUID
+                    .validate_from_String( id ).map( x => {
+                      println(s"id after validation from string=$x")
+                      val res = Ref.makeWithUUID[E]( x )
+                      println( s"Ref from id = $res" )
+                      res
+                    } )
+
+
+                println(s"refDis=$refDis")
+                val refDisDanger: Ref[E]                               = refDis.toEither.right.get //CRAPPYCODE
+                val fr:           Future[SomeError_Trait \/ RefVal[E]] = isa.getEntity( refDisDanger )
+                import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
+                import io.circe.generic.auto._
+                import io.circe.{Decoder, Encoder}
+
+//                complete( s"The color is '$id'." )
+                complete( fr )
+                // vkitol le kell kerni ezt az entity-t
+              }
           }
         }
       }

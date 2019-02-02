@@ -7,7 +7,7 @@ import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn, Version}
   * Created by joco on 09/10/2017.
   */
 object TestEntities {
-  val theUUIDofTheLine = "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d"
+  val theUUIDofTheLine =   "4ce6fca0-0fd5-4197-a946-90f5e7e00d9d"
   val dummyUUID2: String = "4ce6fca0-0fd5-4197-a946-90f5e7e00d9e"
   val line                     = LineText(title= "pina",text="text")
   //    private[this] val line                     = Line()
