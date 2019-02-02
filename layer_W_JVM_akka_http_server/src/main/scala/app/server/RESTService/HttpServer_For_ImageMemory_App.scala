@@ -83,9 +83,9 @@ trait HttpServer_For_ImageMemory_App {
     val route =
       path( pathStr ) {
         get {
-          parameters( 'color, 'backgroundColor ) {
-            ( color, backgroundColor ) =>
-              complete( s"The color is '$color' and the background is '$backgroundColor'" )
+          parameters( 'id ) {
+             id  =>
+              complete( s"The color is '$id'." )
           }
         }
       }
