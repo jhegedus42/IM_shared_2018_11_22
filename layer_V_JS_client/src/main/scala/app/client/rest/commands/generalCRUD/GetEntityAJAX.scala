@@ -47,7 +47,6 @@ object GetEntityAJAX {
                                          }
                                        }
                                      )
-    // run it on "startup" - without react - TODO1
     res
   }
 

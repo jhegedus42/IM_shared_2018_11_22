@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object RootComp {
 
-  case class State(i: Int)
+  case class State(i: Int,lineTextOption: Option[RefVal[LineText]])
 
   case class Props(s: String )
 
@@ -59,17 +59,16 @@ object RootComp {
         import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
         import io.circe.generic.auto._
         val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-//        val res: Future[Unit] = getEntity[LineText]( ref ).map(
-//          x => {
-//            println( s"az entity visszavage $x" )
-//            val lt:  \/[SomeError_Trait, RefVal[LineText]] = x
-//            val res: Option[RefVal[LineText]]              = lt.toOption
-////            $.modState( s => s.copy( lineTextOption = res ) ).runNow()
-//            // BACKLOG ^^^ ezt atirni kessre ...
-//          }
-//        )
-//        ??? // TODO3
-        println("fix this")
+        val res: Future[Unit] = getEntity[LineText]( ref ).map(
+          x => {
+            println( s"az entity visszavage $x" )
+            val lt:  RefVal[LineText] = x
+            $.modState( s => s.copy( lineTextOption = Some(lt) ) ).runNow()
+            // BACKLOG ^^^ ezt atirni kessre ...
+          }
+        )
+//        ??? // TODO1
+//        println("fix this")
       }
 
     def render(state: State, props: Props ) =
@@ -112,7 +111,7 @@ object RootComp {
   lazy val compConstructor =
     ScalaComponent
       .builder[Props]( "Cache Experiment" )
-      .initialState( State( 42 ) )
+      .initialState( State( 42, None ) )
       .renderBackend[Backend]
       .componentDidMount(toBeCalledByComponentDidMount(_))
       .componentDidUpdate( x => Callback( println( "component did update " + x ) ) )
