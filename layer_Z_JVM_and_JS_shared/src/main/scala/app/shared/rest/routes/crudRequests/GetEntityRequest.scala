@@ -9,17 +9,19 @@ import scala.reflect.ClassTag
 import scalaz.\/
 
 object GetEntityRequest {
-  case class GetEntityReqParam[E<:Entity](ref:Ref[E])
+//  case class GetEntityReqParam[E<:Entity](ref:Ref[E])
 //  case class GetEntityReqResult[E<:Entity](res: \/[circe.Error,RefVal[E]])
 
-  def getServerPath[E<:Entity:ClassTag]: String = "getSingleEntity" +
-                                       implicitly[ClassTag[E]].runtimeClass.getName
+  def pathForGetEntityRoute_serverSideCode[E<:Entity:ClassTag]: String = "getSingleEntity" +
+                                       implicitly[ClassTag[E]].runtimeClass.getSimpleName
 
   def parameterReprInURL[E<:Entity](rv:Ref[E]): String = {
     val u =rv.uuid.id
     s"?id=$u"
   }
 
-  def queryURL[E<:Entity](rv:Ref[E]): String = "/" + getServerPath + parameterReprInURL(rv)
+  def queryURL[E<:Entity](rv:Ref[E]): String = "/" +
+                                               pathForGetEntityRoute_serverSideCode +
+                                               parameterReprInURL(rv)
 
 }

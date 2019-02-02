@@ -4,6 +4,7 @@ import akka.actor.Terminated
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import app.comm_model_on_the_server_side.simple_route.SumIntViewRoute_For_Testing
+import app.shared.rest.routes.crudRequests.GetEntityRequest
 //import app.server.RESTService.routes.entityCRUD.{CreateEntityRoute, GetAllEntitiesRoute, GetRoute, UpdateEntityRoute}
 import app.server.RESTService.routes.views.ViewRoute
 import app.shared.data.model.LineWithQue
@@ -29,6 +30,7 @@ import akka.stream.ActorMaterializer
   *   - hogyan kell lekezelni az adott route-okhoz érkező kéréseket és
   *   -
   */
+
 trait HttpServer_For_ImageMemory_App {
   self: InterfaceToStateAccessor =>
 
@@ -76,8 +78,10 @@ trait HttpServer_For_ImageMemory_App {
 //      ??? // INPROGRESS
     import akka.http.scaladsl.server.Directives._
     import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
+    val pathStr: String = GetEntityRequest.pathForGetEntityRoute_serverSideCode
+    println(pathStr)
     val route =
-      path( "hello" ) {
+      path( pathStr ) {
         get {
           parameters( 'color, 'backgroundColor ) {
             ( color, backgroundColor ) =>
@@ -89,6 +93,7 @@ trait HttpServer_For_ImageMemory_App {
   }
 
   def crudEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
+
 //    new UpdateEntityRoute[E]().route ~
 //      new CreateEntityRoute[E]().route ~
 //      new GetAllEntitiesRoute[E].route ~
