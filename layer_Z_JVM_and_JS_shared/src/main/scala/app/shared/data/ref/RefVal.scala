@@ -2,7 +2,7 @@ package app.shared.data.ref
 
 import app.shared.TypeError
 import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.data.model.DataType
+import app.shared.data.model.TypeAsString
 import app.shared.data.ref.uuid.UUIDCompare
 import monocle.macros.Lenses
 
@@ -39,7 +39,7 @@ case class RefValDyn(r: RefDyn, e: Entity, version: Version ) {
 
   def toRefVal[E <: Entity: ClassTag]: \/[TypeError, RefVal[E]] = {
     // f0c1cede98f0430c85f35944546bbba4w
-    val et = DataType.make[E]
+    val et = TypeAsString.make[E]
     if (et == r.et) {
       val etyped:  E                     = e.asInstanceOf[E]
       val refDisj: \/[TypeError, Ref[E]] = r.toRef[E]()
@@ -47,7 +47,7 @@ case class RefValDyn(r: RefDyn, e: Entity, version: Version ) {
     } else -\/( TypeError( "RefValDyn.toRefVal " ) )
   }
 
-  def toRefVal_NoClassTagNeeded[E <: Entity](expectedEntityType: DataType ): \/[TypeError, RefVal[E]] = {
+  def toRefVal_NoClassTagNeeded[E <: Entity](expectedEntityType: TypeAsString ): \/[TypeError, RefVal[E]] = {
     // f0c1cede98f0430c85f35944546bbba4w
     if (expectedEntityType == r.et) {
       val etyped:  E                     = e.asInstanceOf[E]
@@ -76,7 +76,7 @@ object RefValDyn {
   def makeRefValDynForNewlyCreatedEntity(
       ent: Entity
     ): RefValDyn = { // assumes that all parameters are correct
-    val et  = DataType.fromEntity( ent )
+    val et  = TypeAsString.fromEntity(ent)
     val rd  = RefDyn.make( et )
     val rvd = RefValDyn( rd, ent, Version() )
     rvd

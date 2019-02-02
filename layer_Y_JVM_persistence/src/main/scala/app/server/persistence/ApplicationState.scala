@@ -1,6 +1,6 @@
 package app.server.persistence
 
-import app.shared.data.model.DataType
+import app.shared.data.model.TypeAsString
 import app.shared.data.model.Entity.{Data, Entity}
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
 import app.shared.{EntityDoesNotExistError, EntityIsNotUpdateableError, InvalidVersionError, SomeError_Trait, StateOpsError, TypeError}
@@ -68,7 +68,7 @@ case class ApplicationState(stateMap: Map[RefDyn, RefValDyn] = Map.empty ) {
     stateMap.values.map( rvd => rvd.e ).toSet.contains( e )
 
   def getEntitiesOfGivenType[E <: Entity: ClassTag](): \/[SomeError_Trait, List[RefVal[E]]] = {
-    val et: DataType = DataType.make[E]
+    val et: TypeAsString = TypeAsString.make[E]
     val r: List[Disjunction[TypeError, RefVal[E]]] =
       stateMap.values.filter( rvd => rvd.r.et == et ).map( _.toRefVal[E] ).toList
 

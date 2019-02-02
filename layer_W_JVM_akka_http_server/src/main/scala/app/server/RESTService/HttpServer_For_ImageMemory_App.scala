@@ -56,8 +56,36 @@ trait HttpServer_For_ImageMemory_App {
 
   def shutdownActorSystem(): Future[Terminated] = system.terminate()
 
+  /**
+    *
+    *
+    *
+    * This is a route that gets Ref and returns the corresponding Entity.
+    * We need to test this with some CURL or something.
+    *
+    * URL parameters
+    *
+    * print to screen
+    *
+    *
+    *
+    * @tparam E
+    * @return
+    */
   def getGetEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
-    ??? // INPROGRESS
+//      ??? // INPROGRESS
+    import akka.http.scaladsl.server.Directives._
+    import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
+    val route =
+      path( "hello" ) {
+        get {
+          parameters( 'color, 'backgroundColor ) {
+            ( color, backgroundColor ) =>
+              complete( s"The color is '$color' and the background is '$backgroundColor'" )
+          }
+        }
+      }
+    route
   }
 
   def crudEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {

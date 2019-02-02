@@ -1,7 +1,7 @@
 package app.client.rest.commands.generalCRUD
 
 import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.data.model.{DataType, LineText, User}
+import app.shared.data.model.{TypeAsString, LineText, User}
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn}
 import app.shared.rest.routes.crudRequests.GetEntityRequest
 //import app.shared.rest.routes.crudRequests.GetEntityRequest.GetEntityReqResult

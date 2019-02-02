@@ -1,6 +1,6 @@
 package app.testHelpersShared.data
 
-import app.shared.data.model.{DataType, LineText, LineWithQue, User, UserLineList}
+import app.shared.data.model.{TypeAsString, LineText, LineWithQue, User, UserLineList}
 import app.shared.data.ref.{Ref, RefDyn, RefVal, RefValDyn, Version}
 
 /**
@@ -28,13 +28,13 @@ object TestEntitiesForStateThree
 {
   lazy val userEntity         = User(name = "joco",password="macska")
   lazy val user1uuid            = "10000000-0000-0000-0000-000000000001"
-  lazy val rvdUser: RefValDyn = RefValDyn(RefDyn(user1uuid, DataType.fromEntity(userEntity)), userEntity, Version())
+  lazy val rvdUser: RefValDyn = RefValDyn(RefDyn(user1uuid, TypeAsString.fromEntity(userEntity)), userEntity, Version())
   lazy val userRef: Ref[User] = rvdUser.r.toRef[User]().toEither.right.get
 
   lazy val line1                     = LineText(title = "l1",text="text")
   lazy val line2                     = LineText(title = "l2",text="text")
   lazy val line3                     = LineText(title = "l3",text="text")
-  lazy val entityTypeL: DataType = DataType.make[LineText]
+  lazy val entityTypeL: TypeAsString = TypeAsString.make[LineText]
 
   lazy val line1uuid            = "00000000-0000-0000-0000-000000000001"
   lazy val line2uuid            = "00000000-0000-0000-0000-000000000002"
@@ -48,7 +48,7 @@ object TestEntitiesForStateThree
   lazy val lwq2 = LineWithQue(line = line2)
   lazy val lwq3 = LineWithQue(line = line3)
 
-  def f(l:LineWithQue,i:Int):Ref[LineWithQue]= Ref[LineWithQue](dataType = DataType.make[LineWithQue],
+  def f(l:LineWithQue,i:Int):Ref[LineWithQue]= Ref[LineWithQue](dataType = TypeAsString.make[LineWithQue],
                                                           uuid="00000000-0000-0000-0000-00000000000"+i)
 
   lazy val list = UserLineList(user = userRef,
@@ -56,7 +56,7 @@ object TestEntitiesForStateThree
                                lines = List(f(lwq1,1), f(lwq2,2), f(lwq3,3)))
 
   lazy val listRefUuid                = "20000000-0000-0000-0000-000000000001"
-  lazy val listRef: Ref[UserLineList] = Ref[UserLineList](uuid= listRefUuid, dataType = DataType.make[UserLineList])
+  lazy val listRef: Ref[UserLineList] = Ref[UserLineList](uuid= listRefUuid, dataType = TypeAsString.make[UserLineList])
 
   lazy val listRV = RefVal(listRef,list,Version())
 }

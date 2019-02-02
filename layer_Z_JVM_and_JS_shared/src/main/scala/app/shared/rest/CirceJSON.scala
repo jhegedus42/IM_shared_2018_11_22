@@ -1,7 +1,7 @@
 package app.shared.rest
 
 import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.data.model.DataType
+import app.shared.data.model.TypeAsString
 import app.shared.data.ref.{Ref, RefVal}
 import io.circe.Decoder.Result
 
@@ -88,7 +88,7 @@ object CirceJSON {
         println( "my decoder is running" )
 
         val r:  Result[RefVal[E]] = decoder.apply( c )
-        val et: DataType        = DataType.make[E]
+        val et: TypeAsString        = TypeAsString.make[E]
 
         println( s"expected type ${classTag}" )
 

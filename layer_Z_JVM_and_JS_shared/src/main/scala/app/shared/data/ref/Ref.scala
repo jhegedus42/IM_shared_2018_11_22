@@ -1,6 +1,6 @@
 package app.shared.data.ref
 
-import app.shared.data.model.DataType
+import app.shared.data.model.TypeAsString
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.uuid.{UUID, UUIDCompare}
 import app.shared.{InvalidUUIDinURLError, SomeError_Trait, TypeError}
@@ -9,15 +9,15 @@ import scalaz.{-\/, \/, \/-}
 
 import scala.reflect.ClassTag
 
-case class RefDyn(uuid: UUID, et: DataType) {
+case class RefDyn(uuid: UUID, et: TypeAsString) {
   def toRef[E <: Entity: ClassTag](): \/[TypeError, Ref[E]] = {
-    val eto = DataType.make[E]
+    val eto = TypeAsString.make[E]
     if (et == eto) \/-(Ref(uuid, et))
     else -\/(TypeError("RefValDyn.toRefVal "))
   }
 
   def toRef_noClassTagNeeded[E <: Entity](
-      expectedEntityType: DataType): \/[TypeError, Ref[E]] = {
+      expectedEntityType: TypeAsString): \/[TypeError, Ref[E]] = {
     if (et == expectedEntityType) \/-(Ref(uuid, et))
     else -\/(TypeError("RefValDyn.toRefVal "))
   }
@@ -25,11 +25,11 @@ case class RefDyn(uuid: UUID, et: DataType) {
 
 }
 object RefDyn {
-  def make(et: DataType) = RefDyn(UUID.random(), et)
+  def make(et: TypeAsString) = RefDyn(UUID.random(), et)
 }
 
 @Lenses
-case class Ref[T <: Entity](uuid: UUID = UUID.random(), dataType: DataType) {
+case class Ref[T <: Entity](uuid: UUID = UUID.random(), dataType: TypeAsString) {
 
   //  to do get rid of this below, use make with circe,
   //  write decoder and encoder by hand, to use the make function
@@ -70,10 +70,10 @@ object Ref {
 //      new Ref[T](UUID(), EntityType.make(t))
 
   def make[T <: Entity]()(implicit t: ClassTag[T]): Ref[T] =
-    new Ref[T](UUID.random(), DataType.make(t))
+    new Ref[T](UUID.random(), TypeAsString.make(t))
 
   def makeWithUUID[T <: Entity](uuid: UUID)(implicit t: ClassTag[T]): Ref[T] =
-    new Ref[T](uuid, DataType.make(t))
+    new Ref[T](uuid, TypeAsString.make(t))
 
 //    def apply[T<:Entity](uuid: UUID = UUID.random(), entityType: EntityType): Ref[T] = new Ref(uuid, entityType)
 
