@@ -31,7 +31,7 @@ case class ReRenderTriggerer(triggerReRender: Unit => Unit )
   * This is watching over the ajax requests and what they are doing.
   * If the number of ajax requests drops to zero then we trigger a re-render.
   *
-  * // TODO ^^^^
+  * // TODO3
   *
   * This re-render can start new ajax request-s to be launched.
   *
@@ -135,7 +135,7 @@ class EntityCacheMap[E <: Entity]() {
     import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
     import io.circe.generic.auto._
 
-    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = ??? // .map( // to-define
+    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = ??? // .map( // TODO3
 
 
 //    def extractRes( x:  \/[SomeError_Trait, RefVal[E]]  )
@@ -154,14 +154,14 @@ class EntityCacheMap[E <: Entity]() {
     AJAXReqInFlightMonitor.addToInFlightReqList(ajaxCall)
 
 //    ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))
-    // todonext ^^^
+    // TODO3
   }
 
   def readEntity(refToEntity: Ref[E] ): CacheState[E] = { // 74291aeb_02f0aea6
     if (!map.contains( refToEntity )) {
       val loading = Loading( refToEntity )
 
-//      AJAXApi.launchReadAjax(refToEntity) //todonext make this compile
+//      AJAXApi.launchReadAjax(refToEntity) //TODO3 make this compile
 
       loading
 

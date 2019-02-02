@@ -77,7 +77,6 @@ trait HttpServer_For_ImageMemory_App {
     * @return
     */
   def getGetEntityRoute[E <: Entity: ClassTag: Decoder: Encoder]: Route = {
-//      ??? // INPROGRESS
     import akka.http.scaladsl.server.Directives._
     import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
     val pathStr: String = GetEntityRequest.pathForGetEntityRoute_serverSideCode
@@ -95,16 +94,18 @@ trait HttpServer_For_ImageMemory_App {
                 val refDis: InvalidUUIDinURLError \/ Ref[E] =
                   UUID
                     .validate_from_String( id ).map( x => {
-                      println(s"id after validation from string=$x")
+                      println( s"id after validation from string=$x" )
                       val res = Ref.makeWithUUID[E]( x )
                       println( s"Ref from id = $res" )
                       res
                     } )
 
+                println( s"refDis=$refDis" )
+                val refDisDanger: Ref[E]            = refDis.toEither.right.get //CRAPPYCODE
+                val fr:           Future[RefVal[E]] = isa.getEntity( refDisDanger ).map( x => x.toEither.right.get )
 
-                println(s"refDis=$refDis")
-                val refDisDanger: Ref[E]                               = refDis.toEither.right.get //CRAPPYCODE
-                val fr:           Future[SomeError_Trait \/ RefVal[E]] = isa.getEntity( refDisDanger )
+
+
                 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
                 import io.circe.generic.auto._
                 import io.circe.{Decoder, Encoder}

@@ -21,11 +21,15 @@ object RootComp {
 
   case class Props(s: String )
 
+  /**
+    * Ez egyaltalan minek van itt ?
+    * @return
+    */
   def getLineRefValOptionFromCacheAsString: String = {
 //    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
 //    val res=Cache.read().toString
 //    PrettyPrint.prettyPrint(res)
-    println("fix this") //TODO
+    println("fix this") //TODO3
     "fix this"
   }
 
@@ -64,7 +68,7 @@ object RootComp {
 //            // BACKLOG ^^^ ezt atirni kessre ...
 //          }
 //        )
-//        ??? // TODO
+//        ??? // TODO3
         println("fix this")
       }
 
@@ -81,7 +85,7 @@ object RootComp {
         <.br,
         "Cache contains:",
         <.br,
-//        getLineRefValOptionFromCacheAsString() // TODO - make this line compile
+//        getLineRefValOptionFromCacheAsString() // TODO3 - make this line compile
       )
 
     // dd029475_f9ddbea9

@@ -25,7 +25,7 @@
 //    ec: ExecutionContext)
 //    extends GetRouteBase[E] {
 //
-//// NOW todo : fix this
+//// NOW DONE : fix this
 //  override val command: GetEntityRequest[E] = GetEntityRequest[E]
 //
 //  override def processCommand(f: command.Params ): Future[command.Result] = {

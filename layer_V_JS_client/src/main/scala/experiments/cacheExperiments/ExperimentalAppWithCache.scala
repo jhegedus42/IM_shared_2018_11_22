@@ -1,5 +1,6 @@
 package experiments.cacheExperiments
 
+import app.client.rest.commands.generalCRUD.GetEntityAJAX
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.shared.data.model.LineText
 import app.shared.data.ref.{Ref, RefDyn}
@@ -59,5 +60,7 @@ object ExperimentalAppWithCache extends js.JSApp {
     val rootComp= RootComp.compConstructor(RootComp.Props("These are the props"))
         rootComp.renderIntoDOM( e )
 
+//    val r= app.testHelpersShared.data.TestEntities.refToLine
+//    GetEntityAJAX.getEntity(r).map(res=> println(res))
   }
 }

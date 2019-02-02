@@ -28,15 +28,26 @@ object GetEntityAJAX {
 
 //    val route: String = ???
 
-    def dd(s:String) : Either[circe.Error, RefVal[E]]= decode(s)
+    println(s"getEntity before creating future for $ref")
+
+    def dd(s:String) : Either[circe.Error, RefVal[E]]= {
+      println(s"getEntity: responseText $s")
+      decode(s)
+    }
 
     val res: Future[RefVal[E]] = Ajax
                                  .get( route )
                                  .map( _.responseText )
                                  .map( x=>dd(x) )
-                                 .map((x: Either[circe.Error, RefVal[E]]) => x.right.get) //backlog
-//    .map( x:RefVal[E] => GetEntityReqResult[E] )
-    ??? //todo
+                                 .map(
+                                       {
+                                         x: Either[circe.Error, RefVal[E]] => {
+                                           println(s"returned RefVal is $x")
+                                           x.right.get
+                                         }
+                                       }
+                                     )
+    // run it on "startup" - without react - TODO1
     res
   }
 

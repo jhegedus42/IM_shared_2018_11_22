@@ -21,9 +21,9 @@ object GetEntityRequest {
     s"?id=$u"
   }
 
-  def queryURL[E <: Entity](rv: Ref[E] ): String =
+  def queryURL[E <: Entity:ClassTag](rv: Ref[E] ): String =
     "/" +
-      pathForGetEntityRoute_serverSideCode +
+      pathForGetEntityRoute_serverSideCode[E] +
       parameterReprInURL( rv )
 
 }
