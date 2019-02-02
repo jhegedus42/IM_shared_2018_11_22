@@ -89,32 +89,30 @@ object AJAXApi {
       resultAsFuture: Future[Option[RefVal[E]]],
       futureUUID:     UUID = UUID.random())
 
-  case class Completed__ReadEntity_AjaxCall[E <: Entity](
-                                                        inFlight_ReadEntity: InFlight_ReadEntity[E])
+  case class Completed__ReadEntity_AjaxCall[E <: Entity](inFlight_ReadEntity: InFlight_ReadEntity[E] )
 
   /**
-    *
-    * Who uses this ?
-    * [[experiments.cacheExperiments.cache.EntityCacheMap.readEntity]]
-    * Why ?
-    *
-    * What does this do ?
-    *
-    * It launches an AJAX request to get an entity from the server.
-    *
-    *
+  *
+  * Who uses this ?
+  * [[experiments.cacheExperiments.cache.EntityCacheMap.readEntity]]
+  * Why ?
+  *
+  * What does this do ?
+  *
+  * It launches an AJAX request to get an entity from the server.
+  *
+  *
 //    * @param ref
 //    * @tparam E
-    * @return
-    */
-
+  * @return
+  */
 
 }
 
 object CacheStates {
-  sealed trait CacheState[E<:Entity]
-  case class Loading[E<:Entity](r: Ref[E] ) extends CacheState[E]
-  case class Loaded[E<:Entity](r:  Ref[E], refVal: RefVal[E] ) extends CacheState[E]
+  sealed trait CacheState[E <: Entity]
+  case class Loading[E <: Entity](r: Ref[E] ) extends CacheState[E]
+  case class Loaded[E <: Entity](r:  Ref[E], refVal: RefVal[E] ) extends CacheState[E]
 }
 
 /**
@@ -135,8 +133,11 @@ class EntityCacheMap[E <: Entity]() {
     import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
     import io.circe.generic.auto._
 
-    val ajaxCallAsFuture: Future[Option[RefVal[E]]] = ??? // .map( // TODO3
 
+    /**
+      * Ez mit hivatott itt csinalni ? Ki hivja ezt ?
+      */
+    val ajaxCallAsFuture: Future[RefVal[E]] = ??? // .map( // TODO1
 
 //    def extractRes( x:  \/[SomeError_Trait, RefVal[E]]  )
 //    x => {
@@ -150,8 +151,8 @@ class EntityCacheMap[E <: Entity]() {
 //
 //    }
 
-    val ajaxCall=InFlight_ReadEntity(ref, ajaxCallAsFuture)
-    AJAXReqInFlightMonitor.addToInFlightReqList(ajaxCall)
+    val ajaxCall = InFlight_ReadEntity( ref, ajaxCallAsFuture )
+    AJAXReqInFlightMonitor.addToInFlightReqList( ajaxCall )
 
 //    ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))
     // TODO3
@@ -172,7 +173,10 @@ class EntityCacheMap[E <: Entity]() {
   }
 }
 
-object Cache {
+object CacheFaszad {
+
+  private lazy val entityCacheMapLineText: EntityCacheMap[LineText] = new EntityCacheMap[LineText]
+
 
   // erre lehetni irni type class-okat: vmi altalanos getEntity
   // metodust, azaz pl. attol fuggoen h. milyen entity't ker a react comp mas instance hivodik meg...

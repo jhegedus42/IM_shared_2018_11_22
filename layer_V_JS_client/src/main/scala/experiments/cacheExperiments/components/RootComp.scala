@@ -6,7 +6,7 @@ import app.shared.data.ref.{Ref, RefVal}
 import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
-import experiments.cacheExperiments.cache.{AJAXReqInFlightMonitor, Cache, ReRenderTriggerer}
+import experiments.cacheExperiments.cache.{AJAXReqInFlightMonitor, CacheFaszad, ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -23,13 +23,14 @@ object RootComp {
 
   /**
     * Ez egyaltalan minek van itt ?
+    * Hogy tesztelje a kess-t.
     * @return
     */
   def getLineRefValOptionFromCacheAsString: String = {
-//    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-//    val res=Cache.read().toString
-//    PrettyPrint.prettyPrint(res)
-    println("fix this") //TODO3
+    val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
+    val res= CacheFaszad.read().toString
+    PrettyPrint.prettyPrint(res)
+    println("fix this") //TODO1
     "fix this"
   }
 
@@ -64,11 +65,8 @@ object RootComp {
             println( s"az entity visszavage $x" )
             val lt:  RefVal[LineText] = x
             $.modState( s => s.copy( lineTextOption = Some(lt) ) ).runNow()
-            // BACKLOG ^^^ ezt atirni kessre ...
           }
         )
-//        ??? // TODO1
-//        println("fix this")
       }
 
     def render(state: State, props: Props ) =
@@ -80,11 +78,10 @@ object RootComp {
         props.toString,
         <.br,
         <.button( ^.onClick --> fetchDataFromServer, "Fetch data from server." ), // TASK_fa6672bc_9bb672a8
-        // BACKLOG ^^^ ezt atirni kessre ...
         <.br,
         "Cache contains:",
         <.br,
-//        getLineRefValOptionFromCacheAsString() // TODO3 - make this line compile
+        getLineRefValOptionFromCacheAsString()
       )
 
     // dd029475_f9ddbea9
