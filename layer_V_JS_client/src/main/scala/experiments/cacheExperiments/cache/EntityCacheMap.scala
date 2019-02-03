@@ -5,7 +5,7 @@ import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 import experiments.cacheExperiments.cache.ajax.AJAXGetEntityApi.InFlight_ReadEntity
 import experiments.cacheExperiments.cache.CacheStates.{CacheState, Loading}
-import experiments.cacheExperiments.cache.ajax.AJAXReqInFlightMonitor
+import experiments.cacheExperiments.cache.ajax.InFlightRequestsTracker
 import io.circe.Decoder
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -40,7 +40,7 @@ class EntityCacheMap[E <: Entity]() {
     }
 
     val ajaxCall = InFlight_ReadEntity( ref, ajaxCallAsFuture )
-    AJAXReqInFlightMonitor.addToInFlightReqList( ajaxCall )
+    InFlightRequestsTracker.addToInFlightReqList(ajaxCall)
 
 //    ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))
     // TODO3
