@@ -6,7 +6,7 @@ import app.shared.data.ref.{Ref, RefVal}
 
 import scala.concurrent.Future
 
-object AJAXApi {
+object AJAXGetEntityApi {
 
   /**
     *
@@ -24,20 +24,5 @@ object AJAXApi {
 
   case class Completed__ReadEntity_AjaxCall[E <: Entity](inFlight_ReadEntity: InFlight_ReadEntity[E] )
 
-  /**
-  *
-  * Who uses this ?
-  * [[experiments.cacheExperiments.cache.EntityCacheMap.readEntity]]
-  * Why ?
-  *
-  * What does this do ?
-  *
-  * It launches an AJAX request to get an entity from the server.
-  *
-  *
-//    * @param ref
-//    * @tparam E
-  * @return
-  */
 
 }

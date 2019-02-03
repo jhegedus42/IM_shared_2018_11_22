@@ -28,12 +28,6 @@ import app.copy_of_model_to_be_moved_to_real_app.getViewCommunicationModel.share
 import app.comm_model_on_the_server_side.serverSide.logic.ServerSideLogic.ServerLogicTypeClass
 import io.circe.generic.auto._
 import io.circe.{Decoder, Encoder, Error}
-//import app.server.RESTService.routes.entityCRUD.common.GetRouteBase
-import app.server.stateAccess.generalQueries.InterfaceToStateAccessor
-import app.shared.SomeError_Trait
-import app.shared.data.model.Entity.{Data, Entity}
-import app.shared.data.ref.Ref
-import app.shared.data.ref.uuid.UUID
 import app.shared.rest.routes.crudRequests.GetEntityRequest
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport._
 import io.circe.generic.auto._
@@ -61,8 +55,8 @@ case class HttpServerOnTheInternet() {
     view2_getViewRequestHandler.getGetViewHttpRouteName()
 
   def serveRequest(
-                    getViewHttpRouteName: ViewHttpRouteName,
-                    requestPayload:       JSONContainingGetViewPar
+      getViewHttpRouteName: ViewHttpRouteName,
+      requestPayload:       JSONContainingGetViewPar
     ): Option[JSONContainingOptRes] = {
 
     // case based on endpointName
@@ -124,7 +118,6 @@ case class GetViewRequestHandler[V <: View: ClassTag]() {
     (encodeOptResToJSONContainingOptRes[V]( resOpt ) )
 
   }
-
 
   // Random UUID: 7111d99813e9418da8cfa0a73231e38e
   // commit 3a7d0bc1c81a6f3d8e6aa3b6d286e8e0291af5d5

@@ -3,7 +3,7 @@ package experiments.cacheExperiments.cache
 import app.client.rest.commands.generalCRUD.GetEntityAJAX.getEntity
 import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
-import experiments.cacheExperiments.cache.ajax.AJAXApi.InFlight_ReadEntity
+import experiments.cacheExperiments.cache.ajax.AJAXGetEntityApi.InFlight_ReadEntity
 import experiments.cacheExperiments.cache.CacheStates.{CacheState, Loading}
 import experiments.cacheExperiments.cache.ajax.AJAXReqInFlightMonitor
 import io.circe.Decoder

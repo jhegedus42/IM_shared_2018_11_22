@@ -7,7 +7,7 @@ import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
 import experiments.cacheExperiments.cache.ajax.AJAXReqInFlightMonitor
-import experiments.cacheExperiments.cache.{CacheFaszad, ReRenderTriggerer}
+import experiments.cacheExperiments.cache.{CacheFacade,  ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -29,7 +29,7 @@ object RootComp {
     */
   def getLineRefValOptionFromCacheAsString: String = {
     val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-    val res: String = CacheFaszad.readLineText(ref).toString
+    val res: String = CacheFacade.readLineText(ref).toString
     PrettyPrint.prettyPrint(res)
     res
   }

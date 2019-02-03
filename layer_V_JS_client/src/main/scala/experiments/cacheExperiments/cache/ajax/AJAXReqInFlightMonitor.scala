@@ -2,7 +2,7 @@ package experiments.cacheExperiments.cache.ajax
 
 import app.shared.data.model.Entity.Entity
 import experiments.cacheExperiments.cache.ReRenderTriggerer
-import experiments.cacheExperiments.cache.ajax.AJAXApi.{Completed__ReadEntity_AjaxCall, InFlight_ReadEntity}
+import experiments.cacheExperiments.cache.ajax.AJAXGetEntityApi.{Completed__ReadEntity_AjaxCall, InFlight_ReadEntity}
 
 /**
   * This is watching over the ajax requests and what they are doing.
