@@ -6,7 +6,8 @@ import app.shared.data.ref.{Ref, RefVal}
 import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
-import experiments.cacheExperiments.cache.{AJAXReqInFlightMonitor, CacheFaszad, ReRenderTriggerer}
+import experiments.cacheExperiments.cache.ajax.AJAXReqInFlightMonitor
+import experiments.cacheExperiments.cache.{CacheFaszad, ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
