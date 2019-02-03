@@ -20,16 +20,21 @@ import experiments.cacheExperiments.cache.ajax.AJAXGetEntityApi.{Completed__Read
 
 
 
-object InFlightRequestsTracker {
+case class GetEntityAJAXRequestReturnHander(c:CacheFacade) {
+  // BACKLOG => handle timeout
 
   var reRenderTriggerer: Option[ReRenderTriggerer] = None
   // TODO1
   //
-  // Q : who creates the ReRenderTriggerer object ?
-  //     - Q : what is needed for creating it ?
-  //           - A :
-  //           - Q : who can create that ?
-  //           - Q : when can this be created ?
+  // T : creating ReRenderTriggerer for the first time
+  //     - Q : who creates the ReRenderTriggerer object (for the first time) ?
+  //           - Q : what is needed for creating it ?
+  //                 - A :
+  //                       - Q : who can create that ?
+  //                             - A : toBeCalledByComponentDidMount
+  //
+  //                       - Q : when can this be created ?
+  //      -
   //
   // T : questions related to updating reRenderTriggerer
   //     - Q : when should this object be updated ?
@@ -50,31 +55,5 @@ object InFlightRequestsTracker {
   //   val res=do-we-need-to-re-render(newVal, someOtherMutableStateInClient)
   //   if (res) reRender() // ReRenderTriggerer
   // }
-
-
-  var inFlightEntityReadAjaxRequests: Set[InFlight_ReadEntity[_ <: Entity]] = Set()
-
-  def addToInFlightReqList[E <: Entity](request: InFlight_ReadEntity[E] ): Unit = {
-    val newVal = inFlightEntityReadAjaxRequests + request
-    inFlightEntityReadAjaxRequests = newVal
-  }
-
-  /**
-    *
-    * This is an event handler function.
-    *
-    * Called by
-    * [[experiments.cacheExperiments.cache.EntityCacheMap.handleAjaxReqReturned]]
-    * it recieves an ajax request that has been sent and returned.
-    *
-    *
-    * @param ajaxReq This handles the event when an ajax request has been completed.
-    * @tparam E
-    */
-  def removeAjaxCallFromInFlightList[E <: Entity](ajaxReq: Completed__ReadEntity_AjaxCall[E] ): Unit = {
-    val newVal = inFlightEntityReadAjaxRequests - ajaxReq.inFlight_ReadEntity
-    inFlightEntityReadAjaxRequests = newVal
-    if (inFlightEntityReadAjaxRequests.isEmpty) reRenderTriggerer.get.triggerReRender()
-  }
 
 }

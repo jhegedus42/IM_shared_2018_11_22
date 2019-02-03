@@ -6,8 +6,7 @@ import app.shared.data.ref.{Ref, RefVal}
 import app.shared.data.utils.PrettyPrint
 import app.testHelpersShared.data.TestEntities
 import experiments.cacheExperiments.cache
-import experiments.cacheExperiments.cache.ajax.InFlightRequestsTracker
-import experiments.cacheExperiments.cache.{CacheFacade,  ReRenderTriggerer}
+import experiments.cacheExperiments.cache.{CacheInterface, ReRenderTriggerer}
 import japgolly.scalajs.react.{CtorType, _}
 import japgolly.scalajs.react.component.Scala.Component
 import japgolly.scalajs.react.component.builder.Lifecycle
@@ -18,7 +17,7 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 
 object RootComp {
 
-  case class State(i: Int,lineTextOption: Option[RefVal[LineText]])
+  case class State(i: Int, lineTextOption: Option[RefVal[LineText]] )
 
   case class Props(s: String )
 
@@ -29,8 +28,8 @@ object RootComp {
     */
   def getLineRefValOptionFromCacheAsString: String = {
     val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-    val res: String = CacheFacade.readLineText(ref).toString
-    PrettyPrint.prettyPrint(res)
+    val res: String        = CacheInterface.readLineText( ref ).toString
+    PrettyPrint.prettyPrint( res )
     res
   }
 
@@ -63,8 +62,8 @@ object RootComp {
         val res: Future[Unit] = getEntity[LineText]( ref ).map(
           x => {
             println( s"az entity visszavage $x" )
-            val lt:  RefVal[LineText] = x
-            $.modState( s => s.copy( lineTextOption = Some(lt) ) ).runNow()
+            val lt: RefVal[LineText] = x
+            $.modState( s => s.copy( lineTextOption = Some( lt ) ) ).runNow()
           }
         )
       }
@@ -90,7 +89,10 @@ object RootComp {
 
   }
 
-  def toBeCalledByComponentDidMount(x: Lifecycle.Base[Props, State, Backend] ): CallbackTo[Unit] =
+  def toBeCalledByComponentDidMount(
+      x:              Lifecycle.Base[Props, State, Backend],
+      cacheInterface: CacheInterface
+    ): CallbackTo[Unit] =
     Callback {
       println( "component did mount" )
 
@@ -101,16 +103,17 @@ object RootComp {
           println( "we have just increased the counter in the component" )
         } )
 
-               InFlightRequestsTracker.reRenderTriggerer = Some(reRenderTriggerer)
+      cacheInterface.reRenderTriggerer = Some( reRenderTriggerer )
     }
 
   //noinspection TypeAnnotation
+  case class RootComponentConstructorProvider(c: Cache )
   lazy val compConstructor =
     ScalaComponent
       .builder[Props]( "Cache Experiment" )
       .initialState( State( 42, None ) )
       .renderBackend[Backend]
-      .componentDidMount(toBeCalledByComponentDidMount(_))
+      .componentDidMount( toBeCalledByComponentDidMount( _ ) )
       .componentDidUpdate( x => Callback( println( "component did update " + x ) ) )
       .build
 

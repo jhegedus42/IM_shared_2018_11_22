@@ -8,7 +8,10 @@ import io.circe.{Decoder, Encoder, Error}
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.reflect.ClassTag
 
-object CacheFacade {
+
+// indirection , not allowing direct access to EntityCacheMap
+
+object CacheInterface {
 
   private lazy val cacheLineText: EntityCacheMap[LineText] = new EntityCacheMap[LineText]
 
