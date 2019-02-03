@@ -28,10 +28,9 @@ object RootComp {
     */
   def getLineRefValOptionFromCacheAsString: String = {
     val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
-    val res= CacheFaszad.read().toString
+    val res: String = CacheFaszad.readLineText(ref).toString
     PrettyPrint.prettyPrint(res)
-    println("fix this") //TODO1
-    "fix this"
+    res
   }
 
   class Backend($ : BackendScope[Props, State] ) {
@@ -81,7 +80,7 @@ object RootComp {
         <.br,
         "Cache contains:",
         <.br,
-        getLineRefValOptionFromCacheAsString()
+        getLineRefValOptionFromCacheAsString
       )
 
     // dd029475_f9ddbea9

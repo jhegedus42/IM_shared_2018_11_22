@@ -86,7 +86,7 @@ object AJAXApi {
     */
   case class InFlight_ReadEntity[E <: Entity](
       ref:            Ref[E],
-      resultAsFuture: Future[Option[RefVal[E]]],
+      resultAsFuture: Future[RefVal[E]],
       futureUUID:     UUID = UUID.random())
 
   case class Completed__ReadEntity_AjaxCall[E <: Entity](inFlight_ReadEntity: InFlight_ReadEntity[E] )
@@ -175,7 +175,11 @@ class EntityCacheMap[E <: Entity]() {
 
 object CacheFaszad {
 
-  private lazy val entityCacheMapLineText: EntityCacheMap[LineText] = new EntityCacheMap[LineText]
+  private lazy val cacheLineText: EntityCacheMap[LineText] = new EntityCacheMap[LineText]
+  def readLineText(r:Ref[LineText]): CacheState[LineText] ={
+    val res: CacheState[LineText] = cacheLineText.readEntity(r)
+    res
+  }
 
 
   // erre lehetni irni type class-okat: vmi altalanos getEntity
