@@ -5,7 +5,6 @@ import app.shared.data.model.Entity.Entity
 import app.shared.data.ref.{Ref, RefVal}
 import experiments.cacheExperiments.cache.ajax.AJAXGetEntityApi.InFlight_ReadEntity
 import experiments.cacheExperiments.cache.CacheStates.{CacheState, Loading}
-import experiments.cacheExperiments.cache.ajax.InFlightRequestsTracker
 import io.circe.Decoder
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
@@ -17,12 +16,14 @@ import scala.reflect.ClassTag
   * @tparam E
   */
 
-class EntityCacheMap[E <: Entity]() {
+private[cache] class EntityCacheMap[E <: Entity]() {
   var map: Map[Ref[E], CacheState[E]] = Map()
 
   def launchReadAjax(ref: Ref[E] )(implicit decoder: Decoder[RefVal[E]],ct:ClassTag[E] ): Unit = {
 
-    // QUESTION BACKLOG => should we launch this future immediately or only after the render method has been
+    // QUESTION BACKLOG => should we launch this future immediately or only
+    // after the render
+    // method has been
     // completed ?  => not yet, only if needed
 
     implicit def executionContext: ExecutionContextExecutor =
@@ -40,7 +41,7 @@ class EntityCacheMap[E <: Entity]() {
     }
 
     val ajaxCall = InFlight_ReadEntity( ref, ajaxCallAsFuture )
-    InFlightRequestsTracker.addToInFlightReqList(ajaxCall)
+//    InFlightRequestsTracker.addToInFlightReqList(ajaxCall)
 
 //    ajaxCallAsFuture.onComplete(_ => AJAXReqInFlightMonitor(Completed__ReadEntity_AjaxCall(ajaxCall)))
     // TODO3

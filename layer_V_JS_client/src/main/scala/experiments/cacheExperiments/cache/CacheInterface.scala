@@ -9,13 +9,32 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.reflect.ClassTag
 
 
-// indirection , not allowing direct access to EntityCacheMap
+/**
+  * indirection , not allowing direct access to EntityCacheMap
+  *
+  */
 
 object CacheInterface {
 
   private lazy val cacheLineText: EntityCacheMap[LineText] = new EntityCacheMap[LineText]
 
-  def readLineText(r: Ref[LineText] ): CacheState[LineText] = {
+
+  /**
+    * Side effect: causes AJAX call if `ref` is not in cache.
+    *
+    * Called
+    *   1)
+    *      - by : react Comp constructor
+    *
+    * @param ref reference to LineTest to be retrieved
+    * @return
+    */
+
+  def setReRenderTriggerer(reRenderTriggerer: ReRenderTriggerer) ={
+
+  }
+
+  def readLineText(ref: Ref[LineText] ): CacheState[LineText] = {
     val res: CacheState[LineText] = cacheLineText.readEntity( r )
     res
   }

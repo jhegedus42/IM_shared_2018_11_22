@@ -36,6 +36,9 @@ object ExperimentalAppWithCache extends js.JSApp {
                       }
   }
 
+  /**
+    * gets an line from server and prints it to console
+    */
   def exampleAjaxRequest(): Unit = {
     import io.circe.generic.auto._
     val ref: Ref[LineText] = Ref.makeWithUUID[LineText]( TestEntities.refValOfLineV0.r.uuid )
@@ -62,5 +65,6 @@ object ExperimentalAppWithCache extends js.JSApp {
 
 //    val r= app.testHelpersShared.data.TestEntities.refToLine
 //    GetEntityAJAX.getEntity(r).map(res=> println(res))
+
   }
 }

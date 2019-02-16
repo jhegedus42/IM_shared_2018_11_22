@@ -6,24 +6,30 @@ import experiments.cacheExperiments.cache.ajax.AJAXGetEntityApi.{Completed__Read
 
 /**
   * This is watching over the ajax requests and what they are doing.
+  *
+  * Calls: reRender in ReRenderTriggerer
+  * In response to what :
   * If the number of ajax requests drops to zero then we trigger a re-render.
   *
   * // TODO3
   *
   * This re-render can start new ajax request-s to be launched.
   *
-  * Who uses this  and how ?
+  * Created by:
   *
-  * This is used by many different types of Cache-s.
+  * CacheInterface
   *
   */
 
-
-
-case class GetEntityAJAXRequestReturnHander(c:CacheFacade) {
+private[cache] case class GetEntityAJAXRequestReturnHander() {
   // BACKLOG => handle timeout
 
   var reRenderTriggerer: Option[ReRenderTriggerer] = None
+
+  // var list of ajax requests in flight
+
+
+
   // TODO1
   //
   // T : creating ReRenderTriggerer for the first time
@@ -55,5 +61,7 @@ case class GetEntityAJAXRequestReturnHander(c:CacheFacade) {
   //   val res=do-we-need-to-re-render(newVal, someOtherMutableStateInClient)
   //   if (res) reRender() // ReRenderTriggerer
   // }
+
+
 
 }

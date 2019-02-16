@@ -90,8 +90,7 @@ object RootComp {
   }
 
   def toBeCalledByComponentDidMount(
-      x:              Lifecycle.Base[Props, State, Backend],
-      cacheInterface: CacheInterface
+      x:              Lifecycle.Base[Props, State, Backend]
     ): CallbackTo[Unit] =
     Callback {
       println( "component did mount" )
@@ -103,11 +102,12 @@ object RootComp {
           println( "we have just increased the counter in the component" )
         } )
 
-      cacheInterface.reRenderTriggerer = Some( reRenderTriggerer )
+      CacheInterface.reRenderTriggerer = Some( reRenderTriggerer )
     }
 
   //noinspection TypeAnnotation
-  case class RootComponentConstructorProvider(c: Cache )
+  case class RootComponentConstructorProvider()
+
   lazy val compConstructor =
     ScalaComponent
       .builder[Props]( "Cache Experiment" )
